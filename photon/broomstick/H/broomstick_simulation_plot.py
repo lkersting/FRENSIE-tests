@@ -6,6 +6,7 @@ import sys
 import PyFrensie.Geometry.DagMC as DagMC
 import PyFrensie.Utility as Utility
 import PyFrensie.MonteCarlo as MonteCarlo
+import PyFrensie.MonteCarlo.Collision as Collision
 import PyFrensie.MonteCarlo.Event as Event
 import PyFrensie.MonteCarlo.Manager as Manager
 from spectrum_plot_tools import plotSpectralDataWithErrors
@@ -20,6 +21,10 @@ def plotBroomstickSimulationSpectrum( rendezvous_file,
                                       top_ylims = None,
                                       bottom_ylims = None,
                                       legend_pos = None ):
+
+    # Set the database path
+    Collision.FilledGeometryModel.setDefaultDatabasePath( os.environ['DATABASE_PATH'] )
+    
     # Reload the simulation
     manager = Manager.ParticleSimulationManagerFactory( rendezvous_file ).getManager()
     
@@ -58,8 +63,6 @@ def plotBroomstickSimulationSpectrum( rendezvous_file,
             mcnp_bin_data["e_up"].append( float(split_line[0]) )
             mcnp_bin_data["mean"].append( mean_value )
             mcnp_bin_data["re"].append( float(split_line[2]) )
-
-    mcnp_first_nonzero_index += 1
 
     # Filter out zero values
     del entity_bin_data["e_bins"][0:mcnp_first_nonzero_index]
