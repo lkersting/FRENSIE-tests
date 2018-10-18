@@ -126,3 +126,38 @@ def runBroomstickSimulation( sim_name,
     else:
         manager.runSimulation()
 
+##---------------------------------------------------------------------------##
+def restartBroomstickSimulation( rendezvous_file_name,
+                                 db_path,
+                                 num_particles,
+                                 threads,
+                                 log_file = None ):
+
+    ## Initialize the MPI session
+    session = MPI.GlobalMPISession( len(sys.argv), sys.argv )
+
+    # Suppress logging on all procs except for the master (proc=0)
+    Utility.removeAllLogs()
+    session.initializeLogs( 0, True )
+
+    if not log_file is None:
+        session.initializeLogs( log_file, 0, True )
+
+    # Set the database path
+    Collision.FilledGeometryModel.setDefaultDatabasePath( db_path )
+
+    factory = Manager.ParticleSimulationManagerFactory( rendezvous_file_name,
+                                                        int(num_particles),
+                                                        threads )
+
+    manager = factory.getManager()
+
+    # Allow logging on all procs
+    session.restoreOutputStreams()
+
+    ## Run the simulation
+    if session.size() == 1:
+        manager.runInterruptibleSimulation()
+    else:
+        manager.runSimulation()
+
