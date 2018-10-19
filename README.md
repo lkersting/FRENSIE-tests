@@ -27,6 +27,14 @@ spectrum is calculated.
 
 ## Photon Verification Tests
 
+### Hydrogen Broomstick
+
+1. Source Energy = 0.1 MeV
+
 ![H Broomstick Current Es=0.1 MeV](photon/broomstick/H/nodopp/0.1/h_broomstick_current.png)
+
+2. Source Energy = 1.0 MeV
+
+3. Source Energy = 10.0 MeV
 
 ## Electron Verification Tests
