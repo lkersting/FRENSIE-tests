@@ -29,12 +29,14 @@ spectrum is calculated.
 
 ### Hydrogen Broomstick
 
-1. Source Energy = 0.1 MeV
+1. Source Energy = 0.1 MeV, No Doppler Broadening
 
 ![H Broomstick Current Es=0.1 MeV](photon/broomstick/H/nodopp/0.1/h_broomstick_current.png)
 
-2. Source Energy = 1.0 MeV
+2. Source Energy = 1.0 MeV, No Doppler Broadening
 
-3. Source Energy = 10.0 MeV
+![H Broomstick Current Es=1.0 MeV](photon/broomstick/H/nodopp/1.0/h_broomstick_current.png)
+
+3. Source Energy = 10.0 MeV, No Doppler Broadening
 
 ## Electron Verification Tests
