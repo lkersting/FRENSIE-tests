@@ -20,6 +20,7 @@ def plotBroomstickSimulationSpectrum( rendezvous_file,
                                       is_a_current,
                                       top_ylims = None,
                                       bottom_ylims = None,
+                                      xlims = None,
                                       legend_pos = None ):
 
     # Set the database path
@@ -91,5 +92,6 @@ def plotBroomstickSimulationSpectrum( rendezvous_file,
                                 per_lethargy = False,
                                 top_ylims = top_ylims,
                                 bottom_ylims = bottom_ylims,
+                                xlims = xlims,
                                 legend_pos = legend_pos,
                                 output_plot_names = output_file_names )

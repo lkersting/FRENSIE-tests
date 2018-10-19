@@ -33,11 +33,17 @@ spectrum is calculated.
 
 ![H Broomstick Current Es=0.1 MeV](photon/broomstick/H/nodopp/0.1/h_broomstick_current.png)
 
-2. Source Energy = 1.0 MeV, No Doppler Broadening
+2. Source Energy = 0.1 MeV, Doppler Broadening (MonteCarlo.DECOUPLED_HALF_PROFILE_DB_HYBRID_INCOHERENT_MODEL)
+
+![H Broomstick Current Es=0.1 MeV](photon/broomstick/H/dopp/0.1/h_broomstick_current.png)
+
+3. Source Energy = 1.0 MeV, No Doppler Broadening
 
 ![H Broomstick Current Es=1.0 MeV](photon/broomstick/H/nodopp/1.0/h_broomstick_current.png)
 
-3. Source Energy = 10.0 MeV, No Doppler Broadening
+4. Source Energy = 1.0 MeV, Doppler Broadening (MonteCarlo.DECOUPLED_HALF_PROFILE_DB_HYBRID_INCOHERENT_MODEL)
+
+5. Source Energy = 10.0 MeV, No Doppler Broadening
 
 ![H Broomstick Current Es=10.0 MeV](photon/broomstick/H/nodopp/10.0/h_broomstick_current.png)
 
