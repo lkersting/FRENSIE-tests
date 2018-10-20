@@ -131,7 +131,8 @@ def restartBroomstickSimulation( rendezvous_file_name,
                                  db_path,
                                  num_particles,
                                  threads,
-                                 log_file = None ):
+                                 log_file = None,
+                                 num_rendezvous = None ):
 
     ## Initialize the MPI session
     session = MPI.GlobalMPISession( len(sys.argv), sys.argv )
@@ -146,10 +147,19 @@ def restartBroomstickSimulation( rendezvous_file_name,
     # Set the database path
     Collision.FilledGeometryModel.setDefaultDatabasePath( db_path )
 
-    factory = Manager.ParticleSimulationManagerFactory( rendezvous_file_name,
-                                                        int(num_particles),
-                                                        threads )
+    if not num_rendevous is None:
+        new_simulation_properties = MonteCarlo.SimulationGeneralProperties()
+        new_simulation_properties.setNumberOfHistories( int(num_particles) )
+        new_simulation_properties.setMinNumberOfRendezvous( int(num_rendezvous) )
 
+        factory = Manager.ParticleSimulationManagerFactory( rendezvous_file_name,
+                                                            new_simulation_properties,
+                                                            threads )
+    else:
+        factory = Manger.ParticleSimulationManagerFactory( rendezvous_file_name,
+                                                           int(num_particles),
+                                                           threads )
+    
     manager = factory.getManager()
 
     # Allow logging on all procs
