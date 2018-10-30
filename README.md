@@ -49,4 +49,8 @@ spectrum is calculated.
 
 ![H Broomstick Current Es=10.0 MeV](photon/broomstick/H/nodopp/10.0/h_broomstick_current.png)
 
+6. Source Energy = 10.0 MeV, Doppler Broadening (MonteCarlo.DECOUPLED_HALF_PROFILE_DB_HYBRID_INCOHERENT_MODEL)
+
+![H Broomstick Current Es=1.0 MeV](photon/broomstick/H/dopp/10.0/h_broomstick_current.png)
+
 ## Electron Verification Tests
