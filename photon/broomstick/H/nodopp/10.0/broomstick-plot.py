@@ -45,6 +45,7 @@ if __name__ == "__main__":
                                       options.is_a_current,
                                       top_ylims = top_ylims,
                                       bottom_ylims = bottom_ylims,
+                                      xlims = [0.0, 10.0],
                                       legend_pos = legend_pos )
 
     
