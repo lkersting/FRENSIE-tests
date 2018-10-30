@@ -47,7 +47,7 @@ def runBroomstickSimulation( sim_name,
 
     # Set the number of histories to run and the number of rendezvous
     simulation_properties.setNumberOfHistories( num_particles )
-    simulation_properties.setMinNumberOfRendezvous( 100 )
+    simulation_properties.setMinNumberOfRendezvous( 10 )
 
     ## Set up the materials
     database = Data.ScatteringCenterPropertiesDatabase( db_path )
