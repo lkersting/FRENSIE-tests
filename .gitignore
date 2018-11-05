@@ -28,6 +28,7 @@
 *.pyc
 runtp*
 mcta*
+dyson_sphere_mcnp.o
 results/
 old_results/
 results_linlin/

@@ -100,6 +100,11 @@ def runDysonSphereSimulation( sim_name,
     event_handler.getEstimator( 1 ).setEnergyDiscretization( energy_bins )
     event_handler.getEstimator( 1 ).setCollisionNumberDiscretization( [0, 1, 10] )
 
+    ## Set up the collision forcer
+    collision_forcer = Event.StandardCollisionForcer( filled_model,
+                                                      MonteCarlo.PHOTON,
+                                                      [802] )
+
     ## Set up the simulation manager
     factory = Manager.ParticleSimulationManagerFactory( filled_model,
                                                         source,
@@ -108,6 +113,8 @@ def runDysonSphereSimulation( sim_name,
                                                         sim_name,
                                                         "xml",
                                                         threads )
+
+    factory.setCollisionForcer( collision_forcer )
 
     # Create the simulation manager
     manager = factory.getManager()
