@@ -29,6 +29,7 @@
 runtp*
 mcta*
 dyson_sphere_mcnp.o
+dyson_sphere.h5m
 results/
 old_results/
 results_linlin/

@@ -20,6 +20,7 @@ import PyFrensie.Data.Native as Native
 ## Set up and run the simulation
 def runDysonSphereSimulation( sim_name,
                               db_path,
+                              geom_name,
                               num_particles,
                               incoherent_model_type,
                               source_energy,
@@ -66,7 +67,7 @@ def runDysonSphereSimulation( sim_name,
     material_definitions.addDefinition( "H", 1, ["H"], [1.0] )
 
     ## Set up the geometry
-    model_properties = DagMC.DagMCModelProperties( "../dyson_sphere.h5m" )
+    model_properties = DagMC.DagMCModelProperties( geom_name )
     model_properties.setMaterialPropertyName( "mat" )
     model_properties.setDensityPropertyName( "rho" )
     model_properties.setTerminationCellPropertyName( "termination.cell" )
@@ -83,7 +84,7 @@ def runDysonSphereSimulation( sim_name,
     particle_distribution = ActiveRegion.StandardParticleDistribution( "mono-directional mono-energetic dist" )
 
     particle_distribution.setEnergy( source_energy )
-    particle_distribution.setPosition( 0.0, 0.0, -0.006 )
+    particle_distribution.setPosition( 0.0, 0.0, -1.0 )
     particle_distribution.setDirection( 0.0, 0.0, 1.0 )
     particle_distribution.constructDimensionDistributionDependencyTree()
 
@@ -98,12 +99,14 @@ def runDysonSphereSimulation( sim_name,
 
     # Set the energy and collision number bins in estimator 1
     event_handler.getEstimator( 1 ).setEnergyDiscretization( energy_bins )
-    event_handler.getEstimator( 1 ).setCollisionNumberDiscretization( [0, 1, 10] )
+    event_handler.getEstimator( 1 ).setCollisionNumberDiscretization( [1] )
 
     ## Set up the collision forcer
-    collision_forcer = Event.StandardCollisionForcer( filled_model,
-                                                      MonteCarlo.PHOTON,
-                                                      [802] )
+    collision_forcer = Event.StandardCollisionForcer()
+
+    collision_forcer.setForcedCollisionCells( filled_model,
+                                              MonteCarlo.PHOTON,
+                                              [10] )
 
     ## Set up the simulation manager
     factory = Manager.ParticleSimulationManagerFactory( filled_model,
