@@ -54,26 +54,28 @@ def plotDysonSphereSimulationSpectrum( rendezvous_file,
     mcnp_bin_data = {"e_up": [], "mean": [], "re": []}
 
     mcnp_first_nonzero_index = 0
+    mcnp_first_nonzero_index_found = False
     
     for i in range(mcnp_file_start,mcnp_file_end+1):
         split_line = mcnp_file_lines[i-1].split()
 
         mean_value = float(split_line[1])
 
-        if mean_value == 0.0:
+        if mean_value == 0.0 and not mcnp_first_nonzero_index_found:
             mcnp_first_nonzero_index += 1
         else:
             mcnp_bin_data["e_up"].append( float(split_line[0]) )
             mcnp_bin_data["mean"].append( mean_value )
             mcnp_bin_data["re"].append( float(split_line[2]) )
+            mcnp_first_nonzero_index_found = True
 
     # Filter out zero values
     del entity_bin_data["e_bins"][0:mcnp_first_nonzero_index]
     del entity_bin_data["mean"][0:mcnp_first_nonzero_index]
     del entity_bin_data["re"][0:mcnp_first_nonzero_index]
 
-    print entity_bin_data
-    print mcnp_bin_data
+    for i in range(0,len(entity_bin_data["e_bins"])-1):
+        print entity_bin_data["e_bins"][i+1], entity_bin_data["mean"][i], mcnp_bin_data["e_up"][i], mcnp_bin_data["mean"][i]
 
     output_file_name = "h_broomstick_"
     output_file_names = []

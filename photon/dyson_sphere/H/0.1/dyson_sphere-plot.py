@@ -14,31 +14,28 @@ if __name__ == "__main__":
                       help="the estimator id to use")
     parser.add_option("--entity_id", type="int", dest="entity_id",
                       help="the entity id to use")
-    parser.add_option("--emin", type="float", dest="emin",
-                      help="the min energy to use")
-    parser.add_option("--emax", type="float", dest="emax",
-                      help="the max energy to use")
     parser.add_option("--mcnp_file", type="string", dest="mcnp_file",
                       help="the mcnp output file to load")
     parser.add_option("--mcnp_file_start", type="int", dest="mcnp_file_start",
                       help="the mcnp output file start line")
     parser.add_option("--mcnp_file_end", type="int", dest="mcnp_file_end",
                       help="the mcnp output file end line")
-    parser.add_option("--current", action="store_true", dest="is_a_current",
-                      help="the data corresponds to a current")
-    parser.add_option("--flux", action="store_false", dest="is_a_current",
-                      help="the data corresponds to a flux")
+    parser.add_option("--emin", type="float", dest="emin",
+                      help="the min energy to use")
+    parser.add_option("--emax", type="float", dest="emax",
+                      help="the max energy to use")
+    parser.add_option("--top_ymax", type="float", dest="top_ymax",
+                      help="the top plot max y value")
+    parser.add_option("--bottom_ymin", type="float", dest="bottom_ymin",
+                      help="the bottom plot min y value")
+    parser.add_option("--bottom_ymax", type="float", dest="bottom_ymax",
+                      help="the bottom plot max y value")
+    parser.add_option("--legend_xpos", type="float", dest="legend_xpos",
+                      help="the legend x position")
+    parser.add_option("--legend_ypos", type="float", dest="legend_ypos",
+                      help="the legend y position")
     options,args = parser.parse_args()
 
-    if options.is_a_current:
-        top_ylims = [0.0, 60.0]
-        bottom_ylims = [0.98, 1.02]
-        legend_pos = (0.86,0.76)
-    else:
-        top_ylims = [0.0, 3e-8]
-        bottom_ylims = [0.9, 1.1]
-        legend_pos = (1.02,1.03)
-        
     # Plot the spectrum
     plotDysonSphereSimulationSpectrum( options.rendezvous_file,
                                        options.estimator_id,
@@ -46,8 +43,8 @@ if __name__ == "__main__":
                                        options.mcnp_file,
                                        options.mcnp_file_start,
                                        options.mcnp_file_end,
-                                       options.is_a_current,
-                                       top_ylims = top_ylims,
-                                       bottom_ylims = bottom_ylims,
+                                       False,
+                                       top_ylims = [0, options.top_ymax],
+                                       bottom_ylims = [options.bottom_ymin, options.bottom_ymax],
                                        xlims = [options.emin, options.emax],
-                                       legend_pos = legend_pos )
+                                       legend_pos = [options.legend_xpos,options.legend_ypos] )
