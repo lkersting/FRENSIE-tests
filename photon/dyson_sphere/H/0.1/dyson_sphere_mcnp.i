@@ -1654,7 +1654,7 @@ dyson sphere
 805 so  10000.0
 
 mode p
-nps   1e8
+nps   1e9
 sdef  pos = 0 0 -0.1  dir = 1  vec = 0 0 1  erg = 0.1
 c
 m1    1000.12p 1.0

@@ -99,7 +99,7 @@ def runDysonSphereSimulation( sim_name,
 
     # Set the energy and collision number bins in estimator 1
     event_handler.getEstimator( 1 ).setEnergyDiscretization( energy_bins )
-    event_handler.getEstimator( 1 ).setCollisionNumberDiscretization( [1] )
+    event_handler.getEstimator( 1 ).setCollisionNumberDiscretization( [0,1] )
 
     ## Set up the collision forcer
     collision_forcer = Event.StandardCollisionForcer()
