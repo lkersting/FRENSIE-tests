@@ -1,14 +1,48 @@
 1. run `mcnp6 i=dyson_sphere_mcnp.i o=dyson_sphere_mcnp.o tasks 8`
-2. run `export DATABASE_PATH=path-to-db`
-3. run `./dyson_sphere.py --db_path=$DATABASE_PATH --sim_name="dyson_sphere" --num_particles=1e9 --thread=8`
-4. run `./dyson_sphere-plot.py --rendezvous_file="dyson_sphere_rendezvous_10.xml" --estimator_id=1 --entity_id=1 --mcnp_file=dyson_sphere_mcnp.o --mcnp_file_start=4246 --mcnp_file_end=5244 --emin=0.0995 --emax=0.1 --top_ymax=3e-8 --bottom_ymin=0.60 --bottom_ymax=1.40 --legend_xpos=1.01 --legend_ypos=1.05`
-5. run `./dyson_sphere-plot.py --rendezvous_file="dyson_sphere_rendezvous_10.xml" --estimator_id=1 --entity_id=2 --mcnp_file=dyson_sphere_mcnp.o --mcnp_file_start=364036 --mcnp_file_end=365034 --emin=0.090 --emax=0.1 --top_ymax=6e-9 --bottom_ymin=0.6 --bottom_ymax=1.4 --legend_xpos=1.01 --legend_ypos=1.05`
-6. run `./dyson_sphere-plot.py --rendezvous_file="dyson_sphere_rendezvous_10.xml" --estimator_id=1 --entity_id=3 --mcnp_file=dyson_sphere_mcnp.o --mcnp_file_start=512776 --mcnp_file_end=513774 --emin=0.089 --emax=0.093 --top_ymax=4e-9 --bottom_ymin=0.8 --bottom_ymax=1.2 --legend_xpos=1.00 --legend_ypos=1.00`
-7. run `./dyson_sphere-plot.py --rendezvous_file="dyson_sphere_rendezvous_10.xml" --estimator_id=1 --entity_id=4 --mcnp_file=dyson_sphere_mcnp.o --mcnp_file_start=659506 --mcnp_file_end=660504 --emin=0.085 --emax=0.090 --top_ymax=2.5e-9 --bottom_ymin=0.8 --bottom_ymax=1.2 --legend_xpos=1.00 --legend_ypos=1.02`
-8. run `./dyson_sphere-plot.py --rendezvous_file="dyson_sphere_rendezvous_10.xml" --estimator_id=1 --entity_id=5 --mcnp_file=dyson_sphere_mcnp.o --mcnp_file_start=808246 --mcnp_file_end=809244 --emin=0.081 --emax=0.087 --top_ymax=3e-9 --bottom_ymin=0.8 --bottom_ymax=1.2 --legend_xpos=1.00 --legend_ypos=1.02`
-9. run `./dyson_sphere-plot.py --rendezvous_file="dyson_sphere_rendezvous_10.xml" --estimator_id=1 --entity_id=6 --mcnp_file=dyson_sphere_mcnp.o --mcnp_file_start=956986 --mcnp_file_end=957984 --emin=0.0785 --emax=0.082 --top_ymax=2e-9 --bottom_ymin=0.8 --bottom_ymax=1.2 --legend_xpos=1.00 --legend_ypos=1.02`
-10. run `./dyson_sphere-plot.py --rendezvous_file="dyson_sphere_rendezvous_10.xml" --estimator_id=1 --entity_id=7 --mcnp_file=dyson_sphere_mcnp.o --mcnp_file_start=1103716 --mcnp_file_end=1104714 --emin=0.075 --emax=0.080 --top_ymax=2e-9 --bottom_ymin=0.8 --bottom_ymax=1.2 --legend_xpos=1.00 --legend_ypos=1.02`
-11. run `./dyson_sphere-plot.py --rendezvous_file="dyson_sphere_rendezvous_10.xml" --estimator_id=1 --entity_id=8 --mcnp_file=dyson_sphere_mcnp.o --mcnp_file_start=1252456 --mcnp_file_end=1253454 --emin=0.072 --emax=0.078 --top_ymax=2.5e-9 --bottom_ymin=0.8 --bottom_ymax=1.2 --legend_xpos=1.00 --legend_ypos=1.02`
-12. run `./dyson_sphere-plot.py --rendezvous_file="dyson_sphere_rendezvous_10.xml" --estimator_id=1 --entity_id=9 --mcnp_file=dyson_sphere_mcnp.o --mcnp_file_start=1612246 --mcnp_file_end=1613244 --emin=0.070 --emax=0.074 --top_ymax=3e-9 --bottom_ymin=0.8 --bottom_ymax=1.2 --legend_xpos=1.00 --legend_ypos=1.02`
 
-# ./dyson_sphere_restart.py --db_path=$DATABASE_PATH --rendezvous_file="dyson_sphere_rendezvous_10.xml" --num_particles=1e9 --threads=8
+2. run `./dyson_sphere_extract_mcnp_data.py --mcnp_file="dyson_sphere_mcnp.o" --mcnp_file_start=4245 --mcnp_file_end=5244 --output_file="results/mcnp-mu=0.989.txt"`
+3. run `./dyson_sphere_extract_mcnp_data.py --mcnp_file="dyson_sphere_mcnp.o" --mcnp_file_start=364035 --mcnp_file_end=365034 --output_file="results/mcnp-mu=0.707.txt"`
+4. run `./dyson_sphere_extract_mcnp_data.py --mcnp_file="dyson_sphere_mcnp.o" --mcnp_file_start=512775 --mcnp_file_end=513774 --output_file="results/mcnp-mu=0.499.txt"`
+5. run `./dyson_sphere_extract_mcnp_data.py --mcnp_file="dyson_sphere_mcnp.o" --mcnp_file_start=659505 --mcnp_file_end=660504 --output_file="results/mcnp-mu=0.260.txt"`
+6. run `./dyson_sphere_extract_mcnp_data.py --mcnp_file="dyson_sphere_mcnp.o" --mcnp_file_start=808245 --mcnp_file_end=809244 --output_file="results/mcnp-mu=0.0.txt"`
+7. run `./dyson_sphere_extract_mcnp_data.py --mcnp_file="dyson_sphere_mcnp.o" --mcnp_file_start=956985 --mcnp_file_end=957984 --output_file="results/mcnp-mu=-0.260.txt"
+8. run `./dyson_sphere_extract_mcnp_data.py --mcnp_file="dyson_sphere_mcnp.o" --mcnp_file_start=1103715 --mcnp_file_end=1104714 --output_file="results/mcnp-mu=-0.499.txt"`
+9. run `./dyson_sphere_extract_mcnp_data.py --mcnp_file="dyson_sphere_mcnp.o" --mcnp_file_start=1252455 --mcnp_file_end=1253454 --output_file="results/mcnp-mu=-0.707.txt"`
+10. run `./dyson_sphere_extract_mcnp_data.py --mcnp_file="dyson_sphere_mcnp.o" --mcnp_file_start=1612245 --mcnp_file_end=1613244 --output_file="results/mcnp-mu=-0.989.txt"`
+
+11. enter dhp (decoupled half-profile) directory and follow README
+
+12. run `/dyson_sphere_extract_frensie_data.py --rendezvous_file="dhp/dyson_sphere_rendezvous_10.xml" --estimator_id=1 --entity_id=1 --output_file="results/dhp-mu=0.989.txt"`
+13. run `./dyson_sphere_extract_frensie_data.py --rendezvous_file="dhp/dyson_sphere_rendezvous_10.xml" --estimator_id=1 --entity_id=2 --output_file="results/dhp-mu=0.707.txt"`
+14. run `./dyson_sphere_extract_frensie_data.py --rendezvous_file="dhp/dyson_sphere_rendezvous_10.xml" --estimator_id=1 --entity_id=3 --output_file="results/dhp-mu=0.499.txt"`
+15. run `./dyson_sphere_extract_frensie_data.py --rendezvous_file="dhp/dyson_sphere_rendezvous_10.xml" --estimator_id=1 --entity_id=4 --output_file="results/dhp-mu=0.260.txt"`
+16. run `./dyson_sphere_extract_frensie_data.py --rendezvous_file="dhp/dyson_sphere_rendezvous_10.xml" --estimator_id=1 --entity_id=5 --output_file="results/dhp-mu=0.0.txt"`
+17. run `./dyson_sphere_extract_frensie_data.py --rendezvous_file="dhp/dyson_sphere_rendezvous_10.xml" --estimator_id=1 --entity_id=6 --output_file="results/dhp-mu=-0.260.txt"`
+18. run `./dyson_sphere_extract_frensie_data.py --rendezvous_file="dhp/dyson_sphere_rendezvous_10.xml" --estimator_id=1 --entity_id=7 --output_file="results/dhp-mu=-0.499.txt"`
+19. run `./dyson_sphere_extract_frensie_data.py --rendezvous_file="dhp/dyson_sphere_rendezvous_10.xml" --estimator_id=1 --entity_id=8 --output_file="results/dhp-mu=-0.707.txt"`
+20. run `./dyson_sphere_extract_frensie_data.py --rendezvous_file="dhp/dyson_sphere_rendezvous_10.xml" --estimator_id=1 --entity_id=9 --output_file="results/dhp-mu=-0.989.txt"`
+
+21. enter dfp (decoupled full-profile) directory and follow README
+
+22. run `/dyson_sphere_extract_frensie_data.py --rendezvous_file="dfp/dyson_sphere_rendezvous_10.xml" --estimator_id=1 --entity_id=1 --output_file="results/dfp-mu=0.989.txt"`
+23. run `./dyson_sphere_extract_frensie_data.py --rendezvous_file="dfp/dyson_sphere_rendezvous_10.xml" --estimator_id=1 --entity_id=2 --output_file="results/dfp-mu=0.707.txt"`
+24. run `./dyson_sphere_extract_frensie_data.py --rendezvous_file="dfp/dyson_sphere_rendezvous_10.xml" --estimator_id=1 --entity_id=3 --output_file="results/dfp-mu=0.499.txt"`
+25. run `./dyson_sphere_extract_frensie_data.py --rendezvous_file="dfp/dyson_sphere_rendezvous_10.xml" --estimator_id=1 --entity_id=4 --output_file="results/dfp-mu=0.260.txt"`
+26. run `./dyson_sphere_extract_frensie_data.py --rendezvous_file="dfp/dyson_sphere_rendezvous_10.xml" --estimator_id=1 --entity_id=5 --output_file="results/dfp-mu=0.0.txt"`
+27. run `./dyson_sphere_extract_frensie_data.py --rendezvous_file="dfp/dyson_sphere_rendezvous_10.xml" --estimator_id=1 --entity_id=6 --output_file="results/dfp-mu=-0.260.txt"`
+28. run `./dyson_sphere_extract_frensie_data.py --rendezvous_file="dfp/dyson_sphere_rendezvous_10.xml" --estimator_id=1 --entity_id=7 --output_file="results/dfp-mu=-0.499.txt"`
+29. run `./dyson_sphere_extract_frensie_data.py --rendezvous_file="dfp/dyson_sphere_rendezvous_10.xml" --estimator_id=1 --entity_id=8 --output_file="results/dfp-mu=-0.707.txt"`
+30. run `./dyson_sphere_extract_frensie_data.py --rendezvous_file="dfp/dyson_sphere_rendezvous_10.xml" --estimator_id=1 --entity_id=9 --output_file="results/dfp-mu=-0.989.txt"`
+
+31. enter cfp (coupled full-profile) directory and follow README
+
+32. run `/dyson_sphere_extract_frensie_data.py --rendezvous_file="cfp/dyson_sphere_rendezvous_10.xml" --estimator_id=1 --entity_id=1 --output_file="results/cfp-mu=0.989.txt"`
+33. run `./dyson_sphere_extract_frensie_data.py --rendezvous_file="cfp/dyson_sphere_rendezvous_10.xml" --estimator_id=1 --entity_id=2 --output_file="results/cfp-mu=0.707.txt"`
+34. run `./dyson_sphere_extract_frensie_data.py --rendezvous_file="cfp/dyson_sphere_rendezvous_10.xml" --estimator_id=1 --entity_id=3 --output_file="results/cfp-mu=0.499.txt"`
+35. run `./dyson_sphere_extract_frensie_data.py --rendezvous_file="cfp/dyson_sphere_rendezvous_10.xml" --estimator_id=1 --entity_id=4 --output_file="results/cfp-mu=0.260.txt"`
+36. run `./dyson_sphere_extract_frensie_data.py --rendezvous_file="cfp/dyson_sphere_rendezvous_10.xml" --estimator_id=1 --entity_id=5 --output_file="results/cfp-mu=0.0.txt"`
+37. run `./dyson_sphere_extract_frensie_data.py --rendezvous_file="cfp/dyson_sphere_rendezvous_10.xml" --estimator_id=1 --entity_id=6 --output_file="results/cfp-mu=-0.260.txt"`
+38. run `./dyson_sphere_extract_frensie_data.py --rendezvous_file="cfp/dyson_sphere_rendezvous_10.xml" --estimator_id=1 --entity_id=7 --output_file="results/cfp-mu=-0.499.txt"`
+39. run `./dyson_sphere_extract_frensie_data.py --rendezvous_file="cfp/dyson_sphere_rendezvous_10.xml" --estimator_id=1 --entity_id=8 --output_file="results/cfp-mu=-0.707.txt"`
+40. run `./dyson_sphere_extract_frensie_data.py --rendezvous_file="cfp/dyson_sphere_rendezvous_10.xml" --estimator_id=1 --entity_id=9 --output_file="results/cfp-mu=-0.989.txt"`
+

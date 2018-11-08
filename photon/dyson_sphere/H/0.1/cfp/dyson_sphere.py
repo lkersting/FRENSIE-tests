@@ -1,7 +1,7 @@
 #!/usr/bin/python
 import sys, os
 from optparse import *
-sys.path.append(os.path.join(os.path.dirname(__file__), '../'))
+sys.path.append(os.path.join(os.path.dirname(__file__), '../..'))
 from dyson_sphere_simulation import runDysonSphereSimulation
 import PyFrensie.Utility as Utility
 import PyFrensie.MonteCarlo as MonteCarlo
@@ -29,9 +29,9 @@ if __name__ == "__main__":
     # Run the simulation
     runDysonSphereSimulation( options.sim_name,
                               options.db_path,
-                              "../../dyson_sphere.h5m",
+                              "../../../dyson_sphere.h5m",
                               options.num_particles,
-                              MonteCarlo.DECOUPLED_HALF_PROFILE_DB_HYBRID_INCOHERENT_MODEL,
+                              MonteCarlo.FULL_PROFILE_DB_IMPULSE_INCOHERENT_MODEL,
                               0.1,
                               Utility.doubleArrayFromString( "{1e-3, 998i, 0.1}" ),
                               options.threads,

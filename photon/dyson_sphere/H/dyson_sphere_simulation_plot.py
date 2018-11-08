@@ -11,6 +11,8 @@ import PyFrensie.MonteCarlo.Event as Event
 import PyFrensie.MonteCarlo.Manager as Manager
 from spectrum_plot_tools import plotSpectralDataWithErrors
 
+##---------------------------------------------------------------------------##
+## Plot the frensie and mcnp spectral results
 def plotDysonSphereSimulationSpectrum( rendezvous_file,
                                        estimator_id,
                                        entity_id,
@@ -102,3 +104,66 @@ def plotDysonSphereSimulationSpectrum( rendezvous_file,
                                 xlims = xlims,
                                 legend_pos = legend_pos,
                                 output_plot_names = output_file_names )
+
+##---------------------------------------------------------------------------##
+## Extract the mcnp estimator data
+def extractMCNPEstimatorData( mcnp_file,
+                              mcnp_file_start,
+                              mcnp_file_end,
+                              output_file_name ):
+
+    # Extract the mcnp data from the output file
+    mcnp_file = open( mcnp_file, "r" )
+    mcnp_file_lines = mcnp_file.readlines()
+    
+    mcnp_bin_data = {"e_bins": [], "mean": [], "re": []}
+
+    for i in range(mcnp_file_start,mcnp_file_end+1):
+        split_line = mcnp_file_lines[i-1].split()
+
+        mcnp_bin_data["e_bins"].append( float(split_line[0]) )
+        
+        if i != mcnp_file_start:
+            mcnp_bin_data["mean"].append( float(split_line[1]) )
+            mcnp_bin_data["re"].append( float(split_line[2]) )
+
+    # Save the data to the desired file
+    output_file = open( output_file_name, "w" )
+
+    for i in range(0,len(mcnp_bin_data["mean"])):
+        output_file.write(str(mcnp_bin_data["e_bins"][i])+" "+str(mcnp_bin_data["e_bins"][i+1])+" "+str(mcnp_bin_data["mean"][i])+" "+str(mcnp_bin_data["re"][i])+"\n")
+
+##---------------------------------------------------------------------------##
+## Extract the frensie estimator data
+def extractFrensieEstimatorData( rendezvous_file,
+                                 estimator_id,
+                                 entity_id,
+                                 output_file_name ):
+  
+    # Set the database path
+    Collision.FilledGeometryModel.setDefaultDatabasePath( os.environ['DATABASE_PATH'] )
+    
+    # Reload the simulation
+    manager = Manager.ParticleSimulationManagerFactory( rendezvous_file ).getManager()
+    
+    # Extract the estimator of interest
+    estimator = manager.getEventHandler().getEstimator( estimator_id )
+    
+    full_entity_bin_data = estimator.getEntityBinProcessedData( entity_id )
+    
+    start_index = estimator.getNumberOfBins( Event.OBSERVER_ENERGY_DIMENSION )
+    end_index = 2*start_index
+
+    entity_bin_data = {"mean": [], "re": [], "e_bins": []}
+
+    for i in range(start_index, end_index):
+        entity_bin_data["mean"].append( full_entity_bin_data["mean"][i] )
+        entity_bin_data["re"].append( full_entity_bin_data["re"][i] )
+
+    entity_bin_data["e_bins"] = list(estimator.getEnergyDiscretization())
+
+    # Save the data to the desired file
+    output_file = open( output_file_name, "w" )
+
+    for i in range(0,len(entity_bin_data["mean"])):
+        output_file.write(str(entity_bin_data["e_bins"][i])+" "+str(entity_bin_data["e_bins"][i+1])+" "+str(entity_bin_data["mean"][i])+" "+str(entity_bin_data["re"][i])+"\n")

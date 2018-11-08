@@ -11,6 +11,15 @@ angle_step = (angle_end-angle_start)/steps
 
 vol_counter = 1
 
+# i = 0   ==> phi == 0.15
+# i = 179 ==> phi ~ pi/4
+# i = 253 ==> phi ~ pi/3
+# i = 326 ==> phi ~ 5pi/12
+# i = 400 ==> phi ~ pi/2
+# i = 474 ==> phi ~ 7pi/12
+# i = 547 ==> phi ~ 2pi/3
+# i = 621 ==> phi ~ 3pi/4
+# i = 800 ==> phi == pi - 0.15
 for i in range(0,steps+1):
     if i == 0 or i == 179 or i == 253 or i== 326 or i == 400 or i == 474 or i == 547 or i == 621 or i == steps:
         angle = angle_start + i*angle_step;

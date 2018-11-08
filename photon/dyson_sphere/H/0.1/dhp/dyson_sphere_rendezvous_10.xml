@@ -189,7 +189,7 @@
 					<d_model_properties class_id="50" tracking_level="0" version="0">
 						<tx class_id="51" tracking_level="1" version="0" object_id="_15">
 							<d_file_name>dyson_sphere.h5m</d_file_name>
-							<raw_file_path>../..</raw_file_path>
+							<raw_file_path>../../../</raw_file_path>
 							<d_fast_id_lookup>1</d_fast_id_lookup>
 							<d_termination_cell_property>termination.cell</d_termination_cell_property>
 							<d_reflecting_surface_property>reflecting.surface</d_reflecting_surface_property>

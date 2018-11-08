@@ -60,7 +60,10 @@ def runDysonSphereSimulation( sim_name,
     scattering_center_definitions = Collision.ScatteringCenterDefinitionDatabase()
     atom_definition = scattering_center_definitions.createDefinition( "H", Data.ZAID(1000) )
 
-    atom_definition.setPhotoatomicDataProperties( atom_properties.getSharedPhotoatomicDataProperties( Data.PhotoatomicDataProperties.ACE_EPR_FILE, 12 ) )
+    if incoherent_model_type == MonteCarlo.FULL_PROFILE_DB_IMPULSE_INCOHERENT_MODEL:
+        atom_definition.setPhotoatomicDataProperties( atom_properties.getSharedPhotoatomicDataProperties( Data.PhotoatomicDataProperties.Native_EPR_FILE, 0 ) )
+    else:
+        atom_definition.setPhotoatomicDataProperties( atom_properties.getSharedPhotoatomicDataProperties( Data.PhotoatomicDataProperties.ACE_EPR_FILE, 12 ) )
 
     # Set the definition for material 1
     material_definitions = Collision.MaterialDefinitionDatabase()
