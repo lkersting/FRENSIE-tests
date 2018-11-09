@@ -24,7 +24,8 @@ def runDysonSphereSimulation( sim_name,
                               num_particles,
                               incoherent_model_type,
                               source_energy,
-                              energy_bins,
+                              coarse_energy_bins,
+                              fine_energy_bins,
                               threads,
                               log_file = None ):
 
@@ -101,15 +102,18 @@ def runDysonSphereSimulation( sim_name,
     event_handler = Event.EventHandler( model, simulation_properties )
 
     # Set the energy and collision number bins in estimator 1
-    event_handler.getEstimator( 1 ).setEnergyDiscretization( energy_bins )
+    event_handler.getEstimator( 1 ).setEnergyDiscretization( coarse_energy_bins )
     event_handler.getEstimator( 1 ).setCollisionNumberDiscretization( [0,1] )
+
+    event_handler.getEstimator( 2 ).setEnergyDiscretization( fine_energy_bins )
+    event_handler.getEstimator( 2 ).setCollisionNumberDiscretization( [0,1] )
 
     ## Set up the collision forcer
     collision_forcer = Event.StandardCollisionForcer()
 
     collision_forcer.setForcedCollisionCells( filled_model,
                                               MonteCarlo.PHOTON,
-                                              [10] )
+                                              [14] )
 
     ## Set up the simulation manager
     factory = Manager.ParticleSimulationManagerFactory( filled_model,

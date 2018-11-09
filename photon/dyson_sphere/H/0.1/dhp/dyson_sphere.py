@@ -29,11 +29,12 @@ if __name__ == "__main__":
     # Run the simulation
     runDysonSphereSimulation( options.sim_name,
                               options.db_path,
-                              "../../dyson_sphere.h5m",
+                              "../../../dyson_sphere.h5m",
                               options.num_particles,
                               MonteCarlo.DECOUPLED_HALF_PROFILE_DB_HYBRID_INCOHERENT_MODEL,
                               0.1,
                               Utility.doubleArrayFromString( "{1e-3, 998i, 0.1}" ),
+                              Utility.doubleArrayFromString( "{1e-3, 9980i, 0.1}" ),
                               options.threads,
                               options.log_file )
 

@@ -34,6 +34,7 @@ if __name__ == "__main__":
                               MonteCarlo.FULL_PROFILE_DB_IMPULSE_INCOHERENT_MODEL,
                               0.1,
                               Utility.doubleArrayFromString( "{1e-3, 998i, 0.1}" ),
+                              Utility.doubleArrayFromString( "{1e-3, 9980i, 0.1}" ),
                               options.threads,
                               options.log_file )
 
