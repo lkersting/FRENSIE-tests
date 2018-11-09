@@ -5,19 +5,23 @@
 #SBATCH --ntasks=40
 #SBATCH --cpus-per-task=4
 
-##---------------------------------------------------------------------------##
-## ---------------------------- FACEMC test runner --------------------------##
-##---------------------------------------------------------------------------##
+##----------------------------------------------------------------------------##
+## ---------------------------- FACEMC test runner ---------------------------##
+##----------------------------------------------------------------------------##
 ## FRENSIE benchmark test: Lockwood dose depth data.
 ## The dose depth for several ranges and material is calculated by dividing the
 ## energy deposition by the calorimeter thickness (g/cm^2).
-##---------------------------------------------------------------------------##
+##----------------------------------------------------------------------------##
 EXTRA_ARGS=$@
 
 # Set the number of histories
 HISTORIES=1000000
 # Set the max runtime (in minutes, 1 day = 1440 )
 TIME=1400
+
+# These parameters can be set if the cluster is not used
+# SLURM_CPUS_PER_TASK=4
+# SLURM_NTASKS=1
 
 # Run from the rendezvous
 if [ "$#" -eq 1 ]; then
@@ -26,12 +30,12 @@ if [ "$#" -eq 1 ]; then
 
   # Restart the simulation
   echo "Restarting Facemc Lockwood test for ${HISTORIES} particles with ${SLURM_NTASKS} MPI processes with ${SLURM_CPUS_PER_TASK} OpenMP threads each!"
-  mpiexec -n ${SLURM_NTASKS} python -c "import lockwood; lockwood.restartSimulation(${SLURM_CPUS_PER_TASK}, ${HISTORIES}, ${TIME}, \"${RENDEZVOUS}\" )"
+  mpiexec -n ${SLURM_NTASKS} python -c "import lockwood; lockwood.runSimulationFromRendezvous(${SLURM_CPUS_PER_TASK}, ${HISTORIES}, ${TIME}, \"${RENDEZVOUS}\" )"
 
 # Run new simulation
 else
 
-  # Set the test energy (0.314, 0.521, 1.033)
+  # Set the test energy
   ENERGY=0.314
 
   # Set the data file type (ACE Native)
@@ -61,9 +65,9 @@ else
   # Set the range (g/cm2)
   RANGE=0.0993
 
-  ##---------------------------------------------------------------------------##
-  ## ------------------------------- COMMANDS ---------------------------------##
-  ##---------------------------------------------------------------------------##
+  ##--------------------------------------------------------------------------##
+  ## ------------------------------- COMMANDS --------------------------------##
+  ##--------------------------------------------------------------------------##
 
   # Create a unique python script and change the parameters
   python_script="lockwood_${SLURM_JOB_ID}"
@@ -114,9 +118,29 @@ else
   # Create the results directory
   directory=$(python -c "import ${python_script}; ${python_script}.createResultsDirectory()" 2>&1)
 
-  # Run the simulation
-  echo "Running Facemc Lockwood test with ${HISTORIES} particles with ${SLURM_NTASKS} MPI processes with ${SLURM_CPUS_PER_TASK} OpenMP threads each!"
-  mpiexec -n ${SLURM_NTASKS} python -c "import ${python_script}; ${python_script}.runSimulation(${SLURM_CPUS_PER_TASK}, ${HISTORIES}, ${TIME})"
+  # Get the simulation name
+  name=$(python -c "import ${python_script}; name = ${python_script}.getSimulationName(); print name" 2>&1)
+
+  RENDEZVOUS="${name}_rendezvous_0.xml"
+
+  # Run the simulation from the last rendezvous
+  if [ -f ${RENDEZVOUS} ]; then
+
+    # Get the last rendezvous
+    i=0
+    while [ -f "${name}_rendezvous_${i}.xml" ]; do
+      RENDEZVOUS="${name}_rendezvous_${i}.xml"
+      i=$[$i+1]
+    done
+
+    # Run the simulation from the last rendezvous
+    echo "Running Facemc Lockwood test with ${HISTORIES} particles with ${SLURM_NTASKS} MPI processes with ${SLURM_CPUS_PER_TASK} OpenMP threads each from the rendezvous '${RENDEZVOUS}'!"
+    mpiexec -n ${SLURM_NTASKS} python -c "import ${python_script}; ${python_script}.runSimulationFromRendezvous(${SLURM_CPUS_PER_TASK}, ${HISTORIES}, ${TIME}, '${RENDEZVOUS}' )"
+  else
+    # Run the simulation from the start
+    echo "Running Facemc Lockwood test with ${HISTORIES} particles with ${SLURM_NTASKS} MPI processes with ${SLURM_CPUS_PER_TASK} OpenMP threads each!"
+    mpiexec -n ${SLURM_NTASKS} python -c "import ${python_script}; ${python_script}.runSimulation(${SLURM_CPUS_PER_TASK}, ${HISTORIES}, ${TIME})"
+  fi
 
   # Remove the temperary python script
   rm ${python_script}.py*

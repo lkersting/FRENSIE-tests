@@ -23,6 +23,10 @@ HISTORIES=1000000
 # Set the max runtime (in minutes, 1 day = 1440 )
 TIME=1400
 
+# These parameters can be set if the cluster is not used
+# SLURM_CPUS_PER_TASK=4
+# SLURM_NTASKS=1
+
 ##---------------------------------------------------------------------------##
 ## ------------------------------- COMMANDS ---------------------------------##
 ##---------------------------------------------------------------------------##
@@ -34,7 +38,7 @@ if [ "$#" -eq 1 ]; then
 
   # Restart the simulation
   echo "Restarting Facemc Hanson test for ${HISTORIES} particles with ${SLURM_NTASKS} MPI processes with ${SLURM_CPUS_PER_TASK} OpenMP threads each!"
-  mpiexec -n ${SLURM_NTASKS} python -c "import hanson; hanson.restartSimulation(${SLURM_CPUS_PER_TASK}, ${HISTORIES}, ${TIME}, \"${RENDEZVOUS}\" )"
+  mpiexec -n ${SLURM_NTASKS} python -c "import hanson; hanson.runSimulationFromRendezvous(${SLURM_CPUS_PER_TASK}, ${HISTORIES}, ${TIME}, \"${RENDEZVOUS}\" )"
 
 # Run new simulation
 else
@@ -75,11 +79,31 @@ else
   sed -i $command ${python_script}.py
 
   # Create the results directory
-  directory=$(python -c "import ${python_script}; ${python_script}.createResultsDirectory()" 2>&1)
+  directory=$(python -c "import ${python_script}; dir = ${python_script}.createResultsDirectory(); print dir" 2>&1)
 
-  # Run the simulation
-  echo "Running Facemc Hanson test with ${HISTORIES} particles with ${SLURM_NTASKS} MPI processes with ${SLURM_CPUS_PER_TASK} OpenMP threads each!"
-  mpiexec -n ${SLURM_NTASKS} python -c "import ${python_script}; ${python_script}.runSimulation(${SLURM_CPUS_PER_TASK}, ${HISTORIES}, ${TIME})"
+  # Get the simulation name
+  name=$(python -c "import ${python_script}; name = ${python_script}.getSimulationName(); print name" 2>&1)
+
+  RENDEZVOUS="${name}_rendezvous_0.xml"
+
+  # Run the simulation from the last rendezvous
+  if [ -f ${RENDEZVOUS} ]; then
+
+    # Get the last rendezvous
+    i=0
+    while [ -f "${name}_rendezvous_${i}.xml" ]; do
+      RENDEZVOUS="${name}_rendezvous_${i}.xml"
+      i=$[$i+1]
+    done
+
+    # Run the simulation from the last rendezvous
+    echo "Running Facemc Hanson test with ${HISTORIES} particles with ${SLURM_NTASKS} MPI processes with ${SLURM_CPUS_PER_TASK} OpenMP threads each from the rendezvous '${RENDEZVOUS}'!"
+    mpiexec -n ${SLURM_NTASKS} python -c "import ${python_script}; ${python_script}.runSimulationFromRendezvous(${SLURM_CPUS_PER_TASK}, ${HISTORIES}, ${TIME}, '${RENDEZVOUS}' )"
+  else
+    # Run the simulation from the start
+    echo "Running Facemc Hanson test with ${HISTORIES} particles with ${SLURM_NTASKS} MPI processes with ${SLURM_CPUS_PER_TASK} OpenMP threads each!"
+    mpiexec -n ${SLURM_NTASKS} python -c "import ${python_script}; ${python_script}.runSimulation(${SLURM_CPUS_PER_TASK}, ${HISTORIES}, ${TIME})"
+  fi
 
   # Remove the temperary python script
   rm ${python_script}.py*

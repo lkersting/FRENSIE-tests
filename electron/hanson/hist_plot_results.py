@@ -61,13 +61,11 @@ for n in range(N):
 # Plot
 if user_args.m:
   fig = plt.figure(num=1, figsize=(9,7))
-else:
-  fig = plt.figure(num=1, figsize=(9,7))
-
-# set height ratios for sublots
-if user_args.m:
+  # set height ratios for sublots
   gs = gridspec.GridSpec(2, 1, height_ratios=[2, 1])
 else:
+  fig = plt.figure(num=1, figsize=(9,7))
+  # set height ratios for sublots
   gs = gridspec.GridSpec(1, 1)
 
 # the first subplot

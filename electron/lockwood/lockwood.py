@@ -1,9 +1,13 @@
 #! /usr/bin/env python
-import os
+from os import path, makedirs
 import sys
 import numpy
 import datetime
 import socket
+
+# Add the parent directory to the path
+sys.path.insert(1,path.dirname(path.dirname(path.abspath(__file__))))
+import simulation_setup as setup
 import PyFrensie.Data as Data
 import PyFrensie.Data.Native as Native
 import PyFrensie.Geometry.DagMC as DagMC
@@ -19,13 +23,11 @@ import PyFrensie.MonteCarlo.ActiveRegion as ActiveRegion
 import PyFrensie.MonteCarlo.Event as Event
 import PyFrensie.MonteCarlo.Manager as Manager
 
-# Add the parent directory to the path
-sys.path.insert(1,'../')
-import simulation_setup as setup
+pyfrensie_path =path.dirname( path.dirname(path.abspath(MonteCarlo.__file__)))
 
-##---------------------------------------------------------------------------##
-## ---------------------- GLOBAL SIMULATION VARIABLES ---------------------- ##
-##---------------------------------------------------------------------------##
+##----------------------------------------------------------------------------##
+## ---------------------- GLOBAL SIMULATION VARIABLES ----------------------- ##
+##----------------------------------------------------------------------------##
 
 # Set the element
 atom=Data.Al_ATOM; element="Al"; zaid=13000
@@ -59,14 +61,14 @@ test_range=0.0025
 # Set database directory path (for Denali)
 if socket.gethostname() == "Denali":
   database_path = "/home/software/mcnpdata/database.xml"
-  geometry_path = "/home/lkersting/frensie/tests/electron/lockwood/"
-elif socket.gethostname() == "Elbrus": # Set database directory path (for Elbrus)
+# Set database directory path (for Elbrus)
+elif socket.gethostname() == "Elbrus":
   database_path = "/home/software/mcnpdata/database.xml"
-  geometry_path = "/home/ligross/frensie/tests/lockwood/"
-else: # Set database directory path (for Cluster)
+# Set database directory path (for Cluster)
+else:
   database_path = "/home/lkersting/software/mcnp6.2/MCNP_DATA/database.xml"
-  geometry_path = "/home/lkersting/dag_frensie/tests/electron/lockwood/"
 
+geometry_path = path.dirname(path.realpath(__file__)) + "/"
 geometry_path += element + "/" + element + "_" + str(energy) + "/dagmc/geom_" + str(test_number) + ".h5m"
 
 # Run the simulation
@@ -79,10 +81,10 @@ def runSimulation( threads, histories, time ):
   Utility.removeAllLogs()
   session.initializeLogs( 0, True )
 
+  if session.rank() == 0:
+    print "The PyFrensie path is set to: ", pyfrensie_path
+
   properties = setSimulationProperties( histories, time )
-  name, title = setSimulationName( properties, file_type )
-  path_to_database = database_path
-  path_to_geometry = geometry_path
 
   ##--------------------------------------------------------------------------##
   ## ---------------------------- GEOMETRY SETUP ---------------------------- ##
@@ -90,48 +92,35 @@ def runSimulation( threads, histories, time ):
 
 
   # Set geometry path and type
-  geometry_type = "DagMC" #(ROOT or DAGMC)
-
-  # Set geometry model properties
-  if geometry_type == "DagMC":
-    model_properties = DagMC.DagMCModelProperties( path_to_geometry )
-    model_properties.useFastIdLookup()
-    # model_properties.setMaterialPropertyName( "mat" )
-    # model_properties.setDensityPropertyName( "rho" )
-    # model_properties.setTerminationCellPropertyName( "graveyard" )
-    # model_properties.setEstimatorPropertyName( "tally" )
-  else:
-    print "ERROR: geometry type ", geometry_type, " not supported!"
+  model_properties = DagMC.DagMCModelProperties( geometry_path )
+  model_properties.useFastIdLookup()
 
   # Construct model
   geom_model = DagMC.DagMCModel( model_properties )
 
   ##--------------------------------------------------------------------------##
-  ## -------------------------- EVENT HANDLER SETUP -------------------------- ##
+  ## -------------------------- EVENT HANDLER SETUP ------------------------- ##
   ##--------------------------------------------------------------------------##
 
   # Set event handler
   event_handler = Event.EventHandler( properties )
 
-  ## -------------------- Energy Deposition Calorimeter -------------------- ##
+  ## -------------------- Energy Deposition Calorimeter --------------------- ##
 
   # Setup a cell pulse height estimator
   estimator_id = 1
   cell_ids = [2]
   energy_deposition_estimator = Event.WeightAndEnergyMultipliedCellPulseHeightEstimator( estimator_id, 1.0, cell_ids )
 
-  # Set the particle type
-  energy_deposition_estimator.setParticleTypes( [MonteCarlo.ELECTRON] )
-
   # Add the estimator to the event handler
   event_handler.addEstimator( energy_deposition_estimator )
 
   ##--------------------------------------------------------------------------##
-  ## ----------------------- SIMULATION MANAGER SETUP ------------------------ ##
+  ## ----------------------- SIMULATION MANAGER SETUP ----------------------- ##
   ##--------------------------------------------------------------------------##
 
   # Initialized database
-  database = Data.ScatteringCenterPropertiesDatabase(path_to_database)
+  database = Data.ScatteringCenterPropertiesDatabase(database_path)
   scattering_center_definition_database = Collision.ScatteringCenterDefinitionDatabase()
 
   # Set element properties
@@ -150,11 +139,8 @@ def runSimulation( threads, histories, time ):
   material_definition_database = Collision.MaterialDefinitionDatabase()
   material_definition_database.addDefinition( element, 1, (element,), (1.0,) )
 
-  # Get the material ids
-  material_ids = geom_model.getMaterialIds()
-
   # Fill model
-  model = Collision.FilledGeometryModel( path_to_database, scattering_center_definition_database, material_definition_database, properties, geom_model, True )
+  model = Collision.FilledGeometryModel( database_path, scattering_center_definition_database, material_definition_database, properties, geom_model, True )
 
   # Set particle distribution
   particle_distribution = ActiveRegion.StandardParticleDistribution( "source distribution" )
@@ -181,6 +167,9 @@ def runSimulation( threads, histories, time ):
   # Set the archive type
   archive_type = "xml"
 
+  # Set the simulation name and title
+  name, title = setSimulationName( properties )
+
   factory = Manager.ParticleSimulationManagerFactory( model,
                                                       source,
                                                       event_handler,
@@ -201,10 +190,12 @@ def runSimulation( threads, histories, time ):
     print "Processing the results:"
     processData( energy_deposition_estimator, name, title, test_range, calorimeter_thickness )
 
-    print "Results will be in ", os.path.dirname(name)
+    print "Results will be in ", path.dirname(name)
 
-# Restart the simulation
-def restartSimulation( threads, histories, time, rendezvous ):
+##----------------------------------------------------------------------------##
+## --------------------- Run Simulation From Rendezvous --------------------- ##
+##----------------------------------------------------------------------------##
+def runSimulationFromRendezvous( threads, histories, time, rendezvous ):
 
   ##--------------------------------------------------------------------------##
   ## ------------------------------ MPI Session ----------------------------- ##
@@ -212,6 +203,9 @@ def restartSimulation( threads, histories, time, rendezvous ):
   session = MPI.GlobalMPISession( len(sys.argv), sys.argv )
   Utility.removeAllLogs()
   session.initializeLogs( 0, True )
+
+  if session.rank() == 0:
+    print "The PyFrensie path is set to: ", pyfrensie_path
 
   # Set the data path
   Collision.FilledGeometryModel.setDefaultDatabasePath( database_path )
@@ -236,13 +230,13 @@ def restartSimulation( threads, histories, time, rendezvous ):
     archive_name += components[1].split(".")[1]
 
     # print "Processing the results:"
-    # processData( archive_name, "native" )
+    # processData( archive_name )
 
-    # print "Results will be in ", os.path.dirname(archive_name)
+    # print "Results will be in ", path.dirname(archive_name)
 
-##---------------------------------------------------------------------------##
-## ------------------------- SIMULATION PROPERTIES ------------------------- ##
-##---------------------------------------------------------------------------##
+##----------------------------------------------------------------------------##
+## ------------------------- SIMULATION PROPERTIES -------------------------- ##
+##----------------------------------------------------------------------------##
 def setSimulationProperties( histories, time ):
 
   properties = setup.setSimulationProperties( histories, time, interpolation, grid_policy, mode, method )
@@ -267,22 +261,65 @@ def createResultsDirectory():
 
   directory = element + "/" + directory
 
-  if not os.path.exists(directory):
-    os.makedirs(directory)
+  if not path.exists(directory):
+    makedirs(directory)
 
   print directory
   return directory
 
-##---------------------------------------------------------------------------##
-## -------------------------- setSimulationName -----------------------------##
-##---------------------------------------------------------------------------##
+##----------------------------------------------------------------------------##
+## -------------------------- setSimulationName ------------------------------##
+##----------------------------------------------------------------------------##
 # Define a function for naming an electron simulation
-def setSimulationName( properties, file_type ):
+def setSimulationName( properties ):
   extension, title = setup.setSimulationNameExtention( properties, file_type )
-  name = "lockwood_" + str(test_number) + extension
+  name = "lockwood_" + element + "_" + str(test_number) + extension
   output = element + "/" + setup.getResultsDirectory(file_type, interpolation) + "/" + name
 
   return (output, title)
+
+##----------------------------------------------------------------------------##
+## -------------------------- getSimulationName ------------------------------##
+##----------------------------------------------------------------------------##
+# Define a function for naming an electron simulation
+def getSimulationName():
+
+  properties = setSimulationProperties( 1, 1.0 )
+
+  name, title = setSimulationName( properties )
+
+  return name
+
+##----------------------------------------------------------------------------##
+##----------------------- processDataFromRendezvous --------------------------##
+##----------------------------------------------------------------------------##
+
+# This function pulls pulse height estimator data outputs it to a separate file.
+def processDataFromRendezvous( rendezvous_file, range, calorimeter_thickness ):
+
+  Collision.FilledGeometryModel.setDefaultDatabasePath( database_path )
+
+  # Load data from file
+  manager = Manager.ParticleSimulationManagerFactory( rendezvous_file ).getManager()
+  event_handler = manager.getEventHandler()
+
+  # Get the estimator data
+  estimator_1 = event_handler.getEstimator( 1 )
+
+  # Get the simulation name and title
+  properties = manager.getSimulationProperties()
+
+  if "epr14" not in rendezvous_file:
+    file_type = Data.ElectroatomicDataProperties.Native_EPR_FILE
+  else:
+    file_type = Data.ElectroatomicDataProperties.ACE_EPR_FILE
+
+  filename, title = setSimulationName( properties )
+
+  print "Processing the results:"
+  processData( estimator_1, filename, title, range, calorimeter_thickness )
+
+  print "Results will be in ", path.dirname(filename)
 
 ##----------------------------------------------------------------------------##
 ##------------------------------- processData --------------------------------##

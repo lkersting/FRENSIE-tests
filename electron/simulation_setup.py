@@ -1,9 +1,23 @@
 #! /usr/bin/env python
-import os
+from os import path
 import sys
-import numpy
+import numpy as np
 import datetime
-import socket
+import getpass
+
+frensie_install=''
+# Set frensie install for the lkersting (always the same directory as frensie-tests)
+if getpass.getuser() == 'lkersting':
+  frensie_install = path.dirname(path.dirname(path.dirname(path.abspath(__file__))))
+  sys.path.insert(1, frensie_install + '/bin/')
+  sys.path.insert(1, frensie_install + '/lib/python2.7/site-packages/')
+
+# NOTE: If a specific version of FRENSIE is desired, the path below can be
+# uncommented and the desired path to the frensie/lib can be used.
+# frensie_install = path.dirname(path.dirname(path.dirname(path.abspath(__file__))))
+# sys.path.insert(1, frensie_install + '/bin/')
+# sys.path.insert(1, frensie_install + '/lib/python2.7/site-packages/')
+
 import PyFrensie.Data as Data
 import PyFrensie.Data.Native as Native
 import PyFrensie.Geometry.DagMC as DagMC
@@ -33,6 +47,10 @@ def setSimulationProperties( histories, time, interpolation, grid_policy, elasti
 
   # Set the number of histories
   properties.setNumberOfHistories( histories )
+
+  # Set the minimum number of rendezvous
+  if histories > 100:
+    properties.setMinNumberOfRendezvous( 10 )
 
   # Change time from minutes to seconds
   time_sec = time*60
@@ -112,6 +130,10 @@ def setAdjointSimulationProperties( histories, time, elastic_mode, elastic_sampl
   # Set the number of histories
   properties.setNumberOfHistories( histories )
 
+  # Set the minimum number of rendezvous
+  if histories > 100:
+    properties.setMinNumberOfRendezvous( 10 )
+
   # Change time from minutes to seconds
   time_sec = time*60
 
@@ -130,8 +152,8 @@ def setAdjointSimulationProperties( histories, time, elastic_mode, elastic_sampl
   # Set the max electron energy in MeV (Default is 20 MeV)
   properties.setMaxAdjointElectronEnergy( 20.0 )
 
-  # Set the electron evaluation tolerance (Default is 1e-8)
-  properties.setAdjointElectronEvaluationTolerance( 1e-8 )
+  # Set the electron evaluation tolerance (Default is 1e-6)
+  properties.setAdjointElectronEvaluationTolerance( 1e-6 )
 
   ## --- Adjoint Elastic Properties ---
 
@@ -164,25 +186,25 @@ def setSimulationNameExtention( properties, file_type ):
   title = ""
   if properties.getElectronTwoDInterpPolicy() == MonteCarlo.LOGLOGLOG_INTERPOLATION:
       interp = "loglog"
-      title = "Log-log"
+      title = "Log-Log"
   elif properties.getElectronTwoDInterpPolicy() == MonteCarlo.LINLINLIN_INTERPOLATION:
       interp = "linlin"
-      title = "Lin-lin"
+      title = "Lin-Lin"
   else:
       interp = "linlog"
-      title = "Lin-log"
+      title = "Lin-Log"
 
   # Set the sampling name
   sample_name=""
   if properties.getElectronTwoDGridPolicy() == MonteCarlo.UNIT_BASE_CORRELATED_GRID:
       sample_name = "unit_correlated"
-      title += " Unit-base Correlated"
+      title += " Unit Base Correlated"
   elif properties.getElectronTwoDGridPolicy() == MonteCarlo.CORRELATED_GRID:
       sample_name = "correlated"
       title += " Correlated"
   else:
       sample_name = "unit_base"
-      title += " Unit-base"
+      title += " Unit Base"
 
   # Set the name reaction and extention
   name_extention = ""
@@ -220,6 +242,48 @@ def setSimulationNameExtention( properties, file_type ):
     title = "FRENSIE-ACE"
   else:
     name = "_" + interp + "_" + sample_name + name_extention + name_reaction
+
+  return (name, title)
+
+##----------------------------------------------------------------------------##
+## ------------------ setAdjointSimulationNameExtention ----------------------##
+##----------------------------------------------------------------------------##
+# Define a function for naming an electron simulation
+def setAdjointSimulationNameExtention( properties ):
+
+  # Set the name reaction and extention
+  title = ""
+  name_extention = ""
+  name_reaction = ""
+  if properties.isAdjointElasticModeOn():
+    if properties.getAdjointElasticElectronDistributionMode() == MonteCarlo.COUPLED_DISTRIBUTION:
+      if properties.getAdjointCoupledElasticSamplingMode() == MonteCarlo.MODIFIED_TWO_D_UNION:
+        name_extention += "_m2d"
+        title += " M2D"
+      elif properties.getAdjointCoupledElasticSamplingMode() == MonteCarlo.TWO_D_UNION:
+        name_extention += "_2d"
+        title += " 2D"
+      else:
+        name_extention += "_1d"
+        title += " 1D"
+    elif properties.getAdjointElasticElectronDistributionMode() == MonteCarlo.DECOUPLED_DISTRIBUTION:
+      name_extention += "_decoupled"
+      title += " DE"
+    elif properties.getAdjointElasticElectronDistributionMode() == MonteCarlo.HYBRID_DISTRIBUTION:
+      name_extention += "_hybrid"
+      title += " HE"
+  else:
+    name_reaction = name_reaction + "_no_elastic"
+
+  if not properties.isAdjointBremsstrahlungModeOn():
+    name_reaction += "_no_brem"
+  if not properties.isAdjointElectroionizationModeOn():
+      name_reaction += "_no_ionization"
+  if not properties.isAdjointAtomicExcitationModeOn():
+      name_reaction += "_no_excitation"
+
+  date = str(datetime.datetime.today()).split()[0]
+  name = name_extention + name_reaction
 
   return (name, title)
 
@@ -305,8 +369,13 @@ def processTrackFluxEnergyBinData( estimator, est_id, filename, title ):
   header = "# Energy (MeV)\tTrack Flux (#/cm$^2$)\tError\t"+str(today)+"\n"
   out_file.write(header)
 
-  data = str(energy_bins) + '\t' + str(flux) + '\t' + str(rel_error)
-  out_file.write(data)
+  # Insert a zero flux for below the firest bin boundary
+  flux = np.insert( flux, 0, 0.0)
+  rel_error = np.insert( rel_error, 0, 0.0)
+
+  for i in range(0, len(flux)):
+    data = str(energy_bins[i]) + '\t' + str(flux[i]) + '\t' + str(rel_error[i]) + '\n'
+    out_file.write(data)
   out_file.close()
 
 ##----------------------------------------------------------------------------##
@@ -332,8 +401,13 @@ def processSurfaceFluxEnergyBinData( estimator, est_id, filename, title ):
   header = "# Energy (MeV)\tSurface Flux (#/cm$^2$)\tError\t"+str(today)+"\n"
   out_file.write(header)
 
-  data = str(energy_bins) + '\t' + str(flux) + '\t' + str(rel_error)
-  out_file.write(data)
+  # Insert a zero flux for below the firest bin boundary
+  flux = np.insert( flux, 0, 0.0)
+  rel_error = np.insert( rel_error, 0, 0.0)
+
+  for i in range(0, len(flux)):
+    data = str(energy_bins[i]) + '\t' + str(flux[i]) + '\t' + str(rel_error[i]) + '\n'
+    out_file.write(data)
   out_file.close()
 
 ##----------------------------------------------------------------------------##
@@ -359,8 +433,13 @@ def processSurfaceCurrentEnergyBinData( estimator, est_id, filename, title ):
   header = "# Energy (MeV)\tSurface Current (#)\tError\t"+str(today)+"\n"
   out_file.write(header)
 
-  data = str(energy_bins) + '\t' + str(current) + '\t' + str(rel_error)
-  out_file.write(data)
+  # Insert a zero current for below the firest bin boundary
+  current = np.insert( current, 0, 0.0)
+  rel_error = np.insert( rel_error, 0, 0.0)
+
+  for i in range(0, len(current)):
+    data = str(energy_bins[i]) + '\t' + str(current[i]) + '\t' + str(rel_error[i]) + '\n'
+    out_file.write(data)
   out_file.close()
 
 ##----------------------------------------------------------------------------##
@@ -386,8 +465,13 @@ def processSurfaceCurrentCosineBinData( estimator, est_id, filename, title ):
   header = "# Cosine \tSurface Current (#)\tError\t"+str(today)+"\n"
   out_file.write(header)
 
-  data = str(energy_bins) + '\t' + str(current) + '\t' + str(rel_error)
-  out_file.write(data)
+  # Insert a zero current for below the firest bin boundary
+  current= np.insert( current, 0, 0.0)
+  rel_error = np.insert( rel_error, 0, 0.0)
+
+  for i in range(0, len(current)):
+    data = str(cosine_bins[i]) + '\t' + str(current[i]) + '\t' + str(rel_error[i]) + '\n'
+    out_file.write(data)
   out_file.close()
 
 ##----------------------------------------------------------------------------##
@@ -403,7 +487,7 @@ def processTrackFluxSourceEnergyBinData( estimator, est_id, filename, title ):
   today = datetime.date.today()
 
   # Write the flux data to a file
-  name = filename+"_track_flux.txt"
+  name = filename+"_source_track_flux.txt"
   out_file = open(name, 'w')
 
   # Write title to file
@@ -413,8 +497,13 @@ def processTrackFluxSourceEnergyBinData( estimator, est_id, filename, title ):
   header = "# Source Energy (MeV)\tTrack Flux (#/cm$^2$)\tError\t"+str(today)+"\n"
   out_file.write(header)
 
-  data = str(energy_bins) + '\t' + str(flux) + '\t' + str(rel_error)
-  out_file.write(data)
+  # Insert a zero flux for below the firest bin boundary
+  flux = np.insert( flux, 0, 0.0)
+  rel_error = np.insert( rel_error, 0, 0.0)
+
+  for i in range(0, len(flux)):
+    data = str(energy_bins[i]) + '\t' + str(flux[i]) + '\t' + str(rel_error[i]) + '\n'
+    out_file.write(data)
   out_file.close()
 
 ##----------------------------------------------------------------------------##
@@ -430,7 +519,7 @@ def processSurfaceFluxSourceEnergyBinData( estimator, est_id, filename, title ):
   today = datetime.date.today()
 
   # Write the flux data to a file
-  name = filename+"_flux.txt"
+  name = filename+"_source_flux.txt"
   out_file = open(name, 'w')
 
   # Write title to file
@@ -440,8 +529,14 @@ def processSurfaceFluxSourceEnergyBinData( estimator, est_id, filename, title ):
   header = "# Source Energy (MeV)\tSurface Flux (#/cm$^2$)\tError\t"+str(today)+"\n"
   out_file.write(header)
 
-  data = str(energy_bins) + '\t' + str(flux) + '\t' + str(rel_error)
-  out_file.write(data)
+  # Insert a zero flux for below the firest bin boundary
+  flux = np.insert( flux, 0, 0.0)
+  rel_error = np.insert( rel_error, 0, 0.0)
+
+  # Write data to file
+  for i in range(0, len(flux)):
+    data = str(energy_bins[i]) + '\t' + str(flux[i]) + '\t' + str(rel_error[i]) + '\n'
+    out_file.write(data)
   out_file.close()
 
 ##----------------------------------------------------------------------------##
@@ -457,7 +552,7 @@ def processSurfaceCurrentSourceEnergyBinData( estimator, est_id, filename, title
   today = datetime.date.today()
 
   # Write the current data to a file
-  name = filename+"_current.txt"
+  name = filename+"_source_current.txt"
   out_file = open(name, 'w')
 
   # Write title to file
@@ -467,6 +562,11 @@ def processSurfaceCurrentSourceEnergyBinData( estimator, est_id, filename, title
   header = "# Source Energy (MeV)\tSurface Current (#)\tError\t"+str(today)+"\n"
   out_file.write(header)
 
-  data = str(energy_bins) + '\t' + str(current) + '\t' + str(rel_error)
-  out_file.write(data)
+  # Insert a zero current for below the firest bin boundary
+  current = np.insert( current, 0, 0.0)
+  rel_error = np.insert( rel_error, 0, 0.0)
+
+  for i in range(0, len(current)):
+    data = str(energy_bins[i]) + '\t' + str(current[i]) + '\t' + str(rel_error[i]) + '\n'
+    out_file.write(data)
   out_file.close()
