@@ -26,6 +26,7 @@
 *.inpr
 *.inpm
 *.pyc
+*.tar.gz
 runtp*
 mcta*
 dyson_sphere_mcnp.o
