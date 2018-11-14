@@ -29,7 +29,6 @@
 *.tar.gz
 runtp*
 mcta*
-dyson_sphere_mcnp.o
 dyson_sphere.h5m
 infinite_medium.h5m
 results/
