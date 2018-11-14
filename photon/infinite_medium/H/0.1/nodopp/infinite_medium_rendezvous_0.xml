@@ -6,7 +6,7 @@
 	<d_archive_type>xml</d_archive_type>
 	<d_model class_id="1" tracking_level="0" version="1">
 		<px class_id="2" tracking_level="1" version="0" object_id="_0">
-			<raw_path>/home/alexr/Software/mcnpdata</raw_path>
+			<raw_path>/home/lkersting/software/mcnp6.2/MCNP_DATA</raw_path>
 			<d_scattering_center_definitions class_id="3" tracking_level="0" version="1">
 				<px class_id="4" tracking_level="1" version="0" object_id="_1">
 					<d_scattering_center_definitions class_id="5" tracking_level="0" version="0">
@@ -107,7 +107,7 @@
 				<px class_id="38" tracking_level="1" version="0" object_id="_6">
 					<SimulationGeneralProperties class_id="39" tracking_level="1" version="0" object_id="_7">
 						<d_particle_mode>1</d_particle_mode>
-						<d_number_of_histories>1000000</d_number_of_histories>
+						<d_number_of_histories>100000000</d_number_of_histories>
 						<d_min_number_of_rendezvous>10</d_min_number_of_rendezvous>
 						<d_max_rendezvous_batch_size>1000000000</d_max_rendezvous_batch_size>
 						<d_min_number_of_batches_per_rendezvous>1</d_min_number_of_batches_per_rendezvous>
@@ -652,7 +652,7 @@
 					<BaseType class_id="109" tracking_level="0" version="0">
 						<d_dispatcher_map class_id="110" tracking_level="0" version="0">
 							<count>5</count>
-							<bucket_count>7</bucket_count>
+							<bucket_count>11</bucket_count>
 							<item_version>0</item_version>
 							<item class_id="111" tracking_level="0" version="0">
 								<first>12</first>
@@ -3749,7 +3749,7 @@
 																			</d_estimator_total_bin_data>
 																			<d_entity_estimator_moments_map class_id="149" tracking_level="0" version="0">
 																				<count>5</count>
-																				<bucket_count>7</bucket_count>
+																				<bucket_count>11</bucket_count>
 																				<item_version>0</item_version>
 																				<item class_id="150" tracking_level="0" version="0">
 																					<first>12</first>
@@ -5766,7 +5766,7 @@
 																					</second>
 																				</item>
 																				<item>
-																					<first>9</first>
+																					<first>1</first>
 																					<second>
 																						<BaseType>
 																							<BaseType></BaseType>
@@ -9794,7 +9794,7 @@
 																					</second>
 																				</item>
 																				<item>
-																					<first>1</first>
+																					<first>3</first>
 																					<second>
 																						<BaseType>
 																							<BaseType></BaseType>
@@ -11808,7 +11808,7 @@
 																					</second>
 																				</item>
 																				<item>
-																					<first>3</first>
+																					<first>9</first>
 																					<second>
 																						<BaseType>
 																							<BaseType></BaseType>
@@ -13824,18 +13824,10 @@
 																			</d_entity_estimator_moments_map>
 																			<d_entity_norm_constants_map class_id="151" tracking_level="0" version="0">
 																				<count>5</count>
-																				<bucket_count>7</bucket_count>
+																				<bucket_count>11</bucket_count>
 																				<item_version>0</item_version>
 																				<item class_id="152" tracking_level="0" version="0">
 																					<first>12</first>
-																					<second>1.00000000000000000e+00</second>
-																				</item>
-																				<item>
-																					<first>9</first>
-																					<second>1.00000000000000000e+00</second>
-																				</item>
-																				<item>
-																					<first>6</first>
 																					<second>1.00000000000000000e+00</second>
 																				</item>
 																				<item>
@@ -13843,7 +13835,15 @@
 																					<second>1.00000000000000000e+00</second>
 																				</item>
 																				<item>
+																					<first>6</first>
+																					<second>1.00000000000000000e+00</second>
+																				</item>
+																				<item>
 																					<first>3</first>
+																					<second>1.00000000000000000e+00</second>
+																				</item>
+																				<item>
+																					<first>9</first>
 																					<second>1.00000000000000000e+00</second>
 																				</item>
 																			</d_entity_norm_constants_map>
@@ -13879,7 +13879,7 @@
 																		</d_total_estimator_moments>
 																		<d_entity_total_estimator_moments_map class_id="155" tracking_level="0" version="0">
 																			<count>5</count>
-																			<bucket_count>7</bucket_count>
+																			<bucket_count>11</bucket_count>
 																			<item_version>0</item_version>
 																			<item class_id="156" tracking_level="0" version="0">
 																				<first>12</first>
@@ -13914,7 +13914,7 @@
 																				</second>
 																			</item>
 																			<item>
-																				<first>9</first>
+																				<first>1</first>
 																				<second>
 																					<BaseType>
 																						<BaseType>
@@ -13978,7 +13978,7 @@
 																				</second>
 																			</item>
 																			<item>
-																				<first>1</first>
+																				<first>3</first>
 																				<second>
 																					<BaseType>
 																						<BaseType>
@@ -14010,7 +14010,7 @@
 																				</second>
 																			</item>
 																			<item>
-																				<first>3</first>
+																				<first>9</first>
 																				<second>
 																					<BaseType>
 																						<BaseType>
@@ -17128,10 +17128,10 @@
 																			</d_estimator_total_bin_data>
 																			<d_entity_estimator_moments_map>
 																				<count>5</count>
-																				<bucket_count>7</bucket_count>
+																				<bucket_count>11</bucket_count>
 																				<item_version>0</item_version>
 																				<item>
-																					<first>3</first>
+																					<first>9</first>
 																					<second>
 																						<BaseType>
 																							<BaseType></BaseType>
@@ -19145,7 +19145,7 @@
 																					</second>
 																				</item>
 																				<item>
-																					<first>1</first>
+																					<first>12</first>
 																					<second>
 																						<BaseType>
 																							<BaseType></BaseType>
@@ -21159,7 +21159,7 @@
 																					</second>
 																				</item>
 																				<item>
-																					<first>6</first>
+																					<first>1</first>
 																					<second>
 																						<BaseType>
 																							<BaseType></BaseType>
@@ -23173,7 +23173,7 @@
 																					</second>
 																				</item>
 																				<item>
-																					<first>12</first>
+																					<first>6</first>
 																					<second>
 																						<BaseType>
 																							<BaseType></BaseType>
@@ -25187,7 +25187,7 @@
 																					</second>
 																				</item>
 																				<item>
-																					<first>9</first>
+																					<first>3</first>
 																					<second>
 																						<BaseType>
 																							<BaseType></BaseType>
@@ -27203,27 +27203,27 @@
 																			</d_entity_estimator_moments_map>
 																			<d_entity_norm_constants_map>
 																				<count>5</count>
-																				<bucket_count>7</bucket_count>
+																				<bucket_count>11</bucket_count>
 																				<item_version>0</item_version>
 																				<item>
 																					<first>12</first>
 																					<second>3.14158742024322455e+04</second>
 																				</item>
 																				<item>
-																					<first>9</first>
-																					<second>2.01061511301699611e+04</second>
+																					<first>1</first>
+																					<second>1.25662660088903317e+03</second>
 																				</item>
 																				<item>
 																					<first>6</first>
 																					<second>1.13097021745529619e+04</second>
 																				</item>
 																				<item>
-																					<first>1</first>
-																					<second>1.25662660088903317e+03</second>
-																				</item>
-																				<item>
 																					<first>3</first>
 																					<second>5.02652732526228829e+03</second>
+																				</item>
+																				<item>
+																					<first>9</first>
+																					<second>2.01061511301699611e+04</second>
 																				</item>
 																			</d_entity_norm_constants_map>
 																		</EntityEstimator>
@@ -27258,10 +27258,10 @@
 																		</d_total_estimator_moments>
 																		<d_entity_total_estimator_moments_map>
 																			<count>5</count>
-																			<bucket_count>7</bucket_count>
+																			<bucket_count>11</bucket_count>
 																			<item_version>0</item_version>
 																			<item>
-																				<first>3</first>
+																				<first>9</first>
 																				<second>
 																					<BaseType>
 																						<BaseType>
@@ -27293,7 +27293,7 @@
 																				</second>
 																			</item>
 																			<item>
-																				<first>1</first>
+																				<first>12</first>
 																				<second>
 																					<BaseType>
 																						<BaseType>
@@ -27325,7 +27325,7 @@
 																				</second>
 																			</item>
 																			<item>
-																				<first>6</first>
+																				<first>1</first>
 																				<second>
 																					<BaseType>
 																						<BaseType>
@@ -27357,7 +27357,7 @@
 																				</second>
 																			</item>
 																			<item>
-																				<first>12</first>
+																				<first>6</first>
 																				<second>
 																					<BaseType>
 																						<BaseType>
@@ -27389,7 +27389,7 @@
 																				</second>
 																			</item>
 																			<item>
-																				<first>9</first>
+																				<first>3</first>
 																				<second>
 																					<BaseType>
 																						<BaseType>
@@ -27435,11 +27435,11 @@
 								</second>
 							</item>
 							<item>
-								<first>9</first>
+								<first>1</first>
 								<second>
 									<tx class_id_reference="113" object_id="_132">
 										<BaseType>
-											<d_entity_id>9</d_entity_id>
+											<d_entity_id>1</d_entity_id>
 											<d_observer_sets>
 												<count>1</count>
 												<item_version>0</item_version>
@@ -27489,11 +27489,11 @@
 								</second>
 							</item>
 							<item>
-								<first>1</first>
+								<first>3</first>
 								<second>
 									<tx class_id_reference="113" object_id="_134">
 										<BaseType>
-											<d_entity_id>1</d_entity_id>
+											<d_entity_id>3</d_entity_id>
 											<d_observer_sets>
 												<count>1</count>
 												<item_version>0</item_version>
@@ -27516,11 +27516,11 @@
 								</second>
 							</item>
 							<item>
-								<first>3</first>
+								<first>9</first>
 								<second>
 									<tx class_id_reference="113" object_id="_135">
 										<BaseType>
-											<d_entity_id>3</d_entity_id>
+											<d_entity_id>9</d_entity_id>
 											<d_observer_sets>
 												<count>1</count>
 												<item_version>0</item_version>
@@ -27605,14 +27605,14 @@
 						<ParticleHistoryObserver></ParticleHistoryObserver>
 					</ParticleHistorySimulationCompletionCriterion>
 					<num_completed_histories>0</num_completed_histories>
-					<d_history_wall>1000000</d_history_wall>
+					<d_history_wall>100000000</d_history_wall>
 				</px>
 			</d_simulation_completion_criterion>
 			<number_of_committed_histories>0</number_of_committed_histories>
 			<elapsed_time>0.00000000000000000e+00</elapsed_time>
 			<d_estimators class_id="182" tracking_level="0" version="0">
 				<count>2</count>
-				<bucket_count>3</bucket_count>
+				<bucket_count>5</bucket_count>
 				<item_version>0</item_version>
 				<item class_id="183" tracking_level="0" version="0">
 					<first>2</first>
