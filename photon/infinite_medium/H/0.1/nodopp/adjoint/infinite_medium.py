@@ -1,8 +1,8 @@
 #!/usr/bin/python
 import sys, os
 from optparse import *
-sys.path.append(os.path.join(os.path.dirname(__file__), '../..'))
-from infinite_medium_simulation import runInfiniteMediumSimulation
+sys.path.append(os.path.join(os.path.dirname(__file__), '../../..'))
+from infinite_medium_simulation import runAdjointInfiniteMediumSimulation
 import PyFrensie.Utility as Utility
 import PyFrensie.MonteCarlo as MonteCarlo
 
@@ -27,13 +27,15 @@ if __name__ == "__main__":
         sys.exit(1)
 
     # Run the simulation
-    runInfiniteMediumSimulation( options.sim_name,
-                                 options.db_path,
-                                 options.num_particles,
-                                 MonteCarlo.WH_INCOHERENT_MODEL,
-                                 0.1,
-                                 Utility.doubleArrayFromString( "{1e-3, 988i, 0.0999, 9i, 0.1}" ),
-                                 options.threads,
-                                 options.log_file )
+    runAdjointInfiniteMediumSimulation( options.sim_name,
+                                        options.db_path,
+                                        "../../../infinite_medium.h5m",
+                                        options.num_particles,
+                                        MonteCarlo.WH_INCOHERENT_ADJOINT_MODEL,
+                                        1e-3,
+                                        0.1,
+                                        Utility.doubleArrayFromString( "{1e-3, 988i, 0.0999, 9i, 0.1}" ),
+                                        options.threads,
+                                        options.log_file )
     
     

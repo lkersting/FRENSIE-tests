@@ -79,7 +79,7 @@ def plotDysonSphereSimulationSpectrum( rendezvous_file,
     for i in range(0,len(entity_bin_data["e_bins"])-1):
         print entity_bin_data["e_bins"][i+1], entity_bin_data["mean"][i], entity_bin_data["re"][i], " ", mcnp_bin_data["e_up"][i], mcnp_bin_data["mean"][i], mcnp_bin_data["re"][i]
 
-    output_file_name = "h_broomstick_"
+    output_file_name = "h_dyson_sphere_"
     output_file_names = []
 
     if is_a_current:
