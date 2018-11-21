@@ -1,8 +1,8 @@
 #!/usr/bin/python
 import sys, os
 from optparse import *
-sys.path.append(os.path.join(os.path.dirname(__file__), '../..'))
-from broomstick_simulation_plot import plotBroomstickSimulationSpectrum
+sys.path.append(os.path.join(os.path.dirname(__file__), '../../..'))
+from infinite_medium_simulation_plot import plotInfiniteMediumSimulationSpectrum
 
 if __name__ == "__main__":
 
@@ -36,16 +36,16 @@ if __name__ == "__main__":
         legend_pos = (1.02,1.03)
         
     # Plot the spectrum
-    plotBroomstickSimulationSpectrum( options.rendezvous_file,
-                                      options.estimator_id,
-                                      options.entity_id,
-                                      options.mcnp_file,
-                                      options.mcnp_file_start,
-                                      options.mcnp_file_end,
-                                      options.is_a_current,
-                                      top_ylims = top_ylims,
-                                      bottom_ylims = bottom_ylims,
-                                      xlims = [0.07, 0.1],
-                                      legend_pos = legend_pos )
+    plotInfiniteMediumSimulationSpectrum( options.rendezvous_file,
+                                          options.estimator_id,
+                                          options.entity_id,
+                                          options.mcnp_file,
+                                          options.mcnp_file_start,
+                                          options.mcnp_file_end,
+                                          options.is_a_current,
+                                          top_ylims = top_ylims,
+                                          bottom_ylims = bottom_ylims,
+                                          xlims = [0.07, 0.1],
+                                          legend_pos = legend_pos )
 
     

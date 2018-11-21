@@ -11,17 +11,17 @@ import PyFrensie.MonteCarlo.Event as Event
 import PyFrensie.MonteCarlo.Manager as Manager
 from spectrum_plot_tools import plotSpectralDataWithErrors
 
-def plotBroomstickSimulationSpectrum( rendezvous_file,
-                                      estimator_id,
-                                      entity_id,
-                                      mcnp_file,
-                                      mcnp_file_start,
-                                      mcnp_file_end,
-                                      is_a_current,
-                                      top_ylims = None,
-                                      bottom_ylims = None,
-                                      xlims = None,
-                                      legend_pos = None ):
+def plotInfiniteMediumSimulationSpectrum( rendezvous_file,
+                                          estimator_id,
+                                          entity_id,
+                                          mcnp_file,
+                                          mcnp_file_start,
+                                          mcnp_file_end,
+                                          is_a_current,
+                                          top_ylims = None,
+                                          bottom_ylims = None,
+                                          xlims = None,
+                                          legend_pos = None ):
 
     # Set the database path
     Collision.FilledGeometryModel.setDefaultDatabasePath( os.environ['DATABASE_PATH'] )

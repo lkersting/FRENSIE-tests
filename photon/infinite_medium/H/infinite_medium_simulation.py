@@ -230,6 +230,8 @@ def runAdjointInfiniteMediumSimulation( sim_name,
     surface_flux_estimator.setResponseFunctions( [response] )
     surface_flux_estimator.setParticleTypes( [MonteCarlo.ADJOINT_PHOTON] )
 
+    event_handler.addEstimator( surface_flux_estimator )
+
     ## Set up the simulation manager
     factory = Manager.ParticleSimulationManagerFactory( filled_model,
                                                         source,
