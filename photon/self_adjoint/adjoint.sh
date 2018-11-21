@@ -15,13 +15,13 @@
 EXTRA_ARGS=$@
 
 # Set the number of histories
-HISTORIES=100000
+HISTORIES=10000000
 # Set the max runtime (in minutes, 1 day = 1440 )
 TIME=1350
 
 # These parameters can be set if the cluster is not used
-SLURM_CPUS_PER_TASK=4
-SLURM_NTASKS=1
+# SLURM_CPUS_PER_TASK=4
+# SLURM_NTASKS=1
 
 # Run from the rendezvous
 if [ "$#" -eq 1 ]; then
@@ -31,6 +31,8 @@ if [ "$#" -eq 1 ]; then
   # Restart the simulation
   echo "Restarting Facemc Self Adjoint test for ${HISTORIES} particles with ${SLURM_NTASKS} MPI processes with ${SLURM_CPUS_PER_TASK} OpenMP threads each!"
   mpiexec -n ${SLURM_NTASKS} python -c "import adjoint; adjoint.runSimulationFromRendezvous(${SLURM_CPUS_PER_TASK}, ${HISTORIES}, ${TIME}, \"${RENDEZVOUS}\" )"
+
+  directory="$(dirname "${RENDEZVOUS}")/"
 
 # Run new simulation
 else

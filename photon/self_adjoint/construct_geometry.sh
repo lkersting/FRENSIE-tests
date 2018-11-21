@@ -22,9 +22,10 @@ if [ ${energy} = "0.1" ]; then
   tol="1e-3"
 elif [ ${energy} = "0.01" ]; then
   echo "Constructing geometry for source energy 0.01 MeV!"
-  radius="100.0"
-  length1="250.5"
-  length2="300.0"
+  radius="200.0"
+  length1="2000.0"
+  length2="2010.0"
+  length3="2020.0"
   name="geom_10keV.h5m"
   tol="1e-3"
 elif [ ${energy} = "0.001" ]; then
@@ -33,7 +34,7 @@ elif [ ${energy} = "0.001" ]; then
   length1="0.05"
   length2="0.1"
   name="geom_1keV.h5m"
-  tol="1e-3"
+  tol="1e-2"
 else
   echo "The desired energy ${energy} is currently not supported!"
   exit 1
@@ -45,7 +46,8 @@ echo "sphere r ${radius}" >> temp_file
 # Create termination cell
 echo "brick x ${length1} y ${length1} z ${length1}" >> temp_file
 echo "brick x ${length2} y ${length2} z ${length2}" >> temp_file
-echo "subtract volume 2 from volume 3" >> temp_file
+echo "brick x ${length3} y ${length3} z ${length3}" >> temp_file
+echo "subtract volume 3 from volume 4" >> temp_file
 
 # Imprint and merge
 echo "imprint body all" >> temp_file
@@ -53,8 +55,8 @@ echo "merge tol 5e-7" >> temp_file
 echo "merge all" >> temp_file
 
 # Set groups
-echo "group 'termination.cell' add vol 4" >> temp_file
-echo "group 'material_1_density_-0.07' add vol 1" >> temp_file
+echo "group 'termination.cell' add vol 5" >> temp_file
+echo "group 'material_1_density_-0.0763' add vol 1 2" >> temp_file
 echo "group 'estimator_1.surface.flux.p' add surface 1" >> temp_file
 echo "group 'estimator_2.surface.flux.p*' add surface 1" >> temp_file
 

@@ -116,9 +116,6 @@ def runSimulation( threads, histories, time ):
   cell_ids = range(1,number_of_subzones+1)
   charge_deposition_estimator = Event.WeightAndChargeMultipliedCellPulseHeightEstimator( estimator_id, 1.0, cell_ids )
 
-  # Set the particle type
-  charge_deposition_estimator.setParticleTypes( [MonteCarlo.ELECTRON] )
-
   # Add the estimator to the event handler
   event_handler.addEstimator( charge_deposition_estimator )
 
@@ -351,12 +348,12 @@ def processData( estimator, filename, title, subzone_op ):
 
   for i in range(0,len(ids)):
     processed_data = estimator.getEntityBinProcessedData( ids[i] )
-    energy_dep_mev = processed_data['mean']
+    charge_dep = processed_data['mean']
     rel_error = processed_data['re']
 
     depth = subzone_op*(i+1)
 
     # Write the energy deposition to the file
-    data = str(depth) + '\t' + str(energy_dep_mev[0]/subzone_op) + '\t' + str(rel_error[0]/subzone_op) + '\n'
+    data = str(depth) + '\t' + str(charge_dep[0]/subzone_op) + '\t' + str(rel_error[0]/subzone_op) + '\n'
     out_file.write(data)
   out_file.close()

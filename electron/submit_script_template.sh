@@ -32,6 +32,8 @@ if [ "$#" -eq 1 ]; then
   echo "Restarting Facemc ${TEST_NAME} test for ${HISTORIES} particles with ${SLURM_NTASKS} MPI processes with ${SLURM_CPUS_PER_TASK} OpenMP threads each!"
   mpiexec -n ${SLURM_NTASKS} python -c "import ${TEST_NAME}; ${TEST_NAME}.runSimulationFromRendezvous(${SLURM_CPUS_PER_TASK}, ${HISTORIES}, ${TIME}, \"${RENDEZVOUS}\" )"
 
+  directory="$(dirname "${RENDEZVOUS}")/"
+
 # Run new simulation
 else
 

@@ -9,7 +9,8 @@
 delete=""
 while getopts "d" opt; do
   case $opt in
-    a)
+    d)
+      echo "Results will be deleted from the cluster."
       delete="true"
       ;;
     \?)
@@ -22,91 +23,91 @@ done
 # INSTALL="/home/lkersting/frensie0.4_debug/tests/electron"
 INSTALL="/home/lkersting/frensie0.4_release/tests/electron"
 
-# Get albedo results
-cd ./albedo
-echo -e "\nGet Albedo results:"
-  echo -e "\n  Get Al results:"
-  cd ./Al/results
-    # Copy results to this location
-    scp -r aci2:/home/lkersting/frensie0.4_release/tests/electron/albedo/Al/results/* ./
+# # Get albedo results
+# cd ./albedo
+# echo -e "\nGet Albedo results:"
+#   echo -e "\n  Get Al results:"
+#   cd ./Al/results
+#     # Copy results to this location
+#     scp -r aci2:/home/lkersting/frensie0.4_release/tests/electron/albedo/Al/results/* ./
 
-    # Erase files from cluster
-    if [ "$delete" = "true" ]; then
-      ssh aci2 "rm -rf ${INSTALL}/albedo/Al/results/*"
-    fi
-  cd ../../
-cd ../
+#     # Erase files from cluster
+#     if [ "$delete" = "true" ]; then
+#       ssh aci2 "rm -rf ${INSTALL}/albedo/Al/results/*"
+#     fi
+#   cd ../../
+# cd ../
 
-# Get hanson results
-cd ./hanson/results
-echo -e "\nGet hanson results:"
-  # Copy results to this location
-  scp -r aci2:${INSTALL}/hanson/results/* ./
+# # Get hanson results
+# cd ./hanson/results
+# echo -e "\nGet hanson results:"
+#   # Copy results to this location
+#   scp -r aci2:${INSTALL}/hanson/results/* ./
 
-  # Erase files from cluster
-  if [ "$delete" = "true" ]; then
-    ssh aci2 "rm -rf ${INSTALL}/hanson/results/*"
-  fi
-cd ../../
+#   # Erase files from cluster
+#   if [ "$delete" = "true" ]; then
+#     ssh aci2 "rm -rf ${INSTALL}/hanson/results/*"
+#   fi
+# cd ../../
 
-# Get lockwood results
-cd ./lockwood
-echo -e "\nGet lockwood results:"
-  cd ./Al/results
-  echo -e "\n  Get Al results:"
-    # Copy results to this location
-    scp -r aci2:${INSTALL}/lockwood/Al/results/* ./
+# # Get lockwood results
+# cd ./lockwood
+# echo -e "\nGet lockwood results:"
+#   cd ./Al/results
+#   echo -e "\n  Get Al results:"
+#     # Copy results to this location
+#     scp -r aci2:${INSTALL}/lockwood/Al/results/* ./
 
-    # Erase files from cluster
-    if [ "$delete" = "true" ]; then
-      ssh aci2 "rm -rf ${INSTALL}/lockwood/Al/results/*"
-    fi
-  cd ../../
-cd ../
+#     # Erase files from cluster
+#     if [ "$delete" = "true" ]; then
+#       ssh aci2 "rm -rf ${INSTALL}/lockwood/Al/results/*"
+#     fi
+#   cd ../../
+# cd ../
 
-# Get McLaughlin results
-cd ./McLaughlin
-echo -e "\nGet McLaughlin results:"
-  # Get Al results
-  cd ./Al/results
-  echo -e "\n  Get Al results:"
-    # Copy results to this location
-    scp -r aci2:${INSTALL}/McLaughlin/Al/results/* ./
+# # Get McLaughlin results
+# cd ./McLaughlin
+# echo -e "\nGet McLaughlin results:"
+#   # Get Al results
+#   cd ./Al/results
+#   echo -e "\n  Get Al results:"
+#     # Copy results to this location
+#     scp -r aci2:${INSTALL}/McLaughlin/Al/results/* ./
 
-    # Erase files from cluster
-    if [ "$delete" = "true" ]; then
-      ssh aci2 "rm -rf ${INSTALL}/McLaughlin/Al/results/*"
-    fi
-  cd ../../
+#     # Erase files from cluster
+#     if [ "$delete" = "true" ]; then
+#       ssh aci2 "rm -rf ${INSTALL}/McLaughlin/Al/results/*"
+#     fi
+#   cd ../../
 
-  # Get polyethylene results
-  cd ./polyethylene/results
-  echo -e "\n  Get polyethylene results:"
-    # Copy results to this location
-    scp -r aci2:${INSTALL}/McLaughlin/polyethylene/results/* ./
+#   # Get polyethylene results
+#   cd ./polyethylene/results
+#   echo -e "\n  Get polyethylene results:"
+#     # Copy results to this location
+#     scp -r aci2:${INSTALL}/McLaughlin/polyethylene/results/* ./
 
-    # Erase files from cluster
-    if [ "$delete" = "true" ]; then
-      ssh aci2 "rm -rf ${INSTALL}/McLaughlin/polyethylene/results/*"
-    fi
-  cd ../../
+#     # Erase files from cluster
+#     if [ "$delete" = "true" ]; then
+#       ssh aci2 "rm -rf ${INSTALL}/McLaughlin/polyethylene/results/*"
+#     fi
+#   cd ../../
 
-  # Get polystyrene results
-  cd ./polystyrene/results
-  echo -e "\n  Get polystyrene results:"
-    # Copy results to this location
-    scp -r aci2:${INSTALL}/McLaughlin/polystyrene/results/* ./
+#   # Get polystyrene results
+#   cd ./polystyrene/results
+#   echo -e "\n  Get polystyrene results:"
+#     # Copy results to this location
+#     scp -r aci2:${INSTALL}/McLaughlin/polystyrene/results/* ./
 
-    # Erase files from cluster
-    if [ "$delete" = "true" ]; then
-      ssh aci2 "rm -rf ${INSTALL}/McLaughlin/polystyrene/results/*"
-    fi
-  cd ../../
-cd ../
+#     # Erase files from cluster
+#     if [ "$delete" = "true" ]; then
+#       ssh aci2 "rm -rf ${INSTALL}/McLaughlin/polystyrene/results/*"
+#     fi
+#   cd ../../
+# cd ../
 
-# Get self_adjoint results
+# Get self-adjoint results
 cd ./self_adjoint/results
-echo -e "\nGet self_adjoint results:"
+echo -e "\nGet self-adjoint results:"
   # Copy results to this location
   scp -r aci2:${INSTALL}/self_adjoint/results/* ./
 
@@ -116,29 +117,41 @@ echo -e "\nGet self_adjoint results:"
   fi
 cd ../../
 
-# Get example results
-cd ./example/results
-echo -e "\nGet example results:"
+# Get low density self-adjoint results
+cd ./self_adjoint/low_density/results
+echo -e "\nGet low density self-adjoint results:"
   # Copy results to this location
-  scp -r aci2:${INSTALL}/example/results/* ./
+  scp -r aci2:${INSTALL}/self_adjoint/low_density/results/* ./
 
   # Erase files from cluster
   if [ "$delete" = "true" ]; then
-    ssh aci2 "rm -rf ${INSTALL}/example/results/*"
+    ssh aci2 "rm -rf ${INSTALL}/self_adjoint/low_density/results/*"
   fi
-cd ../../
+cd ../../../
 
-# Get h_sphere results
-cd ./h_spheres/results
-echo -e "\nGet h_sphere results:"
-  # Copy results to this location
-  scp -r aci2:${INSTALL}/h_sphere/results/* ./
+# # Get example results
+# cd ./example/results
+# echo -e "\nGet example results:"
+#   # Copy results to this location
+#   scp -r aci2:${INSTALL}/example/results/* ./
 
-  # Erase files from cluster
-  if [ "$delete" = "true" ]; then
-    ssh aci2 "rm -rf ${INSTALL}/h_sphere/results/*"
-  fi
-cd ../../
+#   # Erase files from cluster
+#   if [ "$delete" = "true" ]; then
+#     ssh aci2 "rm -rf ${INSTALL}/example/results/*"
+#   fi
+# cd ../../
+
+# # Get h_sphere results
+# cd ./h_spheres/results
+# echo -e "\nGet h_sphere results:"
+#   # Copy results to this location
+#   scp -r aci2:${INSTALL}/h_sphere/results/* ./
+
+#   # Erase files from cluster
+#   if [ "$delete" = "true" ]; then
+#     ssh aci2 "rm -rf ${INSTALL}/h_sphere/results/*"
+#   fi
+# cd ../../
 
 # # Get Tabata results
 # cd ./Tabata/results

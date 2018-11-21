@@ -69,9 +69,6 @@ if __name__ == "__main__":
     if not path.exists(aepr_directory):
       makedirs( aepr_directory )
 
-    # Ste the aepr file name
-    aepr_file_name = aepr_directory + "/aepr_native_1.xml"
-
     # Get the date for the table notes
     today = str(datetime.datetime.today())
     notes="This table was generated on " + today + ". It is for testing only!"
@@ -80,7 +77,7 @@ if __name__ == "__main__":
     print bcolors.BOLD + "Updating the adjoint H native test data ...\n" + bcolors.ENDC
 
 
-    max_electron_energies = [ 0.1, 0.01, 0.001 ]
+    max_electron_energies = [ 0.01 ]
 
     min_photon_energy = 1e-3
     max_photon_energy = 3.0
@@ -113,26 +110,27 @@ if __name__ == "__main__":
     electron_two_d_interp_policy = "LogLogLog"
     electron_two_d_grid_policy = "UnitBaseCorrelated"
     brems_min_energy_nudge_val = 1e-9
-    brems_max_energy_nudge_val = 1e-2
+    brems_max_energy_nudge_val = 1e-6
     brems_eval_tol = 1e-5
     brems_grid_convergence_tol = 1e-3
     brems_grid_abs_diff_tol = 1e-20
     brems_grid_dist_tol = 1e-16
 
     electroion_min_energy_nudge_val = 1e-9
-    electroion_max_energy_nudge_val = 1e-2
+    electroion_max_energy_nudge_val = 1e-6
     electroion_eval_tol = 1e-5
     electroion_convergence_tol = 1e-3
     electroion_abs_diff_tol = 1e-20
     electroion_dist_tol = 1e-16
 
-    # Generate the data
-    # try:
-
     for i in range(len(max_electron_energies) ):
       max_electron_energy = max_electron_energies[i]
 
-      print bcolors.BOLD + "Updating file version" + str(i) + "with a max energy of" + str(max_electron_energy) + "MeV\n" + bcolors.ENDC
+      # Set the aepr file name
+      version=i
+      aepr_file_name = aepr_directory + "/aepr_native_1_v" + str(version) + ".xml"
+
+      print bcolors.BOLD + "Updating file version " + str(version) + " with a max energy of " + str(max_electron_energy) + " MeV\n" + bcolors.ENDC
 
       data_container = \
       generateData( epr_file_name,
@@ -185,7 +183,7 @@ if __name__ == "__main__":
                     database,
                     data_container.getAtomicNumber(),
                     data_container.getAtomicWeight(),
-                    i )
+                    version )
 
       database.saveToFile( options.db_name, True )
 

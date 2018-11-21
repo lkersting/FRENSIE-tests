@@ -110,26 +110,10 @@ def runSimulation( threads, histories, time ):
   else:
     print "ERROR: energy ", energy, " not supported!"
 
-  ## -------------------------- Track Length Flux --------------------------- ##
-
-  # Setup an adjoint track length flux estimator
-  estimator_id = 4
-  cell_ids = [1]
-  track_flux_estimator = Event.WeightMultipliedCellTrackLengthFluxEstimator( estimator_id, 1.0, cell_ids, geom_model )
-
-  # Set the particle type
-  track_flux_estimator.setParticleTypes( [MonteCarlo.ADJOINT_ELECTRON] )
-
-  # Set the energy bins
-  track_flux_estimator.setSourceEnergyDiscretization( bins )
-
-  # Add the estimator to the event handler
-  event_handler.addEstimator( track_flux_estimator )
-
   ## ------------------------ Surface Flux Estimator ------------------------ ##
 
   # Setup an adjoint surface flux estimator
-  estimator_id = 5
+  estimator_id = 2
   surface_ids = [1]
   surface_flux_estimator = Event.WeightMultipliedSurfaceFluxEstimator( estimator_id, 1.0, surface_ids, geom_model )
 
@@ -149,22 +133,6 @@ def runSimulation( threads, histories, time ):
 
   # Add the estimator to the event handler
   event_handler.addEstimator( surface_flux_estimator )
-
-  ## ---------------------- Surface Current Estimator ----------------------- ##
-
-  # Setup an adjoint surface current estimator
-  estimator_id = 6
-  surface_ids = [1]
-  surface_current_estimator = Event.WeightMultipliedSurfaceCurrentEstimator( estimator_id, 1.0, surface_ids )
-
-  # Set the particle type
-  surface_current_estimator.setParticleTypes( [MonteCarlo.ADJOINT_ELECTRON] )
-
-  # Set the energy bins
-  surface_current_estimator.setSourceEnergyDiscretization( bins )
-
-  # Add the estimator to the event handler
-  event_handler.addEstimator( surface_current_estimator )
 
   ## -------------------------- Particle Tracker ---------------------------- ##
 
@@ -187,11 +155,11 @@ def runSimulation( threads, histories, time ):
   element_definition = scattering_center_definition_database.createDefinition( element, Data.ZAID(zaid) )
 
 
-  version = 0
-  # if energy == 0.1:
-    # version = 0
-  # else:
-  #   version = 1
+  # version = 0
+  if "debug" in pyfrensie_path:
+    version = 1
+  else:
+    version = 0
   file_type = Data.AdjointElectroatomicDataProperties.Native_EPR_FILE
 
   element_definition.setAdjointElectroatomicDataProperties(
@@ -306,6 +274,8 @@ def setSimulationProperties( histories, time ):
 
   properties = setup.setAdjointSimulationProperties( histories, time, mode, method )
 
+  ## -------------------------- ELECTRON PROPERTIES ------------------------- ##
+
   # Set the min electron energy in MeV (Default is 100 eV)
   properties.setMinAdjointElectronEnergy( energy_cutoff )
 
@@ -315,8 +285,9 @@ def setSimulationProperties( histories, time ):
   # Set the critical line energies
   properties.setCriticalAdjointElectronLineEnergies( [energy] )
 
-
-  ## -------------------------- ELECTRON PROPERTIES ------------------------- ##
+  # Set the cutoff weight properties for rouletting
+  properties.setAdjointElectronRouletteThresholdWeight( 1e-20 )
+  properties.setAdjointElectronRouletteSurvivalWeight( 1e-18 )
 
   # Turn certain reactions off
   # properties.setAdjointElasticModeOff()
@@ -393,17 +364,7 @@ def processDataFromRendezvous( rendezvous_file ):
 ##----------------------------------------------------------------------------##
 def processData( event_handler, filename, title ):
 
-  # # Process track flux data
-  # track_flux = event_handler.getEstimator( 4 )
-  # ids = list( track_flux.getEntityIds() )
-  # setup.processTrackFluxSourceEnergyBinData( track_flux, ids[0], filename, title )
-
   # Process surface flux data
-  surface_flux = event_handler.getEstimator( 5 )
+  surface_flux = event_handler.getEstimator( 2 )
   ids = list( surface_flux.getEntityIds() )
   setup.processSurfaceFluxSourceEnergyBinData( surface_flux, ids[0], filename, title )
-
-  # # Process surface current data
-  # surface_current = event_handler.getEstimator( 6 )
-  # ids = list( surface_current.getEntityIds() )
-  # setup.processSurfaceCurrentSourceEnergyBinData( surface_current, ids[0], filename, title )

@@ -289,6 +289,10 @@ def setSimulationProperties( histories, time ):
 
   properties.setIncoherentAdjointModelType( incoherent_model )
 
+  # Set the cutoff weight properties for rouletting
+  properties.setAdjointPhotonRouletteThresholdWeight( 1e-20 )
+  properties.setAdjointPhotonRouletteSurvivalWeight( 1e-18 )
+
   return properties
 
 ##----------------------------------------------------------------------------##

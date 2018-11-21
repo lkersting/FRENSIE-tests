@@ -8,16 +8,16 @@
 ##---------------------------------------------------------------------------##
 ## ---------------------------- FACEMC test runner --------------------------##
 ##---------------------------------------------------------------------------##
-## FRENSIE benchmark test: Tabata dose depth data.
-## The dose depth for a 1-D in several materials is calculated by dividing the
-## energy deposition by the subzone width (g/cm^2).
+## FRENSIE benchmark test: Tabata charge deposition data.
+## The charge deposition for several materials in 1-D is calculated by dividing
+## the charge deposition by the subzone width (g/cm^2).
 ##---------------------------------------------------------------------------##
 EXTRA_ARGS=$@
 
 # Set the number of histories
-HISTORIES=1000000
+HISTORIES=100000
 # Set the max runtime (in minutes, 1 day = 1440 )
-TIME=1400
+TIME=1300
 
 # Run from the rendezvous
 if [ "$#" -eq 1 ]; then
@@ -27,6 +27,8 @@ if [ "$#" -eq 1 ]; then
   # Restart the simulation
   echo "Restarting Facemc Tabata test for ${HISTORIES} particles with ${SLURM_NTASKS} MPI processes with ${SLURM_CPUS_PER_TASK} OpenMP threads each!"
   mpiexec -n ${SLURM_NTASKS} python -c "import tabata; tabata.restartSimulation(${SLURM_CPUS_PER_TASK}, ${HISTORIES}, ${TIME}, \"${RENDEZVOUS}\" )"
+
+  directory="$(dirname "${RENDEZVOUS}")/"
 
 # Run new simulation
 else

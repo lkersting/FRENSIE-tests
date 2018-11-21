@@ -32,7 +32,7 @@ adjoint_path = user_args.a
 forward_path = user_args.f
 
 # Adjoint normalization factor
-NORM=550
+NORM=440
 
 # Get Adjoint Data
 with open(adjoint_path) as input:
@@ -45,11 +45,11 @@ with open(adjoint_path) as input:
       # Get the x bin widths
       bin_widths = (adjoint_x[1:] - adjoint_x[:-1])
       # Get the binned adjoint surface flux
-      adjoint_bin_y = np.asfarray(data[1][:])/NORM
+      adjoint_bin_y = np.asfarray(data[1][1:])/NORM
       # Average the flux to the bin width
       adjoint_y = adjoint_bin_y/bin_widths
       # Calculate the error for the bin averaged surface flux
-      adjoint_error = np.asfarray(data[2][:])*adjoint_y
+      adjoint_error = np.asfarray(data[2][1:])*adjoint_y
 
 # Get forward data
 with open(forward_path) as input:
@@ -62,11 +62,11 @@ with open(forward_path) as input:
       # Get the x bin widths
       bin_widths = (forward_x[1:] - forward_x[:-1])
       # Get the binned forward surface flux
-      forward_bin_y = np.asfarray(data[1][:])
+      forward_bin_y = np.asfarray(data[1][1:])
       # Average the flux to the bin width
       forward_y = forward_bin_y/bin_widths
       # Calculate the error for the bin averaged surface flux
-      forward_error = np.asfarray(data[2][:])*forward_y
+      forward_error = np.asfarray(data[2][1:])*forward_y
 
 # Plot
 fig = plt.figure(num=1, figsize=(10,6))
@@ -97,6 +97,7 @@ linestyles = [(0, ()), (0, (5, 5)), (0, (3, 5, 1, 5)), (0, (1, 1)), (0, (3, 5, 1
 
 plots = []
 labels = []
+
 # Plot Adjoint Data
 
 # Plot histogram of results
@@ -131,7 +132,7 @@ plots.append( handle1 )
 labels.append("forward")
 
 
-plt.legend(loc=1)
+plt.legend(loc='best')
 ax.yaxis.set_major_formatter(FormatStrFormatter('%.2f'))
 
 
@@ -171,7 +172,7 @@ ax0.grid(linestyle=':')
 ax1.grid(linestyle=':')
 
 # plt.xlim(0.0,6.78)
-plt.ylim(0.0,1.0)
+plt.ylim(0.0,6.0)
 
 # remove vertical gap between subplots
 plt.subplots_adjust(hspace=.0)
