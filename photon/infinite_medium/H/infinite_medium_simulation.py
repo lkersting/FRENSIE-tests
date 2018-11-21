@@ -157,6 +157,11 @@ def runAdjointInfiniteMediumSimulation( sim_name,
     # Simulate photons only
     simulation_properties.setParticleMode( MonteCarlo.ADJOINT_PHOTON_MODE )
     simulation_properties.setIncoherentAdjointModelType( incoherent_model_type )
+    simulation_properties.setMinAdjointPhotonEnergy( energy_cutoff )
+    simulation_properties.setMaxAdjointPhotonEnergy( source_energy )
+    simulation_properties.setCriticalAdjointPhotonLineEnergies( [0.1] )
+    simulation_properties.setAdjointPhotonRouletteThresholdWeight( 0.01 )
+    simulation_properties.setAdjointPhotonRouletteSurvivalWeight( 0.1 )
     simulation_properties.setNumberOfAdjointPhotonHashGridBins( 100 )
 
     # Set the number of histories to run and the number of rendezvous
@@ -200,7 +205,7 @@ def runAdjointInfiniteMediumSimulation( sim_name,
     ## Set up the source
     particle_distribution = ActiveRegion.StandardParticleDistribution( "isotropic mono-energetic dist" )
 
-    uniform_energy = Distribution.UniformDistribution( energy_cutoff, energy )
+    uniform_energy = Distribution.UniformDistribution( energy_cutoff, source_energy )
     energy_dimension_dist = ActiveRegion.IndependentEnergyDimensionDistribution( uniform_energy )
     particle_distribution.setDimensionDistribution( energy_dimension_dist )
     particle_distribution.setPosition( 0.0, 0.0, 0.0 )

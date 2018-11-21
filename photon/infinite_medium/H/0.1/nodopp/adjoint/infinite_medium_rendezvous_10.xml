@@ -1,0 +1,784 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
+<!DOCTYPE boost_serialization>
+<boost_serialization signature="serialization::archive" version="16">
+<manager class_id="0" tracking_level="0" version="0">
+	<d_simulation_name>infinite_medium</d_simulation_name>
+	<d_archive_type>xml</d_archive_type>
+	<d_model class_id="1" tracking_level="0" version="1">
+		<px class_id="2" tracking_level="1" version="0" object_id="_0">
+			<raw_path>/home/alexr/Software/mcnpdata</raw_path>
+			<d_scattering_center_definitions class_id="3" tracking_level="0" version="1">
+				<px class_id="4" tracking_level="1" version="0" object_id="_1">
+					<d_scattering_center_definitions class_id="5" tracking_level="0" version="0">
+						<count>1</count>
+						<item_version>0</item_version>
+						<item class_id="6" tracking_level="0" version="0">
+							<first>H</first>
+							<second class_id="7" tracking_level="0" version="1">
+								<px class_id="8" tracking_level="1" version="0" object_id="_2">
+									<d_name>H</d_name>
+									<d_zaid class_id="9" tracking_level="0" version="0">
+										<raw_zaid>1000</raw_zaid>
+									</d_zaid>
+									<d_atomic_weight_ratio class_id="10" tracking_level="0" version="1">
+										<initialized>0</initialized>
+									</d_atomic_weight_ratio>
+									<d_temperature class_id="11" tracking_level="0" version="1">
+										<initialized>0</initialized>
+									</d_temperature>
+									<d_photoatomic_data_properties class_id="12" tracking_level="0" version="1">
+										<px class_id="-1"></px>
+									</d_photoatomic_data_properties>
+									<d_adjoint_photoatomic_data_properties class_id="13" tracking_level="0" version="1">
+										<px class_id="14" class_name="NativeEPRAdjointPhotoatomicDataProperties" tracking_level="1" version="0" object_id="_3">
+											<AdjointPhotoatomicDataProperties class_id="15" tracking_level="0" version="0"></AdjointPhotoatomicDataProperties>
+											<d_atomic_weight class_id="16" tracking_level="0" version="0">
+												<value>1.00790000000000002e+00</value>
+											</d_atomic_weight>
+											<raw_path>native/aprobinson/aepr/aepr_native_1.xml</raw_path>
+											<d_file_version>0</d_file_version>
+											<d_atom>1</d_atom>
+										</px>
+									</d_adjoint_photoatomic_data_properties>
+									<d_electroatomic_data_properties class_id="17" tracking_level="0" version="1">
+										<px class_id="-1"></px>
+									</d_electroatomic_data_properties>
+									<d_adjoint_electroatomic_data_properties class_id="18" tracking_level="0" version="1">
+										<px class_id="-1"></px>
+									</d_adjoint_electroatomic_data_properties>
+									<d_nuclear_data_properties class_id="19" tracking_level="0" version="1">
+										<px class_id="-1"></px>
+									</d_nuclear_data_properties>
+									<d_thermal_nuclear_data_properties class_id="20" tracking_level="0" version="1">
+										<px class_id="-1"></px>
+									</d_thermal_nuclear_data_properties>
+									<d_adjoint_nuclear_data_properties class_id="21" tracking_level="0" version="1">
+										<px class_id="-1"></px>
+									</d_adjoint_nuclear_data_properties>
+									<d_adjoint_thermal_nuclear_data_properties class_id="22" tracking_level="0" version="1">
+										<px class_id="-1"></px>
+									</d_adjoint_thermal_nuclear_data_properties>
+									<d_photonuclear_data_properties class_id="23" tracking_level="0" version="1">
+										<px class_id="-1"></px>
+									</d_photonuclear_data_properties>
+									<d_adjoint_photonuclear_data_properties class_id="24" tracking_level="0" version="1">
+										<px class_id="-1"></px>
+									</d_adjoint_photonuclear_data_properties>
+								</px>
+							</second>
+						</item>
+					</d_scattering_center_definitions>
+				</px>
+			</d_scattering_center_definitions>
+			<d_material_definitions class_id="25" tracking_level="0" version="1">
+				<px class_id="26" tracking_level="1" version="0" object_id="_4">
+					<d_material_id_definition_map class_id="27" tracking_level="0" version="0">
+						<count>1</count>
+						<item_version>0</item_version>
+						<item class_id="28" tracking_level="0" version="0">
+							<first>1</first>
+							<second class_id="29" tracking_level="0" version="0">
+								<count>1</count>
+								<item_version>0</item_version>
+								<item class_id="30" tracking_level="0" version="0">
+									<first>H</first>
+									<second>1.00000000000000000e+00</second>
+								</item>
+							</second>
+						</item>
+					</d_material_id_definition_map>
+					<d_material_id_name_map class_id="31" tracking_level="0" version="0">
+						<mi_core class_id="32" tracking_level="0" version="2">
+							<count>1</count>
+							<value_version class_id="33" tracking_level="0" version="0"></value_version>
+							<item class_id="34" tracking_level="0" version="0">
+								<left>1</left>
+								<right>H</right>
+							</item>
+							<position class_id="35" tracking_level="0" version="0"></position>
+							<position></position>
+						</mi_core>
+					</d_material_id_name_map>
+				</px>
+			</d_material_definitions>
+			<d_properties class_id="36" tracking_level="0" version="1">
+				<px class_id="37" tracking_level="1" version="0" object_id="_5">
+					<SimulationGeneralProperties class_id="38" tracking_level="1" version="0" object_id="_6">
+						<d_particle_mode>7</d_particle_mode>
+						<d_number_of_histories>1000000</d_number_of_histories>
+						<d_min_number_of_rendezvous>10</d_min_number_of_rendezvous>
+						<d_max_rendezvous_batch_size>1000000000</d_max_rendezvous_batch_size>
+						<d_min_number_of_batches_per_rendezvous>1</d_min_number_of_batches_per_rendezvous>
+						<d_max_batch_size>1000000000</d_max_batch_size>
+						<d_number_of_batches_per_processor>1</d_number_of_batches_per_processor>
+						<__inf_wall_time__>1</__inf_wall_time__>
+						<d_wall_time>1.79769313486231571e+308</d_wall_time>
+						<d_surface_flux_estimator_angle_cosine_cutoff>1.00000000000000006e-01</d_surface_flux_estimator_angle_cosine_cutoff>
+						<d_implicit_capture_mode_on>0</d_implicit_capture_mode_on>
+					</SimulationGeneralProperties>
+					<SimulationNeutronProperties class_id="39" tracking_level="1" version="0" object_id="_7">
+						<d_min_neutron_energy>9.99999999999999939e-12</d_min_neutron_energy>
+						<d_max_neutron_energy>2.00000000000000000e+01</d_max_neutron_energy>
+						<d_num_neutron_hash_grid_bins>1000</d_num_neutron_hash_grid_bins>
+						<d_free_gas_threshold>4.00000000000000000e+02</d_free_gas_threshold>
+						<d_unresolved_resonance_probability_table_mode_on>1</d_unresolved_resonance_probability_table_mode_on>
+						<d_threshold_weight>0.00000000000000000e+00</d_threshold_weight>
+						<d_survival_weight>0.00000000000000000e+00</d_survival_weight>
+					</SimulationNeutronProperties>
+					<SimulationPhotonProperties class_id="40" tracking_level="1" version="0" object_id="_8">
+						<d_min_photon_energy>1.00000000000000002e-03</d_min_photon_energy>
+						<d_max_photon_energy>2.00000000000000000e+01</d_max_photon_energy>
+						<d_kahn_sampling_cutoff_energy>3.00000000000000000e+00</d_kahn_sampling_cutoff_energy>
+						<d_num_photon_hash_grid_bins>1000</d_num_photon_hash_grid_bins>
+						<d_incoherent_model_type>6</d_incoherent_model_type>
+						<d_atomic_relaxation_mode_on>1</d_atomic_relaxation_mode_on>
+						<d_detailed_pair_production_mode_on>0</d_detailed_pair_production_mode_on>
+						<d_photonuclear_interaction_mode_on>0</d_photonuclear_interaction_mode_on>
+						<d_threshold_weight>0.00000000000000000e+00</d_threshold_weight>
+						<d_survival_weight>0.00000000000000000e+00</d_survival_weight>
+					</SimulationPhotonProperties>
+					<SimulationAdjointPhotonProperties class_id="41" tracking_level="1" version="0" object_id="_9">
+						<d_min_adjoint_photon_energy>1.00000000000000002e-03</d_min_adjoint_photon_energy>
+						<d_max_adjoint_photon_energy>1.00000000000000006e-01</d_max_adjoint_photon_energy>
+						<d_num_adjoint_photon_hash_grid_bins>100</d_num_adjoint_photon_hash_grid_bins>
+						<d_incoherent_adjoint_model_type>1</d_incoherent_adjoint_model_type>
+						<d_critical_line_energies object_id="_10">
+							<count>1</count>
+							<item_version>0</item_version>
+							<item>1.00000000000000006e-01</item>
+						</d_critical_line_energies>
+						<d_threshold_weight>1.00000000000000002e-02</d_threshold_weight>
+						<d_survival_weight>1.00000000000000006e-01</d_survival_weight>
+					</SimulationAdjointPhotonProperties>
+					<SimulationElectronProperties class_id="43" tracking_level="1" version="0" object_id="_11">
+						<d_min_electron_energy>1.00000000000000005e-04</d_min_electron_energy>
+						<d_max_electron_energy>2.00000000000000000e+01</d_max_electron_energy>
+						<d_evaluation_tol>9.99999999999999955e-08</d_evaluation_tol>
+						<d_electron_interpolation_type>8</d_electron_interpolation_type>
+						<d_electron_grid_type>1</d_electron_grid_type>
+						<d_num_electron_hash_grid_bins>1000</d_num_electron_hash_grid_bins>
+						<d_atomic_relaxation_mode_on>1</d_atomic_relaxation_mode_on>
+						<d_elastic_mode_on>1</d_elastic_mode_on>
+						<d_elastic_interpolation_type>8</d_elastic_interpolation_type>
+						<d_elastic_distribution_mode>0</d_elastic_distribution_mode>
+						<d_coupled_elastic_sampling_method>2</d_coupled_elastic_sampling_method>
+						<d_elastic_cutoff_angle_cosine>1.00000000000000000e+00</d_elastic_cutoff_angle_cosine>
+						<d_electroionization_mode_on>1</d_electroionization_mode_on>
+						<d_electroionization_interpolation_type>8</d_electroionization_interpolation_type>
+						<d_bremsstrahlung_mode_on>1</d_bremsstrahlung_mode_on>
+						<d_bremsstrahlung_interpolation_type>8</d_bremsstrahlung_interpolation_type>
+						<d_bremsstrahlung_angular_distribution_function>3</d_bremsstrahlung_angular_distribution_function>
+						<d_atomic_excitation_mode_on>1</d_atomic_excitation_mode_on>
+						<d_threshold_weight>0.00000000000000000e+00</d_threshold_weight>
+						<d_survival_weight>0.00000000000000000e+00</d_survival_weight>
+					</SimulationElectronProperties>
+					<SimulationAdjointElectronProperties class_id="44" tracking_level="1" version="0" object_id="_12">
+						<d_min_adjoint_electron_energy>1.00000000000000005e-04</d_min_adjoint_electron_energy>
+						<d_max_adjoint_electron_energy>2.00000000000000000e+01</d_max_adjoint_electron_energy>
+						<d_adjoint_elastic_mode_on>1</d_adjoint_elastic_mode_on>
+						<d_adjoint_electroionization_mode_on>1</d_adjoint_electroionization_mode_on>
+						<d_adjoint_bremsstrahlung_mode_on>1</d_adjoint_bremsstrahlung_mode_on>
+						<d_adjoint_atomic_excitation_mode_on>1</d_adjoint_atomic_excitation_mode_on>
+						<d_adjoint_evaluation_tol>9.99999999999999955e-08</d_adjoint_evaluation_tol>
+						<d_adjoint_bremsstrahlung_angular_distribution_function>3</d_adjoint_bremsstrahlung_angular_distribution_function>
+						<d_adjoint_elastic_cutoff_angle_cosine>1.00000000000000000e+00</d_adjoint_elastic_cutoff_angle_cosine>
+						<d_adjoint_elastic_distribution_mode>0</d_adjoint_elastic_distribution_mode>
+						<d_coupled_elastic_sampling_method>2</d_coupled_elastic_sampling_method>
+						<d_num_adjoint_electron_hash_grid_bins>500</d_num_adjoint_electron_hash_grid_bins>
+						<d_critical_line_energies object_id="_13">
+							<count>0</count>
+							<item_version>0</item_version>
+						</d_critical_line_energies>
+						<d_threshold_weight>0.00000000000000000e+00</d_threshold_weight>
+						<d_survival_weight>0.00000000000000000e+00</d_survival_weight>
+					</SimulationAdjointElectronProperties>
+				</px>
+			</d_properties>
+			<d_unfilled_model class_id="45" tracking_level="0" version="1">
+				<px class_id="46" class_name="DagMCModel" tracking_level="1" version="0" object_id="_14">
+					<AdvancedModel class_id="47" tracking_level="0" version="0">
+						<Model class_id="48" tracking_level="0" version="0"></Model>
+					</AdvancedModel>
+					<d_model_properties class_id="49" tracking_level="0" version="0">
+						<tx class_id="50" tracking_level="1" version="0" object_id="_15">
+							<d_file_name>infinite_medium.h5m</d_file_name>
+							<raw_file_path>../../..</raw_file_path>
+							<d_fast_id_lookup>1</d_fast_id_lookup>
+							<d_termination_cell_property>termination.cell</d_termination_cell_property>
+							<d_reflecting_surface_property>reflecting.surface</d_reflecting_surface_property>
+							<d_material_property>mat</d_material_property>
+							<d_density_property>rho</d_density_property>
+							<d_estimator_property>estimator</d_estimator_property>
+							<d_surface_current_name>surface.current</d_surface_current_name>
+							<d_surface_flux_name>surface.flux</d_surface_flux_name>
+							<d_cell_pulse_height_name>cell.pulse.height</d_cell_pulse_height_name>
+							<d_cell_track_length_flux_name>cell.tl.flux</d_cell_track_length_flux_name>
+							<d_cell_collision_flux_name>cell.c.flux</d_cell_collision_flux_name>
+							<d_photon_name>p</d_photon_name>
+							<d_neutron_name>n</d_neutron_name>
+							<d_electron_name>e</d_electron_name>
+							<d_adjoint_photon_name>p*</d_adjoint_photon_name>
+							<d_adjoint_neutron_name>n*</d_adjoint_neutron_name>
+							<d_adjoint_electron_name>e*</d_adjoint_electron_name>
+						</tx>
+					</d_model_properties>
+				</px>
+			</d_unfilled_model>
+		</px>
+	</d_model>
+	<d_source class_id="51" tracking_level="0" version="1">
+		<px class_id="52" class_name="StandardParticleSource" tracking_level="1" version="0" object_id="_16">
+			<ParticleSource class_id="53" tracking_level="0" version="0"></ParticleSource>
+			<d_components class_id="54" tracking_level="0" version="0">
+				<count>1</count>
+				<item_version>1</item_version>
+				<item class_id="55" tracking_level="0" version="1">
+					<px class_id="56" class_name="StandardAdjointPhotonSourceComponent" tracking_level="1" version="0" object_id="_17">
+						<BaseType class_id="57" tracking_level="0" version="0">
+							<ParticleSourceComponent class_id="58" tracking_level="0" version="0">
+								<d_id class_id="59" tracking_level="0" version="0">
+									<d_id>0</d_id>
+								</d_id>
+								<d_selection_weight>1.00000000000000000e+00</d_selection_weight>
+								<d_rejection_cells>
+									<count>0</count>
+									<item_version>0</item_version>
+								</d_rejection_cells>
+								<d_model>
+									<px class_id_reference="46" object_id_reference="_14"></px>
+								</d_model>
+								<start_cell_cache>
+									<count>1</count>
+									<item_version>0</item_version>
+									<item>1</item>
+								</start_cell_cache>
+								<number_of_trials>2000000</number_of_trials>
+								<number_of_samples>2000000</number_of_samples>
+							</ParticleSourceComponent>
+							<d_particle_distribution class_id="61" tracking_level="0" version="1">
+								<px class_id="62" class_name="StandardParticleDistribution" tracking_level="1" version="0" object_id="_18">
+									<ParticleDistribution class_id="63" tracking_level="0" version="0">
+										<d_name>isotropic mono-energetic dist</d_name>
+									</ParticleDistribution>
+									<d_spatial_coord_conversion_policy class_id="64" tracking_level="0" version="1">
+										<px class_id="65" class_name="BasicCartesianCoordinateConversionPolicy" tracking_level="1" version="0" object_id="_19">
+											<CartesianSpatialCoordinateConversionPolicy class_id="66" tracking_level="0" version="0">
+												<SpatialCoordinateConversionPolicy class_id="67" tracking_level="0" version="0"></SpatialCoordinateConversionPolicy>
+											</CartesianSpatialCoordinateConversionPolicy>
+											<CartesianDirectionalCoordinateConversionPolicy class_id="68" tracking_level="0" version="0">
+												<DirectionalCoordinateConversionPolicy class_id="69" tracking_level="0" version="0"></DirectionalCoordinateConversionPolicy>
+											</CartesianDirectionalCoordinateConversionPolicy>
+										</px>
+									</d_spatial_coord_conversion_policy>
+									<d_directional_coord_conversion_policy class_id="70" tracking_level="0" version="1">
+										<px class_id="71" class_name="BasicSphericalCoordinateConversionPolicy" tracking_level="1" version="0" object_id="_20">
+											<SphericalSpatialCoordinateConversionPolicy class_id="72" tracking_level="0" version="0">
+												<SpatialCoordinateConversionPolicy></SpatialCoordinateConversionPolicy>
+											</SphericalSpatialCoordinateConversionPolicy>
+											<SphericalDirectionalCoordinateConversionPolicy class_id="73" tracking_level="0" version="0">
+												<DirectionalCoordinateConversionPolicy></DirectionalCoordinateConversionPolicy>
+											</SphericalDirectionalCoordinateConversionPolicy>
+										</px>
+									</d_directional_coord_conversion_policy>
+									<d_independent_dimensions class_id="74" tracking_level="0" version="0">
+										<count>9</count>
+										<item_version>0</item_version>
+										<item>0</item>
+										<item>1</item>
+										<item>2</item>
+										<item>3</item>
+										<item>4</item>
+										<item>5</item>
+										<item>6</item>
+										<item>7</item>
+										<item>8</item>
+									</d_independent_dimensions>
+									<d_dimension_distributions class_id="75" tracking_level="0" version="0">
+										<count>9</count>
+										<item_version>0</item_version>
+										<item class_id="76" tracking_level="0" version="0">
+											<first>0</first>
+											<second class_id="77" tracking_level="0" version="1">
+												<px class_id="78" class_name="IndependentPrimarySpatialDimensionDistribution" tracking_level="1" version="0" object_id="_21">
+													<PhaseSpaceDimensionDistribution class_id="79" tracking_level="0" version="0">
+														<d_parent_distribution class_id="80" tracking_level="0" version="0">
+															<weak_ptr class_id="81" tracking_level="0" version="1">
+																<px class_id="-1"></px>
+															</weak_ptr>
+														</d_parent_distribution>
+														<d_dependent_dimension_distributions>
+															<count>0</count>
+															<item_version>0</item_version>
+														</d_dependent_dimension_distributions>
+													</PhaseSpaceDimensionDistribution>
+													<d_dimension_distribution class_id="82" tracking_level="0" version="1">
+														<px class_id="83" class_name="UnitAwareDeltaDistribution&lt;void,void&gt;" tracking_level="1" version="0" object_id="_22">
+															<BaseType class_id="84" tracking_level="0" version="0">
+																<BaseType class_id="85" tracking_level="0" version="0"></BaseType>
+															</BaseType>
+															<d_location>0.00000000000000000e+00</d_location>
+															<d_multiplier>1.00000000000000000e+00</d_multiplier>
+														</px>
+													</d_dimension_distribution>
+												</px>
+											</second>
+										</item>
+										<item>
+											<first>1</first>
+											<second>
+												<px class_id="86" class_name="IndependentSecondarySpatialDimensionDistribution" tracking_level="1" version="0" object_id="_23">
+													<PhaseSpaceDimensionDistribution>
+														<d_parent_distribution>
+															<weak_ptr>
+																<px class_id="-1"></px>
+															</weak_ptr>
+														</d_parent_distribution>
+														<d_dependent_dimension_distributions>
+															<count>0</count>
+															<item_version>0</item_version>
+														</d_dependent_dimension_distributions>
+													</PhaseSpaceDimensionDistribution>
+													<d_dimension_distribution>
+														<px class_id_reference="83" object_id="_24">
+															<BaseType>
+																<BaseType></BaseType>
+															</BaseType>
+															<d_location>0.00000000000000000e+00</d_location>
+															<d_multiplier>1.00000000000000000e+00</d_multiplier>
+														</px>
+													</d_dimension_distribution>
+												</px>
+											</second>
+										</item>
+										<item>
+											<first>2</first>
+											<second>
+												<px class_id="87" class_name="IndependentTertiarySpatialDimensionDistribution" tracking_level="1" version="0" object_id="_25">
+													<PhaseSpaceDimensionDistribution>
+														<d_parent_distribution>
+															<weak_ptr>
+																<px class_id="-1"></px>
+															</weak_ptr>
+														</d_parent_distribution>
+														<d_dependent_dimension_distributions>
+															<count>0</count>
+															<item_version>0</item_version>
+														</d_dependent_dimension_distributions>
+													</PhaseSpaceDimensionDistribution>
+													<d_dimension_distribution>
+														<px class_id_reference="83" object_id="_26">
+															<BaseType>
+																<BaseType></BaseType>
+															</BaseType>
+															<d_location>0.00000000000000000e+00</d_location>
+															<d_multiplier>1.00000000000000000e+00</d_multiplier>
+														</px>
+													</d_dimension_distribution>
+												</px>
+											</second>
+										</item>
+										<item>
+											<first>3</first>
+											<second>
+												<px class_id="88" class_name="IndependentPrimaryDirectionalDimensionDistribution" tracking_level="1" version="0" object_id="_27">
+													<PhaseSpaceDimensionDistribution>
+														<d_parent_distribution>
+															<weak_ptr>
+																<px class_id="-1"></px>
+															</weak_ptr>
+														</d_parent_distribution>
+														<d_dependent_dimension_distributions>
+															<count>0</count>
+															<item_version>0</item_version>
+														</d_dependent_dimension_distributions>
+													</PhaseSpaceDimensionDistribution>
+													<d_dimension_distribution>
+														<px class_id_reference="83" object_id="_28">
+															<BaseType>
+																<BaseType></BaseType>
+															</BaseType>
+															<d_location>1.00000000000000000e+00</d_location>
+															<d_multiplier>1.00000000000000000e+00</d_multiplier>
+														</px>
+													</d_dimension_distribution>
+												</px>
+											</second>
+										</item>
+										<item>
+											<first>4</first>
+											<second>
+												<px class_id="89" class_name="IndependentSecondaryDirectionalDimensionDistribution" tracking_level="1" version="0" object_id="_29">
+													<PhaseSpaceDimensionDistribution>
+														<d_parent_distribution>
+															<weak_ptr>
+																<px class_id="-1"></px>
+															</weak_ptr>
+														</d_parent_distribution>
+														<d_dependent_dimension_distributions>
+															<count>0</count>
+															<item_version>0</item_version>
+														</d_dependent_dimension_distributions>
+													</PhaseSpaceDimensionDistribution>
+													<d_dimension_distribution>
+														<px class_id="90" class_name="UnitAwareUniformDistribution&lt;void,void&gt;" tracking_level="1" version="0" object_id="_30">
+															<BaseType>
+																<BaseType></BaseType>
+															</BaseType>
+															<d_min_independent_value>0.00000000000000000e+00</d_min_independent_value>
+															<d_max_independent_value>6.28318530717958623e+00</d_max_independent_value>
+															<d_dependent_value>1.00000000000000000e+00</d_dependent_value>
+															<d_pdf_value>1.59154943091895346e-01</d_pdf_value>
+														</px>
+													</d_dimension_distribution>
+												</px>
+											</second>
+										</item>
+										<item>
+											<first>5</first>
+											<second>
+												<px class_id="91" class_name="IndependentTertiaryDirectionalDimensionDistribution" tracking_level="1" version="0" object_id="_31">
+													<PhaseSpaceDimensionDistribution>
+														<d_parent_distribution>
+															<weak_ptr>
+																<px class_id="-1"></px>
+															</weak_ptr>
+														</d_parent_distribution>
+														<d_dependent_dimension_distributions>
+															<count>0</count>
+															<item_version>0</item_version>
+														</d_dependent_dimension_distributions>
+													</PhaseSpaceDimensionDistribution>
+													<d_dimension_distribution>
+														<px class_id_reference="90" object_id="_32">
+															<BaseType>
+																<BaseType></BaseType>
+															</BaseType>
+															<d_min_independent_value>-1.00000000000000000e+00</d_min_independent_value>
+															<d_max_independent_value>1.00000000000000000e+00</d_max_independent_value>
+															<d_dependent_value>1.00000000000000000e+00</d_dependent_value>
+															<d_pdf_value>5.00000000000000000e-01</d_pdf_value>
+														</px>
+													</d_dimension_distribution>
+												</px>
+											</second>
+										</item>
+										<item>
+											<first>6</first>
+											<second>
+												<px class_id="92" class_name="IndependentEnergyDimensionDistribution" tracking_level="1" version="0" object_id="_33">
+													<PhaseSpaceDimensionDistribution>
+														<d_parent_distribution>
+															<weak_ptr>
+																<px class_id="-1"></px>
+															</weak_ptr>
+														</d_parent_distribution>
+														<d_dependent_dimension_distributions>
+															<count>0</count>
+															<item_version>0</item_version>
+														</d_dependent_dimension_distributions>
+													</PhaseSpaceDimensionDistribution>
+													<d_dimension_distribution>
+														<px class_id_reference="90" object_id="_34">
+															<BaseType>
+																<BaseType></BaseType>
+															</BaseType>
+															<d_min_independent_value>1.00000000000000002e-03</d_min_independent_value>
+															<d_max_independent_value>1.00000000000000006e-01</d_max_independent_value>
+															<d_dependent_value>1.00000000000000000e+00</d_dependent_value>
+															<d_pdf_value>1.01010101010101003e+01</d_pdf_value>
+														</px>
+													</d_dimension_distribution>
+												</px>
+											</second>
+										</item>
+										<item>
+											<first>7</first>
+											<second>
+												<px class_id="93" class_name="IndependentTimeDimensionDistribution" tracking_level="1" version="0" object_id="_35">
+													<PhaseSpaceDimensionDistribution>
+														<d_parent_distribution>
+															<weak_ptr>
+																<px class_id="-1"></px>
+															</weak_ptr>
+														</d_parent_distribution>
+														<d_dependent_dimension_distributions>
+															<count>0</count>
+															<item_version>0</item_version>
+														</d_dependent_dimension_distributions>
+													</PhaseSpaceDimensionDistribution>
+													<d_dimension_distribution>
+														<px class_id_reference="83" object_id="_36">
+															<BaseType>
+																<BaseType></BaseType>
+															</BaseType>
+															<d_location>0.00000000000000000e+00</d_location>
+															<d_multiplier>1.00000000000000000e+00</d_multiplier>
+														</px>
+													</d_dimension_distribution>
+												</px>
+											</second>
+										</item>
+										<item>
+											<first>8</first>
+											<second>
+												<px class_id="94" class_name="IndependentWeightDimensionDistribution" tracking_level="1" version="0" object_id="_37">
+													<PhaseSpaceDimensionDistribution>
+														<d_parent_distribution>
+															<weak_ptr>
+																<px class_id="-1"></px>
+															</weak_ptr>
+														</d_parent_distribution>
+														<d_dependent_dimension_distributions>
+															<count>0</count>
+															<item_version>0</item_version>
+														</d_dependent_dimension_distributions>
+													</PhaseSpaceDimensionDistribution>
+													<d_dimension_distribution>
+														<px class_id_reference="83" object_id="_38">
+															<BaseType>
+																<BaseType></BaseType>
+															</BaseType>
+															<d_location>1.00000000000000000e+00</d_location>
+															<d_multiplier>1.00000000000000000e+00</d_multiplier>
+														</px>
+													</d_dimension_distribution>
+												</px>
+											</second>
+										</item>
+									</d_dimension_distributions>
+									<d_ready>1</d_ready>
+								</px>
+							</d_particle_distribution>
+							<dimension_trial_counters class_id="95" tracking_level="0" version="0">
+								<count>9</count>
+								<item_version>0</item_version>
+								<item class_id="96" tracking_level="0" version="0">
+									<first>0</first>
+									<second>2000000</second>
+								</item>
+								<item>
+									<first>1</first>
+									<second>2000000</second>
+								</item>
+								<item>
+									<first>2</first>
+									<second>2000000</second>
+								</item>
+								<item>
+									<first>3</first>
+									<second>2000000</second>
+								</item>
+								<item>
+									<first>4</first>
+									<second>2000000</second>
+								</item>
+								<item>
+									<first>5</first>
+									<second>2000000</second>
+								</item>
+								<item>
+									<first>6</first>
+									<second>1000000</second>
+								</item>
+								<item>
+									<first>7</first>
+									<second>2000000</second>
+								</item>
+								<item>
+									<first>8</first>
+									<second>2000000</second>
+								</item>
+							</dimension_trial_counters>
+							<dimension_sample_counters>
+								<count>9</count>
+								<item_version>0</item_version>
+								<item>
+									<first>0</first>
+									<second>2000000</second>
+								</item>
+								<item>
+									<first>1</first>
+									<second>2000000</second>
+								</item>
+								<item>
+									<first>2</first>
+									<second>2000000</second>
+								</item>
+								<item>
+									<first>3</first>
+									<second>2000000</second>
+								</item>
+								<item>
+									<first>4</first>
+									<second>2000000</second>
+								</item>
+								<item>
+									<first>5</first>
+									<second>2000000</second>
+								</item>
+								<item>
+									<first>6</first>
+									<second>1000000</second>
+								</item>
+								<item>
+									<first>7</first>
+									<second>2000000</second>
+								</item>
+								<item>
+									<first>8</first>
+									<second>2000000</second>
+								</item>
+							</dimension_sample_counters>
+						</BaseType>
+						<d_critical_line_energies object_id="_39">
+							<count>1</count>
+							<item_version>0</item_version>
+							<item>1.00000000000000006e-01</item>
+						</d_critical_line_energies>
+					</px>
+				</item>
+			</d_components>
+			<d_component_sampling_dist class_id="97" tracking_level="0" version="0">
+				<tx class_id="98" tracking_level="1" version="0" object_id="_40">
+					<BaseType>
+						<BaseType></BaseType>
+					</BaseType>
+					<d_distribution class_id="99" tracking_level="0" version="0">
+						<count>1</count>
+						<item_version>0</item_version>
+						<item class_id="100" tracking_level="0" version="0">
+							<first>0.00000000000000000e+00</first>
+							<second>1.00000000000000000e+00</second>
+						</item>
+					</d_distribution>
+					<d_norm_constant>1.00000000000000000e+00</d_norm_constant>
+					<d_continuous>0</d_continuous>
+				</tx>
+			</d_component_sampling_dist>
+		</px>
+	</d_source>
+	<d_event_handler class_id="101" tracking_level="0" version="1">
+		<px class_id="102" tracking_level="1" version="0" object_id="_41">
+			<ParticleCollidingInCellEventHandler class_id="103" tracking_level="0" version="0">
+				<d_particle_colliding_in_cell_event_dispatcher class_id="104" tracking_level="1" version="0" object_id="_42">
+					<BaseType class_id="105" tracking_level="0" version="0">
+						<d_dispatcher_map class_id="106" tracking_level="0" version="0">
+							<count>0</count>
+							<bucket_count>1</bucket_count>
+							<item_version>0</item_version>
+						</d_dispatcher_map>
+					</BaseType>
+				</d_particle_colliding_in_cell_event_dispatcher>
+			</ParticleCollidingInCellEventHandler>
+			<ParticleCrossingSurfaceEventHandler class_id="107" tracking_level="0" version="0">
+				<d_particle_crossing_surface_event_dispatcher class_id="108" tracking_level="1" version="0" object_id="_43">
+					<BaseType class_id="109" tracking_level="0" version="0">
+						<d_dispatcher_map class_id="110" tracking_level="0" version="0">
+							<count>0</count>
+							<bucket_count>1</bucket_count>
+							<item_version>0</item_version>
+						</d_dispatcher_map>
+					</BaseType>
+				</d_particle_crossing_surface_event_dispatcher>
+			</ParticleCrossingSurfaceEventHandler>
+			<ParticleEnteringCellEventHandler class_id="111" tracking_level="0" version="0">
+				<d_particle_entering_cell_event_dispatcher class_id="112" tracking_level="1" version="0" object_id="_44">
+					<BaseType class_id="113" tracking_level="0" version="0">
+						<d_dispatcher_map class_id="114" tracking_level="0" version="0">
+							<count>0</count>
+							<bucket_count>1</bucket_count>
+							<item_version>0</item_version>
+						</d_dispatcher_map>
+					</BaseType>
+				</d_particle_entering_cell_event_dispatcher>
+			</ParticleEnteringCellEventHandler>
+			<ParticleLeavingCellEventHandler class_id="115" tracking_level="0" version="0">
+				<d_particle_leaving_cell_event_dispatcher class_id="116" tracking_level="1" version="0" object_id="_45">
+					<BaseType class_id="117" tracking_level="0" version="0">
+						<d_dispatcher_map class_id="118" tracking_level="0" version="0">
+							<count>0</count>
+							<bucket_count>1</bucket_count>
+							<item_version>0</item_version>
+						</d_dispatcher_map>
+					</BaseType>
+				</d_particle_leaving_cell_event_dispatcher>
+			</ParticleLeavingCellEventHandler>
+			<ParticleSubtrackEndingInCellEventHandler class_id="119" tracking_level="0" version="0">
+				<d_particle_subtrack_ending_in_cell_event_dispatcher class_id="120" tracking_level="1" version="0" object_id="_46">
+					<BaseType class_id="121" tracking_level="0" version="0">
+						<d_dispatcher_map class_id="122" tracking_level="0" version="0">
+							<count>0</count>
+							<bucket_count>1</bucket_count>
+							<item_version>0</item_version>
+						</d_dispatcher_map>
+					</BaseType>
+				</d_particle_subtrack_ending_in_cell_event_dispatcher>
+			</ParticleSubtrackEndingInCellEventHandler>
+			<ParticleSubtrackEndingGlobalEventHandler class_id="123" tracking_level="0" version="0">
+				<d_particle_subtrack_ending_global_event_dispatcher class_id="124" tracking_level="0" version="0">
+					<BaseType class_id="125" tracking_level="0" version="0">
+						<d_observer_sets class_id="126" tracking_level="0" version="0">
+							<count>0</count>
+							<item_version>0</item_version>
+						</d_observer_sets>
+					</BaseType>
+				</d_particle_subtrack_ending_global_event_dispatcher>
+			</ParticleSubtrackEndingGlobalEventHandler>
+			<ParticleGoneGlobalEventHandler class_id="127" tracking_level="0" version="0">
+				<d_particle_gone_global_event_dispatcher class_id="128" tracking_level="0" version="0">
+					<BaseType class_id="129" tracking_level="0" version="0">
+						<d_observer_sets class_id="130" tracking_level="0" version="0">
+							<count>0</count>
+							<item_version>0</item_version>
+						</d_observer_sets>
+					</BaseType>
+				</d_particle_gone_global_event_dispatcher>
+			</ParticleGoneGlobalEventHandler>
+			<d_simulation_completion_criterion class_id="131" tracking_level="0" version="1">
+				<px class_id="132" class_name="HistoryCountParticleHistorySimulationCompletionCriterion" tracking_level="1" version="0" object_id="_47">
+					<ParticleHistorySimulationCompletionCriterion class_id="133" tracking_level="0" version="0">
+						<ParticleHistoryObserver class_id="134" tracking_level="0" version="0"></ParticleHistoryObserver>
+					</ParticleHistorySimulationCompletionCriterion>
+					<num_completed_histories>1000000</num_completed_histories>
+					<d_history_wall>1000000</d_history_wall>
+				</px>
+			</d_simulation_completion_criterion>
+			<number_of_committed_histories>1000000</number_of_committed_histories>
+			<elapsed_time>1.87803815722001309e+03</elapsed_time>
+			<d_estimators class_id="135" tracking_level="0" version="0">
+				<count>0</count>
+				<bucket_count>1</bucket_count>
+				<item_version>0</item_version>
+			</d_estimators>
+			<d_particle_trackers class_id="136" tracking_level="0" version="0">
+				<count>0</count>
+				<bucket_count>1</bucket_count>
+				<item_version>0</item_version>
+			</d_particle_trackers>
+			<d_particle_history_observers class_id="137" tracking_level="0" version="0">
+				<count>1</count>
+				<item_version>1</item_version>
+				<item class_id="138" tracking_level="0" version="1">
+					<px class_id_reference="132" object_id_reference="_47"></px>
+				</item>
+			</d_particle_history_observers>
+		</px>
+	</d_event_handler>
+	<d_weight_windows class_id="139" tracking_level="0" version="1">
+		<px class_id="140" class_name="DefaultWeightWindow" tracking_level="1" version="0" object_id="_48">
+			<WeightWindow class_id="141" tracking_level="0" version="0"></WeightWindow>
+		</px>
+	</d_weight_windows>
+	<d_collision_forcer class_id="142" tracking_level="0" version="1">
+		<px class_id="143" class_name="DefaultCollisionForcer" tracking_level="1" version="0" object_id="_49">
+			<CollisionForcer class_id="144" tracking_level="0" version="0"></CollisionForcer>
+		</px>
+	</d_collision_forcer>
+	<d_properties>
+		<px class_id_reference="37" object_id_reference="_5"></px>
+	</d_properties>
+	<d_next_history>1000000</d_next_history>
+	<d_rendezvous_number>11</d_rendezvous_number>
+</manager>
+</boost_serialization>
+
