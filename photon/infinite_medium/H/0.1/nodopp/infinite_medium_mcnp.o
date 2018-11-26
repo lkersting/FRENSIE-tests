@@ -30,8 +30,8 @@
   | PRIVATELY OWNED RIGHTS.                                             |
   +---------------------------------------------------------------------+
   
-1mcnp     version 6     ld=06/09/17                     11/09/18 16:12:41 
- *************************************************************************                 probid =  11/09/18 16:12:41 
+1mcnp     version 6     ld=06/09/17                     11/21/18 13:37:56 
+ *************************************************************************                 probid =  11/21/18 13:37:56 
  i=infinite_medium_mcnp.i o=infinite_medium_mcnp.o tasks 8
 
  
@@ -130,64 +130,64 @@
 
  ***********************************************************************************************************************
 
- dump no.    1 on file runtpe     nps =           0     coll =              0     ctm =        0.00   nrn =             
+ dump no.    1 on file runtpf     nps =           0     coll =              0     ctm =        0.00   nrn =             
     0
 
          4 warning messages so far.
 
  ***********************************************************************************************************************
 
- dump no.    2 on file runtpe     nps =    10000000     coll =      806597264     ctm =       20.94   nrn =       
+ dump no.    2 on file runtpf     nps =    10000000     coll =      806597264     ctm =       24.16   nrn =       
  9479788946
 
  ***********************************************************************************************************************
 
- dump no.    3 on file runtpe     nps =    20000000     coll =     1613196049     ctm =       41.77   nrn =      
+ dump no.    3 on file runtpf     nps =    20000000     coll =     1613196049     ctm =       48.33   nrn =      
  18959601973
 
  ***********************************************************************************************************************
 
- dump no.    4 on file runtpe     nps =    30000000     coll =     2419815666     ctm =       62.57   nrn =      
+ dump no.    4 on file runtpf     nps =    30000000     coll =     2419815666     ctm =       72.50   nrn =      
  28439768127
 
  ***********************************************************************************************************************
 
- dump no.    5 on file runtpe     nps =    40000000     coll =     3226373989     ctm =       83.27   nrn =      
+ dump no.    5 on file runtpf     nps =    40000000     coll =     3226373989     ctm =       96.66   nrn =      
  37919179135
 
  ***********************************************************************************************************************
 
- dump no.    6 on file runtpe     nps =    50000000     coll =     4032913073     ctm =      104.01   nrn =      
+ dump no.    6 on file runtpf     nps =    50000000     coll =     4032913073     ctm =      120.83   nrn =      
  47398496780
 
  ***********************************************************************************************************************
 
- dump no.    7 on file runtpe     nps =    60000000     coll =     4839571565     ctm =      124.74   nrn =      
+ dump no.    7 on file runtpf     nps =    60000000     coll =     4839571565     ctm =      145.00   nrn =      
  56879019946
 
  ***********************************************************************************************************************
 
- dump no.    8 on file runtpe     nps =    70000000     coll =     5646163421     ctm =      145.46   nrn =      
+ dump no.    8 on file runtpf     nps =    70000000     coll =     5646163421     ctm =      169.16   nrn =      
  66358912862
 
  ***********************************************************************************************************************
 
- dump no.    9 on file runtpe     nps =    80000000     coll =     6452729926     ctm =      166.20   nrn =      
+ dump no.    9 on file runtpf     nps =    80000000     coll =     6452729926     ctm =      193.32   nrn =      
  75838153181
 
  ***********************************************************************************************************************
 
- dump no.   10 on file runtpe     nps =    90000000     coll =     7259276457     ctm =      186.91   nrn =      
+ dump no.   10 on file runtpf     nps =    90000000     coll =     7259276457     ctm =      217.49   nrn =      
  85317495753
 1problem summary                                                                                                           
 
       run terminated when   100000000  particle histories were done.
-+                                                                                                    11/09/18 16:38:40 
++                                                                                                    11/21/18 14:08:08 
 
- =====>     230.97 M histories/hr    (based on wall-clock time in mcrun)
+ =====>     198.63 M histories/hr    (based on wall-clock time in mcrun)
 
 
-      10.0 MeV photons in room temp water     probid =  11/09/18 16:12:41 
+      10.0 MeV photons in room temp water     probid =  11/21/18 13:37:56 
 
  photon creation     tracks      weight        energy            photon loss         tracks      weight        energy
                                  (per source particle)                                           (per source particle)
@@ -223,15 +223,15 @@
    total photon collisions                8065929153          capture or escape 7.1949E-01          wc1  -5.0000E-01
                                                               any termination   7.1949E-01          wc2  -2.5000E-01
 
- computer time so far in this run   207.74 minutes            maximum number ever in bank         0
- computer time in mcrun             207.58 minutes            bank overflows to backup file       0
- source particles per minute            4.8174E+05
+ computer time so far in this run   241.85 minutes            maximum number ever in bank         0
+ computer time in mcrun             241.66 minutes            bank overflows to backup file       0
+ source particles per minute            4.1381E+05
  random numbers generated              94797821373            most random numbers used was        2366 in history    25999138
 
  range of sampled source weights = 1.0000E+00 to 1.0000E+00
 
  number of histories processed by each thread
-    12419127    12392061    12484661    12565098    12455644    12484978    12590816    12607615
+    12399778    12699963    12430545    12572536    12255832    12582134    12455871    12603341
 1photon   activity in each cell                                                                         print table 126
 
                        tracks     population   collisions   collisions     number        flux        average      average
@@ -1326,7 +1326,7 @@
  the estimated slope of the 102 largest  tallies starting at  3.05000E+01 appears to be decreasing at least exponentially.
  the large score tail of the empirical history score probability density function appears to have no unsampled regions.
 
- relative error is 0! fom and f(x) signal-to-noise ratio are both undefined. histories/minute = 4.817E+05
+ relative error is 0! fom and f(x) signal-to-noise ratio are both undefined. histories/minute = 4.138E+05
 
 1tally        2        nps =   100000000
            tally type 2    particle flux averaged over a surface.       units   1/cm**2        
@@ -2406,7 +2406,7 @@
       relative error                  1.74331E-04             1.74456E-04                     0.000718
       variance of the variance        3.05192E-04             3.06407E-04                     0.003980
       shifted center                  4.86845E-03             4.86845E-03                     0.000000
-      figure of merit                 1.58511E+05             1.58284E+05                    -0.001435
+      figure of merit                 1.36161E+05             1.35965E+05                    -0.001435
 
  the estimated slope of the 200 largest  tallies starting at  1.71191E+03 appears to be decreasing at least exponentially.
  the empirical history score probability density function appears to be increasing at the largest  history scores:
@@ -2414,7 +2414,7 @@
  the history score probability density function appears to have an unsampled region at the largest  history scores:
  please examine. see print table 161.
 
- fom = (histories/minute)*(f(x) signal-to-noise ratio)**2 = (4.817E+05)*( 5.736E-01)**2 = (4.817E+05)*(3.290E-01) = 1.585E+05
+ fom = (histories/minute)*(f(x) signal-to-noise ratio)**2 = (4.138E+05)*( 5.736E-01)**2 = (4.138E+05)*(3.290E-01) = 1.362E+05
 
 1status of the statistical checks used to form confidence intervals for the mean for each tally bin
 
@@ -2437,31 +2437,31 @@
 
                             tally        1                          tally        2
           nps      mean     error   vov  slope    fom      mean     error   vov  slope    fom
-      8192000   3.2795E+00 0.0003 0.0000 10.0  585106   4.8709E-03 0.0006 0.0037  2.9  156702
-     16384000   3.2791E+00 0.0002 0.0000 10.0  586516   4.8678E-03 0.0004 0.0019  2.8  159667
-     24576000   3.2788E+00 0.0002 0.0000 10.0  586905   4.8680E-03 0.0003 0.0012  3.0  160106
-     32768000   3.2795E+00 0.0002 0.0000 10.0  587885   4.8686E-03 0.0003 0.0009  2.8  159624
-     40960000   3.2796E+00 0.0001 0.0000 10.0  588750   4.8683E-03 0.0003 0.0007  3.6  160094
-     49152000   3.2796E+00 0.0001 0.0000 10.0  589102   4.8682E-03 0.0002 0.0006  3.5  160310
-     57344000   3.2793E+00 0.0001 0.0000 10.0  589250   4.8681E-03 0.0002 0.0005 10.0  160547
-     65536000   3.2792E+00 0.0001 0.0000 10.0  589489   4.8677E-03 0.0002 0.0004 10.0  160911
-     73728000   3.2793E+00 0.0001 0.0000 10.0  589695   4.8681E-03 0.0002 0.0004 10.0  160113
-     81920000   3.2795E+00 0.0000 0.0000 10.0 1.0E+30   4.8685E-03 0.0002 0.0004 10.0  158954
-     90112000   3.2794E+00 0.0000 0.0000 10.0 1.0E+30   4.8685E-03 0.0002 0.0003 10.0  159012
-     98304000   3.2793E+00 0.0000 0.0000 10.0 1.0E+30   4.8684E-03 0.0002 0.0003 10.0  158631
-    100000000   3.2793E+00 0.0000 0.0000 10.0 1.0E+30   4.8684E-03 0.0002 0.0003 10.0  158511
+      8192000   3.2795E+00 0.0003 0.0000 10.0  507237   4.8709E-03 0.0006 0.0037  2.9  135847
+     16384000   3.2791E+00 0.0002 0.0000 10.0  507096   4.8678E-03 0.0004 0.0019  2.8  138047
+     24576000   3.2788E+00 0.0002 0.0000 10.0  507139   4.8680E-03 0.0003 0.0012  3.0  138346
+     32768000   3.2795E+00 0.0002 0.0000 10.0  507100   4.8686E-03 0.0003 0.0009  2.8  137689
+     40960000   3.2796E+00 0.0001 0.0000 10.0  507102   4.8683E-03 0.0003 0.0007  3.6  137892
+     49152000   3.2796E+00 0.0001 0.0000 10.0  507127   4.8682E-03 0.0002 0.0006  3.5  138002
+     57344000   3.2793E+00 0.0001 0.0000 10.0  507041   4.8681E-03 0.0002 0.0005 10.0  138148
+     65536000   3.2792E+00 0.0001 0.0000 10.0  507059   4.8677E-03 0.0002 0.0004 10.0  138410
+     73728000   3.2793E+00 0.0001 0.0000 10.0  507037   4.8681E-03 0.0002 0.0004 10.0  137670
+     81920000   3.2795E+00 0.0000 0.0000 10.0 1.0E+30   4.8685E-03 0.0002 0.0004 10.0  136646
+     90112000   3.2794E+00 0.0000 0.0000 10.0 1.0E+30   4.8685E-03 0.0002 0.0003 10.0  136659
+     98304000   3.2793E+00 0.0000 0.0000 10.0 1.0E+30   4.8684E-03 0.0002 0.0003 10.0  136278
+    100000000   3.2793E+00 0.0000 0.0000 10.0 1.0E+30   4.8684E-03 0.0002 0.0003 10.0  136161
 
  ***********************************************************************************************************************
 
- dump no.   11 on file runtpe     nps =   100000000     coll =     8065929153     ctm =      207.58   nrn =      
+ dump no.   11 on file runtpf     nps =   100000000     coll =     8065929153     ctm =      241.66   nrn =      
  94797821373
- tally data written to file mctal
+ tally data written to file mctam
 
          5 warning messages so far.
 
 
  run terminated when   100000000  particle histories were done.
 
- computer time =  207.75 minutes
+ computer time =  241.87 minutes
 
- mcnp     version 6     06/09/17                     11/09/18 16:38:40                     probid =  11/09/18 16:12:41 
+ mcnp     version 6     06/09/17                     11/21/18 14:08:09                     probid =  11/21/18 13:37:56 
