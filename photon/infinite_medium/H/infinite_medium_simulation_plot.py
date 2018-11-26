@@ -18,6 +18,7 @@ def plotInfiniteMediumSimulationSpectrum( rendezvous_file,
                                           mcnp_file_start,
                                           mcnp_file_end,
                                           is_a_current,
+                                          is_forward,
                                           top_ylims = None,
                                           bottom_ylims = None,
                                           xlims = None,
@@ -34,16 +35,24 @@ def plotInfiniteMediumSimulationSpectrum( rendezvous_file,
 
     full_entity_bin_data = estimator.getEntityBinProcessedData( entity_id )
 
-    start_index = estimator.getNumberOfBins( Event.OBSERVER_ENERGY_DIMENSION )
-    end_index = 2*start_index
+    start_index = 0
+    
+    if is_forward:
+        end_index = estimator.getNumberOfBins( Event.OBSERVER_ENERGY_DIMENSION )
+    else:
+        end_index = estimator.getNumberOfBins( Event.OBSERVER_SOURCE_ENERGY_DIMENSION )
 
     entity_bin_data = {"mean": [], "re": [], "e_bins": []}
 
     for i in range(start_index, end_index):
+        print i, full_entity_bin_data["mean"][i], full_entity_bin_data["re"][i]
         entity_bin_data["mean"].append( full_entity_bin_data["mean"][i] )
         entity_bin_data["re"].append( full_entity_bin_data["re"][i] )
 
-    entity_bin_data["e_bins"] = list(estimator.getEnergyDiscretization())
+    if is_forward:
+        entity_bin_data["e_bins"] = list(estimator.getEnergyDiscretization())
+    else:
+        entity_bin_data["e_bins"] = list(estimator.getSourceEnergyDiscretization())
 
     # Extract the mcnp data from the output file
     mcnp_file = open( mcnp_file, "r" )

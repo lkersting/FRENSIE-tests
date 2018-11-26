@@ -24,6 +24,10 @@ if __name__ == "__main__":
                       help="the data corresponds to a current")
     parser.add_option("--flux", action="store_false", dest="is_a_current",
                       help="the data corresponds to a flux")
+    parser.add_option("--forward", action="store_true", dest="is_forward",
+                      help="the data was generated in a forward simulation")
+    parser.add_option("--adjoint", action="store_true", dest="is_adjoint",
+                      help="the data was generated in an adjoint simulation")
     options,args = parser.parse_args()
 
     if options.is_a_current:
@@ -43,6 +47,7 @@ if __name__ == "__main__":
                                           options.mcnp_file_start,
                                           options.mcnp_file_end,
                                           options.is_a_current,
+                                          options.is_forward,
                                           top_ylims = top_ylims,
                                           bottom_ylims = bottom_ylims,
                                           xlims = [0.07, 0.1],

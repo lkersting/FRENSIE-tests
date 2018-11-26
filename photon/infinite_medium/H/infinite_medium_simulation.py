@@ -226,7 +226,7 @@ def runAdjointInfiniteMediumSimulation( sim_name,
 
     # Create the surface flux estimator
     surface_flux_estimator = Event.WeightMultipliedSurfaceFluxEstimator( 1, 1.0, [1, 3, 6, 9, 12], model )
-    surface_flux_estimator.setEnergyDiscretization( energy_bins )
+    surface_flux_estimator.setSourceEnergyDiscretization( energy_bins )
     surface_flux_estimator.setResponseFunctions( [response] )
     surface_flux_estimator.setParticleTypes( [MonteCarlo.ADJOINT_PHOTON] )
 
