@@ -30,14 +30,26 @@ if __name__ == "__main__":
                       help="the data was generated in an adjoint simulation")
     options,args = parser.parse_args()
 
-    if options.is_a_current:
-        top_ylims = [0.0, 60.0]
-        bottom_ylims = [0.98, 1.02]
-        legend_pos = (0.86,0.76)
-    else:
-        top_ylims = [0.0, 500000.0]
-        bottom_ylims = [0.9, 1.1]
-        legend_pos = (1.02,1.03)
+    if options.entity_id == 1:
+        top_ylims = [0.0, 0.2]
+        bottom_ylims = [0.95, 1.05]
+        legend_pos = (0.98,1.03)
+    elif options.entity_id == 3:
+        top_ylims = [0.0, 0.12]
+        bottom_ylims = [0.90, 1.10]
+        legend_pos = (0.99,1.05)
+    elif options.entity_id == 6:
+        top_ylims = [0.0, 0.05]
+        bottom_ylims = [0.80, 1.20]
+        legend_pos = (0.95,0.95)
+    elif options.entity_id == 9:
+        top_ylims = [0.0, 0.02]
+        bottom_ylims = [0.75, 1.25]
+        legend_pos = (0.95,0.95)
+    elif options.entity_id == 12:
+        top_ylims = [0.0, 0.0075]
+        bottom_ylims = [0.70, 1.30]
+        legend_pos = (0.95,0.95)
         
     # Plot the spectrum
     plotInfiniteMediumSimulationSpectrum( options.rendezvous_file,
@@ -50,7 +62,7 @@ if __name__ == "__main__":
                                           options.is_forward,
                                           top_ylims = top_ylims,
                                           bottom_ylims = bottom_ylims,
-                                          xlims = [0.07, 0.1],
+                                          xlims = [0.0, 0.1],
                                           legend_pos = legend_pos )
 
     

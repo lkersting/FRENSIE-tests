@@ -3,6 +3,7 @@ import math as m
 import matplotlib.pyplot as plt
 import os
 import sys
+import PyFrensie.Utility as Utility
 import PyFrensie.Geometry.DagMC as DagMC
 import PyFrensie.Utility as Utility
 import PyFrensie.MonteCarlo as MonteCarlo
@@ -23,6 +24,10 @@ def plotInfiniteMediumSimulationSpectrum( rendezvous_file,
                                           bottom_ylims = None,
                                           xlims = None,
                                           legend_pos = None ):
+
+    # Activate just-in-time initialization to prevent automatic loading of the
+    # geometry and data tables
+    Utility.activateJustInTimeInitialization()
 
     # Set the database path
     Collision.FilledGeometryModel.setDefaultDatabasePath( os.environ['DATABASE_PATH'] )
