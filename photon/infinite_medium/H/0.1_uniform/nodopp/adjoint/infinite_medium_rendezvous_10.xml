@@ -6,7 +6,7 @@
 	<d_archive_type>xml</d_archive_type>
 	<d_model class_id="1" tracking_level="0" version="1">
 		<px class_id="2" tracking_level="1" version="0" object_id="_0">
-			<raw_path>/home/alexr/Software/mcnpdata</raw_path>
+			<raw_path>/home/lkersting/software/mcnp6.2/MCNP_DATA</raw_path>
 			<d_scattering_center_definitions class_id="3" tracking_level="0" version="1">
 				<px class_id="4" tracking_level="1" version="0" object_id="_1">
 					<d_scattering_center_definitions class_id="5" tracking_level="0" version="0">
@@ -247,11 +247,12 @@
 									<px class_id_reference="46" object_id_reference="_14"></px>
 								</d_model>
 								<start_cell_cache>
-									<count>0</count>
+									<count>1</count>
 									<item_version>0</item_version>
+									<item>1</item>
 								</start_cell_cache>
-								<number_of_trials>0</number_of_trials>
-								<number_of_samples>0</number_of_samples>
+								<number_of_trials>100000000</number_of_trials>
+								<number_of_samples>100000000</number_of_samples>
 							</ParticleSourceComponent>
 							<d_particle_distribution class_id="61" tracking_level="0" version="1">
 								<px class_id="62" class_name="StandardParticleDistribution" tracking_level="1" version="0" object_id="_18">
@@ -552,39 +553,39 @@
 								<item_version>0</item_version>
 								<item class_id="96" tracking_level="0" version="0">
 									<first>0</first>
-									<second>0</second>
+									<second>100000000</second>
 								</item>
 								<item>
 									<first>1</first>
-									<second>0</second>
+									<second>100000000</second>
 								</item>
 								<item>
 									<first>2</first>
-									<second>0</second>
+									<second>100000000</second>
 								</item>
 								<item>
 									<first>3</first>
-									<second>0</second>
+									<second>100000000</second>
 								</item>
 								<item>
 									<first>4</first>
-									<second>0</second>
+									<second>100000000</second>
 								</item>
 								<item>
 									<first>5</first>
-									<second>0</second>
+									<second>100000000</second>
 								</item>
 								<item>
 									<first>6</first>
-									<second>0</second>
+									<second>100000000</second>
 								</item>
 								<item>
 									<first>7</first>
-									<second>0</second>
+									<second>100000000</second>
 								</item>
 								<item>
 									<first>8</first>
-									<second>0</second>
+									<second>100000000</second>
 								</item>
 							</dimension_trial_counters>
 							<dimension_sample_counters>
@@ -592,39 +593,39 @@
 								<item_version>0</item_version>
 								<item>
 									<first>0</first>
-									<second>0</second>
+									<second>100000000</second>
 								</item>
 								<item>
 									<first>1</first>
-									<second>0</second>
+									<second>100000000</second>
 								</item>
 								<item>
 									<first>2</first>
-									<second>0</second>
+									<second>100000000</second>
 								</item>
 								<item>
 									<first>3</first>
-									<second>0</second>
+									<second>100000000</second>
 								</item>
 								<item>
 									<first>4</first>
-									<second>0</second>
+									<second>100000000</second>
 								</item>
 								<item>
 									<first>5</first>
-									<second>0</second>
+									<second>100000000</second>
 								</item>
 								<item>
 									<first>6</first>
-									<second>0</second>
+									<second>100000000</second>
 								</item>
 								<item>
 									<first>7</first>
-									<second>0</second>
+									<second>100000000</second>
 								</item>
 								<item>
 									<first>8</first>
-									<second>0</second>
+									<second>100000000</second>
 								</item>
 							</dimension_sample_counters>
 						</BaseType>
@@ -672,7 +673,7 @@
 					<BaseType class_id="109" tracking_level="0" version="0">
 						<d_dispatcher_map class_id="110" tracking_level="0" version="0">
 							<count>5</count>
-							<bucket_count>7</bucket_count>
+							<bucket_count>11</bucket_count>
 							<item_version>0</item_version>
 							<item class_id="111" tracking_level="0" version="0">
 								<first>12</first>
@@ -3783,10 +3784,10 @@
 																			</d_estimator_total_bin_data>
 																			<d_entity_estimator_moments_map class_id="152" tracking_level="0" version="0">
 																				<count>5</count>
-																				<bucket_count>7</bucket_count>
+																				<bucket_count>11</bucket_count>
 																				<item_version>0</item_version>
 																				<item class_id="153" tracking_level="0" version="0">
-																					<first>3</first>
+																					<first>9</first>
 																					<second>
 																						<BaseType>
 																							<BaseType></BaseType>
@@ -5800,7 +5801,7 @@
 																					</second>
 																				</item>
 																				<item>
-																					<first>1</first>
+																					<first>12</first>
 																					<second>
 																						<BaseType>
 																							<BaseType></BaseType>
@@ -7814,7 +7815,7 @@
 																					</second>
 																				</item>
 																				<item>
-																					<first>6</first>
+																					<first>1</first>
 																					<second>
 																						<BaseType>
 																							<BaseType></BaseType>
@@ -9828,7 +9829,7 @@
 																					</second>
 																				</item>
 																				<item>
-																					<first>12</first>
+																					<first>6</first>
 																					<second>
 																						<BaseType>
 																							<BaseType></BaseType>
@@ -11842,7 +11843,7 @@
 																					</second>
 																				</item>
 																				<item>
-																					<first>9</first>
+																					<first>3</first>
 																					<second>
 																						<BaseType>
 																							<BaseType></BaseType>
@@ -13858,27 +13859,27 @@
 																			</d_entity_estimator_moments_map>
 																			<d_entity_norm_constants_map class_id="154" tracking_level="0" version="0">
 																				<count>5</count>
-																				<bucket_count>7</bucket_count>
+																				<bucket_count>11</bucket_count>
 																				<item_version>0</item_version>
 																				<item class_id="155" tracking_level="0" version="0">
 																					<first>12</first>
 																					<second>3.14158742024322455e+04</second>
 																				</item>
 																				<item>
-																					<first>9</first>
-																					<second>2.01061511301699611e+04</second>
+																					<first>1</first>
+																					<second>1.25662660088903317e+03</second>
 																				</item>
 																				<item>
 																					<first>6</first>
 																					<second>1.13097021745529619e+04</second>
 																				</item>
 																				<item>
-																					<first>1</first>
-																					<second>1.25662660088903317e+03</second>
-																				</item>
-																				<item>
 																					<first>3</first>
 																					<second>5.02652732526228829e+03</second>
+																				</item>
+																				<item>
+																					<first>9</first>
+																					<second>2.01061511301699611e+04</second>
 																				</item>
 																			</d_entity_norm_constants_map>
 																		</EntityEstimator>
@@ -13913,10 +13914,10 @@
 																		</d_total_estimator_moments>
 																		<d_entity_total_estimator_moments_map class_id="158" tracking_level="0" version="0">
 																			<count>5</count>
-																			<bucket_count>7</bucket_count>
+																			<bucket_count>11</bucket_count>
 																			<item_version>0</item_version>
 																			<item class_id="159" tracking_level="0" version="0">
-																				<first>3</first>
+																				<first>9</first>
 																				<second>
 																					<BaseType>
 																						<BaseType>
@@ -13948,7 +13949,7 @@
 																				</second>
 																			</item>
 																			<item>
-																				<first>1</first>
+																				<first>12</first>
 																				<second>
 																					<BaseType>
 																						<BaseType>
@@ -13980,7 +13981,7 @@
 																				</second>
 																			</item>
 																			<item>
-																				<first>6</first>
+																				<first>1</first>
 																				<second>
 																					<BaseType>
 																						<BaseType>
@@ -14012,7 +14013,7 @@
 																				</second>
 																			</item>
 																			<item>
-																				<first>12</first>
+																				<first>6</first>
 																				<second>
 																					<BaseType>
 																						<BaseType>
@@ -14044,7 +14045,7 @@
 																				</second>
 																			</item>
 																			<item>
-																				<first>9</first>
+																				<first>3</first>
 																				<second>
 																					<BaseType>
 																						<BaseType>
@@ -14090,11 +14091,11 @@
 								</second>
 							</item>
 							<item>
-								<first>9</first>
+								<first>1</first>
 								<second>
 									<tx class_id_reference="113" object_id="_91">
 										<BaseType>
-											<d_entity_id>9</d_entity_id>
+											<d_entity_id>1</d_entity_id>
 											<d_observer_sets>
 												<count>1</count>
 												<item_version>0</item_version>
@@ -14138,11 +14139,11 @@
 								</second>
 							</item>
 							<item>
-								<first>1</first>
+								<first>3</first>
 								<second>
 									<tx class_id_reference="113" object_id="_93">
 										<BaseType>
-											<d_entity_id>1</d_entity_id>
+											<d_entity_id>3</d_entity_id>
 											<d_observer_sets>
 												<count>1</count>
 												<item_version>0</item_version>
@@ -14162,11 +14163,11 @@
 								</second>
 							</item>
 							<item>
-								<first>3</first>
+								<first>9</first>
 								<second>
 									<tx class_id_reference="113" object_id="_94">
 										<BaseType>
-											<d_entity_id>3</d_entity_id>
+											<d_entity_id>9</d_entity_id>
 											<d_observer_sets>
 												<count>1</count>
 												<item_version>0</item_version>
@@ -14247,15 +14248,15 @@
 					<ParticleHistorySimulationCompletionCriterion class_id="183" tracking_level="0" version="0">
 						<ParticleHistoryObserver></ParticleHistoryObserver>
 					</ParticleHistorySimulationCompletionCriterion>
-					<num_completed_histories>0</num_completed_histories>
+					<num_completed_histories>100000000</num_completed_histories>
 					<d_history_wall>100000000</d_history_wall>
 				</px>
 			</d_simulation_completion_criterion>
-			<number_of_committed_histories>0</number_of_committed_histories>
-			<elapsed_time>0.00000000000000000e+00</elapsed_time>
+			<number_of_committed_histories>100000000</number_of_committed_histories>
+			<elapsed_time>1.49225657486915588e+03</elapsed_time>
 			<d_estimators class_id="184" tracking_level="0" version="0">
 				<count>1</count>
-				<bucket_count>3</bucket_count>
+				<bucket_count>2</bucket_count>
 				<item_version>0</item_version>
 				<item class_id="185" tracking_level="0" version="0">
 					<first>1</first>
@@ -14294,8 +14295,8 @@
 	<d_properties>
 		<px class_id_reference="37" object_id_reference="_5"></px>
 	</d_properties>
-	<d_next_history>0</d_next_history>
-	<d_rendezvous_number>1</d_rendezvous_number>
+	<d_next_history>100000000</d_next_history>
+	<d_rendezvous_number>11</d_rendezvous_number>
 </manager>
 </boost_serialization>
 
