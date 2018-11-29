@@ -376,7 +376,7 @@ def runAdjointUniformEnergyInfiniteMediumSimulation( sim_name,
                                                      num_particles,
                                                      incoherent_model_type,
                                                      energy_cutoff,
-                                                     source_energy,
+                                                     energy_max,
                                                      energy_bins,
                                                      threads,
                                                      log_file = None ):
@@ -398,7 +398,7 @@ def runAdjointUniformEnergyInfiniteMediumSimulation( sim_name,
     simulation_properties.setParticleMode( MonteCarlo.ADJOINT_PHOTON_MODE )
     simulation_properties.setIncoherentAdjointModelType( incoherent_model_type )
     simulation_properties.setMinAdjointPhotonEnergy( energy_cutoff )
-    simulation_properties.setMaxAdjointPhotonEnergy( source_energy )
+    simulation_properties.setMaxAdjointPhotonEnergy( energy_max )
     simulation_properties.setAdjointPhotonRouletteThresholdWeight( 0.001 )
     simulation_properties.setAdjointPhotonRouletteSurvivalWeight( 0.01 )
     simulation_properties.setNumberOfAdjointPhotonHashGridBins( 100 )
@@ -444,7 +444,7 @@ def runAdjointUniformEnergyInfiniteMediumSimulation( sim_name,
     ## Set up the source
     particle_distribution = ActiveRegion.StandardParticleDistribution( "isotropic mono-energetic dist" )
 
-    uniform_energy = Distribution.UniformDistribution( energy_cutoff, source_energy )
+    uniform_energy = Distribution.UniformDistribution( energy_cutoff, energy_max )
     energy_dimension_dist = ActiveRegion.IndependentEnergyDimensionDistribution( uniform_energy )
     particle_distribution.setDimensionDistribution( energy_dimension_dist )
     particle_distribution.setPosition( 0.0, 0.0, 0.0 )
@@ -460,7 +460,7 @@ def runAdjointUniformEnergyInfiniteMediumSimulation( sim_name,
     event_handler = Event.EventHandler( model, simulation_properties )
 
     # Create the estimator response function
-    response_function = ActiveRegion.EnergyParticleResponseFunction( Distribution.DeltaDistribution( source_energy ) )
+    response_function = ActiveRegion.EnergyParticleResponseFunction( Distribution.UniformDistribution( energy_cutoff, energy_max, 1.0/(energy_max - energy_cutoff) ) )
     response = ActiveRegion.StandardParticleResponse( response_function )
 
     # Create the surface flux estimator
