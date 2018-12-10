@@ -34,7 +34,7 @@ modes=( COUPLED )
 methods=( MODIFIED_TWO_D )
 
 # Turn individual physics options off ( ELASTIC EXCITATION BREM IONIZATION )
-reactions_off=( ELASTIC EXCITATION BREM IONIZATION )
+reactions_off=( )
 
 ##---------------------------------------------------------------------------##
 ## ------------------------------- COMMANDS ---------------------------------##
@@ -96,8 +96,24 @@ do
         done
 
       done
+
+      if [ "${reactions_off}" == "" ]; then
+        for script in "${scripts[@]}"; do
+          sbatch ${script}
+        done
+      fi
+
     done
   else
-      sbatch adjoint.sh
+    for script in "${scripts[@]}"; do
+      sbatch ${script}
+    done
+
+    if [ "${reactions_off}" == "" ]; then
+      for script in "${scripts[@]}"; do
+        sbatch ${script}
+      done
+    fi
+
   fi
 done
