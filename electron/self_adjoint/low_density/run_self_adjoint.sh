@@ -35,6 +35,8 @@ methods=( MODIFIED_TWO_D )
 
 # Turn individual physics options off ( ELASTIC EXCITATION BREM IONIZATION )
 reactions_off=( )
+# Turn inelastic physics options 'off'
+inelastic_reactions=''
 
 ##---------------------------------------------------------------------------##
 ## ------------------------------- COMMANDS ---------------------------------##
@@ -98,8 +100,39 @@ do
       done
 
       if [ "${reactions_off}" == "" ]; then
-        for script in "${scripts[@]}"; do
+          for script in "${scripts[@]}"; do
+            sbatch ${script}
+          done
+      fi
+
+      if [ "${inelastic_reactions}" == "off" ]; then
+        command_off_1=s/EXCITATION=.*/EXCITATION=\'off\'/
+        command_off_2=s/BREM=.*/BREM=\'off\'/
+        command_off_3=s/IONIZATION=.*/IONIZATION=\'off\'/
+
+        command_on_1=s/EXCITATION=.*/EXCITATION=\'\'/
+        command_on_2=s/BREM=.*/BREM=\'\'/
+        command_on_3=s/IONIZATION=.*/IONIZATION=\'\'/
+
+        for script in ${scripts[@]}; do
+          sed -i "${command_off_1}" ${script}
+          sed -i "${command_off_2}" ${script}
+          sed -i "${command_off_3}" ${script}
           sbatch ${script}
+
+          sed -i "${command_on_1}" ${script}
+          sbatch ${script}
+          sed -i "${command_off_1}" ${script}
+
+          sed -i "${command_on_2}" ${script}
+          sbatch ${script}
+          sed -i "${command_off_2}" ${script}
+
+          sed -i "${command_on_3}" ${script}
+          sbatch ${script}
+          sed -i "${command_on_1}" ${script}
+          sed -i "${command_on_2}" ${script}
+
         done
       fi
 
@@ -112,6 +145,37 @@ do
     if [ "${reactions_off}" == "" ]; then
       for script in "${scripts[@]}"; do
         sbatch ${script}
+      done
+    fi
+
+    if [ "${inelastic_reactions}" == "off" ]; then
+      command_off_1=s/EXCITATION=.*/EXCITATION=\'off\'/
+      command_off_2=s/BREM=.*/BREM=\'off\'/
+      command_off_3=s/IONIZATION=.*/IONIZATION=\'off\'/
+
+      command_on_1=s/EXCITATION=.*/EXCITATION=\'\'/
+      command_on_2=s/BREM=.*/BREM=\'\'/
+      command_on_3=s/IONIZATION=.*/IONIZATION=\'\'/
+
+      for script in ${scripts[@]}; do
+        sed -i "${command_off_1}" ${script}
+        sed -i "${command_off_2}" ${script}
+        sed -i "${command_off_3}" ${script}
+        sbatch ${script}
+
+        sed -i "${command_on_1}" ${script}
+        sbatch ${script}
+        sed -i "${command_off_1}" ${script}
+
+        sed -i "${command_on_2}" ${script}
+        sbatch ${script}
+        sed -i "${command_off_2}" ${script}
+
+        sed -i "${command_on_3}" ${script}
+        sbatch ${script}
+        sed -i "${command_on_1}" ${script}
+        sed -i "${command_on_2}" ${script}
+
       done
     fi
 

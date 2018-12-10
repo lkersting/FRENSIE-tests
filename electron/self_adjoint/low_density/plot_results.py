@@ -105,7 +105,7 @@ labels = []
 
 # Plot histogram of results
 label = "adjoint"
-if not NORM = 1.0:
+if not NORM == 1.0:
   label += "*" + str(NORM)
 m, bins, plt1 = plt.hist(adjoint_x[:-1], bins=adjoint_x, weights=adjoint_y, histtype='step', label=label, color='b', linestyle=linestyles[0], linewidth=1.8 )
 
