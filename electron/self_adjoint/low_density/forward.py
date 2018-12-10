@@ -142,17 +142,11 @@ def runSimulation( threads, histories, time ):
   # Fill model
   model = Collision.FilledGeometryModel( database_path, scattering_center_definition_database, material_definition_database, properties, geom_model, True )
 
-  # Set particle distribution
-  particle_distribution = ActiveRegion.StandardParticleDistribution( "source distribution" )
+  # Set up the source
+  particle_distribution = ActiveRegion.StandardParticleDistribution( "isotropic mono-energetic source dist" )
 
-  # Set the energy dimension distribution
-  delta_energy = Distribution.DeltaDistribution( energy )
-  energy_dimension_dist = ActiveRegion.IndependentEnergyDimensionDistribution( delta_energy )
-  particle_distribution.setDimensionDistribution( energy_dimension_dist )
-
-  # Set the spatial dimension distribution
+  particle_distribution.setEnergy( energy )
   particle_distribution.setPosition( 0.0, 0.0, 0.0 )
-
   particle_distribution.constructDimensionDistributionDependencyTree()
 
   # Set source components

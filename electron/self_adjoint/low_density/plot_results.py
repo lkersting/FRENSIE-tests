@@ -33,7 +33,8 @@ forward_path = user_args.f
 
 # Adjoint normalization factor
 MAX_ENERGY=0.01
-NORM=MAX_ENERGY
+CUTOFF_ENERGY=0.0001
+NORM=MAX_ENERGY-CUTOFF_ENERGY
 
 # Get Adjoint Data
 with open(adjoint_path) as input:
