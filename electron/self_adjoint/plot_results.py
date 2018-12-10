@@ -32,7 +32,8 @@ adjoint_path = user_args.a
 forward_path = user_args.f
 
 # Adjoint normalization factor
-NORM=440
+MAX_ENERGY=0.01
+NORM=MAX_ENERGY
 
 # Get Adjoint Data
 with open(adjoint_path) as input:
@@ -45,7 +46,7 @@ with open(adjoint_path) as input:
       # Get the x bin widths
       bin_widths = (adjoint_x[1:] - adjoint_x[:-1])
       # Get the binned adjoint surface flux
-      adjoint_bin_y = np.asfarray(data[1][1:])/NORM
+      adjoint_bin_y = np.asfarray(data[1][1:])*NORM
       # Average the flux to the bin width
       adjoint_y = adjoint_bin_y/bin_widths
       # Calculate the error for the bin averaged surface flux
@@ -102,8 +103,8 @@ labels = []
 
 # Plot histogram of results
 label = "adjoint"
-if NORM > 1.0:
-  label += "/" + str(NORM)
+if not NORM = 1.0:
+  label += "*" + str(NORM)
 m, bins, plt1 = plt.hist(adjoint_x[:-1], bins=adjoint_x, weights=adjoint_y, histtype='step', label=label, color='b', linestyle=linestyles[0], linewidth=1.8 )
 
 # Plot error bars
