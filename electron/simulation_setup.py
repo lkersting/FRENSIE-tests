@@ -76,8 +76,8 @@ def setSimulationProperties( histories, time, interpolation, grid_policy, elasti
   # Set the bivariate Grid Policy (UNIT_BASE_CORRELATED, CORRELATED, UNIT_BASE)
   properties.setElectronTwoDGridPolicy( grid_policy )
 
-  # Set the electron evaluation tolerance (Default is 1e-8)
-  properties.setElectronEvaluationTolerance( 1e-8 )
+  # Set the electron evaluation tolerance (Default is 1e-6)
+  properties.setElectronEvaluationTolerance( 1e-6 )
 
   ## --- Elastic Properties ---
 
@@ -152,8 +152,8 @@ def setAdjointSimulationProperties( histories, time, elastic_mode, elastic_sampl
   # Set the max electron energy in MeV (Default is 20 MeV)
   properties.setMaxAdjointElectronEnergy( 20.0 )
 
-  # Set the electron evaluation tolerance (Default is 1e-8)
-  properties.setAdjointElectronEvaluationTolerance( 1e-8 )
+  # Set the electron evaluation tolerance (Default is 1e-6)
+  properties.setAdjointElectronEvaluationTolerance( 1e-6 )
 
   ## --- Adjoint Elastic Properties ---
 
