@@ -91,7 +91,7 @@ def runSimulation( threads, histories, time ):
   event_handler = Event.EventHandler( properties )
 
   # Set the energy bins
-  bins = list(Utility.doubleArrayFromString( "{ 1e-4, 58i, 6e-3, 99i, 1e-2}" ))
+  bins = list(Utility.doubleArrayFromString( "{ 1e-4, 68i, 7e-3, 199i, 1e-2}" ))
 
   ## ------------------------ Surface Flux Estimator ------------------------ ##
 
@@ -119,10 +119,10 @@ def runSimulation( threads, histories, time ):
 
   ## -------------------------- Particle Tracker ---------------------------- ##
 
-  # particle_tracker = Event.ParticleTracker( 0, 1000 )
+  particle_tracker = Event.ParticleTracker( 0, 100 )
 
-  # # Add the particle tracker to the event handler
-  # event_handler.addParticleTracker( particle_tracker )
+  # Add the particle tracker to the event handler
+  event_handler.addParticleTracker( particle_tracker )
 
   ##--------------------------------------------------------------------------##
   ## ----------------------- SIMULATION MANAGER SETUP ----------------------- ##
@@ -167,8 +167,13 @@ def runSimulation( threads, histories, time ):
 
   particle_distribution.constructDimensionDistributionDependencyTree()
 
+  # Set the source critical line energies for atomic excitation
+  source_critical_line = [ 1.0e-2, 9.98014149999999940210e-03, 9.96028347064644922759e-03, 9.94042591192819367796e-03, 9.92056868792967096182e-03 ]
+
+  # source_critical_line = [ 1.0e-2, 9.98014149999999940210e-03, 9.96028347064644922759e-03, 9.94042591192819367796e-03, 9.92056868792967096182e-03, 9.90071198279725804559e-03, 9.88085572857619852394e-03, 9.86099992615120136963e-03, 9.84114457641047449266e-03, 9.82128968024574555695e-03, 9.80143523855228106234e-03 ]
+
   # Set source components
-  source_component = [ActiveRegion.StandardAdjointElectronSourceComponent( 0, 1.0, model, particle_distribution )]
+  source_component = [ActiveRegion.StandardAdjointElectronSourceComponent( 0, 1.0, geom_model, particle_distribution, source_critical_line )]
 
   # Set source
   source = ActiveRegion.StandardParticleSource( source_component )
@@ -358,3 +363,58 @@ def processData( event_handler, filename, title ):
 
   file3 = filename + "_5"
   setup.processSurfaceFluxSourceEnergyBinData( surface_flux, 16, file3, title )
+
+##----------------------------------------------------------------------------##
+##------------------------ printParticleTrackInfo -------------------------##
+##----------------------------------------------------------------------------##
+
+# This function pulls data from the rendezvous file
+def printParticleTrackInfo( rendezvous_file ):
+
+  Collision.FilledGeometryModel.setDefaultDatabasePath( database_path )
+
+  # Load data from file
+  manager = Manager.ParticleSimulationManagerFactory( rendezvous_file ).getManager()
+  event_handler = manager.getEventHandler()
+
+  # Get the simulation name and title
+  properties = manager.getSimulationProperties()
+
+  if "epr14" not in rendezvous_file:
+    file_type = Data.ElectroatomicDataProperties.Native_EPR_FILE
+  else:
+    file_type = Data.ElectroatomicDataProperties.ACE_EPR_FILE
+
+  filename, title = setSimulationName( properties )
+
+  # Process surface flux data
+  particle_tracker = event_handler.getParticleTracker( 0 )
+
+  history_map = particle_tracker.getHistoryData()
+  print "len(history_map) = ", len(history_map)
+  print "len(history_map[0]) = ", len(list(history_map[0]))
+
+  print particle_tracker.getTrackedHistories()
+  print list(history_map)
+
+  cached_particle_state = None
+  for i in history_map:
+    print "\nHistory number:", i
+    if MonteCarlo.ADJOINT_ELECTRON in history_map[i]:
+      map_i = history_map[i][MonteCarlo.ADJOINT_ELECTRON]
+      for j in range(len(map_i)):
+        print "  j:",j
+        for k in range(len(map_i[j])):
+          print "    k:",k
+          print "state:\tenergy\t\t\t\tweight\t\tlocation\t\t\t\tdirection"
+          cached_particle_state = map_i[j][k]
+
+          for l in range(len(cached_particle_state)):
+            if l < 5:
+              location = list(cached_particle_state[l][0])
+              direction = list(cached_particle_state[l][1])
+              energy = cached_particle_state[l][2]
+              time = cached_particle_state[l][3]
+              weight = cached_particle_state[l][4]
+              collision = cached_particle_state[l][5]
+              print l,":\t",'%.20e' % energy,"\t",'%.6e' % weight,"\t",location,"\t",direction,"\t",collision

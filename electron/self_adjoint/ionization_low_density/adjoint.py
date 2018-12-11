@@ -91,7 +91,7 @@ def runSimulation( threads, histories, time ):
   event_handler = Event.EventHandler( properties )
 
   # Set the energy bins
-  bins = list(Utility.doubleArrayFromString( "{ 1e-4, 58i, 6e-3, 99i, 1e-2}" ))
+  bins = list(Utility.doubleArrayFromString( "{ 1e-4, 68i, 7e-3, 199i, 1e-2}" ))
 
   ## ------------------------ Surface Flux Estimator ------------------------ ##
 
@@ -390,7 +390,7 @@ def printParticleTrackInfo( rendezvous_file ):
   print "len(history_map[0]) = ", len(list(history_map[0]))
 
   print particle_tracker.getTrackedHistories()
-  print list(history_map[0])
+  print list(history_map)
 
   cached_particle_state = None
   for i in history_map:

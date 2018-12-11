@@ -42,11 +42,9 @@ echo "imprint body all" >> temp_file
 echo "merge tol 5e-7" >> temp_file
 echo "merge all" >> temp_file
 
-1.026e-6
-
 # Set groups
 echo "group 'termination.cell' add vol 10" >> temp_file
-echo "group 'material_1_density_-0.000001026' add vol 1 5 6 7" >> temp_file
+echo "group 'material_1_density_-0.000002052' add vol 1 5 6 7" >> temp_file
 echo "group 'estimator_1.surface.flux.e' add surface 1 16 18" >> temp_file
 echo "group 'estimator_2.surface.flux.e*' add surface 1 16 18" >> temp_file
 
