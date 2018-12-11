@@ -107,7 +107,7 @@ def runSimulation( threads, histories, time ):
   surface_flux_estimator.setSourceEnergyDiscretization( bins )
 
   # Create response function
-  delta_energy = Distribution.DeltaDistribution( energy )
+  delta_energy = Distribution.DeltaDistribution( energy, energy - energy_cutoff )
   particle_response_function = ActiveRegion.EnergyParticleResponseFunction( delta_energy )
   response_function = ActiveRegion.StandardParticleResponse( particle_response_function )
 
@@ -358,3 +358,57 @@ def processData( event_handler, filename, title ):
 
   file3 = filename + "_5"
   setup.processSurfaceFluxSourceEnergyBinData( surface_flux, 16, file3, title )
+
+##----------------------------------------------------------------------------##
+##------------------------ printParticleTrackInfo -------------------------##
+##----------------------------------------------------------------------------##
+
+# This function pulls data from the rendezvous file
+def printParticleTrackInfo( rendezvous_file ):
+
+  Collision.FilledGeometryModel.setDefaultDatabasePath( database_path )
+
+  # Load data from file
+  manager = Manager.ParticleSimulationManagerFactory( rendezvous_file ).getManager()
+  event_handler = manager.getEventHandler()
+
+  # Get the simulation name and title
+  properties = manager.getSimulationProperties()
+
+  if "epr14" not in rendezvous_file:
+    file_type = Data.ElectroatomicDataProperties.Native_EPR_FILE
+  else:
+    file_type = Data.ElectroatomicDataProperties.ACE_EPR_FILE
+
+  filename, title = setSimulationName( properties )
+
+  # Process surface flux data
+  particle_tracker = event_handler.getParticleTracker( 0 )
+
+  history_map = particle_tracker.getHistoryData()
+  print "len(history_map) = ", len(history_map)
+  print "len(history_map[0]) = ", len(list(history_map[0]))
+
+  print particle_tracker.getTrackedHistories()
+  print list(history_map[0])
+
+  cached_particle_state = None
+  for i in history_map:
+    print "\nHistory number:", i
+    if MonteCarlo.ADJOINT_ELECTRON in history_map[i]:
+      map_i = history_map[i][MonteCarlo.ADJOINT_ELECTRON]
+      for j in range(len(map_i)):
+        print "  j:",j
+        for k in range(len(map_i[j])):
+          print "    k:",k
+          print "state:\tenergy\t\tweight\t\tlocation\t\t\t\tdirection"
+          cached_particle_state = map_i[j][k]
+
+          for l in range(len(cached_particle_state)):
+            location = list(cached_particle_state[l][0])
+            direction = list(cached_particle_state[l][1])
+            energy = cached_particle_state[l][2]
+            time = cached_particle_state[l][3]
+            weight = cached_particle_state[l][4]
+            collision = cached_particle_state[l][5]
+            print l,":\t",'%.6e' % energy,"\t",'%.6e' % weight,"\t",location,"\t",direction,"\t",collision
