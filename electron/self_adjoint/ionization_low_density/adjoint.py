@@ -44,6 +44,9 @@ mode=MonteCarlo.COUPLED_DISTRIBUTION
 # ( TWO_D_UNION, ONE_D_UNION, MODIFIED_TWO_D_UNION )
 method=MonteCarlo.MODIFIED_TWO_D_UNION
 
+# Set the bivariate Grid Policy ( 'UNIT_BASE_CORRELATED', 'CORRELATED', 'UNIT_BASE' )
+grid_policy='UNIT_BASE_CORRELATED'
+
 # Set database directory path (for Denali)
 if socket.gethostname() == "Denali":
   database_path = "/home/software/mcnpdata/database.xml"
@@ -137,12 +140,16 @@ def runSimulation( threads, histories, time ):
 
   element_definition = scattering_center_definition_database.createDefinition( element, Data.ZAID(zaid) )
 
-
-  # version = 0
-  if "debug" in pyfrensie_path:
-    version = 1
-  else:
+  if grid_policy == 'UNIT_BASE_CORRELATED':
     version = 0
+  elif grid_policy == 'UNIT_BASE':
+    version = 2
+  elif grid_policy == 'CORRELATED':
+    version = 4
+
+  if "debug" in pyfrensie_path:
+    version += 1
+
   file_type = Data.AdjointElectroatomicDataProperties.Native_EPR_FILE
 
   element_definition.setAdjointElectroatomicDataProperties(
@@ -269,8 +276,8 @@ def setSimulationProperties( histories, time ):
   properties.setCriticalAdjointElectronLineEnergies( [energy] )
 
   # Set the cutoff weight properties for rouletting
-  properties.setAdjointElectronRouletteThresholdWeight( 1e-20 )
-  properties.setAdjointElectronRouletteSurvivalWeight( 1e-18 )
+  properties.setAdjointElectronRouletteThresholdWeight( 1e-8 )
+  properties.setAdjointElectronRouletteSurvivalWeight( 1e-6 )
 
   # Turn certain reactions off
   # properties.setAdjointElasticModeOff()
@@ -300,7 +307,7 @@ def createResultsDirectory():
 # Define a function for naming an electron simulation
 def setSimulationName( properties ):
   extension, title = setup.setAdjointSimulationNameExtention( properties )
-  name = "adjoint_" + str(energy) + extension
+  name = "adjoint_" + str(energy) + "_" + grid_policy + extension
   date = str(datetime.datetime.today()).split()[0]
 
   output = "results/adjoint/" + date + "/" + name

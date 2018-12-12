@@ -47,6 +47,9 @@ else
   # Set the elastic coupled sampling method ( ONE_D TWO_D MODIFIED_TWO_D )
   METHOD=MODIFIED_TWO_D
 
+  # Set the bivariate Grid Policy ( UNIT_BASE_CORRELATED CORRELATED UNIT_BASE )
+  GRID_POLICY=UNIT_BASE_CORRELATED
+
   # Set certain reactions to "off"
   ELASTIC=''
   EXCITATION=''
@@ -92,6 +95,10 @@ else
   # Set the elastic coupled sampling method
   command=s/method=MonteCarlo.*/method=MonteCarlo.${METHOD}_UNION/
   sed -i $command ${python_script}.py
+
+  # Set the bivariate Grid Policy
+  command=s/grid_policy=MonteCarlo.*/grid_policy=MonteCarlo.${GRID_POLICY}_GRID/
+  sed -i "${command}" ${python_script}.py
 
   # Create the results directory
   directory=$(python -c "import ${python_script}; dir = ${python_script}.createResultsDirectory(); print dir" 2>&1)

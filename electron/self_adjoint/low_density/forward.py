@@ -39,6 +39,9 @@ mode=MonteCarlo.COUPLED_DISTRIBUTION
 # ( TWO_D_UNION, ONE_D_UNION, MODIFIED_TWO_D_UNION )
 method=MonteCarlo.MODIFIED_TWO_D_UNION
 
+# Set the bivariate Grid Policy ( UNIT_BASE_CORRELATED, CORRELATED, UNIT_BASE )
+grid_policy=MonteCarlo.UNIT_BASE_CORRELATED_GRID
+
 # Set database directory path (for Denali)
 if socket.gethostname() == "Denali":
   database_path = "/home/software/mcnpdata/database.xml"
@@ -49,9 +52,6 @@ geometry_path = path.dirname(path.realpath(__file__)) + "/geom.h5m"
 
 # Set the bivariate interpolation (LOGLOGLOG, LINLINLIN, LINLINLOG)
 interpolation=MonteCarlo.LOGLOGLOG_INTERPOLATION
-
-# Set the bivariate Grid Policy (UNIT_BASE_CORRELATED, CORRELATED, UNIT_BASE)
-grid_policy=MonteCarlo.UNIT_BASE_CORRELATED_GRID
 
 # Set the data file type (ACE_EPR_FILE, Native_EPR_FILE)
 file_type=Data.ElectroatomicDataProperties.Native_EPR_FILE

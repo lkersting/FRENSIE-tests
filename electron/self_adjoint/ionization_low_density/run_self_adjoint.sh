@@ -33,8 +33,13 @@ modes=( COUPLED )
 # ( ONE_D TWO_D MODIFIED_TWO_D )
 methods=( MODIFIED_TWO_D )
 
-# Turn individual physics options off ( ELASTIC IONIZATION )
+# Set the bivariate Grid Policy ( 'UNIT_BASE_CORRELATED' 'CORRELATED' 'UNIT_BASE' )
+grid_policies=( 'UNIT_BASE' 'UNIT_BASE_CORRELATED' )
+
+# Turn individual physics options off ( ELASTIC EXCITATION BREM IONIZATION )
 reactions_off=( )
+# Turn inelastic physics options 'off'
+inelastic_reactions=''
 
 ##---------------------------------------------------------------------------##
 ## ------------------------------- COMMANDS ---------------------------------##
@@ -76,6 +81,89 @@ do
       done
       echo "  Setting elastic coupled sampling method to ${method}"
 
+
+      for grid_policy in "${grid_policies[@]}"
+      do
+        # Set the bivariate Grid Policy
+        command=s/GRID_POLICY=.*/GRID_POLICY=${grid_policy}/
+        for script in ${scripts[@]}; do
+          sed -i "${command}" ${script}
+        done
+        echo "    Setting bivariate Grid Policy to ${grid_policy}"
+
+
+        for reaction in "${reactions_off[@]}"
+        do
+          # Set the reaction off
+          command=s/${reaction}=.*/${reaction}=\'off\'/
+          for script in "${scripts[@]}"; do
+            sed -i "${command}" ${script}
+          done
+          echo "      Turning the ${reaction} reaction off"
+
+          for script in "${scripts[@]}"; do
+            sbatch ${script}
+          done
+
+          # Set the reaction on
+          command=s/${reaction}=.*/${reaction}=\'\'/
+          for script in ${scripts[@]}; do
+            sed -i "${command}" ${script}
+          done
+
+        done
+
+        if [ "${reactions_off}" == "" ]; then
+            for script in "${scripts[@]}"; do
+              sbatch ${script}
+            done
+        fi
+
+        if [ "${inelastic_reactions}" == "off" ]; then
+          command_off_1=s/EXCITATION=.*/EXCITATION=\'off\'/
+          command_off_2=s/BREM=.*/BREM=\'off\'/
+          command_off_3=s/IONIZATION=.*/IONIZATION=\'off\'/
+
+          command_on_1=s/EXCITATION=.*/EXCITATION=\'\'/
+          command_on_2=s/BREM=.*/BREM=\'\'/
+          command_on_3=s/IONIZATION=.*/IONIZATION=\'\'/
+
+          for script in ${scripts[@]}; do
+            sed -i "${command_off_1}" ${script}
+            sed -i "${command_off_2}" ${script}
+            sed -i "${command_off_3}" ${script}
+            sbatch ${script}
+
+            sed -i "${command_on_1}" ${script}
+            sbatch ${script}
+            sed -i "${command_off_1}" ${script}
+
+            sed -i "${command_on_2}" ${script}
+            sbatch ${script}
+            sed -i "${command_off_2}" ${script}
+
+            sed -i "${command_on_3}" ${script}
+            sbatch ${script}
+            sed -i "${command_on_1}" ${script}
+            sed -i "${command_on_2}" ${script}
+
+          done
+        fi
+
+      done
+    done
+  else
+
+    for grid_policy in "${grid_policies[@]}"
+    do
+      # Set the bivariate Grid Policy
+      command=s/GRID_POLICY=.*/GRID_POLICY=${grid_policy}/
+      for script in ${scripts[@]}; do
+        sed -i "${command}" ${script}
+      done
+      echo "    Setting bivariate Grid Policy to ${grid_policy}"
+
+
       for reaction in "${reactions_off[@]}"
       do
         # Set the reaction off
@@ -83,7 +171,7 @@ do
         for script in "${scripts[@]}"; do
           sed -i "${command}" ${script}
         done
-        echo "    Turning the ${reaction} reaction off"
+        echo "      Turning the ${reaction} reaction off"
 
         for script in "${scripts[@]}"; do
           sbatch ${script}
@@ -103,17 +191,38 @@ do
           done
       fi
 
-    done
-  else
-    for script in "${scripts[@]}"; do
-      sbatch ${script}
-    done
+      if [ "${inelastic_reactions}" == "off" ]; then
+        command_off_1=s/EXCITATION=.*/EXCITATION=\'off\'/
+        command_off_2=s/BREM=.*/BREM=\'off\'/
+        command_off_3=s/IONIZATION=.*/IONIZATION=\'off\'/
 
-    if [ "${reactions_off}" == "" ]; then
-      for script in "${scripts[@]}"; do
-        sbatch ${script}
-      done
-    fi
+        command_on_1=s/EXCITATION=.*/EXCITATION=\'\'/
+        command_on_2=s/BREM=.*/BREM=\'\'/
+        command_on_3=s/IONIZATION=.*/IONIZATION=\'\'/
+
+        for script in ${scripts[@]}; do
+          sed -i "${command_off_1}" ${script}
+          sed -i "${command_off_2}" ${script}
+          sed -i "${command_off_3}" ${script}
+          sbatch ${script}
+
+          sed -i "${command_on_1}" ${script}
+          sbatch ${script}
+          sed -i "${command_off_1}" ${script}
+
+          sed -i "${command_on_2}" ${script}
+          sbatch ${script}
+          sed -i "${command_off_2}" ${script}
+
+          sed -i "${command_on_3}" ${script}
+          sbatch ${script}
+          sed -i "${command_on_1}" ${script}
+          sed -i "${command_on_2}" ${script}
+
+        done
+      fi
+
+    done
 
   fi
 done

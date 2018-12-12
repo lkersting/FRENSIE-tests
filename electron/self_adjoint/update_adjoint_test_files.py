@@ -77,7 +77,7 @@ if __name__ == "__main__":
     print bcolors.BOLD + "Updating the adjoint H native test data ...\n" + bcolors.ENDC
 
 
-    max_electron_energies = [ 0.01 ]
+    max_electron_energy = 0.01
 
     min_photon_energy = 1e-3
     max_photon_energy = 3.0
@@ -108,7 +108,6 @@ if __name__ == "__main__":
     num_moment_preserving_angles = 0
     tabular_evaluation_tol = 1e-7
     electron_two_d_interp_policy = "LogLogLog"
-    electron_two_d_grid_policy = "UnitBaseCorrelated"
     brems_min_energy_nudge_val = 1e-9
     brems_max_energy_nudge_val = 1e-6
     brems_eval_tol = 1e-5
@@ -123,14 +122,19 @@ if __name__ == "__main__":
     electroion_abs_diff_tol = 1e-20
     electroion_dist_tol = 1e-16
 
-    for i in range(len(max_electron_energies) ):
-      max_electron_energy = max_electron_energies[i]
+    electron_two_d_grid_policies = ["UnitBaseCorrelated", "UnitBase", "Correlated"]
+
+    for i in range(len(electron_two_d_grid_policies)):
+
+      # Set the version number
+      version = i*2
+      # # Add 1 to the version if using the refactored nudge values
+      # version += 1
 
       # Set the aepr file name
-      version=i
       aepr_file_name = aepr_directory + "/aepr_native_1_v" + str(version) + ".xml"
 
-      print bcolors.BOLD + "Updating file version " + str(version) + " with a max energy of " + str(max_electron_energy) + " MeV\n" + bcolors.ENDC
+      print bcolors.BOLD + "Updating file version " + str(version) + " with a " + electron_two_d_grid_policies[i] + " grid policy " + bcolors.ENDC
 
       data_container = \
       generateData( epr_file_name,
@@ -161,7 +165,7 @@ if __name__ == "__main__":
                     num_moment_preserving_angles,
                     tabular_evaluation_tol,
                     electron_two_d_interp_policy,
-                    electron_two_d_grid_policy,
+                    electron_two_d_grid_policies[i],
                     brems_min_energy_nudge_val,
                     brems_max_energy_nudge_val,
                     brems_eval_tol,

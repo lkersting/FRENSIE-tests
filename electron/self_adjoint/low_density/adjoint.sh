@@ -43,6 +43,9 @@ else
   # Set the elastic coupled sampling method ( ONE_D TWO_D MODIFIED_TWO_D )
   METHOD=MODIFIED_TWO_D
 
+  # Set the bivariate Grid Policy ( 'UNIT_BASE_CORRELATED' 'CORRELATED' 'UNIT_BASE' )
+  GRID_POLICY=UNIT_BASE_CORRELATED
+
   # Set certain reactions to "off"
   ELASTIC=''
   EXCITATION=''
@@ -84,6 +87,10 @@ else
 
   # Set the elastic distribution mode
   command=s/mode=MonteCarlo.*/mode=MonteCarlo.${MODE}_DISTRIBUTION/
+  sed -i "${command}" ${python_script}.py
+
+  # Set the bivariate Grid Policy
+  command=s/grid_policy=.*/grid_policy=\'${GRID_POLICY}\'/
   sed -i "${command}" ${python_script}.py
 
   # Set the elastic coupled sampling method
