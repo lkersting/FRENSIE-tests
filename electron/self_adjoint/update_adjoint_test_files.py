@@ -103,8 +103,15 @@ if __name__ == "__main__":
     adjoint_incoherent_grid_abs_diff_tol = 1e-42
     adjoint_incoherent_grid_dist_tol = 1e-16
 
+    if options.grid_policy == "UnitBaseCorrelated":
+      eval_tol = 1e-5
+      convergence_tol = 1e-3
+    elif options.grid_policy == "UnitBase":
+      eval_tol = 1e-7
+      convergence_tol = 1e-4
+
     # Set default electron grid tolerances
-    electron_grid_convergence_tol = 1e-3
+    electron_grid_convergence_tol = convergence_tol
     electron_grid_abs_diff_tol = 1e-20
     electron_grid_dist_tol = 1e-16
 
@@ -114,15 +121,15 @@ if __name__ == "__main__":
     electron_two_d_interp_policy = "LogLogLog"
     brems_min_energy_nudge_val = 1e-9
     brems_max_energy_nudge_val = 1e-6
-    brems_eval_tol = 1e-5
-    brems_grid_convergence_tol = 1e-3
+    brems_eval_tol = eval_tol
+    brems_grid_convergence_tol = convergence_tol
     brems_grid_abs_diff_tol = 1e-20
     brems_grid_dist_tol = 1e-16
 
     electroion_min_energy_nudge_val = 1e-9
     electroion_max_energy_nudge_val = 1e-6
-    electroion_eval_tol = 1e-5
-    electroion_convergence_tol = 1e-3
+    electroion_eval_tol = eval_tol
+    electroion_convergence_tol = convergence_tol
     electroion_abs_diff_tol = 1e-20
     electroion_dist_tol = 1e-16
 

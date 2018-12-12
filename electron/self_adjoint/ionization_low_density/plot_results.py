@@ -34,7 +34,7 @@ forward_path = user_args.f
 # Adjoint normalization factor
 MAX_ENERGY=0.01
 CUTOFF_ENERGY=0.0001
-NORM=MAX_ENERGY-CUTOFF_ENERGY
+NORM=1.0 #MAX_ENERGY-CUTOFF_ENERGY
 
 # Get Adjoint Data
 with open(adjoint_path) as input:
@@ -87,7 +87,7 @@ plt.ylabel('Surface Flux (#/cm$^2$)', size=14)
 plt.title( plot_title, size=16)
 ax=plt.gca()
 
-plt.xlim(0.006,0.01)
+# plt.xlim(0.006,0.01)
 # plt.ylim(0.0,2000)
 
 # plt.plot(exp_x, exp_y, label="Hanson (Exp.)", marker='s', markersize=5 )
@@ -176,8 +176,8 @@ yticks[0].label1.set_visible(False)
 ax0.grid(linestyle=':')
 ax1.grid(linestyle=':')
 
-plt.xlim(0.006,0.01)
-plt.ylim(0.0,1.1)
+plt.xlim(0.0085,0.01)
+plt.ylim(0.1,2.0)
 
 # remove vertical gap between subplots
 plt.subplots_adjust(hspace=.0)
