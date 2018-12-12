@@ -42,7 +42,7 @@ if [ "$#" -eq 1 ]; then
 else
 
   # Set the elastic distribution mode ( DECOUPLED COUPLED HYBRID )
-  MODE=COUPLED
+  MODE=DECOUPLED
 
   # Set the elastic coupled sampling method ( ONE_D TWO_D MODIFIED_TWO_D )
   METHOD=MODIFIED_TWO_D

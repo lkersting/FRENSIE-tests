@@ -33,7 +33,7 @@ pyfrensie_path =path.dirname( path.dirname(path.abspath(MonteCarlo.__file__)))
 energy=0.01
 
 # Set the elastic distribution mode ( DECOUPLED, COUPLED, HYBRID )
-mode=MonteCarlo.COUPLED_DISTRIBUTION
+mode=MonteCarlo.DECOUPLED_DISTRIBUTION
 
 # Set the elastic coupled sampling method
 # ( TWO_D_UNION, ONE_D_UNION, MODIFIED_TWO_D_UNION )

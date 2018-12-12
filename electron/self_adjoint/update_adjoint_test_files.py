@@ -109,6 +109,12 @@ if __name__ == "__main__":
     elif options.grid_policy == "UnitBase":
       eval_tol = 1e-7
       convergence_tol = 1e-4
+    elif options.grid_policy == "Correlated":
+      eval_tol = 1e-5
+      convergence_tol = 1e-3
+    else:
+      print "The grid policy ", options.grid_policy, " is currently not supported!"
+      sys.exit(1)
 
     # Set default electron grid tolerances
     electron_grid_convergence_tol = convergence_tol

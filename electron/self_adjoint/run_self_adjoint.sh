@@ -27,7 +27,7 @@ TIME=1350
 scripts=( 'forward.sh' 'adjoint.sh' )
 
 # Set the elastic distribution mode ( DECOUPLED COUPLED HYBRID )
-modes=( COUPLED )
+modes=( DECOUPLED )
 
 # Set the elastic coupled sampling method
 # ( ONE_D TWO_D MODIFIED_TWO_D )
