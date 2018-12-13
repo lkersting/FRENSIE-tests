@@ -1,4 +1,4 @@
-## Low Density Self-Adjoint H Sphere Test ##
+## Electro-ionization and Elastic Only Self-Adjoint H Sphere Test ##
 
 # Forward Setup
 Infinite medium H sphere of density 1.026e-6 g/cm3.
