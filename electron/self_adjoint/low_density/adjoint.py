@@ -120,12 +120,12 @@ def runSimulation( threads, histories, time ):
   # Add the estimator to the event handler
   event_handler.addEstimator( surface_flux_estimator )
 
-  ## -------------------------- Particle Tracker ---------------------------- ##
+  # ## -------------------------- Particle Tracker ---------------------------- ##
 
-  particle_tracker = Event.ParticleTracker( 0, 100 )
+  # particle_tracker = Event.ParticleTracker( 0, 5 )
 
-  # Add the particle tracker to the event handler
-  event_handler.addParticleTracker( particle_tracker )
+  # # Add the particle tracker to the event handler
+  # event_handler.addParticleTracker( particle_tracker )
 
   ##--------------------------------------------------------------------------##
   ## ----------------------- SIMULATION MANAGER SETUP ----------------------- ##

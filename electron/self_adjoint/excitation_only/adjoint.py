@@ -120,9 +120,9 @@ def runSimulation( threads, histories, time ):
   # Add the estimator to the event handler
   event_handler.addEstimator( surface_flux_estimator )
 
-  ## -------------------------- Particle Tracker ---------------------------- ##
+  # ## -------------------------- Particle Tracker ---------------------------- ##
 
-  particle_tracker = Event.ParticleTracker( 0, 500 )
+  particle_tracker = Event.ParticleTracker( 0, 5 )
 
   # Add the particle tracker to the event handler
   event_handler.addParticleTracker( particle_tracker )
@@ -174,8 +174,13 @@ def runSimulation( threads, histories, time ):
 
   particle_distribution.constructDimensionDistributionDependencyTree()
 
+  # Set the source critical line energies for atomic excitation
+  source_critical_line = [ 1.0e-2, 9.98014149999999940210e-03, 9.96028347064644922759e-03, 9.94042591192819367796e-03, 9.92056868792967096182e-03 ]
+
+  # source_critical_line = [ 1.0e-2, 9.98014149999999940210e-03, 9.96028347064644922759e-03, 9.94042591192819367796e-03, 9.92056868792967096182e-03, 9.90071198279725804559e-03, 9.88085572857619852394e-03, 9.86099992615120136963e-03, 9.84114457641047449266e-03, 9.82128968024574555695e-03, 9.80143523855228106234e-03 ]
+
   # Set source components
-  source_component = [ActiveRegion.StandardAdjointElectronSourceComponent( 0, 1.0, model, particle_distribution )]
+  source_component = [ActiveRegion.StandardAdjointElectronSourceComponent( 0, 1.0, geom_model, particle_distribution, source_critical_line )]
 
   # Set source
   source = ActiveRegion.StandardParticleSource( source_component )

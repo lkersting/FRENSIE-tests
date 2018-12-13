@@ -20,14 +20,14 @@ done
 # INSTALL="/home/lkersting/frensie0.4_debug/tests/electron"
 INSTALL="/home/lkersting/frensie0.4_release/tests/electron"
 
-# Get low density self-adjoint results
+# Get brem_only self-adjoint results
 cd ./results
-echo -e "\nGet low density self-adjoint results:"
+echo -e "\nGet brem_only self-adjoint results:"
   # Copy results to this location
-  scp -r aci2:${INSTALL}/self_adjoint/ionization_low_density/results/* ./
+  scp -r aci2:${INSTALL}/self_adjoint/brem_only/results/* ./
 
   # Erase files from cluster
   if [ "$delete" = "true" ]; then
-    ssh aci2 "rm -rf ${INSTALL}/self_adjoint/ionization_low_density/results/*"
+    ssh aci2 "rm -rf ${INSTALL}/self_adjoint/brem_only/results/*"
   fi
 cd ../

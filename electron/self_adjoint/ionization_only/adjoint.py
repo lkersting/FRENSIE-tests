@@ -122,10 +122,10 @@ def runSimulation( threads, histories, time ):
 
   ## -------------------------- Particle Tracker ---------------------------- ##
 
-  particle_tracker = Event.ParticleTracker( 0, 500 )
+  # particle_tracker = Event.ParticleTracker( 0, 5 )
 
-  # Add the particle tracker to the event handler
-  event_handler.addParticleTracker( particle_tracker )
+  # # Add the particle tracker to the event handler
+  # event_handler.addParticleTracker( particle_tracker )
 
   ##--------------------------------------------------------------------------##
   ## ----------------------- SIMULATION MANAGER SETUP ----------------------- ##
