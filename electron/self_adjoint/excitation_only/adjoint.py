@@ -423,4 +423,5 @@ def printParticleTrackInfo( rendezvous_file ):
             time = cached_particle_state[l][3]
             weight = cached_particle_state[l][4]
             collision = cached_particle_state[l][5]
-            print l,":\t",'%.6e' % energy,"\t",'%.6e' % weight,"\t",location,"\t",direction,"\t",collision
+            if l < 6:
+              print l,":\t",'%.6e' % energy,"\t",'%.6e' % weight,"\t",location,"\t",direction,"\t",collision
