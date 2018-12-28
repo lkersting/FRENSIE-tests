@@ -59,11 +59,12 @@ if __name__ == "__main__":
         print "The database does not contain the H native data"
         sys.exit(1)
 
-    if not element_properties.photoatomicDataAvailable( Data.PhotoatomicDataProperties.Native_EPR_FILE, 0 ):
-        print "The database does not contain version 0 of H native data"
+    epr_version = 0
+    if not element_properties.photoatomicDataAvailable( Data.PhotoatomicDataProperties.Native_EPR_FILE, epr_version ):
+        print "The database does not contain version ", epr_version, " of H native data"
         sys.exit(1)
 
-    data_properties = element_properties.getSharedPhotoatomicDataProperties( Data.PhotoatomicDataProperties.Native_EPR_FILE, 0 )
+    data_properties = element_properties.getSharedPhotoatomicDataProperties( Data.PhotoatomicDataProperties.Native_EPR_FILE, epr_version )
 
     epr_file_name = path.dirname(options.db_name) + "/" + data_properties.filePath()
 

@@ -344,6 +344,8 @@ def processDataFromRendezvous( rendezvous_file ):
 
   filename, title = setSimulationName( properties )
 
+  filename = rendezvous_file.split( '_rendezvous')[0]
+
   print "Processing the results:"
   processData( event_handler, filename, title )
 

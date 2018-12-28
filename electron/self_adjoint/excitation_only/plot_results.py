@@ -156,10 +156,12 @@ y = adjoint_y/forward_y
 # Print C/R results
 for i in range(0, len(y)):
   # print x[i+1], ": ", (1.0-y[i])*100, u"\u00B1", yerr[i]*100, "%"
-  print adjoint_x[i+1], ": ", y[i], "\t",forward_y[i]
+  # print '%.3e' % adjoint_x[i+1], ": ", '%.6e' % y[i], "\t",forward_y[i]
   if not np.isfinite( y[i] ):
     y[i] = 0
     yerr[i] = 0
+  else:
+    print '%.3e' % adjoint_x[i+1], ": ", '%.6e' % y[i], "\t", '%.6e' % forward_y[i]
 
 # Plot histogram of results
 m, bins, _ = ax1.hist(adjoint_x[:-1], bins=adjoint_x, weights=y, histtype='step', label="ratio", color='b', linestyle=linestyles[0], linewidth=1.8 )
@@ -176,8 +178,8 @@ yticks[0].label1.set_visible(False)
 ax0.grid(linestyle=':')
 ax1.grid(linestyle=':')
 
-plt.xlim(0.0085,0.01)
-plt.ylim(0.1,2.0)
+plt.xlim(0.0095,0.01)
+# plt.ylim(0.1,2.0)
 
 # remove vertical gap between subplots
 plt.subplots_adjust(hspace=.0)

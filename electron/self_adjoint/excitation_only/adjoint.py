@@ -122,7 +122,7 @@ def runSimulation( threads, histories, time ):
 
   # ## -------------------------- Particle Tracker ---------------------------- ##
 
-  particle_tracker = Event.ParticleTracker( 0, 5 )
+  particle_tracker = Event.ParticleTracker( 0, 100 )
 
   # Add the particle tracker to the event handler
   event_handler.addParticleTracker( particle_tracker )
@@ -175,9 +175,9 @@ def runSimulation( threads, histories, time ):
   particle_distribution.constructDimensionDistributionDependencyTree()
 
   # Set the source critical line energies for atomic excitation
-  source_critical_line = [ 1.0e-2, 9.98014149999999940210e-03, 9.96028347064644922759e-03, 9.94042591192819367796e-03, 9.92056868792967096182e-03 ]
+  # source_critical_line = [ 1.0e-2, 9.98014150098939e-03, 9.96028344740709607741e-03, 9.94042584309220815519e-03, 9.92056868792967096182e-03, 9.90071198279725804559e-03, 9.88085572857619852394e-03, 9.86099992615120136963e-03, 9.84114457641047449266e-03, 9.82128968024574555695e-03, 9.80143523855228106234e-03 ]
 
-  # source_critical_line = [ 1.0e-2, 9.98014149999999940210e-03, 9.96028347064644922759e-03, 9.94042591192819367796e-03, 9.92056868792967096182e-03, 9.90071198279725804559e-03, 9.88085572857619852394e-03, 9.86099992615120136963e-03, 9.84114457641047449266e-03, 9.82128968024574555695e-03, 9.80143523855228106234e-03 ]
+  source_critical_line = [ 1.0e-2, 9.98014149999999940210e-03, 9.96028344740709607741e-03, 9.94042584309220815519e-03, 9.92056868792967096182e-03, 9.90071198279725804559e-03, 9.88085572857619852394e-03, 9.86099992615120136963e-03, 9.84114457641047449266e-03, 9.82128968024574555695e-03, 9.80143523855228106234e-03, 9.78158125222891063066e-03, 9.76172772217804608774e-03, 9.74187464930570574950e-03, 9.72202203452153176921e-03, 9.70216987873881789306e-03, 9.68231818287452333793e-03, 9.66246694784930401645e-03, 9.64261617458752814946e-03, 9.62276586401730228693e-03, 9.60291601707049385928e-03 ]
 
   # Set source components
   source_component = [ActiveRegion.StandardAdjointElectronSourceComponent( 0, 1.0, geom_model, particle_distribution, source_critical_line )]
@@ -423,5 +423,7 @@ def printParticleTrackInfo( rendezvous_file ):
             time = cached_particle_state[l][3]
             weight = cached_particle_state[l][4]
             collision = cached_particle_state[l][5]
+            if collision == 0 and l > 1:
+              print ''
             if l < 6:
-              print l,":\t",'%.6e' % energy,"\t",'%.6e' % weight,"\t",location,"\t",direction,"\t",collision
+              print l,":\t",'%.22e' % energy,"\t",'%.6e' % weight,"\t",location,"\t",direction,"\t",collision
