@@ -36,6 +36,8 @@ if __name__ == "__main__":
                       help="the electron two d grid policy")
     parser.add_option("-v", "--version", type="int", dest="version", default=0,
                       help="the data file version number")
+    parser.add_option("--scatter_above_max_mode_off", action="store_true", dest="above_max_mode", default=True,
+                      help="Don't allow adjoint electrons to scatter above the max energy.")
     options,args = parser.parse_args()
 
     if path.exists( options.db_name ):
@@ -143,7 +145,12 @@ if __name__ == "__main__":
     # Set the aepr file name
     aepr_file_name = aepr_directory + "/aepr_native_1_v" + str(options.version) + ".xml"
 
-    print bcolors.BOLD + "Updating file version " + str(options.version) + " with a " + options.grid_policy + " grid policy " + bcolors.ENDC
+
+    if options.above_max_mode:
+      above_max = "on"
+    else:
+      above_max = "off"
+    print bcolors.BOLD + "Updating file version " + str(options.version) + " with a " + options.grid_policy + " grid policy and scatter above max energy mode " + above_max + bcolors.ENDC
 
     data_container = \
     generateData( epr_file_name,
@@ -173,6 +180,7 @@ if __name__ == "__main__":
                   cutoff_angle_cosine,
                   num_moment_preserving_angles,
                   tabular_evaluation_tol,
+                  options.above_max_mode,
                   electron_two_d_interp_policy,
                   options.grid_policy,
                   brems_min_energy_nudge_val,

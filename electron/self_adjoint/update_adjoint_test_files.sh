@@ -18,14 +18,13 @@ EXTRA_ARGS=$@
 ## ------------------------------- COMMANDS ---------------------------------##
 ##---------------------------------------------------------------------------##
 
-database='/home/lkersting/software/mcnp6.2/MCNP_DATA/database.xml'
-# database='/home/software/mcnpdata/database.xml'
+# database='/home/lkersting/software/mcnp6.2/MCNP_DATA/database.xml'
+database='/home/software/mcnpdata/database.xml'
 
 # Update the test files
 python ./update_adjoint_test_files.py -d ${database} -g "UnitBaseCorrelated" -v 0
+python ./update_adjoint_test_files.py -d ${database} -g "UnitBaseCorrelated" -v 1 --scatter_above_max_mode_off
 python ./update_adjoint_test_files.py -d ${database} -g "UnitBase" -v 2
+python ./update_adjoint_test_files.py -d ${database} -g "UnitBase" -v 3 --scatter_above_max_mode_off
 # python ./update_adjoint_test_files.py -d ${database} -g "Correlated" -v 4
-
-# python ./update_adjoint_test_files.py -d ${database} -g "UnitBaseCorrelated" -v 1
-# python ./update_adjoint_test_files.py -d ${database} -g "UnitBase" -v 3
-# # python ./update_adjoint_test_files.py -d ${database} -g "Correlated" -v 5
+# # python ./update_adjoint_test_files.py -d ${database} -g "Correlated" -v 5 --scatter_above_max_mode_off
