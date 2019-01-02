@@ -46,6 +46,9 @@ else
   # Set the bivariate Grid Policy ( 'UNIT_BASE_CORRELATED' 'CORRELATED' 'UNIT_BASE' )
   GRID_POLICY=UNIT_BASE_CORRELATED
 
+  # Set the nudge past max energy mode on/off
+  NUDGE_PAST_MAX='on'
+
   # Set certain reactions to "off"
   BREM=''
   # By default these reactions are off for this test
@@ -62,6 +65,12 @@ else
   cp adjoint.py ${python_script}.py
 
   # Change the python_script parameters
+
+  # Turn off the nudge past max energy mode
+  if [ "${NUDGE_PAST_MAX}" = "off" ]; then
+    command='s/nudge_past_max_energy =.*/nudge_past_max_energy = False/'
+    sed -i "${command}" ${python_script}.py
+  fi
 
   # Turn off elastic scattering
   if [ "${ELASTIC}" = "off" ]; then
