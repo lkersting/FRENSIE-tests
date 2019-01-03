@@ -310,7 +310,10 @@ def createResultsDirectory():
 # Define a function for naming an electron simulation
 def setSimulationName( properties ):
   extension, title = setup.setAdjointSimulationNameExtention( properties )
-  name = "adjoint_" + str(energy) + "_" + grid_policy + extension
+  name = "adjoint_" + str(energy) + "_" + grid_policy
+  if nudge_past_max_energy:
+    name += '_nudged_past_max'
+  name += extension
   date = str(datetime.datetime.today()).split()[0]
 
   output = "results/adjoint/" + date + "/" + name
