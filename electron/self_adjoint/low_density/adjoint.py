@@ -47,6 +47,9 @@ method=MonteCarlo.MODIFIED_TWO_D_UNION
 # Set the bivariate Grid Policy ( 'UNIT_BASE_CORRELATED', 'CORRELATED', 'UNIT_BASE' )
 grid_policy='UNIT_BASE_CORRELATED'
 
+# Set the nudge past max energy mode on/off (true/false)
+nudge_past_max_energy = True
+
 # Set database directory path (for Denali)
 if socket.gethostname() == "Denali":
   database_path = "/home/software/mcnpdata/database.xml"
@@ -147,7 +150,7 @@ def runSimulation( threads, histories, time ):
   elif grid_policy == 'CORRELATED':
     version = 4
 
-  if "debug" in pyfrensie_path:
+  if not nudge_past_max_energy:
     version += 1
 
   file_type = Data.AdjointElectroatomicDataProperties.Native_EPR_FILE

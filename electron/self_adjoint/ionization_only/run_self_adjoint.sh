@@ -36,6 +36,9 @@ methods=( MODIFIED_TWO_D )
 # Set the bivariate Grid Policy ( 'UNIT_BASE_CORRELATED' 'CORRELATED' 'UNIT_BASE' )
 grid_policies=( 'UNIT_BASE' 'UNIT_BASE_CORRELATED' )
 
+# Set the nudge past max energy mode on/off ( 'on' 'off' )
+nudge_modes=( 'off' 'on')
+
 # Turn individual physics options off ( ELASTIC EXCITATION BREM IONIZATION )
 reactions_off=( )
 # Turn inelastic physics options 'off'
@@ -91,6 +94,93 @@ do
         done
         echo "    Setting bivariate Grid Policy to ${grid_policy}"
 
+        for nudge_mode in "${nudge_modes[@]}"
+        do
+          # Set the nudge mode
+          command=s/NUDGE_PAST_MAX=.*/NUDGE_PAST_MAX=\'${nudge_mode}\'/
+          sed -i "${command}" adjoint.sh
+          echo "    Setting nudge past max energy to ${nudge_mode}"
+
+          for reaction in "${reactions_off[@]}"
+          do
+            # Set the reaction off
+            command=s/${reaction}=.*/${reaction}=\'off\'/
+            for script in "${scripts[@]}"; do
+              sed -i "${command}" ${script}
+            done
+            echo "      Turning the ${reaction} reaction off"
+
+            for script in "${scripts[@]}"; do
+              sbatch ${script}
+            done
+
+            # Set the reaction on
+            command=s/${reaction}=.*/${reaction}=\'\'/
+            for script in ${scripts[@]}; do
+              sed -i "${command}" ${script}
+            done
+
+          done
+
+        done
+
+        if [ "${reactions_off}" == "" ]; then
+            for script in "${scripts[@]}"; do
+              sbatch ${script}
+            done
+        fi
+
+        if [ "${inelastic_reactions}" == "off" ]; then
+          command_off_1=s/EXCITATION=.*/EXCITATION=\'off\'/
+          command_off_2=s/BREM=.*/BREM=\'off\'/
+          command_off_3=s/IONIZATION=.*/IONIZATION=\'off\'/
+
+          command_on_1=s/EXCITATION=.*/EXCITATION=\'\'/
+          command_on_2=s/BREM=.*/BREM=\'\'/
+          command_on_3=s/IONIZATION=.*/IONIZATION=\'\'/
+
+          for script in ${scripts[@]}; do
+            sed -i "${command_off_1}" ${script}
+            sed -i "${command_off_2}" ${script}
+            sed -i "${command_off_3}" ${script}
+            sbatch ${script}
+
+            sed -i "${command_on_1}" ${script}
+            sbatch ${script}
+            sed -i "${command_off_1}" ${script}
+
+            sed -i "${command_on_2}" ${script}
+            sbatch ${script}
+            sed -i "${command_off_2}" ${script}
+
+            sed -i "${command_on_3}" ${script}
+            sbatch ${script}
+            sed -i "${command_on_1}" ${script}
+            sed -i "${command_on_2}" ${script}
+
+          done
+        fi
+
+      done
+    done
+  else
+
+    for grid_policy in "${grid_policies[@]}"
+    do
+      # Set the bivariate Grid Policy
+      command=s/GRID_POLICY=.*/GRID_POLICY=${grid_policy}/
+      for script in ${scripts[@]}; do
+        sed -i "${command}" ${script}
+      done
+      echo "    Setting bivariate Grid Policy to ${grid_policy}"
+
+
+      for nudge_mode in "${nudge_modes[@]}"
+      do
+        # Set the nudge mode
+        command=s/NUDGE_PAST_MAX=.*/NUDGE_PAST_MAX=\'${nudge_mode}\'/
+        sed -i "${command}" adjoint.sh
+        echo "    Setting nudge past max energy to ${nudge_mode}"
 
         for reaction in "${reactions_off[@]}"
         do
@@ -151,76 +241,6 @@ do
         fi
 
       done
-    done
-  else
-
-    for grid_policy in "${grid_policies[@]}"
-    do
-      # Set the bivariate Grid Policy
-      command=s/GRID_POLICY=.*/GRID_POLICY=${grid_policy}/
-      for script in ${scripts[@]}; do
-        sed -i "${command}" ${script}
-      done
-      echo "    Setting bivariate Grid Policy to ${grid_policy}"
-
-
-      for reaction in "${reactions_off[@]}"
-      do
-        # Set the reaction off
-        command=s/${reaction}=.*/${reaction}=\'off\'/
-        for script in "${scripts[@]}"; do
-          sed -i "${command}" ${script}
-        done
-        echo "      Turning the ${reaction} reaction off"
-
-        for script in "${scripts[@]}"; do
-          sbatch ${script}
-        done
-
-        # Set the reaction on
-        command=s/${reaction}=.*/${reaction}=\'\'/
-        for script in ${scripts[@]}; do
-          sed -i "${command}" ${script}
-        done
-
-      done
-
-      if [ "${reactions_off}" == "" ]; then
-          for script in "${scripts[@]}"; do
-            sbatch ${script}
-          done
-      fi
-
-      if [ "${inelastic_reactions}" == "off" ]; then
-        command_off_1=s/EXCITATION=.*/EXCITATION=\'off\'/
-        command_off_2=s/BREM=.*/BREM=\'off\'/
-        command_off_3=s/IONIZATION=.*/IONIZATION=\'off\'/
-
-        command_on_1=s/EXCITATION=.*/EXCITATION=\'\'/
-        command_on_2=s/BREM=.*/BREM=\'\'/
-        command_on_3=s/IONIZATION=.*/IONIZATION=\'\'/
-
-        for script in ${scripts[@]}; do
-          sed -i "${command_off_1}" ${script}
-          sed -i "${command_off_2}" ${script}
-          sed -i "${command_off_3}" ${script}
-          sbatch ${script}
-
-          sed -i "${command_on_1}" ${script}
-          sbatch ${script}
-          sed -i "${command_off_1}" ${script}
-
-          sed -i "${command_on_2}" ${script}
-          sbatch ${script}
-          sed -i "${command_off_2}" ${script}
-
-          sed -i "${command_on_3}" ${script}
-          sbatch ${script}
-          sed -i "${command_on_1}" ${script}
-          sed -i "${command_on_2}" ${script}
-
-        done
-      fi
 
     done
 
