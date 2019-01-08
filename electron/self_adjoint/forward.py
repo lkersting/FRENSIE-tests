@@ -146,7 +146,7 @@ def runSimulation( threads, histories, time ):
   element_definition = scattering_center_definition_database.createDefinition( element, Data.ZAID(zaid) )
 
 
-  version = 0
+  version = 1
   if file_type == Data.ElectroatomicDataProperties.ACE_EPR_FILE:
     version = 14
 
