@@ -36,7 +36,7 @@ if __name__ == "__main__":
                       help="the electron two d grid policy")
     parser.add_option("-v", "--version", type="int", dest="version", default=0,
                       help="the data file version number")
-    parser.add_option("--scatter_above_max_mode_off", action="store_true", dest="above_max_mode", default=True,
+    parser.add_option("--scatter_above_max_mode_off", action="store_false", dest="above_max_mode", default=True,
                       help="Don't allow adjoint electrons to scatter above the max energy.")
     options,args = parser.parse_args()
 
@@ -61,7 +61,7 @@ if __name__ == "__main__":
         print "The database does not contain the H native data"
         sys.exit(1)
 
-    epr_version = 0
+    epr_version = 1
     if not element_properties.photoatomicDataAvailable( Data.PhotoatomicDataProperties.Native_EPR_FILE, epr_version ):
         print "The database does not contain version ", epr_version, " of H native data"
         sys.exit(1)
