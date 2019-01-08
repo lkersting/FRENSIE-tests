@@ -245,7 +245,8 @@ def runSimulationFromRendezvous( threads, histories, time, rendezvous ):
   # Set the data path
   Collision.FilledGeometryModel.setDefaultDatabasePath( database_path )
 
-  factory = Manager.ParticleSimulationManagerFactory( rendezvous, histories, time, threads )
+  time_sec = time*60
+  factory = Manager.ParticleSimulationManagerFactory( rendezvous, histories, time_sec, threads )
 
   manager = factory.getManager()
 
