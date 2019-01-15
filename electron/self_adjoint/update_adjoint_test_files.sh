@@ -26,5 +26,5 @@ python ./update_adjoint_test_files.py -d ${database} -g "UnitBaseCorrelated" -v 
 python ./update_adjoint_test_files.py -d ${database} -g "UnitBaseCorrelated" -v 1 --scatter_above_max_mode_off
 python ./update_adjoint_test_files.py -d ${database} -g "UnitBase" -v 2
 python ./update_adjoint_test_files.py -d ${database} -g "UnitBase" -v 3 --scatter_above_max_mode_off
-# python ./update_adjoint_test_files.py -d ${database} -g "Correlated" -v 4
-# python ./update_adjoint_test_files.py -d ${database} -g "Correlated" -v 5 --scatter_above_max_mode_off
+python ./update_adjoint_test_files.py -d ${database} -g "UnitBase" -v 4 -i "Outgoing Energy"
+python ./update_adjoint_test_files.py -d ${database} -g "UnitBase" -v 5 -i "Outgoing Energy Ratio"

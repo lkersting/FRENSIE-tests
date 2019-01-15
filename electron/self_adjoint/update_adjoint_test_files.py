@@ -38,6 +38,8 @@ if __name__ == "__main__":
                       help="the data file version number")
     parser.add_option("--scatter_above_max_mode_off", action="store_false", dest="above_max_mode", default=True,
                       help="Don't allow adjoint electrons to scatter above the max energy.")
+    parser.add_option("-s", "--ionization_sampling_mode", type="string", dest="ionization_sampling_mode", default="Knock-On",
+                      help="The forward electroionization sampling mode")
     options,args = parser.parse_args()
 
     if path.exists( options.db_name ):
@@ -150,7 +152,7 @@ if __name__ == "__main__":
       above_max = "on"
     else:
       above_max = "off"
-    print bcolors.BOLD + "Updating file version " + str(options.version) + " with a " + options.grid_policy + " grid policy and scatter above max energy mode " + above_max + bcolors.ENDC
+    print bcolors.BOLD + "Updating file version " + str(options.version) + " with a " + options.grid_policy + " grid policy, " + options.ionization_sampling_mode +" electroionization sampling mode and scatter above max energy mode " + above_max + bcolors.ENDC
 
     data_container = \
     generateData( epr_file_name,
@@ -189,6 +191,7 @@ if __name__ == "__main__":
                   brems_grid_convergence_tol,
                   brems_grid_abs_diff_tol,
                   brems_grid_dist_tol,
+                  options.ionization_sampling_mode,
                   electroion_min_energy_nudge_val,
                   electroion_max_energy_nudge_val,
                   electroion_eval_tol,
