@@ -3,7 +3,7 @@
 #SBATCH --partition=pre
 #SBATCH --time=1-00:00:00
 #SBATCH --ntasks=1
-#SBATCH --cpus-per-task=1
+#SBATCH --cpus-per-task=5
 
 ##---------------------------------------------------------------------------##
 ## ------------------------- adjoint test file updater ----------------------##
@@ -27,4 +27,4 @@ python ./update_adjoint_test_files.py -d ${database} -g "UnitBaseCorrelated" -v 
 python ./update_adjoint_test_files.py -d ${database} -g "UnitBase" -v 2
 python ./update_adjoint_test_files.py -d ${database} -g "UnitBase" -v 3 --scatter_above_max_mode_off
 python ./update_adjoint_test_files.py -d ${database} -g "UnitBase" -v 4 -i "Outgoing Energy"
-python ./update_adjoint_test_files.py -d ${database} -g "UnitBase" -v 5 -i "Outgoing Energy Ratio"
+python ./update_adjoint_test_files.py -d ${database} -g "UnitBase" -v 5 -i "Outgoing Energy" --scatter_above_max_mode_off

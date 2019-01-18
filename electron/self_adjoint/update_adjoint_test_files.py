@@ -90,7 +90,7 @@ if __name__ == "__main__":
 
     min_photon_energy = 1e-3
     max_photon_energy = 3.0
-    min_electron_energy = 1e-5
+    min_electron_energy = 1e-4
 
     # Set default photon grid tolerances
     photon_grid_convergence_tol = 1e-3
