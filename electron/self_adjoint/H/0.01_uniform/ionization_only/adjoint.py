@@ -113,8 +113,8 @@ def runSimulation( threads, histories, time ):
   surface_flux_estimator.setSourceEnergyDiscretization( bins )
 
   # Create response function
-  delta_energy = Distribution.DeltaDistribution( energy, energy - energy_cutoff )
-  particle_response_function = ActiveRegion.EnergyParticleResponseFunction( delta_energy )
+  uniform_energy = Distribution.UniformDistribution( energy_cutoff, energy, 1.0/(energy - energy_cutoff) )
+  particle_response_function = ActiveRegion.EnergyParticleResponseFunction( uniform_energy )
   response_function = ActiveRegion.StandardParticleResponse( particle_response_function )
 
   # Set the response function
@@ -125,7 +125,7 @@ def runSimulation( threads, histories, time ):
 
   ## -------------------------- Particle Tracker ---------------------------- ##
 
-  # particle_tracker = Event.ParticleTracker( 0, 5 )
+  # particle_tracker = Event.ParticleTracker( 0, 20 )
 
   # # Add the particle tracker to the event handler
   # event_handler.addParticleTracker( particle_tracker )

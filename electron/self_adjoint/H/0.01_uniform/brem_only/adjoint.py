@@ -114,8 +114,8 @@ def runSimulation( threads, histories, time ):
   surface_flux_estimator.setSourceEnergyDiscretization( bins )
 
   # Create response function
-  delta_energy = Distribution.UniformDistribution( energy_cutoff, energy, 1.0/(energy - energy_cutoff) )
-  particle_response_function = ActiveRegion.EnergyParticleResponseFunction( delta_energy )
+  uniform_energy = Distribution.UniformDistribution( energy_cutoff, energy, 1.0/(energy - energy_cutoff) )
+  particle_response_function = ActiveRegion.EnergyParticleResponseFunction( uniform_energy )
   response_function = ActiveRegion.StandardParticleResponse( particle_response_function )
 
   # Set the response function

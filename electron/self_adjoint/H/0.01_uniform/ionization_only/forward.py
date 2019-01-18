@@ -146,13 +146,10 @@ def runSimulation( threads, histories, time ):
   particle_distribution = ActiveRegion.StandardParticleDistribution( "source distribution" )
 
   # Set the energy dimension distribution
-  delta_energy = Distribution.DeltaDistribution( energy )
-  energy_dimension_dist = ActiveRegion.IndependentEnergyDimensionDistribution( delta_energy )
+  uniform_energy = Distribution.UniformDistribution( min_energy, max_energy )
+  energy_dimension_dist = ActiveRegion.IndependentEnergyDimensionDistribution( uniform_energy )
   particle_distribution.setDimensionDistribution( energy_dimension_dist )
-
-  # Set the spatial dimension distribution
   particle_distribution.setPosition( 0.0, 0.0, 0.0 )
-
   particle_distribution.constructDimensionDistributionDependencyTree()
 
   # Set source components
