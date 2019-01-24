@@ -24,10 +24,10 @@ INSTALL="/home/lkersting/frensie0.4_debug/tests/electron"
 cd ./results
 echo -e "\nGet ionization_only self-adjoint results:"
   # Copy results to this location
-  scp -r aci2:${INSTALL}/self_adjoint/ionization_only/results/* ./
+  scp -r aci2:${INSTALL}/self_adjoint/H/0.01_uniform/ionization_only/results/* ./
 
   # Erase files from cluster
   if [ "$delete" = "true" ]; then
-    ssh aci2 "rm -rf ${INSTALL}/self_adjoint/ionization_only/results/*"
+    ssh aci2 "rm -rf ${INSTALL}/self_adjoint/H/0.01_uniform/ionization_only/results/*"
   fi
 cd ../

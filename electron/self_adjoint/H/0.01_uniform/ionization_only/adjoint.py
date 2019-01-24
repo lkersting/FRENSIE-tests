@@ -6,7 +6,7 @@ import datetime
 import socket
 
 # Add the parent directory to the path
-sys.path.insert(1,path.dirname(path.dirname(path.dirname(path.abspath(__file__)))))
+sys.path.insert(1,path.dirname(path.dirname(path.dirname(path.dirname(path.dirname(path.abspath(__file__)))))))
 import simulation_setup as setup
 import PyFrensie.Data as Data
 import PyFrensie.Data.Native as Native
@@ -23,7 +23,7 @@ import PyFrensie.MonteCarlo.ActiveRegion as ActiveRegion
 import PyFrensie.MonteCarlo.Event as Event
 import PyFrensie.MonteCarlo.Manager as Manager
 
-pyfrensie_path =path.dirname( path.dirname(path.abspath(MonteCarlo.__file__)))
+pyfrensie_path =path.dirname(path.dirname( path.dirname( path.dirname(path.abspath(MonteCarlo.__file__)))))
 
 ##----------------------------------------------------------------------------##
 ## ---------------------- GLOBAL SIMULATION VARIABLES ----------------------- ##
