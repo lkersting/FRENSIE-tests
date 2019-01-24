@@ -44,7 +44,7 @@ mode=MonteCarlo.DECOUPLED_DISTRIBUTION
 # ( TWO_D_UNION, ONE_D_UNION, MODIFIED_TWO_D_UNION )
 method=MonteCarlo.MODIFIED_TWO_D_UNION
 
-# Set the bivariate Grid Policy ( 'UNIT_BASE_CORRELATED', 'CORRELATED', 'UNIT_BASE' )
+# Set the bivariate Grid Policy ( 'UNIT_BASE_CORRELATED', 'UNIT_BASE' )
 grid_policy='UNIT_BASE_CORRELATED'
 
 # Set the nudge past max energy mode on/off (true/false)
@@ -164,8 +164,6 @@ def runSimulation( threads, histories, time ):
     version = 0
   elif grid_policy == 'UNIT_BASE':
     version = 2
-  elif grid_policy == 'CORRELATED':
-    version = 4
 
   if not nudge_past_max_energy:
     version += 1

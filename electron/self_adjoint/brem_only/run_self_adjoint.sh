@@ -33,7 +33,7 @@ modes=( DECOUPLED )
 # ( ONE_D TWO_D MODIFIED_TWO_D )
 methods=( MODIFIED_TWO_D )
 
-# Set the bivariate Grid Policy ( 'UNIT_BASE_CORRELATED' 'CORRELATED' 'UNIT_BASE' )
+# Set the bivariate Grid Policy ( 'UNIT_BASE_CORRELATED' 'UNIT_BASE' )
 grid_policies=( 'UNIT_BASE' 'UNIT_BASE_CORRELATED' )
 
 # Set the nudge past max energy mode on/off ( 'on' 'off' )

@@ -43,7 +43,7 @@ else
   # Set the elastic coupled sampling method ( ONE_D TWO_D MODIFIED_TWO_D )
   METHOD=MODIFIED_TWO_D
 
-  # Set the bivariate Grid Policy ( 'UNIT_BASE_CORRELATED' 'CORRELATED' 'UNIT_BASE' )
+  # Set the bivariate Grid Policy ( 'UNIT_BASE_CORRELATED' 'UNIT_BASE' )
   GRID_POLICY=UNIT_BASE_CORRELATED
 
   # Set the nudge past max energy mode on/off

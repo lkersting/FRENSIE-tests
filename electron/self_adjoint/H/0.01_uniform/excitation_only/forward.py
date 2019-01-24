@@ -29,8 +29,9 @@ pyfrensie_path =path.dirname(path.dirname( path.dirname( path.dirname(path.abspa
 ## ---------------------- GLOBAL SIMULATION VARIABLES ----------------------- ##
 ##----------------------------------------------------------------------------##
 
-# Set the source energy
-energy=0.01
+# Set the source min and max energy
+min_energy=0.001
+max_energy=0.01
 
 # Set the elastic distribution mode ( DECOUPLED, COUPLED, HYBRID )
 mode=MonteCarlo.DECOUPLED_DISTRIBUTION

@@ -31,8 +31,8 @@ pyfrensie_path =path.dirname(path.dirname( path.dirname( path.dirname(path.abspa
 
 # Set the element
 atom=Data.H_ATOM; element="H"; zaid=1000
-# Set the forward source energy
-energy=0.01
+# Set the forward source max energy
+max_energy=0.01
 
 # Set the min energy (default is 100 eV )
 energy_cutoff=1e-4
@@ -44,7 +44,7 @@ mode=MonteCarlo.DECOUPLED_DISTRIBUTION
 # ( TWO_D_UNION, ONE_D_UNION, MODIFIED_TWO_D_UNION )
 method=MonteCarlo.MODIFIED_TWO_D_UNION
 
-# Set the bivariate Grid Policy ( 'UNIT_BASE_CORRELATED', 'CORRELATED', 'UNIT_BASE' )
+# Set the bivariate Grid Policy ( 'UNIT_BASE_CORRELATED', 'UNIT_BASE' )
 grid_policy='UNIT_BASE_CORRELATED'
 
 # Set the nudge past max energy mode on/off (true/false)
@@ -113,7 +113,7 @@ def runSimulation( threads, histories, time ):
   surface_flux_estimator.setSourceEnergyDiscretization( bins )
 
   # Create response function
-  uniform_energy = Distribution.UniformDistribution( energy_cutoff, energy, 1.0/(energy - energy_cutoff) )
+  uniform_energy = Distribution.UniformDistribution( energy_cutoff, max_energy, 1.0/(max_energy - energy_cutoff) )
   particle_response_function = ActiveRegion.EnergyParticleResponseFunction( uniform_energy )
   response_function = ActiveRegion.StandardParticleResponse( particle_response_function )
 
@@ -147,8 +147,6 @@ def runSimulation( threads, histories, time ):
     version = 0
   elif grid_policy == 'UNIT_BASE':
     version = 2
-  elif grid_policy == 'CORRELATED':
-    version = 4
 
   if not nudge_past_max_energy:
     version += 1
@@ -168,7 +166,7 @@ def runSimulation( threads, histories, time ):
   particle_distribution = ActiveRegion.StandardParticleDistribution( "source distribution" )
 
   # Set the energy dimension distribution
-  uniform_energy = Distribution.UniformDistribution( energy_cutoff, energy )
+  uniform_energy = Distribution.UniformDistribution( energy_cutoff, max_energy )
   energy_dimension_dist = ActiveRegion.IndependentEnergyDimensionDistribution( uniform_energy )
   particle_distribution.setDimensionDistribution( energy_dimension_dist )
 
@@ -274,10 +272,7 @@ def setSimulationProperties( histories, time ):
   properties.setMinAdjointElectronEnergy( energy_cutoff )
 
   # Set the max electron energy in MeV (Default is 20 MeV)
-  properties.setMaxAdjointElectronEnergy( energy )
-
-  # Set the critical line energies
-  properties.setCriticalAdjointElectronLineEnergies( [energy] )
+  properties.setMaxAdjointElectronEnergy( max_energy )
 
   # Set the cutoff weight properties for rouletting
   properties.setAdjointElectronRouletteThresholdWeight( 1e-8 )
@@ -311,7 +306,7 @@ def createResultsDirectory():
 # Define a function for naming an electron simulation
 def setSimulationName( properties ):
   extension, title = setup.setAdjointSimulationNameExtention( properties )
-  name = "adjoint_" + str(energy) + "_" + grid_policy
+  name = "adjoint_" + str(max_energy) + "_" + grid_policy
   if nudge_past_max_energy:
     name += '_nudged_past_max'
   name += extension
