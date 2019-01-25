@@ -24,10 +24,10 @@ INSTALL="/home/lkersting/frensie0.4_debug/tests/electron"
 cd ./results
 echo -e "\nGet low density self-adjoint results:"
   # Copy results to this location
-  scp -r aci2:${INSTALL}/self_adjoint/low_density/H/0.01_uniform/results/* ./
+  scp -r aci2:${INSTALL}/self_adjoint/H/0.01_uniform/low_density/results/* ./
 
   # Erase files from cluster
   if [ "$delete" = "true" ]; then
-    ssh aci2 "rm -rf ${INSTALL}/self_adjoint/low_density/H/0.01_uniform/results/*"
+    ssh aci2 "rm -rf ${INSTALL}/self_adjoint/H/0.01_uniform/low_density/results/*"
   fi
 cd ../
