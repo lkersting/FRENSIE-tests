@@ -45,10 +45,13 @@ else
   ENERGY=0.01
 
   # Set the elastic distribution mode ( DECOUPLED COUPLED HYBRID )
-  MODE=DECOUPLED
+  MODE=COUPLED
 
   # Set the elastic coupled sampling method ( ONE_D TWO_D MODIFIED_TWO_D )
   METHOD=MODIFIED_TWO_D
+
+  # Set the ionization sampling mode ( KNOCK_ON, OUTGOING_ENERGY )
+  IONIZATION_MODE=KNOCK_ON
 
   # Set the bivariate Grid Policy ( UNIT_BASE_CORRELATED CORRELATED UNIT_BASE )
   GRID_POLICY=UNIT_BASE_CORRELATED
@@ -57,7 +60,7 @@ else
   ELASTIC=''
   EXCITATION=''
   BREM=''
-  IONIZATION=''
+  IONIZATION_MODE=KNOCK_ON
 
   ##--------------------------------------------------------------------------##
   ## ------------------------------- COMMANDS --------------------------------##
@@ -101,6 +104,10 @@ else
   # Set the elastic coupled sampling method
   command=s/method=MonteCarlo.*/method=MonteCarlo.${METHOD}_UNION/
   sed -i $command ${python_script}.py
+
+  # Set the ionization sampling mode
+  command=s/ionization=MonteCarlo.*/ionization=MonteCarlo.${IONIZATION_MODE}_SAMPLING/
+  sed -i "${command}" ${python_script}.py
 
   # Set the bivariate Grid Policy
   command=s/grid_policy=MonteCarlo.*/grid_policy=MonteCarlo.${GRID_POLICY}_GRID/

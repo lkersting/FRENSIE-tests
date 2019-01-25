@@ -43,6 +43,9 @@ else
   # Set the elastic coupled sampling method ( ONE_D TWO_D MODIFIED_TWO_D )
   METHOD=MODIFIED_TWO_D
 
+  # Set the ionization sampling mode ( KNOCK_ON, OUTGOING_ENERGY )
+  IONIZATION_MODE=KNOCK_ON
+
   # Set the bivariate Grid Policy ( 'UNIT_BASE_CORRELATED' 'UNIT_BASE' )
   GRID_POLICY=UNIT_BASE_CORRELATED
 
@@ -104,6 +107,10 @@ else
 
   # Set the elastic coupled sampling method
   command=s/method=MonteCarlo.*/method=MonteCarlo.${METHOD}_UNION/
+  sed -i "${command}" ${python_script}.py
+
+  # Set the ionization sampling mode
+  command=s/ionization=MonteCarlo.*/ionization=MonteCarlo.${IONIZATION_MODE}_SAMPLING/
   sed -i "${command}" ${python_script}.py
 
   # Create the results directory

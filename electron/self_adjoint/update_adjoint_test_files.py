@@ -38,7 +38,7 @@ if __name__ == "__main__":
                       help="the data file version number")
     parser.add_option("--scatter_above_max_mode_off", action="store_false", dest="above_max_mode", default=True,
                       help="Don't allow adjoint electrons to scatter above the max energy.")
-    parser.add_option("-s", "--ionization_sampling_mode", type="string", dest="ionization_sampling_mode", default="Knock-On",
+    parser.add_option("-i", "--ionization_sampling_mode", type="string", dest="ionization_sampling_mode", default="Knock-On",
                       help="The forward electroionization sampling mode")
     options,args = parser.parse_args()
 

@@ -44,6 +44,10 @@ mode=MonteCarlo.DECOUPLED_DISTRIBUTION
 # ( TWO_D_UNION, ONE_D_UNION, MODIFIED_TWO_D_UNION )
 method=MonteCarlo.MODIFIED_TWO_D_UNION
 
+# Set the ionization sampling method
+# ( KNOCK_ON_SAMPLING, OUTGOING_ENERGY_SAMPLING )
+ionization=MonteCarlo.KNOCK_ON_SAMPLING
+
 # Set the bivariate Grid Policy ( 'UNIT_BASE_CORRELATED', 'UNIT_BASE' )
 grid_policy='UNIT_BASE_CORRELATED'
 
@@ -167,6 +171,9 @@ def runSimulation( threads, histories, time ):
 
   if not nudge_past_max_energy:
     version += 1
+
+  if ionization == MonteCarlo.OUTGOING_ENERGY_SAMPLING:
+    version += 4
 
   file_type = Data.AdjointElectroatomicDataProperties.Native_EPR_FILE
 

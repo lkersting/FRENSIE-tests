@@ -39,6 +39,10 @@ mode=MonteCarlo.DECOUPLED_DISTRIBUTION
 # ( TWO_D_UNION, ONE_D_UNION, MODIFIED_TWO_D_UNION )
 method=MonteCarlo.MODIFIED_TWO_D_UNION
 
+# Set the ionization sampling method
+# ( KNOCK_ON_SAMPLING, OUTGOING_ENERGY_SAMPLING )
+ionization=MonteCarlo.KNOCK_ON_SAMPLING
+
 # Set the bivariate Grid Policy ( UNIT_BASE_CORRELATED, CORRELATED, UNIT_BASE )
 grid_policy=MonteCarlo.UNIT_BASE_CORRELATED_GRID
 
@@ -236,6 +240,9 @@ def setSimulationProperties( histories, time ):
 
 
   ## -------------------------- ELECTRON PROPERTIES ------------------------- ##
+
+  # Set the ionization sampling method
+  properties.setElectroionizationSamplingMode( ionization )
 
   # Turn off Atomic Relaxation
   properties.setAtomicRelaxationModeOff( MonteCarlo.ELECTRON )
