@@ -6,7 +6,7 @@
 	<d_archive_type>xml</d_archive_type>
 	<d_model class_id="1" tracking_level="0" version="1">
 		<px class_id="2" tracking_level="1" version="0" object_id="_0">
-			<raw_path>/home/alexr/Software/mcnpdata</raw_path>
+			<raw_path>/home/lkersting/software/mcnpdata</raw_path>
 			<d_scattering_center_definitions class_id="3" tracking_level="0" version="1">
 				<px class_id="4" tracking_level="1" version="0" object_id="_1">
 					<d_scattering_center_definitions class_id="5" tracking_level="0" version="0">
@@ -111,7 +111,7 @@
 				<px class_id="38" tracking_level="1" version="0" object_id="_6">
 					<SimulationGeneralProperties class_id="39" tracking_level="1" version="0" object_id="_7">
 						<d_particle_mode>0</d_particle_mode>
-						<d_number_of_histories>1000000</d_number_of_histories>
+						<d_number_of_histories>100000000</d_number_of_histories>
 						<d_min_number_of_rendezvous>10</d_min_number_of_rendezvous>
 						<d_max_rendezvous_batch_size>1000000000</d_max_rendezvous_batch_size>
 						<d_min_number_of_batches_per_rendezvous>1</d_min_number_of_batches_per_rendezvous>
@@ -119,7 +119,7 @@
 						<d_number_of_batches_per_processor>1</d_number_of_batches_per_processor>
 						<__inf_wall_time__>1</__inf_wall_time__>
 						<d_wall_time>1.79769313486231571e+308</d_wall_time>
-						<d_surface_flux_estimator_angle_cosine_cutoff>1.00000000000000002e-03</d_surface_flux_estimator_angle_cosine_cutoff>
+						<d_surface_flux_estimator_angle_cosine_cutoff>1.00000000000000006e-01</d_surface_flux_estimator_angle_cosine_cutoff>
 						<d_implicit_capture_mode_on>0</d_implicit_capture_mode_on>
 					</SimulationGeneralProperties>
 					<SimulationNeutronProperties class_id="40" tracking_level="1" version="0" object_id="_8">
@@ -242,8 +242,8 @@
 								<item_version>0</item_version>
 								<item>1</item>
 							</start_cell_cache>
-							<number_of_trials>800000</number_of_trials>
-							<number_of_samples>800000</number_of_samples>
+							<number_of_trials>80000000</number_of_trials>
+							<number_of_samples>80000000</number_of_samples>
 						</ParticleSourceComponent>
 						<d_particle_distribution class_id="61" tracking_level="0" version="1">
 							<px class_id="62" class_name="StandardParticleDistribution" tracking_level="1" version="0" object_id="_18">
@@ -542,39 +542,39 @@
 							<item_version>0</item_version>
 							<item class_id="96" tracking_level="0" version="0">
 								<first>0</first>
-								<second>800000</second>
+								<second>80000000</second>
 							</item>
 							<item>
 								<first>1</first>
-								<second>800000</second>
+								<second>80000000</second>
 							</item>
 							<item>
 								<first>2</first>
-								<second>800000</second>
+								<second>80000000</second>
 							</item>
 							<item>
 								<first>3</first>
-								<second>800000</second>
+								<second>80000000</second>
 							</item>
 							<item>
 								<first>4</first>
-								<second>800000</second>
+								<second>80000000</second>
 							</item>
 							<item>
 								<first>5</first>
-								<second>800000</second>
+								<second>80000000</second>
 							</item>
 							<item>
 								<first>6</first>
-								<second>800000</second>
+								<second>80000000</second>
 							</item>
 							<item>
 								<first>7</first>
-								<second>800000</second>
+								<second>80000000</second>
 							</item>
 							<item>
 								<first>8</first>
-								<second>800000</second>
+								<second>80000000</second>
 							</item>
 						</dimension_trial_counters>
 						<dimension_sample_counters>
@@ -582,39 +582,39 @@
 							<item_version>0</item_version>
 							<item>
 								<first>0</first>
-								<second>800000</second>
+								<second>80000000</second>
 							</item>
 							<item>
 								<first>1</first>
-								<second>800000</second>
+								<second>80000000</second>
 							</item>
 							<item>
 								<first>2</first>
-								<second>800000</second>
+								<second>80000000</second>
 							</item>
 							<item>
 								<first>3</first>
-								<second>800000</second>
+								<second>80000000</second>
 							</item>
 							<item>
 								<first>4</first>
-								<second>800000</second>
+								<second>80000000</second>
 							</item>
 							<item>
 								<first>5</first>
-								<second>800000</second>
+								<second>80000000</second>
 							</item>
 							<item>
 								<first>6</first>
-								<second>800000</second>
+								<second>80000000</second>
 							</item>
 							<item>
 								<first>7</first>
-								<second>800000</second>
+								<second>80000000</second>
 							</item>
 							<item>
 								<first>8</first>
-								<second>800000</second>
+								<second>80000000</second>
 							</item>
 						</dimension_sample_counters>
 					</px>
@@ -657,7 +657,7 @@
 					<BaseType class_id="109" tracking_level="0" version="0">
 						<d_dispatcher_map class_id="110" tracking_level="0" version="0">
 							<count>1</count>
-							<bucket_count>3</bucket_count>
+							<bucket_count>2</bucket_count>
 							<item_version>0</item_version>
 							<item class_id="111" tracking_level="0" version="0">
 								<first>1</first>
@@ -674,14 +674,14 @@
 														<count>2</count>
 														<item_version>1</item_version>
 														<item class_id="118" tracking_level="0" version="1">
-															<px class_id="119" class_name="WeightMultipliedSurfaceFluxEstimator" tracking_level="1" version="0" object_id="_44">
+															<px class_id="119" class_name="WeightMultipliedSurfaceCurrentEstimator" tracking_level="1" version="0" object_id="_44">
 																<StandardSurfaceEstimator class_id="120" tracking_level="0" version="0">
 																	<StandardEntityEstimator class_id="121" tracking_level="0" version="0">
 																		<EntityEstimator class_id="122" tracking_level="0" version="0">
 																			<Estimator class_id="123" tracking_level="0" version="0">
 																				<ParticleHistoryObserver class_id="124" tracking_level="0" version="0"></ParticleHistoryObserver>
 																				<d_id class_id="125" tracking_level="0" version="0">
-																					<d_id>2</d_id>
+																					<d_id>1</d_id>
 																				</d_id>
 																				<d_multiplier>1.00000000000000000e+00</d_multiplier>
 																				<d_particle_types class_id="126" tracking_level="0" version="0">
@@ -841,226 +841,226 @@
 																					</d_impl>
 																				</d_phase_space_discretization>
 																			</Estimator>
-																			<d_total_norm_constant>1.25653260316473787e+01</d_total_norm_constant>
-																			<d_supplied_norm_constants>1</d_supplied_norm_constants>
+																			<d_total_norm_constant>1.00000000000000000e+00</d_total_norm_constant>
+																			<d_supplied_norm_constants>0</d_supplied_norm_constants>
 																			<d_estimator_total_bin_data class_id="146" tracking_level="0" version="0">
 																				<BaseType class_id="147" tracking_level="0" version="0">
 																					<BaseType class_id="148" tracking_level="0" version="0"></BaseType>
 																					<moment_1 object_id="_52">
 																						<count>101</count>
 																						<item_version>0</item_version>
-																						<item>1.50772630573516375e+00</item>
-																						<item>0.00000000000000000e+00</item>
-																						<item>5.91614503709590345e+00</item>
-																						<item>1.57158033298065405e+01</item>
-																						<item>1.71022795263431426e+01</item>
-																						<item>7.95038124663404222e+00</item>
-																						<item>1.56855114619017328e+01</item>
-																						<item>3.23633877614627394e+01</item>
-																						<item>6.96283068416392297e+01</item>
-																						<item>9.32321701062652295e+01</item>
-																						<item>1.24343999970217652e+02</item>
-																						<item>2.08074839853161137e+02</item>
-																						<item>3.44027033826834042e+02</item>
-																						<item>4.11274854593623900e+02</item>
-																						<item>6.87379823157631108e+02</item>
-																						<item>1.04970573102805884e+03</item>
-																						<item>1.47665319999686062e+03</item>
-																						<item>2.27678725205319142e+03</item>
-																						<item>3.38462961011897460e+03</item>
-																						<item>5.21456286435756465e+03</item>
-																						<item>7.53687612405243453e+03</item>
-																						<item>1.04992099142900443e+04</item>
-																						<item>1.49671127205101930e+04</item>
-																						<item>2.09046643572612993e+04</item>
-																						<item>2.93045946077137851e+04</item>
-																						<item>3.90542314778800646e+04</item>
-																						<item>4.95527592249015215e+04</item>
-																						<item>5.98822078799388546e+04</item>
-																						<item>7.01856603959677159e+04</item>
-																						<item>7.52708106488932972e+04</item>
-																						<item>7.58628180283599504e+04</item>
-																						<item>6.87237170119008370e+04</item>
-																						<item>5.45331865322707235e+04</item>
-																						<item>3.83161293675746128e+04</item>
-																						<item>2.22776518553819988e+04</item>
-																						<item>1.18264194352498580e+04</item>
-																						<item>5.67284544679554710e+03</item>
-																						<item>3.14664291746362278e+03</item>
-																						<item>2.52399643328208958e+03</item>
-																						<item>2.35733334692497510e+03</item>
-																						<item>2.41260656284916740e+03</item>
-																						<item>2.17837634574838921e+03</item>
-																						<item>2.19860018630840841e+03</item>
-																						<item>2.29158549349953455e+03</item>
-																						<item>2.21915971008984297e+03</item>
-																						<item>2.24238805772214346e+03</item>
-																						<item>2.27114591375995360e+03</item>
-																						<item>2.11609712490010907e+03</item>
-																						<item>2.14507420537738471e+03</item>
-																						<item>2.14650053622968699e+03</item>
-																						<item>2.13047093817432506e+03</item>
-																						<item>2.14865482944497853e+03</item>
-																						<item>2.12956842335145257e+03</item>
-																						<item>2.10543266068254297e+03</item>
-																						<item>2.21181670429757696e+03</item>
-																						<item>2.12243781634741617e+03</item>
-																						<item>2.22427782087602827e+03</item>
-																						<item>2.07746267768771622e+03</item>
-																						<item>2.04737173817612643e+03</item>
-																						<item>2.26179525836971334e+03</item>
-																						<item>2.16852378043754561e+03</item>
-																						<item>2.07640120874299464e+03</item>
-																						<item>2.10136068694232608e+03</item>
-																						<item>2.18270416641905331e+03</item>
-																						<item>2.06652666337647042e+03</item>
-																						<item>2.13931808938073345e+03</item>
-																						<item>2.26696095757444527e+03</item>
-																						<item>2.11400346402052264e+03</item>
-																						<item>2.07561157356003014e+03</item>
-																						<item>2.12848969113284829e+03</item>
-																						<item>2.23392001927366300e+03</item>
-																						<item>2.13883585119558848e+03</item>
-																						<item>2.09218027841756111e+03</item>
-																						<item>2.19102436815048168e+03</item>
-																						<item>2.18425698627621750e+03</item>
-																						<item>2.19463810919245498e+03</item>
-																						<item>2.26449682060766872e+03</item>
-																						<item>2.25661767072539942e+03</item>
-																						<item>2.41135430409684341e+03</item>
-																						<item>2.34958645734525044e+03</item>
-																						<item>2.42668848711951023e+03</item>
-																						<item>2.50869242999970220e+03</item>
-																						<item>2.63293428165229443e+03</item>
-																						<item>2.85291832479975938e+03</item>
-																						<item>2.95910913800113440e+03</item>
-																						<item>3.10671862719305955e+03</item>
-																						<item>3.16863606380772080e+03</item>
-																						<item>3.40431874690566519e+03</item>
-																						<item>3.69023359515021457e+03</item>
-																						<item>4.01891185125711218e+03</item>
-																						<item>4.45425104205629304e+03</item>
-																						<item>4.78239024895304374e+03</item>
-																						<item>5.15241019648908969e+03</item>
-																						<item>5.81221064786484840e+03</item>
-																						<item>6.27527414136479729e+03</item>
-																						<item>6.86539322116812855e+03</item>
-																						<item>7.50557374303368942e+03</item>
-																						<item>8.06032775074019355e+03</item>
-																						<item>8.52415901447478609e+03</item>
-																						<item>9.16530563747855922e+03</item>
-																						<item>2.12671318924105108e+04</item>
+																						<item>1.02000000000000000e+02</item>
+																						<item>1.43000000000000000e+02</item>
+																						<item>2.16000000000000000e+02</item>
+																						<item>3.23000000000000000e+02</item>
+																						<item>4.91000000000000000e+02</item>
+																						<item>7.58000000000000000e+02</item>
+																						<item>1.13300000000000000e+03</item>
+																						<item>1.81700000000000000e+03</item>
+																						<item>2.81000000000000000e+03</item>
+																						<item>4.28500000000000000e+03</item>
+																						<item>6.46200000000000000e+03</item>
+																						<item>1.00820000000000000e+04</item>
+																						<item>1.53350000000000000e+04</item>
+																						<item>2.32780000000000000e+04</item>
+																						<item>3.59520000000000000e+04</item>
+																						<item>5.46010000000000000e+04</item>
+																						<item>8.33130000000000000e+04</item>
+																						<item>1.25543000000000000e+05</item>
+																						<item>1.89021000000000000e+05</item>
+																						<item>2.81678000000000000e+05</item>
+																						<item>4.16975000000000000e+05</item>
+																						<item>6.06914000000000000e+05</item>
+																						<item>8.70837000000000000e+05</item>
+																						<item>1.23315800000000000e+06</item>
+																						<item>1.69743700000000000e+06</item>
+																						<item>2.26500900000000000e+06</item>
+																						<item>2.91504200000000000e+06</item>
+																						<item>3.58734000000000000e+06</item>
+																						<item>4.18099000000000000e+06</item>
+																						<item>4.54640600000000000e+06</item>
+																						<item>4.55334600000000000e+06</item>
+																						<item>4.12734800000000000e+06</item>
+																						<item>3.31546200000000000e+06</item>
+																						<item>2.31669000000000000e+06</item>
+																						<item>1.38035100000000000e+06</item>
+																						<item>7.08585000000000000e+05</item>
+																						<item>3.43073000000000000e+05</item>
+																						<item>1.96587000000000000e+05</item>
+																						<item>1.53990000000000000e+05</item>
+																						<item>1.43758000000000000e+05</item>
+																						<item>1.41575000000000000e+05</item>
+																						<item>1.39438000000000000e+05</item>
+																						<item>1.37812000000000000e+05</item>
+																						<item>1.37282000000000000e+05</item>
+																						<item>1.36428000000000000e+05</item>
+																						<item>1.35058000000000000e+05</item>
+																						<item>1.34789000000000000e+05</item>
+																						<item>1.34341000000000000e+05</item>
+																						<item>1.34120000000000000e+05</item>
+																						<item>1.32739000000000000e+05</item>
+																						<item>1.32436000000000000e+05</item>
+																						<item>1.32204000000000000e+05</item>
+																						<item>1.31843000000000000e+05</item>
+																						<item>1.31117000000000000e+05</item>
+																						<item>1.31647000000000000e+05</item>
+																						<item>1.30901000000000000e+05</item>
+																						<item>1.31360000000000000e+05</item>
+																						<item>1.30305000000000000e+05</item>
+																						<item>1.29556000000000000e+05</item>
+																						<item>1.30355000000000000e+05</item>
+																						<item>1.30214000000000000e+05</item>
+																						<item>1.29535000000000000e+05</item>
+																						<item>1.29521000000000000e+05</item>
+																						<item>1.29995000000000000e+05</item>
+																						<item>1.29532000000000000e+05</item>
+																						<item>1.30533000000000000e+05</item>
+																						<item>1.29507000000000000e+05</item>
+																						<item>1.29427000000000000e+05</item>
+																						<item>1.30433000000000000e+05</item>
+																						<item>1.30652000000000000e+05</item>
+																						<item>1.30931000000000000e+05</item>
+																						<item>1.32132000000000000e+05</item>
+																						<item>1.32608000000000000e+05</item>
+																						<item>1.33426000000000000e+05</item>
+																						<item>1.34615000000000000e+05</item>
+																						<item>1.35903000000000000e+05</item>
+																						<item>1.37581000000000000e+05</item>
+																						<item>1.39940000000000000e+05</item>
+																						<item>1.42240000000000000e+05</item>
+																						<item>1.45642000000000000e+05</item>
+																						<item>1.49064000000000000e+05</item>
+																						<item>1.52957000000000000e+05</item>
+																						<item>1.58671000000000000e+05</item>
+																						<item>1.65315000000000000e+05</item>
+																						<item>1.73577000000000000e+05</item>
+																						<item>1.82539000000000000e+05</item>
+																						<item>1.94931000000000000e+05</item>
+																						<item>2.10740000000000000e+05</item>
+																						<item>2.28336000000000000e+05</item>
+																						<item>2.51935000000000000e+05</item>
+																						<item>2.78025000000000000e+05</item>
+																						<item>3.13136000000000000e+05</item>
+																						<item>3.55302000000000000e+05</item>
+																						<item>4.02283000000000000e+05</item>
+																						<item>4.58932000000000000e+05</item>
+																						<item>5.30526000000000000e+05</item>
+																						<item>6.09348000000000000e+05</item>
+																						<item>6.91568000000000000e+05</item>
+																						<item>7.79451000000000000e+05</item>
+																						<item>8.71440000000000000e+05</item>
+																						<item>2.09945000000000000e+06</item>
 																					</moment_1>
 																				</BaseType>
 																				<moment_2 object_id="_53">
 																					<count>101</count>
 																					<item_version>0</item_version>
-																					<item>2.27323861300580443e+00</item>
-																					<item>0.00000000000000000e+00</item>
-																					<item>9.69729821176632889e+00</item>
-																					<item>4.58511273542025179e+01</item>
-																					<item>4.33776329056899144e+01</item>
-																					<item>1.14113630943412172e+01</item>
-																					<item>2.94172061003168075e+01</item>
-																					<item>9.47640976257691818e+01</item>
-																					<item>2.39160878714219876e+02</item>
-																					<item>3.97061351092779319e+02</item>
-																					<item>4.68512046660029625e+02</item>
-																					<item>7.80853503320967434e+02</item>
-																					<item>2.12528154048294437e+03</item>
-																					<item>1.19613080058683204e+03</item>
-																					<item>2.33962945815502599e+03</item>
-																					<item>3.32684035685426534e+03</item>
-																					<item>4.62996468054492652e+03</item>
-																					<item>8.09815053539752080e+03</item>
-																					<item>1.20220670891051486e+04</item>
-																					<item>3.51667435820455794e+04</item>
-																					<item>2.64050535274875438e+04</item>
-																					<item>3.10790814887406123e+04</item>
-																					<item>5.40971779086262395e+04</item>
-																					<item>6.57506038293110760e+04</item>
-																					<item>1.26489128709690514e+05</item>
-																					<item>1.46133756675211713e+05</item>
-																					<item>1.53111686414382362e+05</item>
-																					<item>1.71133827223360393e+05</item>
-																					<item>2.13507734790911083e+05</item>
-																					<item>2.25814501248009066e+05</item>
-																					<item>2.60207805498411792e+05</item>
-																					<item>2.26115522492239950e+05</item>
-																					<item>1.45743295002488216e+05</item>
-																					<item>1.13804222594823863e+05</item>
-																					<item>6.08292004371798175e+04</item>
-																					<item>3.13387784788544886e+04</item>
-																					<item>2.19108696290149564e+04</item>
-																					<item>7.54678308221377847e+03</item>
-																					<item>6.91187050056256703e+03</item>
-																					<item>5.52939843648577698e+03</item>
-																					<item>9.14886432329073250e+03</item>
-																					<item>5.08879774559083216e+03</item>
-																					<item>5.80616009992385989e+03</item>
-																					<item>5.65571064699699309e+03</item>
-																					<item>5.58571352975090394e+03</item>
-																					<item>6.26523953113312291e+03</item>
-																					<item>5.90536375281119308e+03</item>
-																					<item>4.65988039504807602e+03</item>
-																					<item>6.55718822951099264e+03</item>
-																					<item>4.68562252942151645e+03</item>
-																					<item>4.45877523547062810e+03</item>
-																					<item>5.91746840965337651e+03</item>
-																					<item>5.05489487805497811e+03</item>
-																					<item>5.48358324609975080e+03</item>
-																					<item>7.03694657561659733e+03</item>
-																					<item>6.02637834847133126e+03</item>
-																					<item>7.64709349003450279e+03</item>
-																					<item>5.18149608895529218e+03</item>
-																					<item>4.79655669720592687e+03</item>
-																					<item>1.05208674361318954e+04</item>
-																					<item>5.54983316925306190e+03</item>
-																					<item>4.93004663442993751e+03</item>
-																					<item>4.90458896187529626e+03</item>
-																					<item>6.15895524524065331e+03</item>
-																					<item>5.09001121796359348e+03</item>
-																					<item>5.16884202938932867e+03</item>
-																					<item>6.91700017031883726e+03</item>
-																					<item>9.27615345225739475e+03</item>
-																					<item>5.24601465257311793e+03</item>
-																					<item>4.97368636277473888e+03</item>
-																					<item>7.97972597805726400e+03</item>
-																					<item>5.54661363728041670e+03</item>
-																					<item>5.36950573095508662e+03</item>
-																					<item>5.77716252371808878e+03</item>
-																					<item>4.98755568560487518e+03</item>
-																					<item>5.16142997331216247e+03</item>
-																					<item>5.92182897258292178e+03</item>
-																					<item>6.17681982885282014e+03</item>
-																					<item>6.25526748222337392e+03</item>
-																					<item>5.75742529061040022e+03</item>
-																					<item>5.67718178776338755e+03</item>
-																					<item>8.26189796679131723e+03</item>
-																					<item>8.78567321099565379e+03</item>
-																					<item>7.99723968932432126e+03</item>
-																					<item>7.23430094885581275e+03</item>
-																					<item>8.82901551503252085e+03</item>
-																					<item>8.94121161891291558e+03</item>
-																					<item>9.57995552354776191e+03</item>
-																					<item>1.06133626920230527e+04</item>
-																					<item>9.13243197851572404e+03</item>
-																					<item>9.60176625228538614e+03</item>
-																					<item>1.21739682841240901e+04</item>
-																					<item>9.66059902937872357e+03</item>
-																					<item>1.05152104946723357e+04</item>
-																					<item>9.48719817910126767e+03</item>
-																					<item>9.55872129429363122e+03</item>
-																					<item>9.55801472375258709e+03</item>
-																					<item>9.52725098038408578e+03</item>
-																					<item>9.53783083331337366e+03</item>
-																					<item>9.73331385252232576e+03</item>
-																					<item>2.14499438045990100e+04</item>
+																					<item>1.02000000000000000e+02</item>
+																					<item>1.43000000000000000e+02</item>
+																					<item>2.16000000000000000e+02</item>
+																					<item>3.23000000000000000e+02</item>
+																					<item>4.91000000000000000e+02</item>
+																					<item>7.58000000000000000e+02</item>
+																					<item>1.13300000000000000e+03</item>
+																					<item>1.81700000000000000e+03</item>
+																					<item>2.81000000000000000e+03</item>
+																					<item>4.28500000000000000e+03</item>
+																					<item>6.46200000000000000e+03</item>
+																					<item>1.00820000000000000e+04</item>
+																					<item>1.53350000000000000e+04</item>
+																					<item>2.32780000000000000e+04</item>
+																					<item>3.59520000000000000e+04</item>
+																					<item>5.46010000000000000e+04</item>
+																					<item>8.33130000000000000e+04</item>
+																					<item>1.25543000000000000e+05</item>
+																					<item>1.89021000000000000e+05</item>
+																					<item>2.81678000000000000e+05</item>
+																					<item>4.16975000000000000e+05</item>
+																					<item>6.06914000000000000e+05</item>
+																					<item>8.70837000000000000e+05</item>
+																					<item>1.23315800000000000e+06</item>
+																					<item>1.69743700000000000e+06</item>
+																					<item>2.26500900000000000e+06</item>
+																					<item>2.91504200000000000e+06</item>
+																					<item>3.58734000000000000e+06</item>
+																					<item>4.18099000000000000e+06</item>
+																					<item>4.54640600000000000e+06</item>
+																					<item>4.55334600000000000e+06</item>
+																					<item>4.12734800000000000e+06</item>
+																					<item>3.31546200000000000e+06</item>
+																					<item>2.31669000000000000e+06</item>
+																					<item>1.38035100000000000e+06</item>
+																					<item>7.08585000000000000e+05</item>
+																					<item>3.43073000000000000e+05</item>
+																					<item>1.96587000000000000e+05</item>
+																					<item>1.53990000000000000e+05</item>
+																					<item>1.43758000000000000e+05</item>
+																					<item>1.41575000000000000e+05</item>
+																					<item>1.39438000000000000e+05</item>
+																					<item>1.37812000000000000e+05</item>
+																					<item>1.37282000000000000e+05</item>
+																					<item>1.36428000000000000e+05</item>
+																					<item>1.35058000000000000e+05</item>
+																					<item>1.34789000000000000e+05</item>
+																					<item>1.34341000000000000e+05</item>
+																					<item>1.34120000000000000e+05</item>
+																					<item>1.32739000000000000e+05</item>
+																					<item>1.32436000000000000e+05</item>
+																					<item>1.32204000000000000e+05</item>
+																					<item>1.31843000000000000e+05</item>
+																					<item>1.31117000000000000e+05</item>
+																					<item>1.31647000000000000e+05</item>
+																					<item>1.30901000000000000e+05</item>
+																					<item>1.31360000000000000e+05</item>
+																					<item>1.30305000000000000e+05</item>
+																					<item>1.29556000000000000e+05</item>
+																					<item>1.30355000000000000e+05</item>
+																					<item>1.30214000000000000e+05</item>
+																					<item>1.29535000000000000e+05</item>
+																					<item>1.29521000000000000e+05</item>
+																					<item>1.29995000000000000e+05</item>
+																					<item>1.29532000000000000e+05</item>
+																					<item>1.30533000000000000e+05</item>
+																					<item>1.29507000000000000e+05</item>
+																					<item>1.29427000000000000e+05</item>
+																					<item>1.30433000000000000e+05</item>
+																					<item>1.30652000000000000e+05</item>
+																					<item>1.30931000000000000e+05</item>
+																					<item>1.32132000000000000e+05</item>
+																					<item>1.32608000000000000e+05</item>
+																					<item>1.33426000000000000e+05</item>
+																					<item>1.34615000000000000e+05</item>
+																					<item>1.35903000000000000e+05</item>
+																					<item>1.37581000000000000e+05</item>
+																					<item>1.39940000000000000e+05</item>
+																					<item>1.42240000000000000e+05</item>
+																					<item>1.45642000000000000e+05</item>
+																					<item>1.49064000000000000e+05</item>
+																					<item>1.52957000000000000e+05</item>
+																					<item>1.58671000000000000e+05</item>
+																					<item>1.65315000000000000e+05</item>
+																					<item>1.73577000000000000e+05</item>
+																					<item>1.82539000000000000e+05</item>
+																					<item>1.94931000000000000e+05</item>
+																					<item>2.10740000000000000e+05</item>
+																					<item>2.28336000000000000e+05</item>
+																					<item>2.51935000000000000e+05</item>
+																					<item>2.78025000000000000e+05</item>
+																					<item>3.13136000000000000e+05</item>
+																					<item>3.55302000000000000e+05</item>
+																					<item>4.02283000000000000e+05</item>
+																					<item>4.58932000000000000e+05</item>
+																					<item>5.30526000000000000e+05</item>
+																					<item>6.09348000000000000e+05</item>
+																					<item>6.91568000000000000e+05</item>
+																					<item>7.79451000000000000e+05</item>
+																					<item>8.71440000000000000e+05</item>
+																					<item>2.09945000000000000e+06</item>
 																				</moment_2>
 																			</d_estimator_total_bin_data>
 																			<d_entity_estimator_moments_map class_id="149" tracking_level="0" version="0">
 																				<count>1</count>
-																				<bucket_count>3</bucket_count>
+																				<bucket_count>2</bucket_count>
 																				<item_version>0</item_version>
 																				<item class_id="150" tracking_level="0" version="0">
 																					<first>1</first>
@@ -1070,224 +1070,224 @@
 																							<moment_1 object_id="_54">
 																								<count>101</count>
 																								<item_version>0</item_version>
-																								<item>1.50772630573516375e+00</item>
-																								<item>0.00000000000000000e+00</item>
-																								<item>5.91614503709590345e+00</item>
-																								<item>1.57158033298065405e+01</item>
-																								<item>1.71022795263431426e+01</item>
-																								<item>7.95038124663404222e+00</item>
-																								<item>1.56855114619017328e+01</item>
-																								<item>3.23633877614627394e+01</item>
-																								<item>6.96283068416392297e+01</item>
-																								<item>9.32321701062652295e+01</item>
-																								<item>1.24343999970217652e+02</item>
-																								<item>2.08074839853161137e+02</item>
-																								<item>3.44027033826834042e+02</item>
-																								<item>4.11274854593623900e+02</item>
-																								<item>6.87379823157631108e+02</item>
-																								<item>1.04970573102805884e+03</item>
-																								<item>1.47665319999686062e+03</item>
-																								<item>2.27678725205319142e+03</item>
-																								<item>3.38462961011897460e+03</item>
-																								<item>5.21456286435756465e+03</item>
-																								<item>7.53687612405243453e+03</item>
-																								<item>1.04992099142900443e+04</item>
-																								<item>1.49671127205101930e+04</item>
-																								<item>2.09046643572612993e+04</item>
-																								<item>2.93045946077137851e+04</item>
-																								<item>3.90542314778800646e+04</item>
-																								<item>4.95527592249015215e+04</item>
-																								<item>5.98822078799388546e+04</item>
-																								<item>7.01856603959677159e+04</item>
-																								<item>7.52708106488932972e+04</item>
-																								<item>7.58628180283599504e+04</item>
-																								<item>6.87237170119008370e+04</item>
-																								<item>5.45331865322707235e+04</item>
-																								<item>3.83161293675746128e+04</item>
-																								<item>2.22776518553819988e+04</item>
-																								<item>1.18264194352498580e+04</item>
-																								<item>5.67284544679554710e+03</item>
-																								<item>3.14664291746362278e+03</item>
-																								<item>2.52399643328208958e+03</item>
-																								<item>2.35733334692497510e+03</item>
-																								<item>2.41260656284916740e+03</item>
-																								<item>2.17837634574838921e+03</item>
-																								<item>2.19860018630840841e+03</item>
-																								<item>2.29158549349953455e+03</item>
-																								<item>2.21915971008984297e+03</item>
-																								<item>2.24238805772214346e+03</item>
-																								<item>2.27114591375995360e+03</item>
-																								<item>2.11609712490010907e+03</item>
-																								<item>2.14507420537738471e+03</item>
-																								<item>2.14650053622968699e+03</item>
-																								<item>2.13047093817432506e+03</item>
-																								<item>2.14865482944497853e+03</item>
-																								<item>2.12956842335145257e+03</item>
-																								<item>2.10543266068254297e+03</item>
-																								<item>2.21181670429757696e+03</item>
-																								<item>2.12243781634741617e+03</item>
-																								<item>2.22427782087602827e+03</item>
-																								<item>2.07746267768771622e+03</item>
-																								<item>2.04737173817612643e+03</item>
-																								<item>2.26179525836971334e+03</item>
-																								<item>2.16852378043754561e+03</item>
-																								<item>2.07640120874299464e+03</item>
-																								<item>2.10136068694232608e+03</item>
-																								<item>2.18270416641905331e+03</item>
-																								<item>2.06652666337647042e+03</item>
-																								<item>2.13931808938073345e+03</item>
-																								<item>2.26696095757444527e+03</item>
-																								<item>2.11400346402052264e+03</item>
-																								<item>2.07561157356003014e+03</item>
-																								<item>2.12848969113284829e+03</item>
-																								<item>2.23392001927366300e+03</item>
-																								<item>2.13883585119558848e+03</item>
-																								<item>2.09218027841756111e+03</item>
-																								<item>2.19102436815048168e+03</item>
-																								<item>2.18425698627621750e+03</item>
-																								<item>2.19463810919245498e+03</item>
-																								<item>2.26449682060766872e+03</item>
-																								<item>2.25661767072539942e+03</item>
-																								<item>2.41135430409684341e+03</item>
-																								<item>2.34958645734525044e+03</item>
-																								<item>2.42668848711951023e+03</item>
-																								<item>2.50869242999970220e+03</item>
-																								<item>2.63293428165229443e+03</item>
-																								<item>2.85291832479975938e+03</item>
-																								<item>2.95910913800113440e+03</item>
-																								<item>3.10671862719305955e+03</item>
-																								<item>3.16863606380772080e+03</item>
-																								<item>3.40431874690566519e+03</item>
-																								<item>3.69023359515021457e+03</item>
-																								<item>4.01891185125711218e+03</item>
-																								<item>4.45425104205629304e+03</item>
-																								<item>4.78239024895304374e+03</item>
-																								<item>5.15241019648908969e+03</item>
-																								<item>5.81221064786484840e+03</item>
-																								<item>6.27527414136479729e+03</item>
-																								<item>6.86539322116812855e+03</item>
-																								<item>7.50557374303368942e+03</item>
-																								<item>8.06032775074019355e+03</item>
-																								<item>8.52415901447478609e+03</item>
-																								<item>9.16530563747855922e+03</item>
-																								<item>2.12671318924105108e+04</item>
+																								<item>1.02000000000000000e+02</item>
+																								<item>1.43000000000000000e+02</item>
+																								<item>2.16000000000000000e+02</item>
+																								<item>3.23000000000000000e+02</item>
+																								<item>4.91000000000000000e+02</item>
+																								<item>7.58000000000000000e+02</item>
+																								<item>1.13300000000000000e+03</item>
+																								<item>1.81700000000000000e+03</item>
+																								<item>2.81000000000000000e+03</item>
+																								<item>4.28500000000000000e+03</item>
+																								<item>6.46200000000000000e+03</item>
+																								<item>1.00820000000000000e+04</item>
+																								<item>1.53350000000000000e+04</item>
+																								<item>2.32780000000000000e+04</item>
+																								<item>3.59520000000000000e+04</item>
+																								<item>5.46010000000000000e+04</item>
+																								<item>8.33130000000000000e+04</item>
+																								<item>1.25543000000000000e+05</item>
+																								<item>1.89021000000000000e+05</item>
+																								<item>2.81678000000000000e+05</item>
+																								<item>4.16975000000000000e+05</item>
+																								<item>6.06914000000000000e+05</item>
+																								<item>8.70837000000000000e+05</item>
+																								<item>1.23315800000000000e+06</item>
+																								<item>1.69743700000000000e+06</item>
+																								<item>2.26500900000000000e+06</item>
+																								<item>2.91504200000000000e+06</item>
+																								<item>3.58734000000000000e+06</item>
+																								<item>4.18099000000000000e+06</item>
+																								<item>4.54640600000000000e+06</item>
+																								<item>4.55334600000000000e+06</item>
+																								<item>4.12734800000000000e+06</item>
+																								<item>3.31546200000000000e+06</item>
+																								<item>2.31669000000000000e+06</item>
+																								<item>1.38035100000000000e+06</item>
+																								<item>7.08585000000000000e+05</item>
+																								<item>3.43073000000000000e+05</item>
+																								<item>1.96587000000000000e+05</item>
+																								<item>1.53990000000000000e+05</item>
+																								<item>1.43758000000000000e+05</item>
+																								<item>1.41575000000000000e+05</item>
+																								<item>1.39438000000000000e+05</item>
+																								<item>1.37812000000000000e+05</item>
+																								<item>1.37282000000000000e+05</item>
+																								<item>1.36428000000000000e+05</item>
+																								<item>1.35058000000000000e+05</item>
+																								<item>1.34789000000000000e+05</item>
+																								<item>1.34341000000000000e+05</item>
+																								<item>1.34120000000000000e+05</item>
+																								<item>1.32739000000000000e+05</item>
+																								<item>1.32436000000000000e+05</item>
+																								<item>1.32204000000000000e+05</item>
+																								<item>1.31843000000000000e+05</item>
+																								<item>1.31117000000000000e+05</item>
+																								<item>1.31647000000000000e+05</item>
+																								<item>1.30901000000000000e+05</item>
+																								<item>1.31360000000000000e+05</item>
+																								<item>1.30305000000000000e+05</item>
+																								<item>1.29556000000000000e+05</item>
+																								<item>1.30355000000000000e+05</item>
+																								<item>1.30214000000000000e+05</item>
+																								<item>1.29535000000000000e+05</item>
+																								<item>1.29521000000000000e+05</item>
+																								<item>1.29995000000000000e+05</item>
+																								<item>1.29532000000000000e+05</item>
+																								<item>1.30533000000000000e+05</item>
+																								<item>1.29507000000000000e+05</item>
+																								<item>1.29427000000000000e+05</item>
+																								<item>1.30433000000000000e+05</item>
+																								<item>1.30652000000000000e+05</item>
+																								<item>1.30931000000000000e+05</item>
+																								<item>1.32132000000000000e+05</item>
+																								<item>1.32608000000000000e+05</item>
+																								<item>1.33426000000000000e+05</item>
+																								<item>1.34615000000000000e+05</item>
+																								<item>1.35903000000000000e+05</item>
+																								<item>1.37581000000000000e+05</item>
+																								<item>1.39940000000000000e+05</item>
+																								<item>1.42240000000000000e+05</item>
+																								<item>1.45642000000000000e+05</item>
+																								<item>1.49064000000000000e+05</item>
+																								<item>1.52957000000000000e+05</item>
+																								<item>1.58671000000000000e+05</item>
+																								<item>1.65315000000000000e+05</item>
+																								<item>1.73577000000000000e+05</item>
+																								<item>1.82539000000000000e+05</item>
+																								<item>1.94931000000000000e+05</item>
+																								<item>2.10740000000000000e+05</item>
+																								<item>2.28336000000000000e+05</item>
+																								<item>2.51935000000000000e+05</item>
+																								<item>2.78025000000000000e+05</item>
+																								<item>3.13136000000000000e+05</item>
+																								<item>3.55302000000000000e+05</item>
+																								<item>4.02283000000000000e+05</item>
+																								<item>4.58932000000000000e+05</item>
+																								<item>5.30526000000000000e+05</item>
+																								<item>6.09348000000000000e+05</item>
+																								<item>6.91568000000000000e+05</item>
+																								<item>7.79451000000000000e+05</item>
+																								<item>8.71440000000000000e+05</item>
+																								<item>2.09945000000000000e+06</item>
 																							</moment_1>
 																						</BaseType>
 																						<moment_2 object_id="_55">
 																							<count>101</count>
 																							<item_version>0</item_version>
-																							<item>2.27323861300580443e+00</item>
-																							<item>0.00000000000000000e+00</item>
-																							<item>9.69729821176632889e+00</item>
-																							<item>4.58511273542025179e+01</item>
-																							<item>4.33776329056899144e+01</item>
-																							<item>1.14113630943412172e+01</item>
-																							<item>2.94172061003168075e+01</item>
-																							<item>9.47640976257691818e+01</item>
-																							<item>2.39160878714219876e+02</item>
-																							<item>3.97061351092779319e+02</item>
-																							<item>4.68512046660029625e+02</item>
-																							<item>7.80853503320967434e+02</item>
-																							<item>2.12528154048294437e+03</item>
-																							<item>1.19613080058683204e+03</item>
-																							<item>2.33962945815502599e+03</item>
-																							<item>3.32684035685426534e+03</item>
-																							<item>4.62996468054492652e+03</item>
-																							<item>8.09815053539752080e+03</item>
-																							<item>1.20220670891051486e+04</item>
-																							<item>3.51667435820455794e+04</item>
-																							<item>2.64050535274875438e+04</item>
-																							<item>3.10790814887406123e+04</item>
-																							<item>5.40971779086262395e+04</item>
-																							<item>6.57506038293110760e+04</item>
-																							<item>1.26489128709690514e+05</item>
-																							<item>1.46133756675211713e+05</item>
-																							<item>1.53111686414382362e+05</item>
-																							<item>1.71133827223360393e+05</item>
-																							<item>2.13507734790911083e+05</item>
-																							<item>2.25814501248009066e+05</item>
-																							<item>2.60207805498411792e+05</item>
-																							<item>2.26115522492239950e+05</item>
-																							<item>1.45743295002488216e+05</item>
-																							<item>1.13804222594823863e+05</item>
-																							<item>6.08292004371798175e+04</item>
-																							<item>3.13387784788544886e+04</item>
-																							<item>2.19108696290149564e+04</item>
-																							<item>7.54678308221377847e+03</item>
-																							<item>6.91187050056256703e+03</item>
-																							<item>5.52939843648577698e+03</item>
-																							<item>9.14886432329073250e+03</item>
-																							<item>5.08879774559083216e+03</item>
-																							<item>5.80616009992385989e+03</item>
-																							<item>5.65571064699699309e+03</item>
-																							<item>5.58571352975090394e+03</item>
-																							<item>6.26523953113312291e+03</item>
-																							<item>5.90536375281119308e+03</item>
-																							<item>4.65988039504807602e+03</item>
-																							<item>6.55718822951099264e+03</item>
-																							<item>4.68562252942151645e+03</item>
-																							<item>4.45877523547062810e+03</item>
-																							<item>5.91746840965337651e+03</item>
-																							<item>5.05489487805497811e+03</item>
-																							<item>5.48358324609975080e+03</item>
-																							<item>7.03694657561659733e+03</item>
-																							<item>6.02637834847133126e+03</item>
-																							<item>7.64709349003450279e+03</item>
-																							<item>5.18149608895529218e+03</item>
-																							<item>4.79655669720592687e+03</item>
-																							<item>1.05208674361318954e+04</item>
-																							<item>5.54983316925306190e+03</item>
-																							<item>4.93004663442993751e+03</item>
-																							<item>4.90458896187529626e+03</item>
-																							<item>6.15895524524065331e+03</item>
-																							<item>5.09001121796359348e+03</item>
-																							<item>5.16884202938932867e+03</item>
-																							<item>6.91700017031883726e+03</item>
-																							<item>9.27615345225739475e+03</item>
-																							<item>5.24601465257311793e+03</item>
-																							<item>4.97368636277473888e+03</item>
-																							<item>7.97972597805726400e+03</item>
-																							<item>5.54661363728041670e+03</item>
-																							<item>5.36950573095508662e+03</item>
-																							<item>5.77716252371808878e+03</item>
-																							<item>4.98755568560487518e+03</item>
-																							<item>5.16142997331216247e+03</item>
-																							<item>5.92182897258292178e+03</item>
-																							<item>6.17681982885282014e+03</item>
-																							<item>6.25526748222337392e+03</item>
-																							<item>5.75742529061040022e+03</item>
-																							<item>5.67718178776338755e+03</item>
-																							<item>8.26189796679131723e+03</item>
-																							<item>8.78567321099565379e+03</item>
-																							<item>7.99723968932432126e+03</item>
-																							<item>7.23430094885581275e+03</item>
-																							<item>8.82901551503252085e+03</item>
-																							<item>8.94121161891291558e+03</item>
-																							<item>9.57995552354776191e+03</item>
-																							<item>1.06133626920230527e+04</item>
-																							<item>9.13243197851572404e+03</item>
-																							<item>9.60176625228538614e+03</item>
-																							<item>1.21739682841240901e+04</item>
-																							<item>9.66059902937872357e+03</item>
-																							<item>1.05152104946723357e+04</item>
-																							<item>9.48719817910126767e+03</item>
-																							<item>9.55872129429363122e+03</item>
-																							<item>9.55801472375258709e+03</item>
-																							<item>9.52725098038408578e+03</item>
-																							<item>9.53783083331337366e+03</item>
-																							<item>9.73331385252232576e+03</item>
-																							<item>2.14499438045990100e+04</item>
+																							<item>1.02000000000000000e+02</item>
+																							<item>1.43000000000000000e+02</item>
+																							<item>2.16000000000000000e+02</item>
+																							<item>3.23000000000000000e+02</item>
+																							<item>4.91000000000000000e+02</item>
+																							<item>7.58000000000000000e+02</item>
+																							<item>1.13300000000000000e+03</item>
+																							<item>1.81700000000000000e+03</item>
+																							<item>2.81000000000000000e+03</item>
+																							<item>4.28500000000000000e+03</item>
+																							<item>6.46200000000000000e+03</item>
+																							<item>1.00820000000000000e+04</item>
+																							<item>1.53350000000000000e+04</item>
+																							<item>2.32780000000000000e+04</item>
+																							<item>3.59520000000000000e+04</item>
+																							<item>5.46010000000000000e+04</item>
+																							<item>8.33130000000000000e+04</item>
+																							<item>1.25543000000000000e+05</item>
+																							<item>1.89021000000000000e+05</item>
+																							<item>2.81678000000000000e+05</item>
+																							<item>4.16975000000000000e+05</item>
+																							<item>6.06914000000000000e+05</item>
+																							<item>8.70837000000000000e+05</item>
+																							<item>1.23315800000000000e+06</item>
+																							<item>1.69743700000000000e+06</item>
+																							<item>2.26500900000000000e+06</item>
+																							<item>2.91504200000000000e+06</item>
+																							<item>3.58734000000000000e+06</item>
+																							<item>4.18099000000000000e+06</item>
+																							<item>4.54640600000000000e+06</item>
+																							<item>4.55334600000000000e+06</item>
+																							<item>4.12734800000000000e+06</item>
+																							<item>3.31546200000000000e+06</item>
+																							<item>2.31669000000000000e+06</item>
+																							<item>1.38035100000000000e+06</item>
+																							<item>7.08585000000000000e+05</item>
+																							<item>3.43073000000000000e+05</item>
+																							<item>1.96587000000000000e+05</item>
+																							<item>1.53990000000000000e+05</item>
+																							<item>1.43758000000000000e+05</item>
+																							<item>1.41575000000000000e+05</item>
+																							<item>1.39438000000000000e+05</item>
+																							<item>1.37812000000000000e+05</item>
+																							<item>1.37282000000000000e+05</item>
+																							<item>1.36428000000000000e+05</item>
+																							<item>1.35058000000000000e+05</item>
+																							<item>1.34789000000000000e+05</item>
+																							<item>1.34341000000000000e+05</item>
+																							<item>1.34120000000000000e+05</item>
+																							<item>1.32739000000000000e+05</item>
+																							<item>1.32436000000000000e+05</item>
+																							<item>1.32204000000000000e+05</item>
+																							<item>1.31843000000000000e+05</item>
+																							<item>1.31117000000000000e+05</item>
+																							<item>1.31647000000000000e+05</item>
+																							<item>1.30901000000000000e+05</item>
+																							<item>1.31360000000000000e+05</item>
+																							<item>1.30305000000000000e+05</item>
+																							<item>1.29556000000000000e+05</item>
+																							<item>1.30355000000000000e+05</item>
+																							<item>1.30214000000000000e+05</item>
+																							<item>1.29535000000000000e+05</item>
+																							<item>1.29521000000000000e+05</item>
+																							<item>1.29995000000000000e+05</item>
+																							<item>1.29532000000000000e+05</item>
+																							<item>1.30533000000000000e+05</item>
+																							<item>1.29507000000000000e+05</item>
+																							<item>1.29427000000000000e+05</item>
+																							<item>1.30433000000000000e+05</item>
+																							<item>1.30652000000000000e+05</item>
+																							<item>1.30931000000000000e+05</item>
+																							<item>1.32132000000000000e+05</item>
+																							<item>1.32608000000000000e+05</item>
+																							<item>1.33426000000000000e+05</item>
+																							<item>1.34615000000000000e+05</item>
+																							<item>1.35903000000000000e+05</item>
+																							<item>1.37581000000000000e+05</item>
+																							<item>1.39940000000000000e+05</item>
+																							<item>1.42240000000000000e+05</item>
+																							<item>1.45642000000000000e+05</item>
+																							<item>1.49064000000000000e+05</item>
+																							<item>1.52957000000000000e+05</item>
+																							<item>1.58671000000000000e+05</item>
+																							<item>1.65315000000000000e+05</item>
+																							<item>1.73577000000000000e+05</item>
+																							<item>1.82539000000000000e+05</item>
+																							<item>1.94931000000000000e+05</item>
+																							<item>2.10740000000000000e+05</item>
+																							<item>2.28336000000000000e+05</item>
+																							<item>2.51935000000000000e+05</item>
+																							<item>2.78025000000000000e+05</item>
+																							<item>3.13136000000000000e+05</item>
+																							<item>3.55302000000000000e+05</item>
+																							<item>4.02283000000000000e+05</item>
+																							<item>4.58932000000000000e+05</item>
+																							<item>5.30526000000000000e+05</item>
+																							<item>6.09348000000000000e+05</item>
+																							<item>6.91568000000000000e+05</item>
+																							<item>7.79451000000000000e+05</item>
+																							<item>8.71440000000000000e+05</item>
+																							<item>2.09945000000000000e+06</item>
 																						</moment_2>
 																					</second>
 																				</item>
 																			</d_entity_estimator_moments_map>
 																			<d_entity_norm_constants_map class_id="151" tracking_level="0" version="0">
 																				<count>1</count>
-																				<bucket_count>3</bucket_count>
+																				<bucket_count>2</bucket_count>
 																				<item_version>0</item_version>
 																				<item class_id="152" tracking_level="0" version="0">
 																					<first>1</first>
-																					<second>1.25653260316473787e+01</second>
+																					<second>1.00000000000000000e+00</second>
 																				</item>
 																			</d_entity_norm_constants_map>
 																		</EntityEstimator>
@@ -1299,30 +1299,30 @@
 																						<moment_1 object_id="_56">
 																							<count>1</count>
 																							<item_version>0</item_version>
-																							<item>8.83786631879880792e+05</item>
+																							<item>5.49938400000000000e+07</item>
 																						</moment_1>
 																					</BaseType>
 																					<moment_2 object_id="_57">
 																						<count>1</count>
 																						<item_version>0</item_version>
-																						<item>2.60897464260350168e+06</item>
+																						<item>5.49938400000000000e+07</item>
 																					</moment_2>
 																				</BaseType>
 																				<moment_3 object_id="_58">
 																					<count>1</count>
 																					<item_version>0</item_version>
-																					<item>5.16451744097613841e+07</item>
+																					<item>5.49938400000000000e+07</item>
 																				</moment_3>
 																			</BaseType>
 																			<moment_4 object_id="_59">
 																				<count>1</count>
 																				<item_version>0</item_version>
-																				<item>4.63681038258538055e+09</item>
+																				<item>5.49938400000000000e+07</item>
 																			</moment_4>
 																		</d_total_estimator_moments>
 																		<d_entity_total_estimator_moments_map class_id="155" tracking_level="0" version="0">
 																			<count>1</count>
-																			<bucket_count>3</bucket_count>
+																			<bucket_count>2</bucket_count>
 																			<item_version>0</item_version>
 																			<item class_id="156" tracking_level="0" version="0">
 																				<first>1</first>
@@ -1334,25 +1334,25 @@
 																								<moment_1 object_id="_60">
 																									<count>1</count>
 																									<item_version>0</item_version>
-																									<item>8.83786631879880792e+05</item>
+																									<item>5.49938400000000000e+07</item>
 																								</moment_1>
 																							</BaseType>
 																							<moment_2 object_id="_61">
 																								<count>1</count>
 																								<item_version>0</item_version>
-																								<item>2.60897464260350168e+06</item>
+																								<item>5.49938400000000000e+07</item>
 																							</moment_2>
 																						</BaseType>
 																						<moment_3 object_id="_62">
 																							<count>1</count>
 																							<item_version>0</item_version>
-																							<item>5.16451744097613841e+07</item>
+																							<item>5.49938400000000000e+07</item>
 																						</moment_3>
 																					</BaseType>
 																					<moment_4 object_id="_63">
 																						<count>1</count>
 																						<item_version>0</item_version>
-																						<item>4.63681038258538055e+09</item>
+																						<item>5.49938400000000000e+07</item>
 																					</moment_4>
 																				</second>
 																			</item>
@@ -1360,18 +1360,17 @@
 																	</StandardEntityEstimator>
 																	<ParticleCrossingSurfaceEventObserver class_id="157" tracking_level="0" version="0"></ParticleCrossingSurfaceEventObserver>
 																</StandardSurfaceEstimator>
-																<d_cosine_cutoff>1.00000000000000002e-03</d_cosine_cutoff>
 															</px>
 														</item>
 														<item>
-															<px class_id="158" class_name="WeightMultipliedSurfaceCurrentEstimator" tracking_level="1" version="0" object_id="_64">
+															<px class_id="158" class_name="WeightMultipliedSurfaceFluxEstimator" tracking_level="1" version="0" object_id="_64">
 																<StandardSurfaceEstimator>
 																	<StandardEntityEstimator>
 																		<EntityEstimator>
 																			<Estimator>
 																				<ParticleHistoryObserver></ParticleHistoryObserver>
 																				<d_id>
-																					<d_id>1</d_id>
+																					<d_id>2</d_id>
 																				</d_id>
 																				<d_multiplier>1.00000000000000000e+00</d_multiplier>
 																				<d_particle_types>
@@ -1531,226 +1530,226 @@
 																					</d_impl>
 																				</d_phase_space_discretization>
 																			</Estimator>
-																			<d_total_norm_constant>1.00000000000000000e+00</d_total_norm_constant>
-																			<d_supplied_norm_constants>0</d_supplied_norm_constants>
+																			<d_total_norm_constant>1.25653260316473787e+01</d_total_norm_constant>
+																			<d_supplied_norm_constants>1</d_supplied_norm_constants>
 																			<d_estimator_total_bin_data>
 																				<BaseType>
 																					<BaseType></BaseType>
 																					<moment_1 object_id="_72">
 																						<count>101</count>
 																						<item_version>0</item_version>
-																						<item>1.00000000000000000e+00</item>
-																						<item>0.00000000000000000e+00</item>
-																						<item>4.00000000000000000e+00</item>
-																						<item>8.00000000000000000e+00</item>
-																						<item>8.00000000000000000e+00</item>
-																						<item>6.00000000000000000e+00</item>
-																						<item>1.00000000000000000e+01</item>
-																						<item>1.50000000000000000e+01</item>
-																						<item>3.70000000000000000e+01</item>
-																						<item>4.40000000000000000e+01</item>
-																						<item>6.70000000000000000e+01</item>
-																						<item>1.08000000000000000e+02</item>
-																						<item>1.70000000000000000e+02</item>
-																						<item>2.23000000000000000e+02</item>
-																						<item>3.80000000000000000e+02</item>
-																						<item>5.84000000000000000e+02</item>
-																						<item>8.24000000000000000e+02</item>
-																						<item>1.23400000000000000e+03</item>
-																						<item>1.87600000000000000e+03</item>
-																						<item>2.80500000000000000e+03</item>
-																						<item>4.22900000000000000e+03</item>
-																						<item>6.11000000000000000e+03</item>
-																						<item>8.73000000000000000e+03</item>
-																						<item>1.22410000000000000e+04</item>
-																						<item>1.69330000000000000e+04</item>
-																						<item>2.27030000000000000e+04</item>
-																						<item>2.92130000000000000e+04</item>
-																						<item>3.57160000000000000e+04</item>
-																						<item>4.19180000000000000e+04</item>
-																						<item>4.52940000000000000e+04</item>
-																						<item>4.53640000000000000e+04</item>
-																						<item>4.15610000000000000e+04</item>
-																						<item>3.32840000000000000e+04</item>
-																						<item>2.32870000000000000e+04</item>
-																						<item>1.36060000000000000e+04</item>
-																						<item>7.13000000000000000e+03</item>
-																						<item>3.44300000000000000e+03</item>
-																						<item>1.96900000000000000e+03</item>
-																						<item>1.52700000000000000e+03</item>
-																						<item>1.44900000000000000e+03</item>
-																						<item>1.44100000000000000e+03</item>
-																						<item>1.36300000000000000e+03</item>
-																						<item>1.34100000000000000e+03</item>
-																						<item>1.39100000000000000e+03</item>
-																						<item>1.36200000000000000e+03</item>
-																						<item>1.34100000000000000e+03</item>
-																						<item>1.38100000000000000e+03</item>
-																						<item>1.31100000000000000e+03</item>
-																						<item>1.32400000000000000e+03</item>
-																						<item>1.33300000000000000e+03</item>
-																						<item>1.34100000000000000e+03</item>
-																						<item>1.30300000000000000e+03</item>
-																						<item>1.30900000000000000e+03</item>
-																						<item>1.26300000000000000e+03</item>
-																						<item>1.31800000000000000e+03</item>
-																						<item>1.28900000000000000e+03</item>
-																						<item>1.29200000000000000e+03</item>
-																						<item>1.27400000000000000e+03</item>
-																						<item>1.26300000000000000e+03</item>
-																						<item>1.33100000000000000e+03</item>
-																						<item>1.31900000000000000e+03</item>
-																						<item>1.28400000000000000e+03</item>
-																						<item>1.28000000000000000e+03</item>
-																						<item>1.28900000000000000e+03</item>
-																						<item>1.26200000000000000e+03</item>
-																						<item>1.31900000000000000e+03</item>
-																						<item>1.34300000000000000e+03</item>
-																						<item>1.26700000000000000e+03</item>
-																						<item>1.26800000000000000e+03</item>
-																						<item>1.31800000000000000e+03</item>
-																						<item>1.33800000000000000e+03</item>
-																						<item>1.32100000000000000e+03</item>
-																						<item>1.25300000000000000e+03</item>
-																						<item>1.32400000000000000e+03</item>
-																						<item>1.35300000000000000e+03</item>
-																						<item>1.36700000000000000e+03</item>
-																						<item>1.37300000000000000e+03</item>
-																						<item>1.39900000000000000e+03</item>
-																						<item>1.46500000000000000e+03</item>
-																						<item>1.45000000000000000e+03</item>
-																						<item>1.49900000000000000e+03</item>
-																						<item>1.50700000000000000e+03</item>
-																						<item>1.59200000000000000e+03</item>
-																						<item>1.69600000000000000e+03</item>
-																						<item>1.82700000000000000e+03</item>
-																						<item>1.85200000000000000e+03</item>
-																						<item>1.93600000000000000e+03</item>
-																						<item>2.05600000000000000e+03</item>
-																						<item>2.24300000000000000e+03</item>
-																						<item>2.50200000000000000e+03</item>
-																						<item>2.82900000000000000e+03</item>
-																						<item>3.09400000000000000e+03</item>
-																						<item>3.46300000000000000e+03</item>
-																						<item>4.05100000000000000e+03</item>
-																						<item>4.63300000000000000e+03</item>
-																						<item>5.30100000000000000e+03</item>
-																						<item>6.13500000000000000e+03</item>
-																						<item>6.95300000000000000e+03</item>
-																						<item>7.68600000000000000e+03</item>
-																						<item>8.65500000000000000e+03</item>
-																						<item>2.10920000000000000e+04</item>
+																						<item>2.20890128127191645e+02</item>
+																						<item>3.01102128985285162e+02</item>
+																						<item>4.47789998256394995e+02</item>
+																						<item>5.92260726296569374e+02</item>
+																						<item>9.12881961811147789e+02</item>
+																						<item>1.55770588692554657e+03</item>
+																						<item>2.17700166802832291e+03</item>
+																						<item>3.43535636370539214e+03</item>
+																						<item>5.14684166017776806e+03</item>
+																						<item>8.02347914151724035e+03</item>
+																						<item>1.22683671560884613e+04</item>
+																						<item>1.86753975471142585e+04</item>
+																						<item>2.81358864833900552e+04</item>
+																						<item>4.24377361370094804e+04</item>
+																						<item>6.54225835770420090e+04</item>
+																						<item>9.84358350165283482e+04</item>
+																						<item>1.49428993890721438e+05</item>
+																						<item>2.25667672113809356e+05</item>
+																						<item>3.37880842079774826e+05</item>
+																						<item>4.99466553601755295e+05</item>
+																						<item>7.36527349431065028e+05</item>
+																						<item>1.06451903191006766e+06</item>
+																						<item>1.51967632534987736e+06</item>
+																						<item>2.13767789166536089e+06</item>
+																						<item>2.93063852645925619e+06</item>
+																						<item>3.88116701462333230e+06</item>
+																						<item>4.96952227617719863e+06</item>
+																						<item>6.07714828556733485e+06</item>
+																						<item>7.04837621034975257e+06</item>
+																						<item>7.62870123143838160e+06</item>
+																						<item>7.60597941795589402e+06</item>
+																						<item>6.86958489931169525e+06</item>
+																						<item>5.50029835200875532e+06</item>
+																						<item>3.82807479347438831e+06</item>
+																						<item>2.27710804204052966e+06</item>
+																						<item>1.16710872540532122e+06</item>
+																						<item>5.66666494947530096e+05</item>
+																						<item>3.25869707304940152e+05</item>
+																						<item>2.55883831708293932e+05</item>
+																						<item>2.39077805818610912e+05</item>
+																						<item>2.34839651840445003e+05</item>
+																						<item>2.31654911230363708e+05</item>
+																						<item>2.28455140044335189e+05</item>
+																						<item>2.26918308019558288e+05</item>
+																						<item>2.25504476040870359e+05</item>
+																						<item>2.23856407487181714e+05</item>
+																						<item>2.23177417107969872e+05</item>
+																						<item>2.22163858887706912e+05</item>
+																						<item>2.22292838847693929e+05</item>
+																						<item>2.20778596891371795e+05</item>
+																						<item>2.19207004733239941e+05</item>
+																						<item>2.18552104299347469e+05</item>
+																						<item>2.18596341582354886e+05</item>
+																						<item>2.16890566150408034e+05</item>
+																						<item>2.18345847945268877e+05</item>
+																						<item>2.16630500114275754e+05</item>
+																						<item>2.18285399411980907e+05</item>
+																						<item>2.15201224034886865e+05</item>
+																						<item>2.14768375574504607e+05</item>
+																						<item>2.15916534256209387e+05</item>
+																						<item>2.16281266325204022e+05</item>
+																						<item>2.14984063716210163e+05</item>
+																						<item>2.13888533090368641e+05</item>
+																						<item>2.16528231070355978e+05</item>
+																						<item>2.15260425045021984e+05</item>
+																						<item>2.17187966307369003e+05</item>
+																						<item>2.15848482881871954e+05</item>
+																						<item>2.15357274915795540e+05</item>
+																						<item>2.17462376551336230e+05</item>
+																						<item>2.17894771445758146e+05</item>
+																						<item>2.18303580234879046e+05</item>
+																						<item>2.21020535626581142e+05</item>
+																						<item>2.22060248745622142e+05</item>
+																						<item>2.22922767623196705e+05</item>
+																						<item>2.25640845153766801e+05</item>
+																						<item>2.28675492489887023e+05</item>
+																						<item>2.30888664279255696e+05</item>
+																						<item>2.33850820490454847e+05</item>
+																						<item>2.38920770887601684e+05</item>
+																						<item>2.44869277391068055e+05</item>
+																						<item>2.49856750339576713e+05</item>
+																						<item>2.56954973931516754e+05</item>
+																						<item>2.66713283517119824e+05</item>
+																						<item>2.77686826471698703e+05</item>
+																						<item>2.91094790074188379e+05</item>
+																						<item>3.04870284719867166e+05</item>
+																						<item>3.25638357167793787e+05</item>
+																						<item>3.47605683555864263e+05</item>
+																						<item>3.73018077150321158e+05</item>
+																						<item>4.06217548862132942e+05</item>
+																						<item>4.39000272871785914e+05</item>
+																						<item>4.83087778086698498e+05</item>
+																						<item>5.30566648844396463e+05</item>
+																						<item>5.75817974998406833e+05</item>
+																						<item>6.24976998087511398e+05</item>
+																						<item>6.84877141006968101e+05</item>
+																						<item>7.45230163152947440e+05</item>
+																						<item>8.03661120494824834e+05</item>
+																						<item>8.63121173650319572e+05</item>
+																						<item>9.23146132859904435e+05</item>
+																						<item>2.11677703396401508e+06</item>
 																					</moment_1>
 																				</BaseType>
 																				<moment_2 object_id="_73">
 																					<count>101</count>
 																					<item_version>0</item_version>
-																					<item>1.00000000000000000e+00</item>
-																					<item>0.00000000000000000e+00</item>
-																					<item>4.00000000000000000e+00</item>
-																					<item>8.00000000000000000e+00</item>
-																					<item>8.00000000000000000e+00</item>
-																					<item>6.00000000000000000e+00</item>
-																					<item>1.00000000000000000e+01</item>
-																					<item>1.50000000000000000e+01</item>
-																					<item>3.70000000000000000e+01</item>
-																					<item>4.40000000000000000e+01</item>
-																					<item>6.70000000000000000e+01</item>
-																					<item>1.08000000000000000e+02</item>
-																					<item>1.70000000000000000e+02</item>
-																					<item>2.23000000000000000e+02</item>
-																					<item>3.80000000000000000e+02</item>
-																					<item>5.84000000000000000e+02</item>
-																					<item>8.24000000000000000e+02</item>
-																					<item>1.23400000000000000e+03</item>
-																					<item>1.87600000000000000e+03</item>
-																					<item>2.80500000000000000e+03</item>
-																					<item>4.22900000000000000e+03</item>
-																					<item>6.11000000000000000e+03</item>
-																					<item>8.73000000000000000e+03</item>
-																					<item>1.22410000000000000e+04</item>
-																					<item>1.69330000000000000e+04</item>
-																					<item>2.27030000000000000e+04</item>
-																					<item>2.92130000000000000e+04</item>
-																					<item>3.57160000000000000e+04</item>
-																					<item>4.19180000000000000e+04</item>
-																					<item>4.52940000000000000e+04</item>
-																					<item>4.53640000000000000e+04</item>
-																					<item>4.15610000000000000e+04</item>
-																					<item>3.32840000000000000e+04</item>
-																					<item>2.32870000000000000e+04</item>
-																					<item>1.36060000000000000e+04</item>
-																					<item>7.13000000000000000e+03</item>
-																					<item>3.44300000000000000e+03</item>
-																					<item>1.96900000000000000e+03</item>
-																					<item>1.52700000000000000e+03</item>
-																					<item>1.44900000000000000e+03</item>
-																					<item>1.44100000000000000e+03</item>
-																					<item>1.36300000000000000e+03</item>
-																					<item>1.34100000000000000e+03</item>
-																					<item>1.39100000000000000e+03</item>
-																					<item>1.36200000000000000e+03</item>
-																					<item>1.34100000000000000e+03</item>
-																					<item>1.38100000000000000e+03</item>
-																					<item>1.31100000000000000e+03</item>
-																					<item>1.32400000000000000e+03</item>
-																					<item>1.33300000000000000e+03</item>
-																					<item>1.34100000000000000e+03</item>
-																					<item>1.30300000000000000e+03</item>
-																					<item>1.30900000000000000e+03</item>
-																					<item>1.26300000000000000e+03</item>
-																					<item>1.31800000000000000e+03</item>
-																					<item>1.28900000000000000e+03</item>
-																					<item>1.29200000000000000e+03</item>
-																					<item>1.27400000000000000e+03</item>
-																					<item>1.26300000000000000e+03</item>
-																					<item>1.33100000000000000e+03</item>
-																					<item>1.31900000000000000e+03</item>
-																					<item>1.28400000000000000e+03</item>
-																					<item>1.28000000000000000e+03</item>
-																					<item>1.28900000000000000e+03</item>
-																					<item>1.26200000000000000e+03</item>
-																					<item>1.31900000000000000e+03</item>
-																					<item>1.34300000000000000e+03</item>
-																					<item>1.26700000000000000e+03</item>
-																					<item>1.26800000000000000e+03</item>
-																					<item>1.31800000000000000e+03</item>
-																					<item>1.33800000000000000e+03</item>
-																					<item>1.32100000000000000e+03</item>
-																					<item>1.25300000000000000e+03</item>
-																					<item>1.32400000000000000e+03</item>
-																					<item>1.35300000000000000e+03</item>
-																					<item>1.36700000000000000e+03</item>
-																					<item>1.37300000000000000e+03</item>
-																					<item>1.39900000000000000e+03</item>
-																					<item>1.46500000000000000e+03</item>
-																					<item>1.45000000000000000e+03</item>
-																					<item>1.49900000000000000e+03</item>
-																					<item>1.50700000000000000e+03</item>
-																					<item>1.59200000000000000e+03</item>
-																					<item>1.69600000000000000e+03</item>
-																					<item>1.82700000000000000e+03</item>
-																					<item>1.85200000000000000e+03</item>
-																					<item>1.93600000000000000e+03</item>
-																					<item>2.05600000000000000e+03</item>
-																					<item>2.24300000000000000e+03</item>
-																					<item>2.50200000000000000e+03</item>
-																					<item>2.82900000000000000e+03</item>
-																					<item>3.09400000000000000e+03</item>
-																					<item>3.46300000000000000e+03</item>
-																					<item>4.05100000000000000e+03</item>
-																					<item>4.63300000000000000e+03</item>
-																					<item>5.30100000000000000e+03</item>
-																					<item>6.13500000000000000e+03</item>
-																					<item>6.95300000000000000e+03</item>
-																					<item>7.68600000000000000e+03</item>
-																					<item>8.65500000000000000e+03</item>
-																					<item>2.10920000000000000e+04</item>
+																					<item>1.22938299002718668e+03</item>
+																					<item>1.75910220323945305e+03</item>
+																					<item>2.72035627739319534e+03</item>
+																					<item>2.39632998299709288e+03</item>
+																					<item>3.21815143759525881e+03</item>
+																					<item>7.14519468717726522e+03</item>
+																					<item>8.64056653811364777e+03</item>
+																					<item>1.45716717635119567e+04</item>
+																					<item>1.76459918503629924e+04</item>
+																					<item>3.02891260098329476e+04</item>
+																					<item>4.88491769928802823e+04</item>
+																					<item>6.74805852929750690e+04</item>
+																					<item>1.02366618368394003e+05</item>
+																					<item>1.53867611942616059e+05</item>
+																					<item>2.33336167538523267e+05</item>
+																					<item>3.43625778915858245e+05</item>
+																					<item>5.13406355007347011e+05</item>
+																					<item>7.91254329606355517e+05</item>
+																					<item>1.16359526784704765e+06</item>
+																					<item>1.68530118236058159e+06</item>
+																					<item>2.47190376644545374e+06</item>
+																					<item>3.50782358686942421e+06</item>
+																					<item>4.96300274155463092e+06</item>
+																					<item>6.84145456623436604e+06</item>
+																					<item>9.32797112571182474e+06</item>
+																					<item>1.20951929758306891e+07</item>
+																					<item>1.53063960150269400e+07</item>
+																					<item>1.83514097012070045e+07</item>
+																					<item>2.10708644469695315e+07</item>
+																					<item>2.25200309249659851e+07</item>
+																					<item>2.22908598698522933e+07</item>
+																					<item>1.98975185262124278e+07</item>
+																					<item>1.58485606323076561e+07</item>
+																					<item>1.08937600256867558e+07</item>
+																					<item>6.46834962055271398e+06</item>
+																					<item>3.28737416840554681e+06</item>
+																					<item>1.61620734354008664e+06</item>
+																					<item>9.40192482941742404e+05</item>
+																					<item>7.49644171623722534e+05</item>
+																					<item>7.01413930852736929e+05</item>
+																					<item>6.78181559220752330e+05</item>
+																					<item>6.79045360444651102e+05</item>
+																					<item>6.62714888603562606e+05</item>
+																					<item>6.43390328000141424e+05</item>
+																					<item>6.43447997350432095e+05</item>
+																					<item>6.51093374295678106e+05</item>
+																					<item>6.40402594491707976e+05</item>
+																					<item>6.35793177241364378e+05</item>
+																					<item>6.47216437010568101e+05</item>
+																					<item>6.46111914904183592e+05</item>
+																					<item>6.32448942770298570e+05</item>
+																					<item>6.27179301145338453e+05</item>
+																					<item>6.33422953310194658e+05</item>
+																					<item>6.16986431248261710e+05</item>
+																					<item>6.32338163631287869e+05</item>
+																					<item>6.24306983000074863e+05</item>
+																					<item>6.40395378611947992e+05</item>
+																					<item>6.15294620822095661e+05</item>
+																					<item>6.21528131413634284e+05</item>
+																					<item>6.17137381575878360e+05</item>
+																					<item>6.29570238193727331e+05</item>
+																					<item>6.22208465730765602e+05</item>
+																					<item>5.98378597687393194e+05</item>
+																					<item>6.32584924899933627e+05</item>
+																					<item>6.27223960226694588e+05</item>
+																					<item>6.34607890371320071e+05</item>
+																					<item>6.31614822067277622e+05</item>
+																					<item>6.19790613125144970e+05</item>
+																					<item>6.32467680911170901e+05</item>
+																					<item>6.35777715149272000e+05</item>
+																					<item>6.31853131934906472e+05</item>
+																					<item>6.51857219708788441e+05</item>
+																					<item>6.57908205050356919e+05</item>
+																					<item>6.58545286914992728e+05</item>
+																					<item>6.74064746980672120e+05</item>
+																					<item>6.93335474614984356e+05</item>
+																					<item>6.86480279843628057e+05</item>
+																					<item>6.87696632089551305e+05</item>
+																					<item>7.13900785190276103e+05</item>
+																					<item>7.34755516169483657e+05</item>
+																					<item>7.35166803239615052e+05</item>
+																					<item>7.59670659800315741e+05</item>
+																					<item>7.93357575965975644e+05</item>
+																					<item>8.21725741676795064e+05</item>
+																					<item>8.54605863299308578e+05</item>
+																					<item>8.84637604139860719e+05</item>
+																					<item>9.53896860722998041e+05</item>
+																					<item>9.65857265077557648e+05</item>
+																					<item>1.00288696929203707e+06</item>
+																					<item>1.05415099895280576e+06</item>
+																					<item>1.06075061233011121e+06</item>
+																					<item>1.10392799659004831e+06</item>
+																					<item>1.11211050058771414e+06</item>
+																					<item>1.05576183737488859e+06</item>
+																					<item>9.99347271237009205e+05</item>
+																					<item>9.61677779148859205e+05</item>
+																					<item>9.49066218251447426e+05</item>
+																					<item>9.52336391108458978e+05</item>
+																					<item>9.63907027066311100e+05</item>
+																					<item>9.80661666929695639e+05</item>
+																					<item>2.13486905751150334e+06</item>
 																				</moment_2>
 																			</d_estimator_total_bin_data>
 																			<d_entity_estimator_moments_map>
 																				<count>1</count>
-																				<bucket_count>3</bucket_count>
+																				<bucket_count>2</bucket_count>
 																				<item_version>0</item_version>
 																				<item>
 																					<first>1</first>
@@ -1760,224 +1759,224 @@
 																							<moment_1 object_id="_74">
 																								<count>101</count>
 																								<item_version>0</item_version>
-																								<item>1.00000000000000000e+00</item>
-																								<item>0.00000000000000000e+00</item>
-																								<item>4.00000000000000000e+00</item>
-																								<item>8.00000000000000000e+00</item>
-																								<item>8.00000000000000000e+00</item>
-																								<item>6.00000000000000000e+00</item>
-																								<item>1.00000000000000000e+01</item>
-																								<item>1.50000000000000000e+01</item>
-																								<item>3.70000000000000000e+01</item>
-																								<item>4.40000000000000000e+01</item>
-																								<item>6.70000000000000000e+01</item>
-																								<item>1.08000000000000000e+02</item>
-																								<item>1.70000000000000000e+02</item>
-																								<item>2.23000000000000000e+02</item>
-																								<item>3.80000000000000000e+02</item>
-																								<item>5.84000000000000000e+02</item>
-																								<item>8.24000000000000000e+02</item>
-																								<item>1.23400000000000000e+03</item>
-																								<item>1.87600000000000000e+03</item>
-																								<item>2.80500000000000000e+03</item>
-																								<item>4.22900000000000000e+03</item>
-																								<item>6.11000000000000000e+03</item>
-																								<item>8.73000000000000000e+03</item>
-																								<item>1.22410000000000000e+04</item>
-																								<item>1.69330000000000000e+04</item>
-																								<item>2.27030000000000000e+04</item>
-																								<item>2.92130000000000000e+04</item>
-																								<item>3.57160000000000000e+04</item>
-																								<item>4.19180000000000000e+04</item>
-																								<item>4.52940000000000000e+04</item>
-																								<item>4.53640000000000000e+04</item>
-																								<item>4.15610000000000000e+04</item>
-																								<item>3.32840000000000000e+04</item>
-																								<item>2.32870000000000000e+04</item>
-																								<item>1.36060000000000000e+04</item>
-																								<item>7.13000000000000000e+03</item>
-																								<item>3.44300000000000000e+03</item>
-																								<item>1.96900000000000000e+03</item>
-																								<item>1.52700000000000000e+03</item>
-																								<item>1.44900000000000000e+03</item>
-																								<item>1.44100000000000000e+03</item>
-																								<item>1.36300000000000000e+03</item>
-																								<item>1.34100000000000000e+03</item>
-																								<item>1.39100000000000000e+03</item>
-																								<item>1.36200000000000000e+03</item>
-																								<item>1.34100000000000000e+03</item>
-																								<item>1.38100000000000000e+03</item>
-																								<item>1.31100000000000000e+03</item>
-																								<item>1.32400000000000000e+03</item>
-																								<item>1.33300000000000000e+03</item>
-																								<item>1.34100000000000000e+03</item>
-																								<item>1.30300000000000000e+03</item>
-																								<item>1.30900000000000000e+03</item>
-																								<item>1.26300000000000000e+03</item>
-																								<item>1.31800000000000000e+03</item>
-																								<item>1.28900000000000000e+03</item>
-																								<item>1.29200000000000000e+03</item>
-																								<item>1.27400000000000000e+03</item>
-																								<item>1.26300000000000000e+03</item>
-																								<item>1.33100000000000000e+03</item>
-																								<item>1.31900000000000000e+03</item>
-																								<item>1.28400000000000000e+03</item>
-																								<item>1.28000000000000000e+03</item>
-																								<item>1.28900000000000000e+03</item>
-																								<item>1.26200000000000000e+03</item>
-																								<item>1.31900000000000000e+03</item>
-																								<item>1.34300000000000000e+03</item>
-																								<item>1.26700000000000000e+03</item>
-																								<item>1.26800000000000000e+03</item>
-																								<item>1.31800000000000000e+03</item>
-																								<item>1.33800000000000000e+03</item>
-																								<item>1.32100000000000000e+03</item>
-																								<item>1.25300000000000000e+03</item>
-																								<item>1.32400000000000000e+03</item>
-																								<item>1.35300000000000000e+03</item>
-																								<item>1.36700000000000000e+03</item>
-																								<item>1.37300000000000000e+03</item>
-																								<item>1.39900000000000000e+03</item>
-																								<item>1.46500000000000000e+03</item>
-																								<item>1.45000000000000000e+03</item>
-																								<item>1.49900000000000000e+03</item>
-																								<item>1.50700000000000000e+03</item>
-																								<item>1.59200000000000000e+03</item>
-																								<item>1.69600000000000000e+03</item>
-																								<item>1.82700000000000000e+03</item>
-																								<item>1.85200000000000000e+03</item>
-																								<item>1.93600000000000000e+03</item>
-																								<item>2.05600000000000000e+03</item>
-																								<item>2.24300000000000000e+03</item>
-																								<item>2.50200000000000000e+03</item>
-																								<item>2.82900000000000000e+03</item>
-																								<item>3.09400000000000000e+03</item>
-																								<item>3.46300000000000000e+03</item>
-																								<item>4.05100000000000000e+03</item>
-																								<item>4.63300000000000000e+03</item>
-																								<item>5.30100000000000000e+03</item>
-																								<item>6.13500000000000000e+03</item>
-																								<item>6.95300000000000000e+03</item>
-																								<item>7.68600000000000000e+03</item>
-																								<item>8.65500000000000000e+03</item>
-																								<item>2.10920000000000000e+04</item>
+																								<item>2.20890128127191559e+02</item>
+																								<item>3.01102128985285276e+02</item>
+																								<item>4.47789998256395052e+02</item>
+																								<item>5.92260726296569374e+02</item>
+																								<item>9.12881961811147335e+02</item>
+																								<item>1.55770588692554634e+03</item>
+																								<item>2.17700166802832382e+03</item>
+																								<item>3.43535636370539441e+03</item>
+																								<item>5.14684166017777352e+03</item>
+																								<item>8.02347914151723762e+03</item>
+																								<item>1.22683671560884632e+04</item>
+																								<item>1.86753975471142476e+04</item>
+																								<item>2.81358864833900734e+04</item>
+																								<item>4.24377361370094513e+04</item>
+																								<item>6.54225835770420163e+04</item>
+																								<item>9.84358350165282900e+04</item>
+																								<item>1.49428993890721380e+05</item>
+																								<item>2.25667672113809356e+05</item>
+																								<item>3.37880842079774768e+05</item>
+																								<item>4.99466553601755353e+05</item>
+																								<item>7.36527349431065028e+05</item>
+																								<item>1.06451903191006742e+06</item>
+																								<item>1.51967632534987736e+06</item>
+																								<item>2.13767789166536229e+06</item>
+																								<item>2.93063852645925479e+06</item>
+																								<item>3.88116701462333417e+06</item>
+																								<item>4.96952227617720142e+06</item>
+																								<item>6.07714828556733765e+06</item>
+																								<item>7.04837621034975071e+06</item>
+																								<item>7.62870123143837973e+06</item>
+																								<item>7.60597941795589682e+06</item>
+																								<item>6.86958489931169245e+06</item>
+																								<item>5.50029835200875252e+06</item>
+																								<item>3.82807479347439017e+06</item>
+																								<item>2.27710804204053013e+06</item>
+																								<item>1.16710872540532169e+06</item>
+																								<item>5.66666494947530562e+05</item>
+																								<item>3.25869707304939977e+05</item>
+																								<item>2.55883831708294048e+05</item>
+																								<item>2.39077805818611057e+05</item>
+																								<item>2.34839651840445091e+05</item>
+																								<item>2.31654911230363708e+05</item>
+																								<item>2.28455140044335276e+05</item>
+																								<item>2.26918308019558608e+05</item>
+																								<item>2.25504476040870388e+05</item>
+																								<item>2.23856407487181830e+05</item>
+																								<item>2.23177417107969988e+05</item>
+																								<item>2.22163858887706941e+05</item>
+																								<item>2.22292838847693900e+05</item>
+																								<item>2.20778596891371912e+05</item>
+																								<item>2.19207004733240028e+05</item>
+																								<item>2.18552104299347528e+05</item>
+																								<item>2.18596341582354798e+05</item>
+																								<item>2.16890566150408064e+05</item>
+																								<item>2.18345847945268964e+05</item>
+																								<item>2.16630500114275812e+05</item>
+																								<item>2.18285399411980994e+05</item>
+																								<item>2.15201224034886953e+05</item>
+																								<item>2.14768375574504520e+05</item>
+																								<item>2.15916534256209357e+05</item>
+																								<item>2.16281266325203847e+05</item>
+																								<item>2.14984063716210017e+05</item>
+																								<item>2.13888533090368612e+05</item>
+																								<item>2.16528231070356065e+05</item>
+																								<item>2.15260425045022042e+05</item>
+																								<item>2.17187966307369003e+05</item>
+																								<item>2.15848482881872071e+05</item>
+																								<item>2.15357274915795511e+05</item>
+																								<item>2.17462376551336201e+05</item>
+																								<item>2.17894771445758204e+05</item>
+																								<item>2.18303580234879046e+05</item>
+																								<item>2.21020535626581172e+05</item>
+																								<item>2.22060248745622259e+05</item>
+																								<item>2.22922767623196560e+05</item>
+																								<item>2.25640845153767063e+05</item>
+																								<item>2.28675492489887110e+05</item>
+																								<item>2.30888664279255579e+05</item>
+																								<item>2.33850820490454877e+05</item>
+																								<item>2.38920770887601568e+05</item>
+																								<item>2.44869277391068143e+05</item>
+																								<item>2.49856750339576771e+05</item>
+																								<item>2.56954973931516695e+05</item>
+																								<item>2.66713283517119824e+05</item>
+																								<item>2.77686826471698645e+05</item>
+																								<item>2.91094790074188379e+05</item>
+																								<item>3.04870284719867050e+05</item>
+																								<item>3.25638357167793845e+05</item>
+																								<item>3.47605683555864263e+05</item>
+																								<item>3.73018077150321275e+05</item>
+																								<item>4.06217548862133175e+05</item>
+																								<item>4.39000272871786088e+05</item>
+																								<item>4.83087778086698265e+05</item>
+																								<item>5.30566648844396463e+05</item>
+																								<item>5.75817974998406717e+05</item>
+																								<item>6.24976998087511631e+05</item>
+																								<item>6.84877141006968333e+05</item>
+																								<item>7.45230163152947673e+05</item>
+																								<item>8.03661120494824252e+05</item>
+																								<item>8.63121173650319688e+05</item>
+																								<item>9.23146132859904901e+05</item>
+																								<item>2.11677703396401508e+06</item>
 																							</moment_1>
 																						</BaseType>
 																						<moment_2 object_id="_75">
 																							<count>101</count>
 																							<item_version>0</item_version>
-																							<item>1.00000000000000000e+00</item>
-																							<item>0.00000000000000000e+00</item>
-																							<item>4.00000000000000000e+00</item>
-																							<item>8.00000000000000000e+00</item>
-																							<item>8.00000000000000000e+00</item>
-																							<item>6.00000000000000000e+00</item>
-																							<item>1.00000000000000000e+01</item>
-																							<item>1.50000000000000000e+01</item>
-																							<item>3.70000000000000000e+01</item>
-																							<item>4.40000000000000000e+01</item>
-																							<item>6.70000000000000000e+01</item>
-																							<item>1.08000000000000000e+02</item>
-																							<item>1.70000000000000000e+02</item>
-																							<item>2.23000000000000000e+02</item>
-																							<item>3.80000000000000000e+02</item>
-																							<item>5.84000000000000000e+02</item>
-																							<item>8.24000000000000000e+02</item>
-																							<item>1.23400000000000000e+03</item>
-																							<item>1.87600000000000000e+03</item>
-																							<item>2.80500000000000000e+03</item>
-																							<item>4.22900000000000000e+03</item>
-																							<item>6.11000000000000000e+03</item>
-																							<item>8.73000000000000000e+03</item>
-																							<item>1.22410000000000000e+04</item>
-																							<item>1.69330000000000000e+04</item>
-																							<item>2.27030000000000000e+04</item>
-																							<item>2.92130000000000000e+04</item>
-																							<item>3.57160000000000000e+04</item>
-																							<item>4.19180000000000000e+04</item>
-																							<item>4.52940000000000000e+04</item>
-																							<item>4.53640000000000000e+04</item>
-																							<item>4.15610000000000000e+04</item>
-																							<item>3.32840000000000000e+04</item>
-																							<item>2.32870000000000000e+04</item>
-																							<item>1.36060000000000000e+04</item>
-																							<item>7.13000000000000000e+03</item>
-																							<item>3.44300000000000000e+03</item>
-																							<item>1.96900000000000000e+03</item>
-																							<item>1.52700000000000000e+03</item>
-																							<item>1.44900000000000000e+03</item>
-																							<item>1.44100000000000000e+03</item>
-																							<item>1.36300000000000000e+03</item>
-																							<item>1.34100000000000000e+03</item>
-																							<item>1.39100000000000000e+03</item>
-																							<item>1.36200000000000000e+03</item>
-																							<item>1.34100000000000000e+03</item>
-																							<item>1.38100000000000000e+03</item>
-																							<item>1.31100000000000000e+03</item>
-																							<item>1.32400000000000000e+03</item>
-																							<item>1.33300000000000000e+03</item>
-																							<item>1.34100000000000000e+03</item>
-																							<item>1.30300000000000000e+03</item>
-																							<item>1.30900000000000000e+03</item>
-																							<item>1.26300000000000000e+03</item>
-																							<item>1.31800000000000000e+03</item>
-																							<item>1.28900000000000000e+03</item>
-																							<item>1.29200000000000000e+03</item>
-																							<item>1.27400000000000000e+03</item>
-																							<item>1.26300000000000000e+03</item>
-																							<item>1.33100000000000000e+03</item>
-																							<item>1.31900000000000000e+03</item>
-																							<item>1.28400000000000000e+03</item>
-																							<item>1.28000000000000000e+03</item>
-																							<item>1.28900000000000000e+03</item>
-																							<item>1.26200000000000000e+03</item>
-																							<item>1.31900000000000000e+03</item>
-																							<item>1.34300000000000000e+03</item>
-																							<item>1.26700000000000000e+03</item>
-																							<item>1.26800000000000000e+03</item>
-																							<item>1.31800000000000000e+03</item>
-																							<item>1.33800000000000000e+03</item>
-																							<item>1.32100000000000000e+03</item>
-																							<item>1.25300000000000000e+03</item>
-																							<item>1.32400000000000000e+03</item>
-																							<item>1.35300000000000000e+03</item>
-																							<item>1.36700000000000000e+03</item>
-																							<item>1.37300000000000000e+03</item>
-																							<item>1.39900000000000000e+03</item>
-																							<item>1.46500000000000000e+03</item>
-																							<item>1.45000000000000000e+03</item>
-																							<item>1.49900000000000000e+03</item>
-																							<item>1.50700000000000000e+03</item>
-																							<item>1.59200000000000000e+03</item>
-																							<item>1.69600000000000000e+03</item>
-																							<item>1.82700000000000000e+03</item>
-																							<item>1.85200000000000000e+03</item>
-																							<item>1.93600000000000000e+03</item>
-																							<item>2.05600000000000000e+03</item>
-																							<item>2.24300000000000000e+03</item>
-																							<item>2.50200000000000000e+03</item>
-																							<item>2.82900000000000000e+03</item>
-																							<item>3.09400000000000000e+03</item>
-																							<item>3.46300000000000000e+03</item>
-																							<item>4.05100000000000000e+03</item>
-																							<item>4.63300000000000000e+03</item>
-																							<item>5.30100000000000000e+03</item>
-																							<item>6.13500000000000000e+03</item>
-																							<item>6.95300000000000000e+03</item>
-																							<item>7.68600000000000000e+03</item>
-																							<item>8.65500000000000000e+03</item>
-																							<item>2.10920000000000000e+04</item>
+																							<item>1.22938299002718713e+03</item>
+																							<item>1.75910220323945305e+03</item>
+																							<item>2.72035627739319534e+03</item>
+																							<item>2.39632998299709425e+03</item>
+																							<item>3.21815143759526018e+03</item>
+																							<item>7.14519468717725977e+03</item>
+																							<item>8.64056653811365322e+03</item>
+																							<item>1.45716717635119530e+04</item>
+																							<item>1.76459918503629924e+04</item>
+																							<item>3.02891260098329658e+04</item>
+																							<item>4.88491769928803187e+04</item>
+																							<item>6.74805852929750836e+04</item>
+																							<item>1.02366618368393945e+05</item>
+																							<item>1.53867611942615971e+05</item>
+																							<item>2.33336167538523179e+05</item>
+																							<item>3.43625778915857780e+05</item>
+																							<item>5.13406355007346952e+05</item>
+																							<item>7.91254329606354935e+05</item>
+																							<item>1.16359526784704858e+06</item>
+																							<item>1.68530118236058159e+06</item>
+																							<item>2.47190376644545514e+06</item>
+																							<item>3.50782358686942607e+06</item>
+																							<item>4.96300274155462813e+06</item>
+																							<item>6.84145456623437162e+06</item>
+																							<item>9.32797112571182661e+06</item>
+																							<item>1.20951929758306853e+07</item>
+																							<item>1.53063960150269344e+07</item>
+																							<item>1.83514097012069859e+07</item>
+																							<item>2.10708644469695166e+07</item>
+																							<item>2.25200309249659926e+07</item>
+																							<item>2.22908598698522896e+07</item>
+																							<item>1.98975185262123980e+07</item>
+																							<item>1.58485606323076598e+07</item>
+																							<item>1.08937600256867595e+07</item>
+																							<item>6.46834962055271585e+06</item>
+																							<item>3.28737416840554494e+06</item>
+																							<item>1.61620734354008758e+06</item>
+																							<item>9.40192482941742288e+05</item>
+																							<item>7.49644171623722650e+05</item>
+																							<item>7.01413930852736812e+05</item>
+																							<item>6.78181559220752330e+05</item>
+																							<item>6.79045360444651218e+05</item>
+																							<item>6.62714888603562838e+05</item>
+																							<item>6.43390328000140958e+05</item>
+																							<item>6.43447997350432677e+05</item>
+																							<item>6.51093374295678572e+05</item>
+																							<item>6.40402594491708092e+05</item>
+																							<item>6.35793177241364028e+05</item>
+																							<item>6.47216437010568450e+05</item>
+																							<item>6.46111914904183708e+05</item>
+																							<item>6.32448942770298338e+05</item>
+																							<item>6.27179301145338803e+05</item>
+																							<item>6.33422953310194891e+05</item>
+																							<item>6.16986431248261128e+05</item>
+																							<item>6.32338163631287753e+05</item>
+																							<item>6.24306983000074630e+05</item>
+																							<item>6.40395378611947643e+05</item>
+																							<item>6.15294620822095661e+05</item>
+																							<item>6.21528131413634284e+05</item>
+																							<item>6.17137381575878360e+05</item>
+																							<item>6.29570238193727564e+05</item>
+																							<item>6.22208465730765951e+05</item>
+																							<item>5.98378597687393194e+05</item>
+																							<item>6.32584924899933394e+05</item>
+																							<item>6.27223960226694355e+05</item>
+																							<item>6.34607890371319954e+05</item>
+																							<item>6.31614822067277390e+05</item>
+																							<item>6.19790613125144970e+05</item>
+																							<item>6.32467680911170784e+05</item>
+																							<item>6.35777715149272233e+05</item>
+																							<item>6.31853131934906822e+05</item>
+																							<item>6.51857219708788441e+05</item>
+																							<item>6.57908205050357268e+05</item>
+																							<item>6.58545286914992495e+05</item>
+																							<item>6.74064746980672819e+05</item>
+																							<item>6.93335474614984472e+05</item>
+																							<item>6.86480279843628290e+05</item>
+																							<item>6.87696632089551887e+05</item>
+																							<item>7.13900785190275754e+05</item>
+																							<item>7.34755516169484239e+05</item>
+																							<item>7.35166803239615401e+05</item>
+																							<item>7.59670659800315392e+05</item>
+																							<item>7.93357575965974829e+05</item>
+																							<item>8.21725741676795296e+05</item>
+																							<item>8.54605863299308578e+05</item>
+																							<item>8.84637604139860021e+05</item>
+																							<item>9.53896860722998041e+05</item>
+																							<item>9.65857265077557531e+05</item>
+																							<item>1.00288696929203742e+06</item>
+																							<item>1.05415099895280530e+06</item>
+																							<item>1.06075061233011028e+06</item>
+																							<item>1.10392799659004831e+06</item>
+																							<item>1.11211050058771367e+06</item>
+																							<item>1.05576183737488906e+06</item>
+																							<item>9.99347271237008623e+05</item>
+																							<item>9.61677779148859554e+05</item>
+																							<item>9.49066218251448125e+05</item>
+																							<item>9.52336391108458745e+05</item>
+																							<item>9.63907027066311100e+05</item>
+																							<item>9.80661666929695872e+05</item>
+																							<item>2.13486905751150474e+06</item>
 																						</moment_2>
 																					</second>
 																				</item>
 																			</d_entity_estimator_moments_map>
 																			<d_entity_norm_constants_map>
 																				<count>1</count>
-																				<bucket_count>3</bucket_count>
+																				<bucket_count>2</bucket_count>
 																				<item_version>0</item_version>
 																				<item>
 																					<first>1</first>
-																					<second>1.00000000000000000e+00</second>
+																					<second>1.25653260316473787e+01</second>
 																				</item>
 																			</d_entity_norm_constants_map>
 																		</EntityEstimator>
@@ -1989,30 +1988,30 @@
 																						<moment_1 object_id="_76">
 																							<count>1</count>
 																							<item_version>0</item_version>
-																							<item>5.49876000000000000e+05</item>
+																							<item>8.89000423027940392e+07</item>
 																						</moment_1>
 																					</BaseType>
 																					<moment_2 object_id="_77">
 																						<count>1</count>
 																						<item_version>0</item_version>
-																						<item>5.49876000000000000e+05</item>
+																						<item>2.51286060376660138e+08</item>
 																					</moment_2>
 																				</BaseType>
 																				<moment_3 object_id="_78">
 																					<count>1</count>
 																					<item_version>0</item_version>
-																					<item>5.49876000000000000e+05</item>
+																					<item>2.09378047843660283e+09</item>
 																				</moment_3>
 																			</BaseType>
 																			<moment_4 object_id="_79">
 																				<count>1</count>
 																				<item_version>0</item_version>
-																				<item>5.49876000000000000e+05</item>
+																				<item>3.35856652599092789e+10</item>
 																			</moment_4>
 																		</d_total_estimator_moments>
 																		<d_entity_total_estimator_moments_map>
 																			<count>1</count>
-																			<bucket_count>3</bucket_count>
+																			<bucket_count>2</bucket_count>
 																			<item_version>0</item_version>
 																			<item>
 																				<first>1</first>
@@ -2024,25 +2023,25 @@
 																								<moment_1 object_id="_80">
 																									<count>1</count>
 																									<item_version>0</item_version>
-																									<item>5.49876000000000000e+05</item>
+																									<item>8.89000423027940094e+07</item>
 																								</moment_1>
 																							</BaseType>
 																							<moment_2 object_id="_81">
 																								<count>1</count>
 																								<item_version>0</item_version>
-																								<item>5.49876000000000000e+05</item>
+																								<item>2.51286060376660168e+08</item>
 																							</moment_2>
 																						</BaseType>
 																						<moment_3 object_id="_82">
 																							<count>1</count>
 																							<item_version>0</item_version>
-																							<item>5.49876000000000000e+05</item>
+																							<item>2.09378047843660378e+09</item>
 																						</moment_3>
 																					</BaseType>
 																					<moment_4 object_id="_83">
 																						<count>1</count>
 																						<item_version>0</item_version>
-																						<item>5.49876000000000000e+05</item>
+																						<item>3.35856652599093018e+10</item>
 																					</moment_4>
 																				</second>
 																			</item>
@@ -2050,6 +2049,7 @@
 																	</StandardEntityEstimator>
 																	<ParticleCrossingSurfaceEventObserver></ParticleCrossingSurfaceEventObserver>
 																</StandardSurfaceEstimator>
+																<d_cosine_cutoff>1.00000000000000006e-01</d_cosine_cutoff>
 															</px>
 														</item>
 													</second>
@@ -2121,26 +2121,26 @@
 					<ParticleHistorySimulationCompletionCriterion class_id="181" tracking_level="0" version="0">
 						<ParticleHistoryObserver></ParticleHistoryObserver>
 					</ParticleHistorySimulationCompletionCriterion>
-					<num_completed_histories>800000</num_completed_histories>
-					<d_history_wall>1000000</d_history_wall>
+					<num_completed_histories>80000000</num_completed_histories>
+					<d_history_wall>100000000</d_history_wall>
 				</px>
 			</d_simulation_completion_criterion>
-			<number_of_committed_histories>800000</number_of_committed_histories>
-			<elapsed_time>7.92514084472990362e+02</elapsed_time>
+			<number_of_committed_histories>80000000</number_of_committed_histories>
+			<elapsed_time>6.82885512495040894e+03</elapsed_time>
 			<d_estimators class_id="182" tracking_level="0" version="0">
 				<count>2</count>
-				<bucket_count>3</bucket_count>
+				<bucket_count>5</bucket_count>
 				<item_version>0</item_version>
 				<item class_id="183" tracking_level="0" version="0">
 					<first>2</first>
 					<second class_id="184" tracking_level="0" version="1">
-						<px class_id_reference="119" object_id_reference="_44"></px>
+						<px class_id_reference="158" object_id_reference="_64"></px>
 					</second>
 				</item>
 				<item>
 					<first>1</first>
 					<second>
-						<px class_id_reference="158" object_id_reference="_64"></px>
+						<px class_id_reference="119" object_id_reference="_44"></px>
 					</second>
 				</item>
 			</d_estimators>
@@ -2156,10 +2156,10 @@
 					<px class_id_reference="180" object_id_reference="_87"></px>
 				</item>
 				<item>
-					<px class_id_reference="158" object_id_reference="_64"></px>
+					<px class_id_reference="119" object_id_reference="_44"></px>
 				</item>
 				<item>
-					<px class_id_reference="119" object_id_reference="_44"></px>
+					<px class_id_reference="158" object_id_reference="_64"></px>
 				</item>
 			</d_particle_history_observers>
 		</px>
@@ -2177,7 +2177,7 @@
 	<d_properties>
 		<px class_id_reference="38" object_id_reference="_6"></px>
 	</d_properties>
-	<d_next_history>800000</d_next_history>
+	<d_next_history>80000000</d_next_history>
 	<d_rendezvous_number>9</d_rendezvous_number>
 </manager>
 </boost_serialization>

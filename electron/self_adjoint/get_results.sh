@@ -18,8 +18,8 @@ while getopts "d" opt; do
   esac
 done
 
-# INSTALL="/home/lkersting/frensie0.4_debug/tests/electron"
-INSTALL="/home/lkersting/frensie0.4_release/tests/electron"
+INSTALL="/home/lkersting/frensie0.4_debug/tests/electron"
+# INSTALL="/home/lkersting/frensie0.4_release/tests/electron"
 
 # Get self-adjoint results
 cd ./results

@@ -44,8 +44,15 @@ mode=MonteCarlo.DECOUPLED_DISTRIBUTION
 # ( TWO_D_UNION, ONE_D_UNION, MODIFIED_TWO_D_UNION )
 method=MonteCarlo.MODIFIED_TWO_D_UNION
 
-# Set the bivariate Grid Policy ( 'UNIT_BASE_CORRELATED', 'CORRELATED', 'UNIT_BASE' )
+# Set the ionization sampling method
+# ( KNOCK_ON_SAMPLING, OUTGOING_ENERGY_SAMPLING )
+ionization=MonteCarlo.KNOCK_ON_SAMPLING
+
+# Set the bivariate Grid Policy ( 'UNIT_BASE_CORRELATED', 'UNIT_BASE' )
 grid_policy='UNIT_BASE_CORRELATED'
+
+# Set the nudge past max energy mode on/off (true/false)
+nudge_past_max_energy = True
 
 # Set database directory path (for Denali)
 if socket.gethostname() == "Denali":
@@ -144,11 +151,12 @@ def runSimulation( threads, histories, time ):
     version = 0
   elif grid_policy == 'UNIT_BASE':
     version = 2
-  elif grid_policy == 'CORRELATED':
-    version = 4
 
-  if "debug" in pyfrensie_path:
+  if not nudge_past_max_energy:
     version += 1
+
+  if ionization == MonteCarlo.OUTGOING_ENERGY_SAMPLING:
+    version += 4
 
   file_type = Data.AdjointElectroatomicDataProperties.Native_EPR_FILE
 
@@ -175,9 +183,7 @@ def runSimulation( threads, histories, time ):
   particle_distribution.constructDimensionDistributionDependencyTree()
 
   # Set the source critical line energies for atomic excitation
-  source_critical_line = [ 1.0e-2, 9.98014149999999940210e-03, 9.96028347064644922759e-03, 9.94042591192819367796e-03, 9.92056868792967096182e-03 ]
-
-  # source_critical_line = [ 1.0e-2, 9.98014149999999940210e-03, 9.96028347064644922759e-03, 9.94042591192819367796e-03, 9.92056868792967096182e-03, 9.90071198279725804559e-03, 9.88085572857619852394e-03, 9.86099992615120136963e-03, 9.84114457641047449266e-03, 9.82128968024574555695e-03, 9.80143523855228106234e-03 ]
+  source_critical_line = [ 1.0e-2, 9.98014149e-03, 9.96028344e-03, 9.94042584e-03, 9.92056868e-03, 9.90071198e-03, 9.88085572e-03, 9.86099992e-03, 9.84114457e-03, 9.82128967e-03, 9.80143523e-03, 9.78158124e-03, 9.76172770e-03, 9.74187464e-03, 9.72202203e-03, 9.70216987e-03, 9.68231810e-03, 9.66246694e-03, 9.64261610e-03, 9.62276580e-03, 9.60291601e-03, 9.58306660e-03, 9.56321765e-03, 9.54336920e-03, 9.52352121e-03, 9.50367370e-03 ]
 
   # Set source components
   source_component = [ActiveRegion.StandardAdjointElectronSourceComponent( 0, 1.0, geom_model, particle_distribution, source_critical_line )]
@@ -230,7 +236,8 @@ def runSimulationFromRendezvous( threads, histories, time, rendezvous ):
   # Set the data path
   Collision.FilledGeometryModel.setDefaultDatabasePath( database_path )
 
-  factory = Manager.ParticleSimulationManagerFactory( rendezvous, histories, time, threads )
+  time_sec = time*60
+  factory = Manager.ParticleSimulationManagerFactory( rendezvous, histories, time_sec, threads )
 
   manager = factory.getManager()
 
@@ -312,7 +319,10 @@ def createResultsDirectory():
 # Define a function for naming an electron simulation
 def setSimulationName( properties ):
   extension, title = setup.setAdjointSimulationNameExtention( properties )
-  name = "adjoint_" + str(energy) + "_" + grid_policy + extension
+  name = "adjoint_" + str(energy) + "_" + grid_policy
+  if nudge_past_max_energy:
+    name += '_nudged_past_max'
+  name += extension
   date = str(datetime.datetime.today()).split()[0]
 
   output = "results/adjoint/" + date + "/" + name

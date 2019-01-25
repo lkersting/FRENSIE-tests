@@ -44,8 +44,15 @@ mode=MonteCarlo.DECOUPLED_DISTRIBUTION
 # ( TWO_D_UNION, ONE_D_UNION, MODIFIED_TWO_D_UNION )
 method=MonteCarlo.MODIFIED_TWO_D_UNION
 
-# Set the bivariate Grid Policy ( 'UNIT_BASE_CORRELATED', 'CORRELATED', 'UNIT_BASE' )
+# Set the ionization sampling method
+# ( KNOCK_ON_SAMPLING, OUTGOING_ENERGY_SAMPLING )
+ionization=MonteCarlo.KNOCK_ON_SAMPLING
+
+# Set the bivariate Grid Policy ( 'UNIT_BASE_CORRELATED', 'UNIT_BASE' )
 grid_policy='UNIT_BASE_CORRELATED'
+
+# Set the nudge past max energy mode on/off (true/false)
+nudge_past_max_energy = True
 
 # Set database directory path (for Denali)
 if socket.gethostname() == "Denali":
@@ -144,11 +151,12 @@ def runSimulation( threads, histories, time ):
     version = 0
   elif grid_policy == 'UNIT_BASE':
     version = 2
-  elif grid_policy == 'CORRELATED':
-    version = 4
 
-  if "debug" in pyfrensie_path:
+  if not nudge_past_max_energy:
     version += 1
+
+  if ionization == MonteCarlo.OUTGOING_ENERGY_SAMPLING:
+    version += 4
 
   file_type = Data.AdjointElectroatomicDataProperties.Native_EPR_FILE
 
@@ -225,7 +233,8 @@ def runSimulationFromRendezvous( threads, histories, time, rendezvous ):
   # Set the data path
   Collision.FilledGeometryModel.setDefaultDatabasePath( database_path )
 
-  factory = Manager.ParticleSimulationManagerFactory( rendezvous, histories, time, threads )
+  time_sec = time*60
+  factory = Manager.ParticleSimulationManagerFactory( rendezvous, histories, time_sec, threads )
 
   manager = factory.getManager()
 
@@ -307,7 +316,10 @@ def createResultsDirectory():
 # Define a function for naming an electron simulation
 def setSimulationName( properties ):
   extension, title = setup.setAdjointSimulationNameExtention( properties )
-  name = "adjoint_" + str(energy) + "_" + grid_policy + extension
+  name = "adjoint_" + str(energy) + "_" + grid_policy
+  if nudge_past_max_energy:
+    name += '_nudged_past_max'
+  name += extension
   date = str(datetime.datetime.today()).split()[0]
 
   output = "results/adjoint/" + date + "/" + name

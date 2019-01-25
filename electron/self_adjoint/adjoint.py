@@ -44,8 +44,15 @@ mode=MonteCarlo.DECOUPLED_DISTRIBUTION
 # ( TWO_D_UNION, ONE_D_UNION, MODIFIED_TWO_D_UNION )
 method=MonteCarlo.MODIFIED_TWO_D_UNION
 
-# Set the bivariate Grid Policy ( 'UNIT_BASE_CORRELATED', 'CORRELATED', 'UNIT_BASE' )
+# Set the ionization sampling method
+# ( KNOCK_ON_SAMPLING, OUTGOING_ENERGY_SAMPLING )
+ionization=MonteCarlo.KNOCK_ON_SAMPLING
+
+# Set the bivariate Grid Policy ( 'UNIT_BASE_CORRELATED', 'UNIT_BASE' )
 grid_policy='UNIT_BASE_CORRELATED'
+
+# Set the nudge past max energy mode on/off (true/false)
+nudge_past_max_energy = True
 
 # Set database directory path (for Denali)
 if socket.gethostname() == "Denali":
@@ -127,7 +134,7 @@ def runSimulation( threads, histories, time ):
   surface_flux_estimator.setSourceEnergyDiscretization( bins )
 
   # Create response function
-  delta_energy = Distribution.DeltaDistribution( energy )
+  delta_energy = Distribution.DeltaDistribution( energy, energy - energy_cutoff )
   particle_response_function = ActiveRegion.EnergyParticleResponseFunction( delta_energy )
   response_function = ActiveRegion.StandardParticleResponse( particle_response_function )
 
@@ -139,7 +146,7 @@ def runSimulation( threads, histories, time ):
 
   ## -------------------------- Particle Tracker ---------------------------- ##
 
-  # particle_tracker = Event.ParticleTracker( 0, 1000 )
+  # particle_tracker = Event.ParticleTracker( 0, 100 )
 
   # # Add the particle tracker to the event handler
   # event_handler.addParticleTracker( particle_tracker )
@@ -161,11 +168,12 @@ def runSimulation( threads, histories, time ):
     version = 0
   elif grid_policy == 'UNIT_BASE':
     version = 2
-  elif grid_policy == 'CORRELATED':
-    version = 4
 
-  if "debug" in pyfrensie_path:
+  if not nudge_past_max_energy:
     version += 1
+
+  if ionization == MonteCarlo.OUTGOING_ENERGY_SAMPLING:
+    version += 4
 
   file_type = Data.AdjointElectroatomicDataProperties.Native_EPR_FILE
 
@@ -191,8 +199,11 @@ def runSimulation( threads, histories, time ):
 
   particle_distribution.constructDimensionDistributionDependencyTree()
 
+
+  source_critical_line = [ 1.0e-2, 9.98014149e-03, 9.96028344e-03, 9.94042584e-03, 9.92056868e-03, 9.90071198e-03, 9.88085572e-03, 9.86099992e-03, 9.84114457e-03, 9.82128967e-03, 9.80143523e-03, 9.78158124e-03, 9.76172770e-03, 9.74187464e-03, 9.72202203e-03, 9.70216987e-03, 9.68231810e-03, 9.66246694e-03, 9.64261610e-03, 9.62276580e-03, 9.60291601e-03, 9.58306660e-03, 9.56321765e-03, 9.54336920e-03, 9.52352121e-03, 9.50367370e-03, 9.4838266635382424685208e-03, 9.4639800877299763703920e-03, 9.4441339831391260539739e-03, 9.4242883507344894777891e-03, 9.4044431914888787504836e-03, 9.3845985063791496211261e-03, 9.3647542963862205611658e-03, 9.3449105624951022547320e-03, 9.3250673056949201500387e-03, 9.3052245269789439496844e-03, 9.2853822273446101620564e-03, 9.2655404077935498569074e-03, 9.2456990693316181556538e-03, 9.2258582129689167827813e-03, 9.2060178397198218214204e-03, 9.1861779506030132036454e-03, 9.16633854664150073133e-03, 9.14649962923420357941e-03, 9.12666119900574189516e-03, 9.10682325698995882857e-03 ]
+
   # Set source components
-  source_component = [ActiveRegion.StandardAdjointElectronSourceComponent( 0, 1.0, model, particle_distribution )]
+  source_component = [ActiveRegion.StandardAdjointElectronSourceComponent( 0, 1.0, geom_model, particle_distribution, source_critical_line )]
 
   # Set source
   source = ActiveRegion.StandardParticleSource( source_component )
@@ -242,7 +253,8 @@ def runSimulationFromRendezvous( threads, histories, time, rendezvous ):
   # Set the data path
   Collision.FilledGeometryModel.setDefaultDatabasePath( database_path )
 
-  factory = Manager.ParticleSimulationManagerFactory( rendezvous, histories, time, threads )
+  time_sec = time*60
+  factory = Manager.ParticleSimulationManagerFactory( rendezvous, histories, time_sec, threads )
 
   manager = factory.getManager()
 
@@ -324,7 +336,10 @@ def createResultsDirectory():
 # Define a function for naming an electron simulation
 def setSimulationName( properties ):
   extension, title = setup.setAdjointSimulationNameExtention( properties )
-  name = "adjoint_" + str(energy) + "_" + grid_policy + extension
+  name = "adjoint_" + str(energy) + "_" + grid_policy
+  if nudge_past_max_energy:
+    name += '_nudged_past_max'
+  name += extension
   date = str(datetime.datetime.today()).split()[0]
 
   output = "results/adjoint/" + date + "/" + name
@@ -375,3 +390,60 @@ def processData( event_handler, filename, title ):
   surface_flux = event_handler.getEstimator( 2 )
   ids = list( surface_flux.getEntityIds() )
   setup.processSurfaceFluxSourceEnergyBinData( surface_flux, ids[0], filename, title )
+
+##----------------------------------------------------------------------------##
+##------------------------ printParticleTrackInfo -------------------------##
+##----------------------------------------------------------------------------##
+
+# This function pulls data from the rendezvous file
+def printParticleTrackInfo( rendezvous_file ):
+
+  Collision.FilledGeometryModel.setDefaultDatabasePath( database_path )
+
+  # Load data from file
+  manager = Manager.ParticleSimulationManagerFactory( rendezvous_file ).getManager()
+  event_handler = manager.getEventHandler()
+
+  # Get the simulation name and title
+  properties = manager.getSimulationProperties()
+
+  if "epr14" not in rendezvous_file:
+    file_type = Data.ElectroatomicDataProperties.Native_EPR_FILE
+  else:
+    file_type = Data.ElectroatomicDataProperties.ACE_EPR_FILE
+
+  filename, title = setSimulationName( properties )
+
+  # Process surface flux data
+  particle_tracker = event_handler.getParticleTracker( 0 )
+
+  history_map = particle_tracker.getHistoryData()
+  print "len(history_map) = ", len(history_map)
+  print "len(history_map[0]) = ", len(list(history_map[0]))
+
+  print particle_tracker.getTrackedHistories()
+  print list(history_map)
+
+  cached_particle_state = None
+  for i in history_map:
+    print "\nHistory number:", i
+    if MonteCarlo.ADJOINT_ELECTRON in history_map[i]:
+      map_i = history_map[i][MonteCarlo.ADJOINT_ELECTRON]
+      for j in range(len(map_i)):
+        print "  j:",j
+        for k in range(len(map_i[j])):
+          print "    k:",k
+          print "state:\tenergy\t\tweight\t\tlocation\t\t\t\tdirection"
+          cached_particle_state = map_i[j][k]
+
+          for l in range(len(cached_particle_state)):
+            location = list(cached_particle_state[l][0])
+            direction = list(cached_particle_state[l][1])
+            energy = cached_particle_state[l][2]
+            time = cached_particle_state[l][3]
+            weight = cached_particle_state[l][4]
+            collision = cached_particle_state[l][5]
+            if collision == 0 and l > 1:
+              print ''
+            if l < 6:
+              print l,":\t",'%.22e' % energy,"\t",'%.6e' % weight,"\t",location,"\t",direction,"\t",collision
