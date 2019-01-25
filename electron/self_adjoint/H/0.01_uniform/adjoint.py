@@ -6,7 +6,7 @@ import datetime
 import socket
 
 # Add the parent directory to the path
-sys.path.insert(1,path.dirname(path.dirname(path.dirname(path.abspath(__file__)))))
+sys.path.insert(1,path.dirname(path.dirname(path.dirname(path.dirname(path.abspath(__file__))))))
 import simulation_setup as setup
 import PyFrensie.Data as Data
 import PyFrensie.Data.Native as Native

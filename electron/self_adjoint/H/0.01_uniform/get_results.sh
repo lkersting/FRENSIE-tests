@@ -17,8 +17,8 @@ while getopts "d" opt; do
   esac
 done
 
-INSTALL="/home/lkersting/frensie0.4_debug/tests/electron"
-# INSTALL="/home/lkersting/frensie0.4_release/tests/electron"
+# INSTALL="/home/lkersting/frensie0.4_debug/tests/electron"
+INSTALL="/home/lkersting/frensie0.4_release/tests/electron"
 
 # Get self-adjoint 0.01 uniform source results
 cd ./results
