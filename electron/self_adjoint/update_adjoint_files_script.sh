@@ -19,10 +19,17 @@ nudge_modes=( 'off' 'on')
 ## ------------------------------- COMMANDS ---------------------------------##
 ##---------------------------------------------------------------------------##
 
-version=0
+version_start=0
 
 for ionization in "${ionizations[@]}"
 do
+  # Set the file version
+  if [ "${ionization}" = "Knock-On" ]; then
+    version=version_start
+  else
+    version=$((version_start + 4))
+  fi
+
   # Set the ionization sampling mode
   command=s/ionization=.*/ionization=\'${ionization}\'/
   sed -i "${command}" update_adjoint_test_files.sh
