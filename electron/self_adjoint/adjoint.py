@@ -165,9 +165,9 @@ def runSimulation( threads, histories, time ):
   element_definition = scattering_center_definition_database.createDefinition( element, Data.ZAID(zaid) )
 
   if grid_policy == 'UNIT_BASE_CORRELATED':
-    version = 0
+    version = 8
   elif grid_policy == 'UNIT_BASE':
-    version = 2
+    version = 10
 
   if not nudge_past_max_energy:
     version += 1

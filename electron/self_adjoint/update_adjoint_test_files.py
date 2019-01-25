@@ -63,7 +63,7 @@ if __name__ == "__main__":
         print "The database does not contain the H native data"
         sys.exit(1)
 
-    epr_version = 1
+    epr_version = 2
     if not element_properties.photoatomicDataAvailable( Data.PhotoatomicDataProperties.Native_EPR_FILE, epr_version ):
         print "The database does not contain version ", epr_version, " of H native data"
         sys.exit(1)

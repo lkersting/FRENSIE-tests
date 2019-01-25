@@ -33,7 +33,7 @@ class bcolors:
 def generateNativeFile( db_name,
                         grid_policy = "UnitBaseGrid",
                         refine_grids = "True",
-                        version = 0,
+                        version = 8,
                         overwrite = True,
                         log_file = None ):
 
