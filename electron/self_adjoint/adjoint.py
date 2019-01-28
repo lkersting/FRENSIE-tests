@@ -31,7 +31,7 @@ pyfrensie_path =path.dirname( path.dirname(path.abspath(MonteCarlo.__file__)))
 
 # Set the element
 atom=Data.H_ATOM; element="H"; zaid=1000
-# Set the forward source energy ( 0.001, 0.01, 0.1 )
+# Set the forward source energy
 energy=0.01
 
 # Set the min energy (default is 100 eV )
@@ -64,17 +64,7 @@ elif socket.gethostname() == "Elbrus":
 else:
   database_path = "/home/lkersting/software/mcnp6.2/MCNP_DATA/database.xml"
 
-geometry_path = path.dirname(path.realpath(__file__)) + "/geom_"
-
-# Set the energy bins
-if energy == 0.1:
-  geometry_path += "100keV.h5m"
-elif energy == 0.01:
-  geometry_path += "10keV.h5m"
-elif energy == 0.001:
-  geometry_path += "1keV.h5m"
-else:
-  print "ERROR: energy ", energy, " not supported!"
+geometry_path = path.dirname(path.realpath(__file__)) + "/geom.h5m"
 
 # Run the simulation
 def runSimulation( threads, histories, time ):
@@ -111,20 +101,13 @@ def runSimulation( threads, histories, time ):
   event_handler = Event.EventHandler( properties )
 
   # Set the energy bins
-  if energy == 0.1:
-    bins = list(Utility.doubleArrayFromString( "{ 1e-4, 5e-4, 198i, 1e-1}" ))
-  elif energy == 0.01:
-    bins = list(Utility.doubleArrayFromString( "{ 1e-4, 58i, 6e-3, 99i, 1e-2}" ))
-  elif energy == 0.001:
-    bins = list(Utility.doubleArrayFromString( "{ 1e-4, 197i, 1e-3}" ))
-  else:
-    print "ERROR: energy ", energy, " not supported!"
+  bins = list(Utility.doubleArrayFromString( "{ 1e-4, 58i, 6e-3, 99i, 1e-2}" ))
 
   ## ------------------------ Surface Flux Estimator ------------------------ ##
 
   # Setup an adjoint surface flux estimator
   estimator_id = 2
-  surface_ids = [1]
+  surface_ids = [1, 19, 21, 23, 25, 27]
   surface_flux_estimator = Event.WeightMultipliedSurfaceFluxEstimator( estimator_id, 1.0, surface_ids, geom_model )
 
   # Set the particle type
@@ -391,8 +374,24 @@ def processData( event_handler, filename, title ):
 
   # Process surface flux data
   surface_flux = event_handler.getEstimator( 2 )
-  ids = list( surface_flux.getEntityIds() )
-  setup.processSurfaceFluxSourceEnergyBinData( surface_flux, ids[0], filename, title )
+
+  file1 = filename + "_1"
+  setup.processSurfaceFluxSourceEnergyBinData( surface_flux, 1, file1, title )
+
+  file2 = filename + "_2"
+  setup.processSurfaceFluxSourceEnergyBinData( surface_flux, 27, file2, title )
+
+  file3 = filename + "_5"
+  setup.processSurfaceFluxSourceEnergyBinData( surface_flux, 25, file3, title )
+
+  file4 = filename + "_10"
+  setup.processSurfaceFluxSourceEnergyBinData( surface_flux, 23, file4, title )
+
+  file5 = filename + "_20"
+  setup.processSurfaceFluxSourceEnergyBinData( surface_flux, 21, file5, title )
+
+  file6 = filename + "_40"
+  setup.processSurfaceFluxSourceEnergyBinData( surface_flux, 19, file6, title )
 
 ##----------------------------------------------------------------------------##
 ##------------------------ printParticleTrackInfo -------------------------##

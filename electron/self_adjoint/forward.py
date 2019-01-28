@@ -29,7 +29,7 @@ pyfrensie_path =path.dirname( path.dirname(path.abspath(MonteCarlo.__file__)))
 ## ---------------------- GLOBAL SIMULATION VARIABLES ----------------------- ##
 ##----------------------------------------------------------------------------##
 
-# Set the source energy (0.001, 0.01, 0.1)
+# Set the source energy
 energy=0.01
 
 # Set the elastic distribution mode ( DECOUPLED, COUPLED, HYBRID )
@@ -52,17 +52,7 @@ if socket.gethostname() == "Denali":
 else: # Set database directory path (for Cluster)
   database_path = "/home/lkersting/software/mcnp6.2/MCNP_DATA/database.xml"
 
-geometry_path = path.dirname(path.realpath(__file__)) + "/geom_"
-
-# Set the energy bins
-if energy == 0.1:
-  geometry_path += "100keV.h5m"
-elif energy == 0.01:
-  geometry_path += "10keV.h5m"
-elif energy == 0.001:
-  geometry_path += "1keV.h5m"
-else:
-  print "ERROR: energy ", energy, " not supported!"
+geometry_path = path.dirname(path.realpath(__file__)) + "/geom.h5m"
 
 # Set the bivariate interpolation (LOGLOGLOG, LINLINLIN, LINLINLOG)
 interpolation=MonteCarlo.LOGLOGLOG_INTERPOLATION
@@ -111,20 +101,13 @@ def runSimulation( threads, histories, time ):
   event_handler = Event.EventHandler( properties )
 
   # Set the energy bins
-  if energy == 0.1:
-    bins = list(Utility.doubleArrayFromString( "{ 1e-4, 5e-4, 198i, 1e-1}" ))
-  elif energy == 0.01:
-    bins = list(Utility.doubleArrayFromString( "{ 1e-4, 58i, 6e-3, 99i, 1e-2}" ))
-  elif energy == 0.001:
-    bins = list(Utility.doubleArrayFromString( "{ 1e-4, 197i, 1e-3}" ))
-  else:
-    print "ERROR: energy ", energy, " not supported!"
+  bins = list(Utility.doubleArrayFromString( "{ 1e-4, 58i, 6e-3, 99i, 1e-2}" ))
 
   ## ------------------------ Surface Flux Estimator ------------------------ ##
 
   # Setup a surface flux estimator
   estimator_id = 1
-  surface_ids = [1]
+  surface_ids = [1, 19, 21, 23, 25, 27]
   surface_flux_estimator = Event.WeightMultipliedSurfaceFluxEstimator( estimator_id, 1.0, surface_ids, geom_model )
 
   # Set the particle type
@@ -353,5 +336,21 @@ def processData( event_handler, filename, title ):
 
   # Process surface flux data
   surface_flux = event_handler.getEstimator( 1 )
-  ids = list( surface_flux.getEntityIds() )
-  setup.processSurfaceFluxEnergyBinData( surface_flux, ids[0], filename, title )
+
+  file1 = filename + "_1"
+  setup.processSurfaceFluxEnergyBinData( surface_flux, 1, file1, title )
+
+  file2 = filename + "_2"
+  setup.processSurfaceFluxEnergyBinData( surface_flux, 27, file2, title )
+
+  file3 = filename + "_5"
+  setup.processSurfaceFluxEnergyBinData( surface_flux, 25, file3, title )
+
+  file4 = filename + "_10"
+  setup.processSurfaceFluxEnergyBinData( surface_flux, 23, file4, title )
+
+  file5 = filename + "_20"
+  setup.processSurfaceFluxEnergyBinData( surface_flux, 21, file5, title )
+
+  file6 = filename + "_40"
+  setup.processSurfaceFluxEnergyBinData( surface_flux, 19, file6, title )
