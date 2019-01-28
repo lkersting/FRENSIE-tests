@@ -35,7 +35,7 @@ methods=( MODIFIED_TWO_D )
 
 # Set the ionization sampling mode
 # ( OUTGOING_ENERGY KNOCK_ON )
-ionizations=( OUTGOING_ENERGY KNOCK_ON )
+ionizations=( KNOCK_ON )
 
 # Set the bivariate Grid Policy ( 'UNIT_BASE_CORRELATED' 'UNIT_BASE' )
 grid_policies=( 'UNIT_BASE' 'UNIT_BASE_CORRELATED' )
