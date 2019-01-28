@@ -314,6 +314,9 @@ def createResultsDirectory():
 def setSimulationName( properties ):
   extension, title = setup.setAdjointSimulationNameExtention( properties )
   name = "adjoint_" + str(max_energy) + "_" + grid_policy
+
+  if ionization == MonteCarlo.OUTGOING_ENERGY_SAMPLING:
+    name += '_outgoing_energy'
   if nudge_past_max_energy:
     name += '_nudged_past_max'
   name += extension
