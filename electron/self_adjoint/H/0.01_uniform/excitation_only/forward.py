@@ -30,7 +30,7 @@ pyfrensie_path =path.dirname(path.dirname( path.dirname( path.dirname(path.abspa
 ##----------------------------------------------------------------------------##
 
 # Set the source min and max energy
-min_energy=0.001
+min_energy=1e-4
 max_energy=0.01
 
 # Set the elastic distribution mode ( DECOUPLED, COUPLED, HYBRID )

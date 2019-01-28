@@ -30,7 +30,7 @@ pyfrensie_path =path.dirname( path.dirname(path.abspath(MonteCarlo.__file__)))
 ##----------------------------------------------------------------------------##
 
 # Set the source min and max energy
-min_energy=0.001
+min_energy=1e-4
 max_energy=0.01
 
 # Set the elastic distribution mode ( DECOUPLED, COUPLED, HYBRID )
@@ -108,7 +108,7 @@ def runSimulation( threads, histories, time ):
 
   # Setup a surface flux estimator
   estimator_id = 1
-  surface_ids = [1, 16, 18]
+  surface_ids = [1, 19, 21, 23, 25, 27]
   surface_flux_estimator = Event.WeightMultipliedSurfaceFluxEstimator( estimator_id, 1.0, surface_ids, geom_model )
 
   # Set the particle type
@@ -338,8 +338,17 @@ def processData( event_handler, filename, title ):
   file1 = filename + "_1"
   setup.processSurfaceFluxEnergyBinData( surface_flux, 1, file1, title )
 
-  file1 = filename + "_2"
-  setup.processSurfaceFluxEnergyBinData( surface_flux, 18, file1, title )
+  file2 = filename + "_2"
+  setup.processSurfaceFluxEnergyBinData( surface_flux, 27, file2, title )
 
-  file1 = filename + "_5"
-  setup.processSurfaceFluxEnergyBinData( surface_flux, 16, file1, title )
+  file3 = filename + "_5"
+  setup.processSurfaceFluxEnergyBinData( surface_flux, 25, file3, title )
+
+  file4 = filename + "_10"
+  setup.processSurfaceFluxEnergyBinData( surface_flux, 23, file4, title )
+
+  file5 = filename + "_20"
+  setup.processSurfaceFluxEnergyBinData( surface_flux, 21, file5, title )
+
+  file6 = filename + "_40"
+  setup.processSurfaceFluxEnergyBinData( surface_flux, 19, file6, title )

@@ -107,7 +107,7 @@ def runSimulation( threads, histories, time ):
 
   # Setup an adjoint surface flux estimator
   estimator_id = 2
-  surface_ids = [1, 16, 18]
+  surface_ids = [1, 19, 21, 23, 25, 27]
   surface_flux_estimator = Event.WeightMultipliedSurfaceFluxEstimator( estimator_id, 1.0, surface_ids, geom_model )
 
   # Set the particle type
@@ -117,7 +117,7 @@ def runSimulation( threads, histories, time ):
   surface_flux_estimator.setSourceEnergyDiscretization( bins )
 
   # Create response function
-  uniform_energy = Distribution.UniformDistribution( energy_cutoff, max_energy, 1.0/(max_energy - energy_cutoff) )
+  uniform_energy = Distribution.UniformDistribution( energy_cutoff, max_energy, 1.0 )
   particle_response_function = ActiveRegion.EnergyParticleResponseFunction( uniform_energy )
   response_function = ActiveRegion.StandardParticleResponse( particle_response_function )
 
@@ -370,10 +370,19 @@ def processData( event_handler, filename, title ):
   setup.processSurfaceFluxSourceEnergyBinData( surface_flux, 1, file1, title )
 
   file2 = filename + "_2"
-  setup.processSurfaceFluxSourceEnergyBinData( surface_flux, 18, file2, title )
+  setup.processSurfaceFluxSourceEnergyBinData( surface_flux, 27, file2, title )
 
   file3 = filename + "_5"
-  setup.processSurfaceFluxSourceEnergyBinData( surface_flux, 16, file3, title )
+  setup.processSurfaceFluxSourceEnergyBinData( surface_flux, 25, file3, title )
+
+  file4 = filename + "_10"
+  setup.processSurfaceFluxSourceEnergyBinData( surface_flux, 23, file4, title )
+
+  file5 = filename + "_20"
+  setup.processSurfaceFluxSourceEnergyBinData( surface_flux, 21, file5, title )
+
+  file6 = filename + "_40"
+  setup.processSurfaceFluxSourceEnergyBinData( surface_flux, 19, file6, title )
 
 ##----------------------------------------------------------------------------##
 ##------------------------ printParticleTrackInfo -------------------------##

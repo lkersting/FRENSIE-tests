@@ -117,7 +117,7 @@ def runSimulation( threads, histories, time ):
   surface_flux_estimator.setSourceEnergyDiscretization( bins )
 
   # Create response function
-  uniform_energy = Distribution.UniformDistribution( energy_cutoff, max_energy, 1.0/(max_energy - energy_cutoff) )
+  uniform_energy = Distribution.UniformDistribution( energy_cutoff, max_energy, 1.0 )
   particle_response_function = ActiveRegion.EnergyParticleResponseFunction( uniform_energy )
   response_function = ActiveRegion.StandardParticleResponse( particle_response_function )
 
@@ -182,13 +182,8 @@ def runSimulation( threads, histories, time ):
 
   particle_distribution.constructDimensionDistributionDependencyTree()
 
-  # Set the source critical line energies for atomic excitation
-  # source_critical_line = [ 1.0e-2, 9.98014149999999940e-03, 9.96028344740709607741e-03, 9.94042584309220815519e-03, 9.92056868792967096182e-03, 9.90071198279725804559e-03, 9.88085572857619852394e-03, 9.86099992615120136963e-03, 9.84114457641047449266e-03, 9.82128968024574555695e-03, 9.80143523855228106234e-03, 9.78158125222891063066e-03, 9.76172772217804608774e-03, 9.74187464930570574950e-03, 9.72202203452153176921e-03, 9.70216987873881789306e-03, 9.68231818287452333793e-03, 9.66246694784930401645e-03, 9.64261617458752814946e-03, 9.62276586401730228693e-03, 9.60291601707049385928e-03 ]
-
-  source_critical_line = [ 1.0e-2, 9.98014149e-03, 9.96028344e-03, 9.94042584e-03, 9.92056868e-03, 9.90071198e-03, 9.88085572e-03, 9.86099992e-03, 9.84114457e-03, 9.82128967e-03, 9.80143523e-03, 9.78158124e-03, 9.76172770e-03, 9.74187464e-03, 9.72202203e-03, 9.70216987e-03, 9.68231810e-03, 9.66246694e-03, 9.64261610e-03, 9.62276580e-03, 9.60291601e-03, 9.58306660e-03, 9.56321765e-03, 9.54336920e-03, 9.52352121e-03, 9.50367370e-03 ]
-
   # Set source components
-  source_component = [ActiveRegion.StandardAdjointElectronSourceComponent( 0, 1.0, geom_model, particle_distribution, source_critical_line )]
+  source_component = [ActiveRegion.StandardAdjointElectronSourceComponent( 0, 1.0, model, particle_distribution )]
 
   # Set source
   source = ActiveRegion.StandardParticleSource( source_component )

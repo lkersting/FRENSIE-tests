@@ -34,7 +34,7 @@ forward_path = user_args.f
 # Adjoint normalization factor
 MAX_ENERGY=0.01
 CUTOFF_ENERGY=0.0001
-NORM=1.0 #MAX_ENERGY-CUTOFF_ENERGY
+NORM=1.0
 
 # Get Adjoint Data
 with open(adjoint_path) as input:
@@ -179,7 +179,7 @@ ax0.grid(linestyle=':')
 ax1.grid(linestyle=':')
 
 plt.xlim(0.0095,0.01)
-plt.ylim(0.85,1.15)
+# plt.ylim(0.85,1.15)
 
 # remove vertical gap between subplots
 plt.subplots_adjust(hspace=.0)

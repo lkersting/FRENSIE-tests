@@ -177,7 +177,7 @@ ax0.grid(linestyle=':')
 ax1.grid(linestyle=':')
 
 plt.xlim(0.009,0.01)
-# plt.ylim(0.0,1.1)
+plt.ylim(0.5,1.5)
 
 # remove vertical gap between subplots
 plt.subplots_adjust(hspace=.0)
