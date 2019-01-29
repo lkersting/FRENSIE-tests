@@ -176,7 +176,7 @@ yticks[0].label1.set_visible(False)
 ax0.grid(linestyle=':')
 ax1.grid(linestyle=':')
 
-plt.xlim(0.0085,0.01)
+# plt.xlim(0.0085,0.01)
 plt.ylim(0.85,1.15)
 
 # remove vertical gap between subplots
