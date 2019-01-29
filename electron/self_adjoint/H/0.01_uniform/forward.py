@@ -102,7 +102,7 @@ def runSimulation( threads, histories, time ):
   event_handler = Event.EventHandler( properties )
 
   # Set the energy bins
-  bins = list(Utility.doubleArrayFromString( "{ 1e-4, 99l, 8e-3, 99l, 1e-2}" ))
+  bins = list(Utility.doubleArrayFromString( "{ 1e-4, 99l, 8e-3, 99i, 1e-2}" ))
 
   ## ------------------------ Surface Flux Estimator ------------------------ ##
 
