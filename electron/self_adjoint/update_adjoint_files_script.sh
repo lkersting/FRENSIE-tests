@@ -25,7 +25,7 @@ for ionization in "${ionizations[@]}"
 do
   # Set the file version
   if [ "${ionization}" = "Knock-On" ]; then
-    version=version_start
+    version=${version_start}
   else
     version=$((version_start + 4))
   fi
