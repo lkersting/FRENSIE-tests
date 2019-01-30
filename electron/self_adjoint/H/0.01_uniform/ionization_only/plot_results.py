@@ -11,6 +11,16 @@ from matplotlib.lines import Line2D
 import argparse as ap
 import inspect, os
 
+class bcolors:
+    HEADER = '\033[95m'
+    SIGMA2 = '\033[94m'
+    SIGMA1 = '\033[92m'
+    SIGMA3 = '\033[93m'
+    NO_SIGMA = '\033[91m'
+    ENDC = '\033[0m'
+    BOLD = '\033[1m'
+    UNDERLINE = '\033[4m'
+
 # Set up the argument parser
 description = "This script asks for a forward and adjoint surface flux file "\
               "which it then plots."
@@ -153,13 +163,60 @@ plt.ylabel('C/R', size=14)
 yerr = np.sqrt( ((1.0/forward_y)**2)*(adjoint_error)**2 + ((adjoint_x[:-1]/forward_y**2)**2)*(forward_error)**2 )
 y = adjoint_y/forward_y
 
-# Print C/R results
-for i in range(0, len(y)):
-  # print x[i+1], ": ", (1.0-y[i])*100, u"\u00B1", yerr[i]*100, "%"
-  print adjoint_x[i+1], ": ", y[i], "\t",forward_y[i]
+# calculate % of C/R values within 1,2,3 sigma
+num_in_one_sigma = 0
+num_in_two_sigma = 0
+num_in_three_sigma = 0
+num_below = 0
+num_above = 0
+
+N=0
+length = len(y)-N
+for i in range(N, len(y)):
+  # Print C/R results
+  # print adjoint_x[i+1], ": ", (1.0-y[i])*100, u"\u00B1", yerr[i]*100, "%"
+  # print adjoint_x[i+1], ": ", y[i], "\t",forward_y[i]
   if not np.isfinite( y[i] ):
-    y[i] = 0
-    yerr[i] = 0
+    print adjoint_x[i+1], ": ", y[i], "\t",forward_y[i], "\t",adjoint_y[i]
+    if forward_y[i] == adjoint_y[i]:
+      y[i] = 1.0
+      yerr[i] = 0.0
+    else:
+      y[i] = 0
+      yerr[i] = 1
+
+  # Calculate number above and below reference
+  if y[i] < 1.0:
+    num_below += 1
+  else:
+    num_above += 1
+
+  diff = abs( 1.0 - y[i] )
+  message = '%.4e' % adjoint_x[i+1] + ": " + '%.6f' % ((1.0-y[i])*100) + u"\u00B1" + '%.6f' % (yerr[i]*100) + "%"
+
+  sigma = bcolors.NO_SIGMA
+  if diff <= 3*yerr[i]:
+      num_in_three_sigma += 1
+      sigma = bcolors.SIGMA3
+  if diff <= 2*yerr[i]:
+      num_in_two_sigma += 1
+      sigma = bcolors.SIGMA2
+  if diff <= yerr[i]:
+      num_in_one_sigma += 1
+      sigma = bcolors.SIGMA1
+
+  message = sigma + message + bcolors.ENDC
+  print message
+
+print "----------------------------------------------------------------"
+print "  ", '%.3f' % (float(num_above)/length*100), "% above reference"
+print "  ", '%.3f' % (float(num_below)/length*100), "% below reference"
+print "----------------------------------------------------------------"
+print bcolors.SIGMA1, "  ", '%.3f' % (float(num_in_one_sigma)/length*100), "% C/R within 1 sigma", bcolors.ENDC
+print "----------------------------------------------------------------"
+print bcolors.SIGMA2, "  ", '%.3f' % (float(num_in_two_sigma)/length*100), "% C/R within 2 sigma", bcolors.ENDC
+print "----------------------------------------------------------------"
+print bcolors.SIGMA3, "  ", '%.3f' % (float(num_in_three_sigma)/length*100), "% C/R within 3 sigma", bcolors.ENDC
 
 # Plot histogram of results
 m, bins, _ = ax1.hist(adjoint_x[:-1], bins=adjoint_x, weights=y, histtype='step', label="ratio", color='b', linestyle=linestyles[0], linewidth=1.8 )
@@ -177,7 +234,7 @@ ax0.grid(linestyle=':')
 ax1.grid(linestyle=':')
 
 # plt.xlim(0.0085,0.01)
-plt.ylim(0.1,2.0)
+plt.ylim(0.85,1.15)
 
 # remove vertical gap between subplots
 plt.subplots_adjust(hspace=.0)
