@@ -34,6 +34,7 @@ if [ "$#" -eq 1 ]; then
 
   # Restart the simulation
   echo "Restarting Facemc Example test for ${HISTORIES} particles with ${SLURM_NTASKS} MPI processes with ${SLURM_CPUS_PER_TASK} OpenMP threads each!"
+  echo "Restarting from rendezvous ${RENDEZVOUS}"
   mpiexec -n ${SLURM_NTASKS} python -c "import forward; forward.runSimulationFromRendezvous(${SLURM_CPUS_PER_TASK}, ${HISTORIES}, ${TIME}, \"${RENDEZVOUS}\" )"
 
   directory="$(dirname "${RENDEZVOUS}")/"

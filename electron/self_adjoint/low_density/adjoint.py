@@ -251,14 +251,6 @@ def runSimulationFromRendezvous( threads, histories, time, rendezvous ):
 
   if session.rank() == 0:
 
-    rendezvous_number = manager.getNumberOfRendezvous()
-
-    components = rendezvous.split("rendezvous_")
-    archive_name = components[0] + "rendezvous_"
-    archive_name += str( rendezvous_number - 1 )
-    archive_name += "."
-    archive_name += components[1].split(".")[1]
-
     # Get the event handler
     event_handler = manager.getEventHandler()
 
@@ -266,6 +258,8 @@ def runSimulationFromRendezvous( threads, histories, time, rendezvous ):
     properties = manager.getSimulationProperties()
 
     filename, title = setSimulationName( properties )
+
+    filename = rendezvous.split("_rendezvous_")[0]
 
     print "Processing the results:"
     processData( event_handler, filename, title )
@@ -326,8 +320,8 @@ def setSimulationName( properties ):
 
   if ionization == MonteCarlo.OUTGOING_ENERGY_SAMPLING:
     name += '_outgoing_energy'
-  if nudge_past_max_energy:
-    name += '_nudged_past_max'
+  if !nudge_past_max_energy:
+    name += '_no_nudge'
   name += extension
   date = str(datetime.datetime.today()).split()[0]
 

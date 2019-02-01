@@ -216,20 +216,20 @@ def runSimulationFromRendezvous( threads, histories, time, rendezvous ):
 
   if session.rank() == 0:
 
-    rendezvous_number = manager.getNumberOfRendezvous()
+    # Get the event handler
+    event_handler = manager.getEventHandler()
 
-    components = rendezvous.split("rendezvous_")
-    archive_name = components[0] + "rendezvous_"
-    archive_name += str( rendezvous_number - 1 )
-    archive_name += "."
-    archive_name += components[1].split(".")[1]
+    # Get the simulation name and title
+    properties = manager.getSimulationProperties()
 
-    # Call destructor for manager and factory
-    manager = 0
-    factory = 0
+    filename, title = setSimulationName( properties )
+
+    filename = rendezvous.split("_rendezvous_")[0]
 
     print "Processing the results:"
-    processDataFromRendezvous( archive_name )
+    processData( event_handler, filename, title )
+
+    print "Results will be in ", path.dirname(filename)
 
 ##----------------------------------------------------------------------------##
 ## ------------------------- SIMULATION PROPERTIES -------------------------- ##

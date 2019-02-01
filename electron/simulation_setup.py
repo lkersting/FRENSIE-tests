@@ -232,12 +232,13 @@ def setSimulationNameExtention( properties, file_type ):
   if not properties.isBremsstrahlungModeOn():
     name_reaction += "_no_brem"
 
+  if not properties.isAtomicExcitationModeOn():
+      name_reaction += "_no_excitation"
+
   if not properties.isElectroionizationModeOn():
       name_reaction += "_no_ionization"
   elif properties.getElectroionizationSamplingMode() == MonteCarlo.OUTGOING_ENERGY_SAMPLING:
     name_reaction += "_outgoing_energy"
-  if not properties.isAtomicExcitationModeOn():
-      name_reaction += "_no_excitation"
 
   date = str(datetime.datetime.today()).split()[0]
   if name == "epr14":
