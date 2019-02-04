@@ -182,29 +182,22 @@ def setSimulationNameExtention( properties, file_type ):
     # Use Native analog data
     name = ""
 
-  # Set the interp in title
-  title = ""
+  # Set the interp
   if properties.getElectronTwoDInterpPolicy() == MonteCarlo.LOGLOGLOG_INTERPOLATION:
       interp = "loglog"
-      title = "Log-Log"
   elif properties.getElectronTwoDInterpPolicy() == MonteCarlo.LINLINLIN_INTERPOLATION:
       interp = "linlin"
-      title = "Lin-Lin"
   else:
       interp = "linlog"
-      title = "Lin-Log"
 
   # Set the sampling name
   sample_name=""
   if properties.getElectronTwoDGridPolicy() == MonteCarlo.UNIT_BASE_CORRELATED_GRID:
       sample_name = "unit_correlated"
-      title += " Unit Base Correlated"
   elif properties.getElectronTwoDGridPolicy() == MonteCarlo.CORRELATED_GRID:
       sample_name = "correlated"
-      title += " Correlated"
   else:
       sample_name = "unit_base"
-      title += " Unit Base"
 
   # Set the name reaction and extention
   name_extention = ""
@@ -213,19 +206,14 @@ def setSimulationNameExtention( properties, file_type ):
     if properties.getElasticElectronDistributionMode() == MonteCarlo.COUPLED_DISTRIBUTION:
       if properties.getCoupledElasticSamplingMode() == MonteCarlo.MODIFIED_TWO_D_UNION:
         name_extention += "_m2d"
-        title += " M2D"
       elif properties.getCoupledElasticSamplingMode() == MonteCarlo.TWO_D_UNION:
         name_extention += "_2d"
-        title += " 2D"
       else:
         name_extention += "_1d"
-        title += " 1D"
     elif properties.getElasticElectronDistributionMode() == MonteCarlo.DECOUPLED_DISTRIBUTION:
       name_extention += "_decoupled"
-      title += " DE"
     elif properties.getElasticElectronDistributionMode() == MonteCarlo.HYBRID_DISTRIBUTION:
       name_extention += "_hybrid"
-      title += " HE"
   else:
     name_reaction = name_reaction + "_no_elastic"
 
@@ -243,11 +231,60 @@ def setSimulationNameExtention( properties, file_type ):
   date = str(datetime.datetime.today()).split()[0]
   if name == "epr14":
     name = "_" + name + name_reaction
-    title = "FRENSIE-ACE"
   else:
     name = "_" + interp + "_" + sample_name + name_extention + name_reaction
 
-  return (name, title)
+  return name
+
+##----------------------------------------------------------------------------##
+## ------------------------ getSimulationPlotTitle ---------------------------##
+##----------------------------------------------------------------------------##
+# Define a function for naming an electron simulation
+def getSimulationPlotTitle( filename ):
+
+  if "epr14" in filename:
+    title = "FRENSIE-ACE"
+  else:
+    # Set the interp in title
+    title = ""
+    if "loglog" in filename:
+        title = "Log-Log"
+    elif "linlin" in filename:
+        title = "Lin-Lin"
+    elif "linlog" in filename:
+        title = "Lin-Log"
+    else:
+      message = 'The filename ' + filename + 'does not include an interp type!'
+      raise Exception(message)
+
+    # Set the sampling routine in title
+    if "unit_correlated" in filename:
+        title += " Unit Base Correlated"
+    elif "correlated" in filename:
+        title += " Correlated"
+    elif "unit_base" in filename:
+        title += " Unit Base"
+    else:
+      message = 'The filename ' + filename + 'does not include a sampling routine type!'
+      raise Exception(message)
+
+    # Set the elastic reaction in title
+    if not "_no_elastic" in filename:
+      if "_m2d" in filename:
+        title += " M2D"
+      elif "_2d" in filename:
+        title += " 2D"
+      elif "_1d" in filename:
+        title += " 1D"
+      elif "_decoupled" in filename:
+        title += " DE"
+      elif "_hybrid" in filename:
+        title += " HE"
+      else:
+        message = 'The filename ' + filename + 'does not include an elastic reaction type!'
+        raise Exception(message)
+
+  return title
 
 ##----------------------------------------------------------------------------##
 ## ------------------ setAdjointSimulationNameExtention ----------------------##

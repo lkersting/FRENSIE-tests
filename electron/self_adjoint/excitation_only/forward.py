@@ -168,7 +168,8 @@ def runSimulation( threads, histories, time ):
   # Set the archive type
   archive_type = "xml"
 
-  name, title = setSimulationName( properties )
+  name = setSimulationName( properties )
+  title = setup.getSimulationPlotTitle( name )
 
   factory = Manager.ParticleSimulationManagerFactory( model,
                                                       source,
@@ -279,7 +280,7 @@ def createResultsDirectory():
 ##----------------------------------------------------------------------------##
 # Define a function for naming an electron simulation
 def setSimulationName( properties ):
-  extension, title = setup.setSimulationNameExtention( properties, file_type )
+  extension = setup.setSimulationNameExtention( properties, file_type )
   name = "forward_" + str(energy) + extension
 
   date = str(datetime.datetime.today()).split()[0]
@@ -287,7 +288,7 @@ def setSimulationName( properties ):
 
   output = directory + "/" + name
 
-  return (output, title)
+  return output
 
 ##----------------------------------------------------------------------------##
 ## -------------------------- getSimulationName ------------------------------##
@@ -297,7 +298,8 @@ def getSimulationName():
 
   properties = setSimulationProperties( 1, 1.0 )
 
-  name, title = setSimulationName( properties )
+  name = setSimulationName( properties )
+  title = setup.getSimulationPlotTitle( name )
 
   return name
 

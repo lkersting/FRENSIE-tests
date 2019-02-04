@@ -195,7 +195,7 @@ def runAdjointInfiniteMediumSimulation( sim_name,
 
     file_type = Data.AdjointElectroatomicDataProperties.Native_EPR_FILE
 
-    element_definition.setAdjointElectroatomicDataProperties( element_properties.getSharedAdjointElectroatomicDataProperties( file_type, version ) )
+    atom_definition.setAdjointElectroatomicDataProperties( atom_properties.getSharedAdjointElectroatomicDataProperties( file_type, version ) )
 
     # Set the definition for material 1
     material_definitions = Collision.MaterialDefinitionDatabase()

@@ -8,6 +8,8 @@ import socket
 # Add the parent directory to the path
 sys.path.insert(1,path.dirname(path.dirname(path.dirname(path.dirname(path.dirname(path.abspath(__file__)))))))
 import simulation_setup as setup
+sys.path.insert(1,path.dirname(path.dirname(path.dirname(path.abspath(__file__)))))
+import infinite_medium_simulation
 import PyFrensie.Data as Data
 import PyFrensie.Data.Native as Native
 import PyFrensie.Geometry.DagMC as DagMC
@@ -31,26 +33,6 @@ pyfrensie_path =path.dirname( path.dirname(path.abspath(MonteCarlo.__file__)))
 from optparse import *
 # import socket
 
-# # Add the parent directory to the path
-# sys.path.insert(1,path.dirname(path.dirname(path.dirname(path.abspath(__file__)))))
-# sys.path.insert(1,path.dirname(path.dirname(path.dirname(path.dirname(path.dirname(path.abspath(__file__)))))))
-# import simulation_setup as setup
-# from infinite_medium_simulation import runAdjointInfiniteMediumSimulation, processAdjointDataFromRendezvous
-# import PyFrensie.Data as Data
-# import PyFrensie.Data.Native as Native
-# import PyFrensie.Geometry.DagMC as DagMC
-# import PyFrensie.Geometry as Geometry
-# import PyFrensie.Utility as Utility
-# import PyFrensie.Utility.MPI as MPI
-# import PyFrensie.Utility.Prng as Prng
-# import PyFrensie.Utility.Coordinate as Coordinate
-# import PyFrensie.Utility.Distribution as Distribution
-# import PyFrensie.MonteCarlo as MonteCarlo
-# import PyFrensie.MonteCarlo.Collision as Collision
-# import PyFrensie.MonteCarlo.ActiveRegion as ActiveRegion
-# import PyFrensie.MonteCarlo.Event as Event
-# import PyFrensie.MonteCarlo.Manager as Manager
-
 ##----------------------------------------------------------------------------##
 ## ---------------------- GLOBAL SIMULATION VARIABLES ----------------------- ##
 ##----------------------------------------------------------------------------##
@@ -68,6 +50,8 @@ method=MonteCarlo.MODIFIED_TWO_D_UNION
 
 # Set the bivariate Grid Policy ( UNIT_BASE_CORRELATED, CORRELATED, UNIT_BASE )
 grid_policy=MonteCarlo.UNIT_BASE_CORRELATED_GRID
+
+nudge_past_max_energy=True
 
 ##----------------------------------------------------------------------------##
 ## ------------------------- SIMULATION PROPERTIES -------------------------- ##
@@ -97,6 +81,8 @@ def setSimulationProperties( histories, time ):
   # properties.setAdjointBremsstrahlungModeOff()
   # properties.setAdjointAtomicExcitationModeOff()
 
+  return properties
+
 ##----------------------------------------------------------------------------##
 ## ------------------------ Create Results Directory ------------------------ ##
 ##----------------------------------------------------------------------------##
@@ -116,16 +102,25 @@ def createResultsDirectory():
 ##----------------------------------------------------------------------------##
 # Define a function for naming an electron simulation
 def setSimulationName( properties ):
-  extension, title = setup.setAdjointSimulationNameExtention( properties )
-  name = "adjoint_" + str(energy) + "_" + grid_policy
-  if nudge_past_max_energy:
-    name += '_nudged_past_max'
+  extension = setup.setAdjointSimulationNameExtention( properties )
+  name = "adjoint_" + str(energy)
+
+  if grid_policy == MonteCarlo.UNIT_BASE_CORRELATED_GRID:
+    name += "_unit_correlated"
+  elif grid_policy == MonteCarlo.UNIT_BASE_GRID:
+    name += "_unit_base"
+  else:
+    message = 'The grid policy ' + str(grid_policy) + 'is currently not available!'
+    raise Exception(message)
+
+  if not nudge_past_max_energy:
+    name += '_no_nudged'
   name += extension
   date = str(datetime.datetime.today()).split()[0]
 
   output = "results/adjoint/" + date + "/" + name
 
-  return (output, title)
+  return output
 
 ##----------------------------------------------------------------------------##
 ## -------------------------- getSimulationName ------------------------------##
@@ -135,7 +130,8 @@ def getSimulationName():
 
   properties = setSimulationProperties( 1, 1.0 )
 
-  name, title = setSimulationName( properties )
+  name = setSimulationName( properties )
+  title = setup.getSimulationPlotTitle( name )
 
   return name
 
@@ -173,9 +169,10 @@ if __name__ == "__main__":
     version = 1
 
     properties = setSimulationProperties( options.num_particles, options.wall_time )
-    print properties.isAdjointElasticModeOn()
+
     # Set the simulation name and title
-    name, title = setSimulationName( properties )
+    name = setSimulationName( properties )
+  title = setup.getSimulationPlotTitle( name )
 
     geometry_path = path.dirname(path.realpath(__file__)) + "/geom.h5m"
 
@@ -189,20 +186,21 @@ if __name__ == "__main__":
 
 
     # Run the simulation
-    runAdjointInfiniteMediumSimulation( name,
-                                        database_path,
-                                        geometry_path,
-                                        options.num_particles,
-                                        properties,
-                                        cutoff_energy,
-                                        energy,
-                                        source_critical_line,
-                                        surface_ids,
-                                        bins,
-                                        1000,
-                                        version,
-                                        options.threads,
-                                        options.log_file )
+    infinite_medium_simulation.runAdjointInfiniteMediumSimulation(
+          name,
+          database_path,
+          geometry_path,
+          options.num_particles,
+          properties,
+          cutoff_energy,
+          energy,
+          source_critical_line,
+          surface_ids,
+          bins,
+          1000,
+          version,
+          options.threads,
+          options.log_file )
 
     print "Processing the results:"
     N = properties.getMinNumberOfRendezvous()

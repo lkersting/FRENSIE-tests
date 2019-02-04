@@ -28,6 +28,9 @@ energies="all"
 # Set the data file type (ACE Native)
 file_types=( Native )
 
+# Set if a refined grid should be used ( "True" "False" )
+refined_grids=( "False" )
+
 # Set the bivariate interpolation ( LOGLOGLOG LINLINLIN LINLINLOG )
 interps=( LOGLOGLOG )
 
@@ -45,6 +48,9 @@ methods=( MODIFIED_TWO_D )
 ## ------------------------------- COMMANDS ---------------------------------##
 ##---------------------------------------------------------------------------##
 
+# script=albedo.sh
+script=./Al/al_albedo.sh
+
 # Set the energies to all
 if [ ${energies} == "all" ]; then
     energies=(0.0002 0.0003 0.0004 0.0005 0.0006 0.0008 0.001 0.0015 0.002 0.0025 0.003 0.0035 0.004 0.0045 0.005 0.006 0.0093 0.01 0.011 0.0134 0.015 0.0173 0.02 0.0252 0.03 0.04 0.0415 0.05 0.06 0.0621 0.07 0.08 0.0818 0.1 0.102 0.121 0.146 0.172 0.196 0.2 0.238 0.256 )
@@ -55,25 +61,25 @@ element="Al"; zaid=13000
 
 # Set the element
 command="s/ELEMENT=.*/ELEMENT=\"${element}\"; ZAID=${zaid}/"
-sed -i "${command}" albedo.sh
+sed -i "${command}" ${script}
 
 # Set the number of threads
 command="s/\#SBATCH[[:space:]]--ntasks=.*/\#SBATCH --ntasks=${MPI_PROCESSES}/"
-sed -i "${command}" albedo.sh
+sed -i "${command}" ${script}
 command="s/\#SBATCH[[:space:]]--cpus-per-task=.*/\#SBATCH --cpus-per-task=${OPEN_MP_THREADS}/"
-sed -i "${command}" albedo.sh
+sed -i "${command}" ${script}
 
 command=s/TIME=.*/TIME=${TIME}/
-sed -i "${command}" albedo.sh
+sed -i "${command}" ${script}
 command=s/HISTORIES=.*/HISTORIES=${HISTORIES}/
-sed -i "${command}" albedo.sh
+sed -i "${command}" ${script}
 
 
 for file_type in "${file_types[@]}"
 do
   # Set the file type
   command=s/FILE_TYPE=.*/FILE_TYPE=${file_type}/
-  sed -i "${command}" albedo.sh
+  sed -i "${command}" ${script}
   echo "Setting file type to ${file_type}"
 
   if [ "${file_type}" = "Native" ]; then
@@ -82,7 +88,7 @@ do
     do
       # Set the interp
       command=s/INTERP=.*/INTERP=${interp}/
-      sed -i "${command}" albedo.sh
+      sed -i "${command}" ${script}
       echo "  Setting interpolation to ${interp}"
 
       for grid_policy in "${grid_policys[@]}"
@@ -92,48 +98,56 @@ do
         else
           # Set 2D grid policy
           command=s/GRID_POLICY=.*/GRID_POLICY=${grid_policy}/
-          sed -i "${command}" albedo.sh
+          sed -i "${command}" ${script}
           echo "    Setting grid policy to ${grid_policy}"
 
-          for mode in "${modes[@]}"
+          # Set the refined grid mode on/off
+          for refined_grid in "${refined_grids[@]}"
           do
-            # Set the elastic distribution mode
-            command=s/MODE=.*/MODE=${mode}/
-            sed -i "${command}" albedo.sh
-            echo "      Setting elastic mode to ${mode}"
+            # Set if a refined grid should be used
+            command=s/REFINED=.*/REFINED=${refined_grid}/
+            sed -i "${command}" ${script}
 
-            if [ "${mode}" == "COUPLED" ]; then
+            for mode in "${modes[@]}"
+            do
+              # Set the elastic distribution mode
+              command=s/MODE=.*/MODE=${mode}/
+              sed -i "${command}" ${script}
+              echo "      Setting elastic mode to ${mode}"
 
-              for method in "${methods[@]}"
-              do
-                # Set the elastic coupled sampling method
-                command=s/METHOD=.*/METHOD=${method}/
-                sed -i "${command}" albedo.sh
-                echo "        Setting elastic coupled sampling method to ${method}"
+              if [ "${mode}" == "COUPLED" ]; then
 
-                # loop through test energies and run mpi script
+                for method in "${methods[@]}"
+                do
+                  # Set the elastic coupled sampling method
+                  command=s/METHOD=.*/METHOD=${method}/
+                  sed -i "${command}" ${script}
+                  echo "        Setting elastic coupled sampling method to ${method}"
+
+                    # loop through test energies and run mpi script
+                    for energy in "${energies[@]}"
+                    do
+                        # Set the energy
+                        command=s/ENERGY=.*/ENERGY=${energy}/
+                        sed -i "${command}" ${script}
+
+                      echo -e "          Running Albedo at ${energy} MeV!\n"
+                      sbatch ${script}
+                    done
+                done
+              else
+                # loop through test numbers and run mpi script
                 for energy in "${energies[@]}"
                 do
                     # Set the energy
                     command=s/ENERGY=.*/ENERGY=${energy}/
-                    sed -i "${command}" albedo.sh
+                    sed -i "${command}" ${script}
 
-                    echo -e "          Running Albedo at ${energy} MeV!\n"
-                    sbatch albedo.sh
+                    echo -e "        Running Albedo at ${energy} MeV!\n"
+                    sbatch ${script}
                 done
-              done
-            else
-              # loop through test numbers and run mpi script
-              for energy in "${energies[@]}"
-              do
-                  # Set the energy
-                  command=s/ENERGY=.*/ENERGY=${energy}/
-                  sed -i "${command}" albedo.sh
-
-                  echo -e "        Running Albedo at ${energy} MeV!\n"
-                  sbatch albedo.sh
-              done
-            fi
+              fi
+            done
           done
         fi
       done
@@ -144,10 +158,10 @@ do
     do
         # Set the energy
         command=s/ENERGY=.*/ENERGY=${energy}/
-        sed -i "${command}" albedo.sh
+        sed -i "${command}" ${script}
 
         echo -e "  Running Albedo at ${energy} MeV!\n"
-        sbatch albedo.sh
+        sbatch ${script}
     done
   fi
 

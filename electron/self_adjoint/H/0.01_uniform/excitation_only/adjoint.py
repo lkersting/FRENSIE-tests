@@ -192,7 +192,8 @@ def runSimulation( threads, histories, time ):
   archive_type = "xml"
 
   # Set the simulation name and title
-  name, title = setSimulationName( properties )
+  name = setSimulationName( properties )
+  title = setup.getSimulationPlotTitle( name )
 
   factory = Manager.ParticleSimulationManagerFactory( model,
                                                       source,
@@ -306,19 +307,19 @@ def createResultsDirectory():
 ##----------------------------------------------------------------------------##
 # Define a function for naming an electron simulation
 def setSimulationName( properties ):
-  extension, title = setup.setAdjointSimulationNameExtention( properties )
+  extension = setup.setAdjointSimulationNameExtention( properties )
   name = "adjoint_" + str(max_energy) + "_" + grid_policy
 
   if ionization == MonteCarlo.OUTGOING_ENERGY_SAMPLING:
     name += '_outgoing_energy'
-  if !nudge_past_max_energy:
+  if not nudge_past_max_energy:
     name += '_no_nudge'
   name += extension
   date = str(datetime.datetime.today()).split()[0]
 
   output = "results/adjoint/" + date + "/" + name
 
-  return (output, title)
+  return output
 
 ##----------------------------------------------------------------------------##
 ## -------------------------- getSimulationName ------------------------------##
@@ -328,7 +329,8 @@ def getSimulationName():
 
   properties = setSimulationProperties( 1, 1.0 )
 
-  name, title = setSimulationName( properties )
+  name = setSimulationName( properties )
+  title = setup.getSimulationPlotTitle( name )
 
   return name
 

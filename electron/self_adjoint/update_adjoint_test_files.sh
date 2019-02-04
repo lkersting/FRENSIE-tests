@@ -34,7 +34,7 @@ scatter_above_max_mode='on'
 
 # Update the test file
 if [ "${scatter_above_max_mode}" = "on" ]; then
-  python ./update_adjoint_test_files.py -d ${database} -g ${grid_policy} -i "${ionization}" -v ${version}
+  python ../update_adjoint_test_files.py -d ${database} -z 1000 -g ${grid_policy} -i "${ionization}" -v ${version}
 else
-  python ./update_adjoint_test_files.py -d ${database} -g ${grid_policy} -i "${ionization}" -v ${version} --scatter_above_max_mode_off
+  python ../update_adjoint_test_files.py -d ${database} -z 1000 -g ${grid_policy} -i "${ionization}" -v ${version} --scatter_above_max_mode_off
 fi

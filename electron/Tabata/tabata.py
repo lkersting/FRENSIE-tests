@@ -74,7 +74,8 @@ def runSimulation( threads, histories, time ):
   session.initializeLogs( 0, True )
 
   properties = setSimulationProperties( histories, time )
-  name, title = setSimulationName( properties )
+  name = setSimulationName( properties )
+  title = setup.getSimulationPlotTitle( name )
   path_to_database = database_path
   path_to_geometry = geometry_path
 
@@ -285,11 +286,11 @@ def createResultsDirectory():
 ##---------------------------------------------------------------------------##
 # Define a function for naming an electron simulation
 def setSimulationName( properties ):
-  extension, title = setup.setSimulationNameExtention( properties, file_type )
+  extension = setup.setSimulationNameExtention( properties, file_type )
   name = "tabata" + extension
   output = material + "/" + setup.getResultsDirectory(file_type, interpolation) + "/" + name
 
-  return (output, title)
+  return output
 
 ##----------------------------------------------------------------------------##
 ##--------------------------- processDataFromFile ----------------------------##
