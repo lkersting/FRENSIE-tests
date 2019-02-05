@@ -4,9 +4,15 @@
 The reflection coefficient in a semi-infinite slab Al is measured at various
 energies.
 
-# Setup
+# Forward Setup
 Surface current estimator with cosines bin (-1.0, -0.99, 0.0, 1.0).
 For Al make the infinite slab 30 cm long
+Each source energy must be a separate run
+
+# Adjoint Setup
+Surface current estimator with cosines bin 0 to 10 degrees and 170 to 180 degrees.
+For Al make the infinite slab 30 cm long
+There can be one adjoint run for all source energies
 
 ## Trelis geometry commands
 brick x 60.0 y 60.0 z 30.0
@@ -23,7 +29,7 @@ merge all
 group "termination.cell" add vol 4
 group "material_1_density_-2.6989" add vol 1
 group "estimator_1.surface.current.e" add surface 1, 2
-group "estimator_2.cell.tl.flux.e" add vol 1
+group "estimator_2.surface.current.e*" add surface 1, 2
 group "reflecting.surface" add surface 3 to 6
 export dagmc "path-to-albedo/Al/geom.h5m" faceting_tolerance 1.e-5 make_watertight
 

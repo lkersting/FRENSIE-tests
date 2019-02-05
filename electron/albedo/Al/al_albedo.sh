@@ -19,9 +19,8 @@ HISTORIES=1000000
 TIME=1350
 
 # These parameters can be set if the cluster is not used
-SLURM_CPUS_PER_TASK=4
-SLURM_NTASKS=1
-SLURM_JOB_ID=1
+# SLURM_CPUS_PER_TASK=4
+# SLURM_NTASKS=1
 
 # Get the script's directory
 DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"

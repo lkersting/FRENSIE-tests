@@ -1,0 +1,33 @@
+#!/bin/bash
+##---------------------------------------------------------------------------##
+## Cluster results retriever
+##---------------------------------------------------------------------------##
+
+
+delete=""
+while getopts "d" opt; do
+  case $opt in
+    d)
+      echo "Results will be deleted from the cluster."
+      delete="true"
+      ;;
+    \?)
+      echo "Invalid option: -$OPTARG" >&2
+      exit 1
+      ;;
+  esac
+done
+
+# INSTALL="/home/lkersting/frensie0.4_debug/tests/electron"
+INSTALL="/home/lkersting/frensie0.4_release/tests/electron"
+
+# Get albedo Al results
+cd ./Al/results
+echo -e "\nGet Al albedo results:"
+  # Copy results to this location
+  scp -r aci2:${INSTALL}/albedo/Al/results/* ./
+
+  # Erase files from cluster
+  if [ "$delete" = "true" ]; then
+    ssh aci2 "rm -rf ${INSTALL}/albedo/Al/results/*"
+cd ../../
