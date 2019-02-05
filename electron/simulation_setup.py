@@ -326,7 +326,7 @@ def setAdjointSimulationNameExtention( properties ):
   date = str(datetime.datetime.today()).split()[0]
   name = name_extention + name_reaction
 
-  return (name, title)
+  return name
 
 
 ##----------------------------------------------------------------------------##
