@@ -249,20 +249,18 @@ def getSimulationPlotTitle( filename ):
     title = ""
 
     # Set the interp in title
-    if not "adjoint" in filename:
-      if "loglog" in filename:
-          title = "Log-Log"
-      elif "linlin" in filename:
-          title = "Lin-Lin"
-      elif "linlog" in filename:
-          title = "Lin-Log"
-      else:
-        message = 'The filename ' + filename + ' does not include an interp type!'
-        raise Exception(message)
+    if "loglog" in filename:
+        title = "Log-Log"
+    elif "linlin" in filename:
+        title = "Lin-Lin"
+    elif "linlog" in filename:
+        title = "Lin-Log"
+    else:
+      message = 'The filename ' + filename + ' does not include an interp type!'
+      raise Exception(message)
 
-    # Add space if needed
-    if not title == "":
-      title += " "
+    # Add a space
+    title += " "
 
     # Set the sampling routine in title
     if "unit_correlated" in filename:
@@ -275,18 +273,21 @@ def getSimulationPlotTitle( filename ):
       message = 'The filename ' + filename + ' does not include a sampling routine type!'
       raise Exception(message)
 
+    # Add a space
+    title += " "
+
     # Set the elastic reaction in title
     if not "_no_elastic" in filename:
       if "_m2d" in filename:
-        title += " M2D"
+        title += "M2D"
       elif "_2d" in filename:
-        title += " 2D"
+        title += "2D"
       elif "_1d" in filename:
-        title += " 1D"
+        title += "1D"
       elif "_decoupled" in filename:
-        title += " DE"
+        title += "DE"
       elif "_hybrid" in filename:
-        title += " HE"
+        title += "HE"
       else:
         message = 'The filename ' + filename + ' does not include an elastic reaction type!'
         raise Exception(message)

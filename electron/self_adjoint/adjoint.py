@@ -197,9 +197,8 @@ def runSimulation( threads, histories, time ):
   # Set the archive type
   archive_type = "xml"
 
-  # Set the simulation name and title
+  # Set the simulation name
   name = setSimulationName( properties )
-  title = setup.getSimulationPlotTitle( name )
 
   factory = Manager.ParticleSimulationManagerFactory( model,
                                                       source,
@@ -219,7 +218,7 @@ def runSimulation( threads, histories, time ):
   if session.rank() == 0:
 
     print "Processing the results:"
-    processData( event_handler, name, title )
+    processData( event_handler, name, "FRENSIE - Adjoint" )
     print "Results will be in ", path.dirname(name)
 
 ##----------------------------------------------------------------------------##
@@ -255,16 +254,11 @@ def runSimulationFromRendezvous( threads, histories, time, rendezvous ):
     # Get the event handler
     event_handler = manager.getEventHandler()
 
-    # Get the simulation name and title
-    properties = manager.getSimulationProperties()
-
-    filename = setSimulationName( properties )
-    title = setup.getSimulationPlotTitle( filename )
-
+    # Get the simulation name
     filename = rendezvous.split("_rendezvous_")[0]
 
     print "Processing the results:"
-    processData( event_handler, filename, title )
+    processData( event_handler, filename, "FACEMC - Adjoint" )
 
     print "Results will be in ", path.dirname(filename)
 
@@ -340,7 +334,6 @@ def getSimulationName():
   properties = setSimulationProperties( 1, 1.0 )
 
   name = setSimulationName( properties )
-  title = setup.getSimulationPlotTitle( name )
 
   return name
 
@@ -357,14 +350,11 @@ def processDataFromRendezvous( rendezvous_file ):
   manager = Manager.ParticleSimulationManagerFactory( rendezvous_file ).getManager()
   event_handler = manager.getEventHandler()
 
-  # Get the simulation name and title
-  properties = manager.getSimulationProperties()
-
-  filename = setSimulationName( properties )
-  title = setup.getSimulationPlotTitle( filename )
+  # Get the simulation name
+  filename = rendezvous.split("_rendezvous_")[0]
 
   print "Processing the results:"
-  processData( event_handler, filename, title )
+  processData( event_handler, filename, "FACEMC - Adjoint" )
 
   print "Results will be in ", path.dirname(filename)
 
@@ -407,7 +397,7 @@ def printParticleTrackInfo( rendezvous_file ):
   manager = Manager.ParticleSimulationManagerFactory( rendezvous_file ).getManager()
   event_handler = manager.getEventHandler()
 
-  # Get the simulation name and title
+  # Get the simulation name
   properties = manager.getSimulationProperties()
 
   if "epr14" not in rendezvous_file:
@@ -416,7 +406,6 @@ def printParticleTrackInfo( rendezvous_file ):
     file_type = Data.ElectroatomicDataProperties.ACE_EPR_FILE
 
   filename = setSimulationName( properties )
-  title = setup.getSimulationPlotTitle( filename )
 
   # Process surface flux data
   particle_tracker = event_handler.getParticleTracker( 0 )
