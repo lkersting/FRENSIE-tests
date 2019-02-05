@@ -22,9 +22,6 @@ TIME=1350
 # SLURM_CPUS_PER_TASK=4
 # SLURM_NTASKS=1
 
-# Get the script's directory
-DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
-
 # Run from the rendezvous
 if [ "$#" -eq 1 ]; then
   # Set the rendezvous
@@ -73,7 +70,6 @@ else
   # Create a unique python script and change the parameters
   script_name="al_albedo_${SLURM_JOB_ID}"
   python_script="${script_name}.py"
-  cd ${DIR}
   cp al_albedo.py ${python_script}
 
   # Change the python_script parameters
@@ -137,7 +133,7 @@ else
     mpiexec -n ${SLURM_NTASKS} python ${python_script} --num_particles=${HISTORIES} --threads=$SLURM_CPUS_PER_TASK --time=${TIME}
   fi
 
-  Remove the temperary python script
+  # Remove the temperary python script
   rm ${python_script}*
 fi
 
