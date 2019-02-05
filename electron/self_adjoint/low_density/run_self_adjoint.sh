@@ -19,7 +19,7 @@ MPI_PROCESSES=40
 OPEN_MP_THREADS=4
 
 # Set the number of histories
-HISTORIES=1000000
+HISTORIES=10000000
 # Set the max runtime (in minutes, 1 day = 1440 )
 TIME=1350
 
@@ -41,7 +41,7 @@ ionizations=( KNOCK_ON )
 grid_policies=( 'UNIT_BASE' 'UNIT_BASE_CORRELATED' )
 
 # Set the nudge past max energy mode on/off ( 'on' 'off' )
-nudge_modes=( 'off' 'on')
+nudge_modes=( 'on' )
 
 # Turn individual physics options off ( ELASTIC EXCITATION BREM IONIZATION )
 reactions_off=( )

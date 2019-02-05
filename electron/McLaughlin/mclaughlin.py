@@ -345,7 +345,8 @@ def processDataFromRendezvous( rendezvous_file ):
   else:
     file_type = Data.ElectroatomicDataProperties.ACE_EPR_FILE
 
-  filename, title = setSimulationName( properties )
+  filename = setSimulationName( properties )
+  title = setup.getSimulationPlotTitle( filename )
 
   # Manually get the subzone optical path based on the file name
   if "Al" in rendezvous_file:

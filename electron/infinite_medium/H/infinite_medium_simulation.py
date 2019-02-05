@@ -645,7 +645,8 @@ def processAdjointDataFromRendezvous( rendezvous_file ):
   # Get the simulation name and title
   properties = manager.getSimulationProperties()
 
-  filename, title = setSimulationName( properties )
+  filename = setSimulationName( properties )
+  title = setup.getSimulationPlotTitle( filename )
 
   print "Processing the results:"
   processAdjointData( event_handler, filename, title )

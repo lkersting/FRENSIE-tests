@@ -19,7 +19,7 @@ MPI_PROCESSES=40
 OPEN_MP_THREADS=4
 
 # Set the number of histories
-HISTORIES=10000000
+HISTORIES=100000000
 # Set the max runtime (in minutes, 1 day = 1440 )
 TIME=1350
 
@@ -35,7 +35,7 @@ methods=( MODIFIED_TWO_D )
 
 # Set the ionization sampling mode
 # ( OUTGOING_ENERGY KNOCK_ON)
-ionizations=( OUTGOING_ENERGY KNOCK_ON )
+ionizations=( KNOCK_ON )
 
 # Set the bivariate Grid Policy ( 'UNIT_BASE_CORRELATED' 'UNIT_BASE' )
 grid_policies=( 'UNIT_BASE' 'UNIT_BASE_CORRELATED' )

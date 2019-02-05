@@ -252,7 +252,8 @@ def runSimulationFromRendezvous( threads, histories, time, rendezvous ):
     # Get the simulation name and title
     properties = manager.getSimulationProperties()
 
-    filename, title = setSimulationName( properties )
+    filename = setSimulationName( properties )
+    title = setup.getSimulationPlotTitle( filename )
 
     filename = rendezvous.split("_rendezvous_")[0]
 
@@ -353,7 +354,8 @@ def processDataFromRendezvous( rendezvous_file ):
   # Get the simulation name and title
   properties = manager.getSimulationProperties()
 
-  filename, title = setSimulationName( properties )
+  filename = setSimulationName( properties )
+  title = setup.getSimulationPlotTitle( filename )
 
   print "Processing the results:"
   processData( event_handler, filename, title )
@@ -398,7 +400,8 @@ def printParticleTrackInfo( rendezvous_file ):
   else:
     file_type = Data.ElectroatomicDataProperties.ACE_EPR_FILE
 
-  filename, title = setSimulationName( properties )
+  filename = setSimulationName( properties )
+  title = setup.getSimulationPlotTitle( filename )
 
   # Process surface flux data
   particle_tracker = event_handler.getParticleTracker( 0 )

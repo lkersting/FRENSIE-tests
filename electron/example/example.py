@@ -358,7 +358,8 @@ def processDataFromRendezvous( rendezvous_file ):
   else:
     file_type = Data.ElectroatomicDataProperties.ACE_EPR_FILE
 
-  filename, title = setSimulationName( properties )
+  filename = setSimulationName( properties )
+  title = setup.getSimulationPlotTitle( filename )
 
   print "Processing the results:"
   processData( event_handler, filename, title )

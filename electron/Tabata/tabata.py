@@ -317,7 +317,8 @@ def processDataFromFile( rendezvous_file, raw_file_type, subzone_op ):
     file_type = Data.ElectroatomicDataProperties.Native_EPR_FILE
   else:
     ValueError
-  filename, title = setSimulationName( properties )
+  filename = setSimulationName( properties )
+  title = setup.getSimulationPlotTitle( filename )
   filename = rendezvous_file.split("_rendezvous_")[0]
 
   print "Processing the results:"

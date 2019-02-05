@@ -316,7 +316,8 @@ def processDataFromRendezvous( rendezvous_file, range, calorimeter_thickness ):
   else:
     file_type = Data.ElectroatomicDataProperties.ACE_EPR_FILE
 
-  filename, title = setSimulationName( properties )
+  filename = setSimulationName( properties )
+  title = setup.getSimulationPlotTitle( filename )
 
   print "Processing the results:"
   processData( estimator_1, filename, title, range, calorimeter_thickness )
