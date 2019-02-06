@@ -70,7 +70,7 @@ def printSimulationName():
   properties = setup.setSimulationProperties( 1, 1, interpolation, grid_policy, mode, method )
 
   # Print the simulation name
-  sim_name = simulation.setSimulationName( properties, file_type, element, source_energy )
+  sim_name = simulation.setSimulationName( properties, file_type, element, source_energy, use_refined_grid )
 
   print sim_name
 
@@ -106,27 +106,16 @@ if __name__ == "__main__":
       makedirs(directory)
 
     # Set the simulation name and title
-    sim_name = simulation.setSimulationName( properties, file_type, element, source_energy )
+    sim_name = simulation.setSimulationName( properties, file_type, element, source_energy, use_refined_grid )
 
     # Run the simulation
-    event_handler = simulation.runForwardAlbedoSimulation( sim_name,
-                                                           database_path,
-                                                           geometry_path,
-                                                           properties,
-                                                           source_energy,
-                                                           zaid,
-                                                           file_type,
-                                                           version,
-                                                           options.threads,
-                                                           options.log_file )
-
-    # Get the estimator data
-    estimator_1 = event_handler.getEstimator( 1 )
-
-    # Get the plot title and filename
-    title = setup.getSimulationPlotTitle( sim_name )
-
-    print "Processing the results:"
-    simulation.processCosineBinData( estimator_1, source_energy, sim_name, title )
-
-    print "Results will be in ", path.dirname(path.abspath(sim_name))
+    simulation.runForwardAlbedoSimulation( sim_name,
+                                           database_path,
+                                           geometry_path,
+                                           properties,
+                                           source_energy,
+                                           zaid,
+                                           file_type,
+                                           version,
+                                           options.threads,
+                                           options.log_file )

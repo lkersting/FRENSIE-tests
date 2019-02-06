@@ -22,7 +22,7 @@ done
 INSTALL="/home/lkersting/frensie0.4_release/tests/electron"
 
 # Get albedo Al results
-cd ./Al/results
+cd ./results
 echo -e "\nGet Al albedo results:"
   # Copy results to this location
   scp -r aci2:${INSTALL}/albedo/Al/results/* ./
@@ -30,4 +30,5 @@ echo -e "\nGet Al albedo results:"
   # Erase files from cluster
   if [ "$delete" = "true" ]; then
     ssh aci2 "rm -rf ${INSTALL}/albedo/Al/results/*"
-cd ../../
+  fi
+cd ../

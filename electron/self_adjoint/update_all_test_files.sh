@@ -15,7 +15,7 @@ ionizations=( "Knock-On" "Outgoing Energy" )
 # Set the bivariate Grid Policy ( "UnitBaseCorrelated" "UnitBase" )
 grid_policies=( "UnitBaseCorrelated" "UnitBase" )
 # Set the nudge past max energy mode on/off ( 'on' 'off' )
-nudge_modes=( 'off' 'on')
+nudge_modes=( 'on' 'off' )
 
 ##---------------------------------------------------------------------------##
 ## ------------------------------- COMMANDS ---------------------------------##

@@ -155,7 +155,155 @@ def runForwardAlbedoSimulation( sim_name,
         manager.runSimulation()
 
     if session.rank() == 0:
-      return event_handler
+
+      # Get the plot title and filename
+      title = setup.getSimulationPlotTitle( sim_name )
+
+      print "Processing the results:"
+      processCosineBinData( current_estimator, source_energy, sim_name, title )
+
+      print "Results will be in ", path.dirname(path.abspath(sim_name))
+
+##---------------------------------------------------------------------------##
+## Set up and run the adjoint simulation
+def runAdjointAlbedoSimulation( sim_name,
+                                db_path,
+                                geom_name,
+                                properties,
+                                source_energy,
+                                zaid,
+                                file_type,
+                                version,
+                                threads,
+                                log_file = None ):
+
+
+    ## Initialize the MPI session
+    session = MPI.GlobalMPISession( len(sys.argv), sys.argv )
+
+    # Suppress logging on all procs except for the master (proc=0)
+    Utility.removeAllLogs()
+    session.initializeLogs( 0, True )
+
+    if not log_file is None:
+        session.initializeLogs( log_file, 0, True )
+
+    if session.rank() == 0:
+      print "The PyFrensie path is set to: ", pyfrensie_path
+
+    simulation_properties = properties
+
+  ##--------------------------------------------------------------------------##
+  ## ---------------------------- MATERIALS SETUP --------------------------- ##
+  ##--------------------------------------------------------------------------##
+
+    # Set element name
+    element_name="albedo"
+
+    ## Set up the materials
+    database = Data.ScatteringCenterPropertiesDatabase( db_path )
+
+    # Extract the properties for H from the database
+    atom_properties = database.getAtomProperties( Data.ZAID(zaid) )
+
+    # Set the definition for H for this simulation
+    scattering_center_definitions = Collision.ScatteringCenterDefinitionDatabase()
+    atom_definition = scattering_center_definitions.createDefinition( element_name, Data.ZAID(zaid) )
+
+    file_type = Data.AdjointElectroatomicDataProperties.Native_EPR_FILE
+
+    atom_definition.setAdjointElectroatomicDataProperties(
+      atom_properties.getSharedAdjointElectroatomicDataProperties( file_type, version ) )
+
+    # Set the definition for material 1
+    material_definitions = Collision.MaterialDefinitionDatabase()
+    material_definitions.addDefinition( element_name, 1, [element_name], [1.0] )
+
+  ##--------------------------------------------------------------------------##
+  ## ---------------------------- GEOMETRY SETUP ---------------------------- ##
+  ##--------------------------------------------------------------------------##
+
+    ## Set up the geometry
+    model_properties = DagMC.DagMCModelProperties( geom_name )
+    model_properties.useFastIdLookup()
+
+    # Load the model
+    model = DagMC.DagMCModel( model_properties )
+
+    # Fill the model with the defined material
+    filled_model = Collision.FilledGeometryModel( db_path, scattering_center_definitions, material_definitions, simulation_properties, model, True )
+
+  ##--------------------------------------------------------------------------##
+  ## ----------------------------- SOURCE SETUP ----------------------------- ##
+  ##--------------------------------------------------------------------------##
+
+    ## Set up the source
+    particle_distribution = ActiveRegion.StandardParticleDistribution( "mono-energetic beam dist" )
+
+    particle_distribution.setEnergy( source_energy )
+    particle_distribution.setPosition( 0.0, 0.0, -0.1 )
+    particle_distribution.setDirection( 0.0, 0.0, 1.0 )
+    particle_distribution.constructDimensionDistributionDependencyTree()
+
+    # The generic distribution will be used to generate electrons
+    electron_distribution = [ActiveRegion.StandardAdjointElectronSourceComponent( 0, 1.0, model, particle_distribution )]
+
+    # Assign the electron source component to the source
+    source = ActiveRegion.StandardParticleSource( electron_distribution )
+
+  ##--------------------------------------------------------------------------##
+  ## -------------------------- EVENT HANDLER SETUP ------------------------- ##
+  ##--------------------------------------------------------------------------##
+
+    ## Set up the event handler
+    event_handler = Event.EventHandler( model, simulation_properties )
+
+  ##----------------------- Surface Current Estimators -----------------------##
+
+    current_estimator = event_handler.getEstimator( 2 )
+
+    # Set the cosine bins
+    cosine_bins = [ 1.0, 0.984807753012208, -0.984807753012208 -1.0 ]
+    current_estimator.setCosineDiscretization( cosine_bins )
+
+
+  ##--------------------------------------------------------------------------##
+  ## ----------------------- SIMULATION MANAGER SETUP ----------------------- ##
+  ##--------------------------------------------------------------------------##
+
+    # Set the archive type
+    archive_type = "xml"
+
+    ## Set up the simulation manager
+    factory = Manager.ParticleSimulationManagerFactory( filled_model,
+                                                        source,
+                                                        event_handler,
+                                                        simulation_properties,
+                                                        sim_name,
+                                                        archive_type,
+                                                        threads )
+
+    # Create the simulation manager
+    manager = factory.getManager()
+
+    # Allow logging on all procs
+    session.restoreOutputStreams()
+
+    ## Run the simulation
+    if session.size() == 1:
+        manager.runInterruptibleSimulation()
+    else:
+        manager.runSimulation()
+
+    if session.rank() == 0:
+
+      # Get the plot title and filename
+      title = setup.getSimulationPlotTitle( sim_name )
+
+      print "Processing the results:"
+      processCosineBinData( current_estimator, source_energy, sim_name, title )
+
+      print "Results will be in ", path.dirname(path.abspath(sim_name))
 
 ##----------------------------------------------------------------------------##
 ## --------------------- Run Simulation From Rendezvous --------------------- ##
@@ -235,9 +383,12 @@ def createResultsDirectory(file_type, interpolation, element):
 ## -------------------------- setSimulationName -----------------------------##
 ##---------------------------------------------------------------------------##
 # Define a function for naming an electron simulation
-def setSimulationName( properties, file_type, element, energy ):
+def setSimulationName( properties, file_type, element, energy, refined ):
   extension = setup.setSimulationNameExtention( properties, file_type )
-  name = "albedo_" + element + "_" + str(energy) + extension
+  name = "albedo_" + element + "_" + str(energy)
+  if refined:
+    name += "_refined"
+  name += extension
   interpolation = properties.getElectronTwoDInterpPolicy()
   output = setup.getResultsDirectory(file_type, interpolation) + "/" + name
 
@@ -248,9 +399,18 @@ def setSimulationName( properties, file_type, element, energy ):
 ##----------------------------------------------------------------------------##
 
 # This function pulls data from the rendezvous file
-def processData( rendezvous_file, file_type, energy ):
+def processData( rendezvous_file ):
 
-  Collision.FilledGeometryModel.setDefaultDatabasePath( path.dirname(database_path) )
+  # Set database directory path (for Denali)
+  if socket.gethostname() == "Denali":
+    database_path = "/home/software/mcnpdata/database.xml"
+  # Set database directory path (for Elbrus)
+  elif socket.gethostname() == "Elbrus":
+    database_path = "/home/software/mcnpdata/database.xml"
+  else: # Set database directory path (for Cluster)
+    database_path = "/home/lkersting/software/mcnp6.2/MCNP_DATA/database.xml"
+
+  Collision.FilledGeometryModel.setDefaultDatabasePath( database_path )
 
   # Load data from file
   manager = Manager.ParticleSimulationManagerFactory( rendezvous_file ).getManager()
@@ -262,11 +422,12 @@ def processData( rendezvous_file, file_type, energy ):
   # Get the plot title and filename
   title = setup.getSimulationPlotTitle( rendezvous_file )
   filename = rendezvous_file.split("_rendezvous_")[0]
+  energy = float(rendezvous_file.split("_")[2])
 
-  print "Processing the results:"
+  print "Processing the results:\n"
   processCosineBinData( estimator_1, energy, filename, title )
 
-  print "Results will be in ", path.dirname(filename)
+  print "\nResults will be in ", path.dirname(filename)
 
 ##----------------------------------------------------------------------------##
 ##--------------------------- processCosineBinData ---------------------------##

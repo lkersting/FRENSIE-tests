@@ -95,7 +95,7 @@ if user_args.e:
   directory = os.path.dirname(os.path.abspath(inspect.getfile(inspect.currentframe())))
 
   for i in range(len(exp_names)):
-    filename = directory + "/al/experimental_results/" + exp_names[i] +".tsv"
+    filename = directory + "/Al/experimental_results/" + exp_names[i] +".tsv"
     with open(filename) as input:
         name = input.readline().strip()
         input.readline()
@@ -122,7 +122,7 @@ if user_args.a:
   directory = os.path.dirname(os.path.abspath(inspect.getfile(inspect.currentframe())))
 
   for i in range(len(exp_names)):
-    filename = directory + "/al/experimental_results/" + exp_names[i] +".tsv"
+    filename = directory + "/Al/experimental_results/" + exp_names[i] +".tsv"
     with open(filename) as input:
         name = input.readline().strip()
         input.readline()
