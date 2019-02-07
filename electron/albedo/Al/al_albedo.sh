@@ -39,9 +39,6 @@ if [ "$#" -eq 1 ]; then
 # Run new simulation
 else
 
-  # Set the bivariate interpolation ( LOGLOGLOG LINLINLIN LINLINLOG )
-  INTERP=LOGLOGLOG
-
   # Set the bivariate Grid Policy ( UNIT_BASE_CORRELATED CORRELATED UNIT_BASE )
   GRID_POLICY=UNIT_BASE_CORRELATED
 
@@ -51,17 +48,31 @@ else
   # Set the elastic coupled sampling method ( ONE_D TWO_D MODIFIED_TWO_D )
   METHOD=MODIFIED_TWO_D
 
+  # Set the electron cutoff energy
+  CUTOFF=1e-4
+
+  # Set the transport mode ( "forward", "adjoint" )
+  TRANSPORT="forward"
+
+  ## ------- FORWARD OPTIONS ------- ##
+  # Set the bivariate interpolation ( LOGLOGLOG LINLINLIN LINLINLOG )
+  INTERP=LOGLOGLOG
+
   # Set the test source energy
   ENERGY=0.256
-
-  # Set the material element and zaid
-  ELEMENT="Al"; ZAID=13000
 
   # Set the data file type (ACE Native)
   FILE_TYPE=Native
 
-  # Set if a refined grid should be used ( "True", "False" )
+  # Set if a refined grid should be used ( True, False )
   REFINED=False
+
+  ## ------- ADJOINT OPTIONS ------- ##
+  # Set the nudge past max energy mode ( True, False )
+  NUDGE=True
+
+  # Set the electro-ionization sampling mode ( KNOCK_ON, OUTGOING_ENERGY )
+  IONIZATION=KNOCK_ON
 
   ##---------------------------------------------------------------------------##
   ## ------------------------------- COMMANDS ---------------------------------##
@@ -73,18 +84,6 @@ else
   cp al_albedo.py ${python_script}
 
   # Change the python_script parameters
-
-  # Set the element
-  command=s/element=.*/element=\"${ELEMENT}\"\;\ zaid=${ZAID}/
-  sed -i "${command}" ${python_script}
-
-  # Set the source energy
-  command=s/source_energy=.*/source_energy=${ENERGY}/
-  sed -i "${command}" ${python_script}
-
-  # Set the interp
-  command=s/interpolation=MonteCarlo.*/interpolation=MonteCarlo.${INTERP}_INTERPOLATION/
-  sed -i "${command}" ${python_script}
 
   # Set 2D grid policy
   command=s/grid_policy=MonteCarlo.*/grid_policy=MonteCarlo.${GRID_POLICY}_GRID/
@@ -98,13 +97,39 @@ else
   command=s/method=MonteCarlo.*/method=MonteCarlo.${METHOD}_UNION/
   sed -i "${command}" ${python_script}
 
-  # Set the file type
-  command=s/file_type=Data.ElectroatomicDataProperties.*/file_type=Data.ElectroatomicDataProperties.${FILE_TYPE}_EPR_FILE/
+  # Set the cutoff energy
+  command=s/cutoff_energy=.*/cutoff_energy=${CUTOFF}/
   sed -i "${command}" ${python_script}
 
-  # Set if a refined grid should be used
-  command=s/use_refined_grid=.*/use_refined_grid=${REFINED}/
-  sed -i "${command}" ${python_script}
+  if [ "${TRANSPORT}" = "forward" ]; then
+
+    # Set the source energy
+    command=s/source_energy=.*/source_energy=${ENERGY}/
+    sed -i "${command}" ${python_script}
+
+    # Set the interp
+    command=s/interpolation=MonteCarlo.*/interpolation=MonteCarlo.${INTERP}_INTERPOLATION/
+    sed -i "${command}" ${python_script}
+
+    # Set the file type
+    command=s/file_type=Data.ElectroatomicDataProperties.*/file_type=Data.ElectroatomicDataProperties.${FILE_TYPE}_EPR_FILE/
+    sed -i "${command}" ${python_script}
+
+    # Set if a refined grid should be used
+    command=s/use_refined_grid=.*/use_refined_grid=${REFINED}/
+    sed -i "${command}" ${python_script}
+
+  elif [ "${TRANSPORT}" = "adjoint" ]; then
+
+    # Set the nudge past max energy mode
+    command=s/nudge_past_max=.*/nudge_past_max=${NUDGE}/
+    sed -i "${command}" ${python_script}
+
+    # Set the electro-ionization sampling mode
+    command=s/ionization=.*/ionization=MonteCarlo.${IONIZATION}_SAMPLING/
+    sed -i "${command}" ${python_script}
+
+  fi
 
   # Get the results
   name=$(python -c "import ${script_name}; ${script_name}.printSimulationName();" 2>&1)
@@ -130,7 +155,7 @@ else
   else
     # Run the simulation from the start
     echo "Running Facemc Albedo test with ${HISTORIES} particles with ${SLURM_NTASKS} MPI processes with ${SLURM_CPUS_PER_TASK} OpenMP threads each!"
-    mpiexec -n ${SLURM_NTASKS} python ${python_script} --num_particles=${HISTORIES} --threads=$SLURM_CPUS_PER_TASK --time=${TIME}
+    mpiexec -n ${SLURM_NTASKS} python ${python_script} --num_particles=${HISTORIES} --threads=$SLURM_CPUS_PER_TASK --time=${TIME} --transport=${TRANSPORT}
   fi
 
   # Remove the temperary python script

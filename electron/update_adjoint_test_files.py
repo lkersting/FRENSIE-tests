@@ -113,14 +113,32 @@ if __name__ == "__main__":
     adjoint_incoherent_grid_dist_tol = 1e-16
 
     if options.grid_policy == "UnitBaseCorrelated":
-      eval_tol = 1e-6
       convergence_tol = 1e-4
+      brems_eval_tol = 1e-6
+
+      if options.ionization_sampling_mode == 'Outgoing Energy':
+        electroion_eval_tol = 1e-5
+      else:
+        electroion_eval_tol = 1e-6
+
     elif options.grid_policy == "UnitBase":
-      eval_tol = 1e-7
       convergence_tol = 1e-4
+      brems_eval_tol = 1e-7
+
+      if options.ionization_sampling_mode == 'Outgoing Energy':
+        electroion_eval_tol = 1e-6
+      else:
+        electroion_eval_tol = 1e-7
+
     elif options.grid_policy == "Correlated":
-      eval_tol = 1e-5
       convergence_tol = 1e-3
+      brems_eval_tol = 1e-5
+
+      if options.ionization_sampling_mode == 'Outgoing Energy':
+        electroion_eval_tol = 1e-4
+      else:
+        electroion_eval_tol = 1e-5
+
     else:
       print "The grid policy ", options.grid_policy, " is currently not supported!"
       sys.exit(1)
@@ -136,14 +154,12 @@ if __name__ == "__main__":
     electron_two_d_interp_policy = "LogLogLog"
     brems_min_energy_nudge_val = 1e-9
     brems_max_energy_nudge_val = 1e-6
-    brems_eval_tol = eval_tol
     brems_grid_convergence_tol = convergence_tol
     brems_grid_abs_diff_tol = 1e-20
     brems_grid_dist_tol = 1e-16
 
     electroion_min_energy_nudge_val = 1e-9
     electroion_max_energy_nudge_val = 1e-6
-    electroion_eval_tol = eval_tol
     electroion_convergence_tol = convergence_tol
     electroion_abs_diff_tol = 1e-20
     electroion_dist_tol = 1e-16

@@ -1,7 +1,7 @@
 #! /usr/bin/env python
 from os import path, makedirs
 import sys
-import numpy
+import numpy as np
 import datetime
 import socket
 
@@ -170,9 +170,9 @@ def runAdjointAlbedoSimulation( sim_name,
                                 db_path,
                                 geom_name,
                                 properties,
-                                source_energy,
+                                cutoff_energy,
+                                max_energy,
                                 zaid,
-                                file_type,
                                 version,
                                 threads,
                                 log_file = None ):
@@ -238,11 +238,21 @@ def runAdjointAlbedoSimulation( sim_name,
   ##--------------------------------------------------------------------------##
 
     ## Set up the source
-    particle_distribution = ActiveRegion.StandardParticleDistribution( "mono-energetic beam dist" )
+    particle_distribution = ActiveRegion.StandardParticleDistribution( "adjoint uniform energy dist" )
 
-    particle_distribution.setEnergy( source_energy )
+    # Uniform distribution from cutoff energy to max problem energy
+    uniform_energy = Distribution.UniformDistribution( cutoff_energy, max_energy )
+    energy_dimension_dist = ActiveRegion.IndependentEnergyDimensionDistribution( uniform_energy )
+    particle_distribution.setDimensionDistribution( energy_dimension_dist )
+
+    # Slightly to the left (negative z-direction) of the semi-infinite slab
     particle_distribution.setPosition( 0.0, 0.0, -0.1 )
-    particle_distribution.setDirection( 0.0, 0.0, 1.0 )
+
+    # Uniform distribution for all angles in the positive z direction
+    uniform_positive_mu = Distribution.UniformDistribution( 0.0, 1.0, 1.0 )
+    mu_dimension_dist = ActiveRegion.IndependentSecondaryDirectionalDimensionDistribution( uniform_positive_mu )
+    particle_distribution.setDimensionDistribution( mu_dimension_dist )
+
     particle_distribution.constructDimensionDistributionDependencyTree()
 
     # The generic distribution will be used to generate electrons
@@ -262,10 +272,14 @@ def runAdjointAlbedoSimulation( sim_name,
 
     current_estimator = event_handler.getEstimator( 2 )
 
-    # Set the cosine bins
-    cosine_bins = [ 1.0, 0.984807753012208, -0.984807753012208 -1.0 ]
-    current_estimator.setCosineDiscretization( cosine_bins )
+    # Set the energy bins (for each cosine bin)
+    bin_string = "{ " + str(cutoff_energy) + ", 149l, " + str(max_energy) +" }"
+    energy_bins = list(Utility.doubleArrayFromString( bin_string ))
+    current_estimator.setEnergyDiscretization( energy_bins )
 
+    # Set the cosine bins
+    cosine_bins = [ 1.0, np.cos(np.deg2rad(10)), np.cos(np.deg2rad(50)), np.cos(np.deg2rad(70)), np.cos(np.deg2rad(110)), np.cos(np.deg2rad(130)), np.cos(np.deg2rad(170)), -1.0 ]
+    current_estimator.setCosineDiscretization( cosine_bins )
 
   ##--------------------------------------------------------------------------##
   ## ----------------------- SIMULATION MANAGER SETUP ----------------------- ##
@@ -298,10 +312,10 @@ def runAdjointAlbedoSimulation( sim_name,
     if session.rank() == 0:
 
       # Get the plot title and filename
-      title = setup.getSimulationPlotTitle( sim_name )
+      title = "FRENSIE - Adjoint"
 
       print "Processing the results:"
-      processCosineBinData( current_estimator, source_energy, sim_name, title )
+      processCosineEnergyBinData( current_estimator, sim_name, title )
 
       print "Results will be in ", path.dirname(path.abspath(sim_name))
 
@@ -394,6 +408,39 @@ def setSimulationName( properties, file_type, element, energy, refined ):
 
   return output
 
+##---------------------------------------------------------------------------##
+## ---------------------- setAdjointSimulationName --------------------------##
+##---------------------------------------------------------------------------##
+# Define a function for naming an electron simulation
+def setAdjointSimulationName( properties, element, grid_policy, ionization_sampling, nudge_past_max_energy ):
+  extension = setup.setAdjointSimulationNameExtention( properties )
+  name = "adjoint_albedo_" + element + "_"
+
+  # Add the grid policy to the name
+  if grid_policy == MonteCarlo.UNIT_BASE_CORRELATED_GRID:
+      name += "unit_correlated"
+  elif grid_policy == MonteCarlo.CORRELATED_GRID:
+      name += "correlated"
+  else:
+      name += "unit_base"
+
+  # Add the ionization sampling to the name
+  if ionization == MonteCarlo.OUTGOING_ENERGY_SAMPLING:
+    name += '_outgoing_energy'
+
+  # Add the nudge past max energy mode to the name
+  if not nudge_past_max_energy:
+    name += '_no_nudge'
+
+  name += extension
+
+  date = str(datetime.datetime.today()).split()[0]
+  directory = "results/adjoint/" + date + "/"
+
+  output = directory + "/" + name
+
+  return output
+
 ##----------------------------------------------------------------------------##
 ##------------------------------- processData --------------------------------##
 ##----------------------------------------------------------------------------##
@@ -466,4 +513,49 @@ def processCosineBinData( estimator, energy, filename, title ):
            '%.16e' % current[-1] + "\t" + \
            '%.16e' % current_rel_error[-1] + "\n"
   out_file.write( output )
+  out_file.close()
+
+##----------------------------------------------------------------------------##
+##------------------------ processCosineEnergyBinData ------------------------##
+##----------------------------------------------------------------------------##
+
+# This function pulls cosine energy bin estimator data outputs it to a separate file.
+def processCosineEnergyBinData( estimator, filename, title ):
+
+  ids = list(estimator.getEntityIds() )
+  if not 2 in ids:
+    print "ERROR: estimator does not contain entity 2!"
+    raise ValueError(message)
+
+  today = datetime.date.today()
+
+  # Read the data file for surface tallies
+  name = filename+"_albedo.txt"
+  out_file = open(name, 'w')
+
+  # Get the current and relative error
+  processed_data = estimator.getEntityBinProcessedData( 2 )
+  current = processed_data['mean']
+  current_rel_error = processed_data['re']
+  cosine_bins = estimator.getCosineDiscretization()
+  energy_bins = estimator.getEnergyDiscretization()
+
+  print current
+  print cosine_bins
+  print energy_bins
+  # Write title to file
+  out_file.write( "# " + title +"\n")
+  # Write data header to file
+  header = "# Angle\tEnergy (MeV)\tCurrent\tError\t"+str(today)+"\n"
+  out_file.write(header)
+
+  # Write data to file
+  for i in range(1, len(cosine_bins) ):
+    angle = '%.6e' % cosine_bins[i-1] + " - ", '%.6e' % cosine_bins[i]
+    out_file.write( angle )
+    for j in range(0, len(energy_bins) ):
+      output = '%.6e' % energy_bins[j] + "\t" + \
+              '%.16e' % current[i-1+j] + "\t" + \
+              '%.16e' % current_rel_error[i-1+j] + "\n"
+      out_file.write( output )
   out_file.close()
