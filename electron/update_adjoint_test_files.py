@@ -42,6 +42,16 @@ if __name__ == "__main__":
                       help="Don't allow adjoint electrons to scatter above the max energy.")
     parser.add_option("-i", "--ionization_sampling_mode", type="string", dest="ionization_sampling_mode", default="Knock-On",
                       help="The forward electroionization sampling mode")
+    parser.add_option("--ion_eval_tol", type="float", dest="ionization_eval_tol", default=1e-6,
+                      help="The electroionization evaluation tolerance")
+    parser.add_option("--ion_grid_convergence", type="float", dest="ionization_grid_convergence", default=1e-4,
+                      help="The electroionization grid convergence")
+    parser.add_option("--brem_eval_tol", type="float", dest="brem_eval_tol", default=1e-6,
+                      help="The bremsstrahlung evaluation tolerance")
+    parser.add_option("--brem_grid_convergence", type="float", dest="brem_grid_convergence", default=1e-4,
+                      help="The bremsstrahlung grid convergence")
+    parser.add_option("--xs_grid_convergence", type="float", dest="xs_grid_convergence", default=1e-4,
+                      help="The electron cross section grid convergence")
     options,args = parser.parse_args()
 
     if path.exists( options.db_name ):
@@ -112,39 +122,7 @@ if __name__ == "__main__":
     adjoint_incoherent_grid_abs_diff_tol = 1e-42
     adjoint_incoherent_grid_dist_tol = 1e-16
 
-    if options.grid_policy == "UnitBaseCorrelated":
-      convergence_tol = 1e-4
-      brems_eval_tol = 1e-6
-
-      if options.ionization_sampling_mode == 'Outgoing Energy':
-        electroion_eval_tol = 1e-5
-      else:
-        electroion_eval_tol = 1e-6
-
-    elif options.grid_policy == "UnitBase":
-      convergence_tol = 1e-4
-      brems_eval_tol = 1e-7
-
-      if options.ionization_sampling_mode == 'Outgoing Energy':
-        electroion_eval_tol = 1e-6
-      else:
-        electroion_eval_tol = 1e-7
-
-    elif options.grid_policy == "Correlated":
-      convergence_tol = 1e-3
-      brems_eval_tol = 1e-5
-
-      if options.ionization_sampling_mode == 'Outgoing Energy':
-        electroion_eval_tol = 1e-4
-      else:
-        electroion_eval_tol = 1e-5
-
-    else:
-      print "The grid policy ", options.grid_policy, " is currently not supported!"
-      sys.exit(1)
-
     # Set default electron grid tolerances
-    electron_grid_convergence_tol = convergence_tol
     electron_grid_abs_diff_tol = 1e-20
     electron_grid_dist_tol = 1e-16
 
@@ -154,13 +132,11 @@ if __name__ == "__main__":
     electron_two_d_interp_policy = "LogLogLog"
     brems_min_energy_nudge_val = 1e-9
     brems_max_energy_nudge_val = 1e-6
-    brems_grid_convergence_tol = convergence_tol
     brems_grid_abs_diff_tol = 1e-20
     brems_grid_dist_tol = 1e-16
 
     electroion_min_energy_nudge_val = 1e-9
     electroion_max_energy_nudge_val = 1e-6
-    electroion_convergence_tol = convergence_tol
     electroion_abs_diff_tol = 1e-20
     electroion_dist_tol = 1e-16
 
@@ -197,7 +173,7 @@ if __name__ == "__main__":
                   adjoint_incoherent_grid_convergence_tol,
                   adjoint_incoherent_grid_abs_diff_tol,
                   adjoint_incoherent_grid_dist_tol,
-                  electron_grid_convergence_tol,
+                  options.xs_grid_convergence,
                   electron_grid_abs_diff_tol,
                   electron_grid_dist_tol,
                   cutoff_angle_cosine,
@@ -208,15 +184,15 @@ if __name__ == "__main__":
                   options.grid_policy,
                   brems_min_energy_nudge_val,
                   brems_max_energy_nudge_val,
-                  brems_eval_tol,
-                  brems_grid_convergence_tol,
+                  options.brem_eval_tol,
+                  options.brem_grid_convergence,
                   brems_grid_abs_diff_tol,
                   brems_grid_dist_tol,
                   options.ionization_sampling_mode,
                   electroion_min_energy_nudge_val,
                   electroion_max_energy_nudge_val,
-                  electroion_eval_tol,
-                  electroion_convergence_tol,
+                  options.ionization_eval_tol,
+                  options.ionization_grid_convergence,
                   electroion_abs_diff_tol,
                   electroion_dist_tol )
     # except Exception as e:
