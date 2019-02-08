@@ -244,10 +244,16 @@ def runSimulationFromRendezvous( threads, histories, time, rendezvous ):
 
   manager = factory.getManager()
 
-  Utility.removeAllLogs()
-  session.initializeLogs( 0, False )
+  manager.initialize()
 
-  manager.runSimulation()
+  # Allow logging on all procs
+  session.restoreOutputStreams()
+
+  ## Run the simulation
+  if session.size() == 1:
+      manager.runInterruptibleSimulation()
+  else:
+      manager.runSimulation()
 
   if session.rank() == 0:
 

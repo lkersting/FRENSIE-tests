@@ -30,8 +30,8 @@ if [ "$#" -eq 1 ]; then
   # Restart the simulation
   echo "Restarting Facemc Albedo test for ${HISTORIES} particles with ${SLURM_NTASKS} MPI processes with ${SLURM_CPUS_PER_TASK} OpenMP threads each!"
 
-  RENDEZVOUS="Al/${RENDEZVOUS}"
-  cd ${DIR}../
+  RENDEZVOUS="${PWD}/${RENDEZVOUS}"
+  cd ../
   mpiexec -n ${SLURM_NTASKS} python2.7 -c "import albedo_simulation; albedo_simulation.runSimulationFromRendezvous(${SLURM_CPUS_PER_TASK}, ${HISTORIES}, ${TIME}, '${RENDEZVOUS}' )"
 
   directory="$(dirname "${RENDEZVOUS}")/"
@@ -163,4 +163,4 @@ else
 fi
 
   # Move the slurm file to the results directory
-  mv slurm-${SLURM_JOB_ID}.out ./${directory}
+  mv slurm-${SLURM_JOB_ID}.out ${directory}

@@ -225,12 +225,8 @@ def runSimulationFromRendezvous( threads, histories, time, rendezvous ):
     event_handler = manager.getEventHandler()
 
     # Get the simulation name and title
-    properties = manager.getSimulationProperties()
-
-    filename = setSimulationName( properties )
-    title = setup.getSimulationPlotTitle( filename )
-
     filename = rendezvous.split("_rendezvous_")[0]
+    title = setup.getSimulationPlotTitle( filename )
 
     print "Processing the results:"
     processData( event_handler, filename, title )

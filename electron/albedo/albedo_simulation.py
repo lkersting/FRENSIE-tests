@@ -64,10 +64,10 @@ def runForwardAlbedoSimulation( sim_name,
     ## Set up the materials
     database = Data.ScatteringCenterPropertiesDatabase( db_path )
 
-    # Extract the properties for H from the database
+    # Extract the properties for the zaid from the database
     atom_properties = database.getAtomProperties( Data.ZAID(zaid) )
 
-    # Set the definition for H for this simulation
+    # Set the definition for the zaid for this simulation
     scattering_center_definitions = Collision.ScatteringCenterDefinitionDatabase()
     atom_definition = scattering_center_definitions.createDefinition( element_name, Data.ZAID(zaid) )
 
@@ -203,10 +203,10 @@ def runAdjointAlbedoSimulation( sim_name,
     ## Set up the materials
     database = Data.ScatteringCenterPropertiesDatabase( db_path )
 
-    # Extract the properties for H from the database
+    # Extract the properties for the zaid from the database
     atom_properties = database.getAtomProperties( Data.ZAID(zaid) )
 
-    # Set the definition for H for this simulation
+    # Set the definition for the zaid for this simulation
     scattering_center_definitions = Collision.ScatteringCenterDefinitionDatabase()
     atom_definition = scattering_center_definitions.createDefinition( element_name, Data.ZAID(zaid) )
 

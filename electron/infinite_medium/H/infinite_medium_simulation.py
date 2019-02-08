@@ -1,8 +1,17 @@
-import numpy
+#! /usr/bin/env python
 from os import path, makedirs
 import sys
-import PyFrensie.Geometry as Geometry
+import numpy
+import datetime
+import socket
+
+# Add the parent directory to the path
+sys.path.insert(1,path.dirname(path.dirname(path.dirname(path.abspath(__file__)))))
+import simulation_setup as setup
+import PyFrensie.Data as Data
+import PyFrensie.Data.Native as Native
 import PyFrensie.Geometry.DagMC as DagMC
+import PyFrensie.Geometry as Geometry
 import PyFrensie.Utility as Utility
 import PyFrensie.Utility.MPI as MPI
 import PyFrensie.Utility.Prng as Prng
@@ -13,25 +22,21 @@ import PyFrensie.MonteCarlo.Collision as Collision
 import PyFrensie.MonteCarlo.ActiveRegion as ActiveRegion
 import PyFrensie.MonteCarlo.Event as Event
 import PyFrensie.MonteCarlo.Manager as Manager
-import PyFrensie.Data as Data
-import PyFrensie.Data.Native as Native
 
 pyfrensie_path =path.dirname( path.dirname(path.abspath(MonteCarlo.__file__)))
 
 ##---------------------------------------------------------------------------##
 ## Set up and run the forward simulation
-def runForwardInfiniteMediumSimulation( sim_name,
-                                        db_path,
-                                        geom_name,
-                                        num_particles,
-                                        simulation_properties,
-                                        source_energy,
-                                        surface_ids,
-                                        energy_bins,
-                                        zaid,
-                                        version,
-                                        threads,
-                                        log_file = None ):
+def runForwardDeltaEnergyInfiniteMediumSimulation( sim_name,
+                                                   db_path,
+                                                   geom_name,
+                                                   properties,
+                                                   source_energy,
+                                                   energy_bins,
+                                                   zaid,
+                                                   version,
+                                                   threads,
+                                                   log_file = None ):
 
     ## Initialize the MPI session
     session = MPI.GlobalMPISession( len(sys.argv), sys.argv )
@@ -46,6 +51,8 @@ def runForwardInfiniteMediumSimulation( sim_name,
     if session.rank() == 0:
       print "The PyFrensie path is set to: ", pyfrensie_path
 
+    simulation_properties = properties
+
   ##--------------------------------------------------------------------------##
   ## ---------------------------- MATERIALS SETUP --------------------------- ##
   ##--------------------------------------------------------------------------##
@@ -56,14 +63,14 @@ def runForwardInfiniteMediumSimulation( sim_name,
     ## Set up the materials
     database = Data.ScatteringCenterPropertiesDatabase( db_path )
 
-    # Extract the properties for H from the database
+    # Extract the properties for the atom from the database
     atom_properties = database.getAtomProperties( Data.ZAID(zaid) )
 
-    # Set the definition for H for this simulation
+    # Set the definition for the atom for this simulation
     scattering_center_definitions = Collision.ScatteringCenterDefinitionDatabase()
     atom_definition = scattering_center_definitions.createDefinition( element_name, Data.ZAID(zaid) )
 
-    file_type = Data.AdjointElectroatomicDataProperties.Native_EPR_FILE
+    file_type = Data.ElectroatomicDataProperties.Native_EPR_FILE
 
     atom_definition.setElectroatomicDataProperties( atom_properties.getSharedElectroatomicDataProperties( file_type, version ) )
 
@@ -111,12 +118,11 @@ def runForwardInfiniteMediumSimulation( sim_name,
 
   ## ------------------------ Surface Flux Estimator ------------------------ ##
 
-    # Create the surface flux estimator
-    surface_flux_estimator = Event.WeightMultipliedSurfaceFluxEstimator( estimator_id, 1.0, surface_ids, model )
-    surface_flux_estimator.setEnergyDiscretization( energy_bins )
-    surface_flux_estimator.setParticleTypes( [MonteCarlo.ELECTRON] )
+    surface_flux_estimator = event_handler.getEstimator( 1 )
 
-    event_handler.addEstimator( surface_flux_estimator )
+    # Set the energy bins
+    surface_flux_estimator.setEnergyDiscretization( energy_bins )
+
 
   ##--------------------------------------------------------------------------##
   ## ----------------------- SIMULATION MANAGER SETUP ----------------------- ##
@@ -146,22 +152,30 @@ def runForwardInfiniteMediumSimulation( sim_name,
     else:
         manager.runSimulation()
 
+    if session.rank() == 0:
+
+      # Get the plot title
+      title = setup.getSimulationPlotTitle( sim_name )
+
+      print "Processing the results:"
+      processForwardData( surface_flux_estimator, sim_name, title )
+
+      print "Results will be in ", path.dirname(path.abspath(sim_name))
+
 ##---------------------------------------------------------------------------##
 ## Set up and run the adjoint simulation
-def runAdjointInfiniteMediumSimulation( sim_name,
-                                        db_path,
-                                        geom_name,
-                                        num_particles,
-                                        simulation_properties,
-                                        energy_cutoff,
-                                        source_energy,
-                                        source_critical_line,
-                                        surface_ids,
-                                        energy_bins,
-                                        zaid,
-                                        version,
-                                        threads,
-                                        log_file = None ):
+def runAdjointDeltaEnergyInfiniteMediumSimulation( sim_name,
+                                                   db_path,
+                                                   geom_name,
+                                                   properties,
+                                                   energy_cutoff,
+                                                   source_energy,
+                                                   source_critical_line,
+                                                   energy_bins,
+                                                   zaid,
+                                                   version,
+                                                   threads,
+                                                   log_file = None ):
 
     ## Initialize the MPI session
     session = MPI.GlobalMPISession( len(sys.argv), sys.argv )
@@ -175,6 +189,8 @@ def runAdjointInfiniteMediumSimulation( sim_name,
 
     if session.rank() == 0:
       print "The PyFrensie path is set to: ", pyfrensie_path
+
+    simulation_properties = properties
 
   ##--------------------------------------------------------------------------##
   ## ---------------------------- MATERIALS SETUP --------------------------- ##
@@ -220,7 +236,7 @@ def runAdjointInfiniteMediumSimulation( sim_name,
   ##--------------------------------------------------------------------------##
 
     ## Set up the source
-    particle_distribution = ActiveRegion.StandardParticleDistribution( "isotropic mono-energetic dist" )
+    particle_distribution = ActiveRegion.StandardParticleDistribution( "adjoint isotropic uniform energy dist" )
 
     uniform_energy = Distribution.UniformDistribution( energy_cutoff, source_energy )
     energy_dimension_dist = ActiveRegion.IndependentEnergyDimensionDistribution( uniform_energy )
@@ -247,19 +263,15 @@ def runAdjointInfiniteMediumSimulation( sim_name,
   ## ------------------------ Surface Flux Estimator ------------------------ ##
 
     # Setup an adjoint surface flux estimator
-    estimator_id = 1
+    surface_flux_estimator = event_handler.getEstimator( 2 )
 
-    # Create the estimator response function
+    # Create and set the estimator response function
     response_function = ActiveRegion.EnergyParticleResponseFunction( Distribution.DeltaDistribution( source_energy, source_energy - energy_cutoff ) )
     response = ActiveRegion.StandardParticleResponse( response_function )
-
-    # Create the surface flux estimator
-    surface_flux_estimator = Event.WeightMultipliedSurfaceFluxEstimator( estimator_id, 1.0, surface_ids, model )
-    surface_flux_estimator.setSourceEnergyDiscretization( energy_bins )
     surface_flux_estimator.setResponseFunctions( [response] )
-    surface_flux_estimator.setParticleTypes( [MonteCarlo.ADJOINT_ELECTRON] )
 
-    event_handler.addEstimator( surface_flux_estimator )
+    # Set the energy bin discretization
+    surface_flux_estimator.setSourceEnergyDiscretization( energy_bins )
 
   ## -------------------------- Particle Tracker ---------------------------- ##
 
@@ -296,16 +308,24 @@ def runAdjointInfiniteMediumSimulation( sim_name,
     else:
         manager.runSimulation()
 
+    if session.rank() == 0:
+
+      # Get the plot title
+      title = setup.getAdjointSimulationPlotTitle( sim_name )
+
+      print "Processing the results:"
+      processAdjointData( surface_flux_estimator, sim_name, title )
+
+      print "Results will be in ", path.dirname(path.abspath(sim_name))
+
 ##---------------------------------------------------------------------------##
 ## Set up and run the forward simulation
 def runForwardUniformEnergyInfiniteMediumSimulation( sim_name,
                                                      db_path,
                                                      geom_name,
-                                                     num_particles,
-                                                     simulation_properties,
-                                                     min_source_energy,
-                                                     max_source_energy,
-                                                     surface_ids,
+                                                     properties,
+                                                     min_energy,
+                                                     max_energy,
                                                      energy_bins,
                                                      zaid,
                                                      version,
@@ -325,6 +345,8 @@ def runForwardUniformEnergyInfiniteMediumSimulation( sim_name,
     if session.rank() == 0:
       print "The PyFrensie path is set to: ", pyfrensie_path
 
+    simulation_properties = properties
+
   ##--------------------------------------------------------------------------##
   ## ---------------------------- MATERIALS SETUP --------------------------- ##
   ##--------------------------------------------------------------------------##
@@ -335,10 +357,10 @@ def runForwardUniformEnergyInfiniteMediumSimulation( sim_name,
     ## Set up the materials
     database = Data.ScatteringCenterPropertiesDatabase( db_path )
 
-    # Extract the properties for H from the database
+    # Extract the properties for the atom from the database
     atom_properties = database.getAtomProperties( Data.ZAID(zaid) )
 
-    # Set the definition for H for this simulation
+    # Set the definition for the atom for this simulation
     scattering_center_definitions = Collision.ScatteringCenterDefinitionDatabase()
     atom_definition = scattering_center_definitions.createDefinition( element_name, Data.ZAID(zaid) )
 
@@ -368,17 +390,18 @@ def runForwardUniformEnergyInfiniteMediumSimulation( sim_name,
   ## ----------------------------- SOURCE SETUP ----------------------------- ##
   ##--------------------------------------------------------------------------##
 
-    ## Set up the source
-    particle_distribution = ActiveRegion.StandardParticleDistribution( "isotropic uniform dist" )
+    # Set up the source
+    particle_distribution = ActiveRegion.StandardParticleDistribution( "isotropic uniform source dist" )
 
-    uniform_energy = Distribution.UniformDistribution( min_source_energy, max_source_energy )
+    # Set the energy dimension distribution
+    uniform_energy = Distribution.UniformDistribution( min_energy, max_energy )
     energy_dimension_dist = ActiveRegion.IndependentEnergyDimensionDistribution( uniform_energy )
     particle_distribution.setDimensionDistribution( energy_dimension_dist )
     particle_distribution.setPosition( 0.0, 0.0, 0.0 )
     particle_distribution.constructDimensionDistributionDependencyTree()
 
-    # The generic distribution will be used to generate electrons
-    electron_distribution = ActiveRegion.StandardElectronSourceComponent( 0, 1.0, model, particle_distribution )
+    # Set source components
+    source_component = [ActiveRegion.StandardElectronSourceComponent( 0, 1.0, geom_model, particle_distribution )]
 
     # Assign the electron source component to the source
     source = ActiveRegion.StandardParticleSource( [electron_distribution] )
@@ -392,19 +415,11 @@ def runForwardUniformEnergyInfiniteMediumSimulation( sim_name,
 
   ## ------------------------ Surface Flux Estimator ------------------------ ##
 
-    # Create the surface flux estimator
-    surface_flux_estimator = Event.WeightMultipliedSurfaceFluxEstimator( 1, 1.0, surface_ids, model )
+    surface_flux_estimator = event_handler.getEstimator( 1 )
+
+    # Set the energy bins
     surface_flux_estimator.setEnergyDiscretization( energy_bins )
-    surface_flux_estimator.setParticleTypes( [MonteCarlo.ELECTRON] )
 
-    event_handler.addEstimator( surface_flux_estimator )
-
-  ## -------------------------- Particle Tracker ---------------------------- ##
-
-    # particle_tracker = Event.ParticleTracker( 0, 20 )
-
-    # # Add the particle tracker to the event handler
-    # event_handler.addParticleTracker( particle_tracker )
 
   ##--------------------------------------------------------------------------##
   ## ----------------------- SIMULATION MANAGER SETUP ----------------------- ##
@@ -434,17 +449,24 @@ def runForwardUniformEnergyInfiniteMediumSimulation( sim_name,
     else:
         manager.runSimulation()
 
+    if session.rank() == 0:
+
+      # Get the plot title
+      title = setup.getSimulationPlotTitle( sim_name )
+
+      print "Processing the results:"
+      processForwardData( surface_flux_estimator, sim_name, title )
+
+      print "Results will be in ", path.dirname(path.abspath(sim_name))
+
 ##---------------------------------------------------------------------------##
 ## Set up and run the adjoint simulation
 def runAdjointUniformEnergyInfiniteMediumSimulation( sim_name,
                                                      db_path,
                                                      geom_name,
-                                                     num_particles,
-                                                     simulation_properties,
+                                                     properties,
                                                      energy_cutoff,
-                                                     energy_max,
-                                                     source_critical_line,
-                                                     surface_ids,
+                                                     max_energy,
                                                      energy_bins,
                                                      zaid,
                                                      version,
@@ -463,6 +485,8 @@ def runAdjointUniformEnergyInfiniteMediumSimulation( sim_name,
 
     if session.rank() == 0:
       print "The PyFrensie path is set to: ", pyfrensie_path
+
+    simulation_properties = properties
 
   ##--------------------------------------------------------------------------##
   ## ---------------------------- MATERIALS SETUP --------------------------- ##
@@ -508,20 +532,13 @@ def runAdjointUniformEnergyInfiniteMediumSimulation( sim_name,
   ##--------------------------------------------------------------------------##
 
     ## Set up the source
-    particle_distribution = ActiveRegion.StandardParticleDistribution( "isotropic uniform dist" )
+    particle_distribution = ActiveRegion.StandardParticleDistribution( "adjoint isotropic uniform energy dist" )
 
-    uniform_energy = Distribution.UniformDistribution( energy_cutoff, energy_max )
+    uniform_energy = Distribution.UniformDistribution( energy_cutoff, max_energy )
     energy_dimension_dist = ActiveRegion.IndependentEnergyDimensionDistribution( uniform_energy )
     particle_distribution.setDimensionDistribution( energy_dimension_dist )
     particle_distribution.setPosition( 0.0, 0.0, 0.0 )
     particle_distribution.constructDimensionDistributionDependencyTree()
-
-    # The generic distribution will be used to generate electrons
-    if source_critical_line == None:
-      adjoint_electron_distribution = ActiveRegion.StandardAdjointElectronSourceComponent( 0, 1.0, filled_model, particle_distribution )
-    else:
-      adjoint_electron_distribution = ActiveRegion.StandardAdjointElectronSourceComponent( 0, 1.0, model, particle_distribution, source_critical_line )
-
 
     # Assign the electron source component to the source
     source = ActiveRegion.StandardParticleSource( [adjoint_electron_distribution] )
@@ -535,17 +552,16 @@ def runAdjointUniformEnergyInfiniteMediumSimulation( sim_name,
 
   ## ------------------------ Surface Flux Estimator ------------------------ ##
 
-    # Create the estimator response function
-    response_function = ActiveRegion.EnergyParticleResponseFunction( Distribution.UniformDistribution( energy_cutoff, energy_max, 1.0/(energy_max - energy_cutoff) ) )
+    # Setup an adjoint surface flux estimator
+    surface_flux_estimator = event_handler.getEstimator( 2 )
+
+    # Create and set the estimator response function
+    response_function = ActiveRegion.EnergyParticleResponseFunction( Distribution.UniformDistribution( energy_cutoff, max_energy, 1.0 ) )
     response = ActiveRegion.StandardParticleResponse( response_function )
-
-    # Create the surface flux estimator
-    surface_flux_estimator = Event.WeightMultipliedSurfaceFluxEstimator( 1, 1.0, surface_ids, model )
-    surface_flux_estimator.setSourceEnergyDiscretization( energy_bins )
     surface_flux_estimator.setResponseFunctions( [response] )
-    surface_flux_estimator.setParticleTypes( [MonteCarlo.ADJOINT_ELECTRON] )
 
-    event_handler.addEstimator( surface_flux_estimator )
+    # Set the energy bin discretization
+    surface_flux_estimator.setSourceEnergyDiscretization( energy_bins )
 
   ## -------------------------- Particle Tracker ---------------------------- ##
 
@@ -582,11 +598,22 @@ def runAdjointUniformEnergyInfiniteMediumSimulation( sim_name,
     else:
         manager.runSimulation()
 
+    if session.rank() == 0:
+
+      # Get the plot title
+      title = setup.getAdjointSimulationPlotTitle( sim_name )
+
+      print "Processing the results:"
+      processAdjointData( surface_flux_estimator, sim_name, title )
+
+      print "Results will be in ", path.dirname(path.abspath(sim_name))
+
 ##---------------------------------------------------------------------------##
 def restartInfiniteMediumSimulation( rendezvous_file_name,
                                      db_path,
                                      num_particles,
                                      threads,
+                                     time,
                                      log_file = None,
                                      num_rendezvous = None ):
 
@@ -597,15 +624,21 @@ def restartInfiniteMediumSimulation( rendezvous_file_name,
     Utility.removeAllLogs()
     session.initializeLogs( 0, True )
 
+    if session.rank() == 0:
+      print "The PyFrensie path is set to: ", pyfrensie_path
+
     if not log_file is None:
         session.initializeLogs( log_file, 0, True )
 
     # Set the database path
     Collision.FilledGeometryModel.setDefaultDatabasePath( db_path )
 
+    time_sec = time*60
+
     if not num_rendevous is None:
         new_simulation_properties = MonteCarlo.SimulationGeneralProperties()
         new_simulation_properties.setNumberOfHistories( int(num_particles) )
+        new_simulation_properties.setSimulationWallTime( float(time_sec) )
         new_simulation_properties.setMinNumberOfRendezvous( int(num_rendezvous) )
 
         factory = Manager.ParticleSimulationManagerFactory( rendezvous_file_name,
@@ -614,6 +647,7 @@ def restartInfiniteMediumSimulation( rendezvous_file_name,
     else:
         factory = Manger.ParticleSimulationManagerFactory( rendezvous_file_name,
                                                            int(num_particles),
+                                                           float(time_sec),
                                                            threads )
 
     manager = factory.getManager()
@@ -629,43 +663,102 @@ def restartInfiniteMediumSimulation( rendezvous_file_name,
     else:
         manager.runSimulation()
 
+    if session.rank() == 0:
+
+      # Get the event handler
+      event_handler = manager.getEventHandler()
+
+      # Get the simulation name
+      filename = rendezvous.split("_rendezvous_")[0]
+
+      print "Processing the results:"
+      if "adjoint" in filename:
+        title = setup.getAdjointSimulationPlotTitle( filename )
+        estimator = event_handler.getEstimator( 2 )
+        processAdjointData( event_handler, filename, title )
+      else:
+        title = setup.getSimulationPlotTitle( filename )
+        estimator = event_handler.getEstimator( 1 )
+        processForwardData( event_handler, filename, title )
+
+      print "Results will be in ", path.dirname(filename)
+
 ##----------------------------------------------------------------------------##
-##------------------------ processAdjointDataFromRendezvous -------------------------##
+##--------------------- processAdjointDataFromRendezvous ---------------------##
 ##----------------------------------------------------------------------------##
 
 # This function pulls data from the rendezvous file
-def processAdjointDataFromRendezvous( rendezvous_file ):
+def processAdjointDataFromRendezvous( rendezvous_file, db_path ):
 
-  Collision.FilledGeometryModel.setDefaultDatabasePath( database_path )
+  Collision.FilledGeometryModel.setDefaultDatabasePath( db_path )
 
   # Load data from file
   manager = Manager.ParticleSimulationManagerFactory( rendezvous_file ).getManager()
   event_handler = manager.getEventHandler()
 
-  # Get the simulation name and title
-  properties = manager.getSimulationProperties()
-
-  filename = setSimulationName( properties )
-  title = setup.getSimulationPlotTitle( filename )
+  # Get the simulation name
+  filename = rendezvous.split("_rendezvous_")[0]
 
   print "Processing the results:"
-  processAdjointData( event_handler, filename, title )
+  if "adjoint" in filename:
+    title = setup.getAdjointSimulationPlotTitle( filename )
+    estimator = event_handler.getEstimator( 2 )
+    processAdjointData( event_handler, filename, title )
+  else:
+    title = setup.getSimulationPlotTitle( filename )
+    estimator = event_handler.getEstimator( 1 )
+    processForwardData( event_handler, filename, title )
 
   print "Results will be in ", path.dirname(filename)
 
 ##----------------------------------------------------------------------------##
-##------------------------------- processData --------------------------------##
+##---------------------------- processAdjointData ----------------------------##
 ##----------------------------------------------------------------------------##
 def processAdjointData( event_handler, filename, title ):
 
   # Process surface flux data
   surface_flux = event_handler.getEstimator( 2 )
+  ids = surface_flux.getEntityIds()
 
-  file1 = filename + "_1"
-  setup.processSurfaceFluxSourceEnergyBinData( surface_flux, 1, file1, title )
+  for id in ids:
+    if id == 1:
+      radius = 1
+    elif id == 18 or id == 27:
+      radius = 2
+    elif id == 16 or id == 25:
+      radius = 5
+    elif id == 23:
+      radius = 10
+    elif id == 21:
+      radius = 20
+    elif id == 19:
+      radius = 40
 
-  file2 = filename + "_2"
-  setup.processSurfaceFluxSourceEnergyBinData( surface_flux, 18, file2, title )
+    output_file = filename + "_" + str(radius)
+    setup.processSurfaceFluxSourceEnergyBinData( surface_flux, id, output_file, title )
 
-  file3 = filename + "_5"
-  setup.processSurfaceFluxSourceEnergyBinData( surface_flux, 16, file3, title )
+##----------------------------------------------------------------------------##
+##---------------------------- processForwardData ----------------------------##
+##----------------------------------------------------------------------------##
+def processForwardData( event_handler, filename, title ):
+
+  # Process surface flux data
+  surface_flux = event_handler.getEstimator( 1 )
+  ids = surface_flux.getEntityIds()
+
+  for id in ids:
+    if id == 1:
+      radius = 1
+    elif id == 18 or id == 27:
+      radius = 2
+    elif id == 16 or id == 25:
+      radius = 5
+    elif id == 23:
+      radius = 10
+    elif id == 21:
+      radius = 20
+    elif id == 19:
+      radius = 40
+
+    output_file = filename + "_" + str(radius)
+    setup.processSurfaceFluxEnergyBinData( surface_flux, id, output_file, title )
