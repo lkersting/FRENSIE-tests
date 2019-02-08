@@ -123,17 +123,14 @@ def setSimulationName( properties ):
   return output
 
 ##----------------------------------------------------------------------------##
-## -------------------------- getSimulationName ------------------------------##
+## ------------------------ printSimulationName ------------------------------##
 ##----------------------------------------------------------------------------##
-# Define a function for naming an electron simulation
-def getSimulationName():
+# Define a function for printing the simulation name
+def printSimulationName():
 
   properties = setSimulationProperties( 1, 1.0 )
 
-  name = setSimulationName( properties )
-  title = setup.getSimulationPlotTitle( name )
-
-  return name
+  print setSimulationName( properties )
 
 
 if __name__ == "__main__":
@@ -170,9 +167,8 @@ if __name__ == "__main__":
 
     properties = setSimulationProperties( options.num_particles, options.wall_time )
 
-    # Set the simulation name and title
+    # Set the simulation name
     name = setSimulationName( properties )
-  title = setup.getSimulationPlotTitle( name )
 
     geometry_path = path.dirname(path.realpath(__file__)) + "/geom.h5m"
 
@@ -184,26 +180,23 @@ if __name__ == "__main__":
     # Set the source critical lines
     source_critical_line = [ 1.0e-2, 9.98014149e-03, 9.96028344e-03, 9.94042584e-03, 9.92056868e-03, 9.90071198e-03, 9.88085572e-03, 9.86099992e-03, 9.84114457e-03, 9.82128967e-03, 9.80143523e-03, 9.78158124e-03, 9.76172770e-03, 9.74187464e-03, 9.72202203e-03, 9.70216987e-03, 9.68231810e-03, 9.66246694e-03, 9.64261610e-03, 9.62276580e-03, 9.60291601e-03, 9.58306660e-03, 9.56321765e-03, 9.54336920e-03, 9.52352121e-03, 9.50367370e-03 ]
 
+    # Create the results directory
+    date = str(datetime.datetime.today()).split()[0]
+    directory = "results/adjoint/" + date + "/"
+    if not path.exists(directory):
+      makedirs(directory)
 
     # Run the simulation
-    infinite_medium_simulation.runAdjointInfiniteMediumSimulation(
+    infinite_medium_simulation.runAdjointDeltaEnergyInfiniteMediumSimulation(
           name,
           database_path,
           geometry_path,
-          options.num_particles,
           properties,
           cutoff_energy,
           energy,
           source_critical_line,
-          surface_ids,
           bins,
           1000,
           version,
           options.threads,
           options.log_file )
-
-    print "Processing the results:"
-    N = properties.getMinNumberOfRendezvous()
-    rendezvous = name + "_rendezvous_" + str(N) + ".xml"
-    processAdjointDataFromRendezvous( rendezvous )
-    print "Results will be in ", path.dirname(name)

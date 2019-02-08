@@ -239,7 +239,7 @@ def setSimulationNameExtention( properties, file_type ):
 ##----------------------------------------------------------------------------##
 ## ------------------------ getSimulationPlotTitle ---------------------------##
 ##----------------------------------------------------------------------------##
-# Define a function for naming an electron simulation
+# Define a function for creating a plot title for an electron simulation
 def getSimulationPlotTitle( filename ):
 
   if "epr14" in filename:
@@ -291,6 +291,54 @@ def getSimulationPlotTitle( filename ):
       else:
         message = 'The filename ' + filename + ' does not include an elastic reaction type!'
         raise Exception(message)
+
+  return title
+
+##----------------------------------------------------------------------------##
+## ------------------------ getSimulationPlotTitle ---------------------------##
+##----------------------------------------------------------------------------##
+# Define a function for creating a plot title for an electron simulation
+def getAdjointSimulationPlotTitle( filename ):
+
+  # Set the interp in title
+  title = ""
+
+  # Set the sampling routine in title
+  if "unit_correlated" in filename:
+      title += "Unit Base Correlated"
+  elif "correlated" in filename:
+      title += "Correlated"
+  elif "unit_base" in filename:
+      title += "Unit Base"
+  else:
+    message = 'The filename ' + filename + ' does not include a sampling routine type!'
+    raise Exception(message)
+
+  # Add a space
+  title += " "
+
+  # Set the elastic reaction in title
+  if not "_no_elastic" in filename:
+    if "_m2d" in filename:
+      title += "M2D"
+    elif "_2d" in filename:
+      title += "2D"
+    elif "_1d" in filename:
+      title += "1D"
+    elif "_decoupled" in filename:
+      title += "DE"
+    elif "_hybrid" in filename:
+      title += "HE"
+    else:
+      message = 'The filename ' + filename + ' does not include an elastic reaction type!'
+      raise Exception(message)
+
+  # Add a space
+  title += " "
+
+  # Set the ionization sampling in title
+  if not "_outgoing_energy" in filename:
+    title += "Outgoing Energy Ionization Sampling"
 
   return title
 

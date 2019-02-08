@@ -15,7 +15,7 @@
 EXTRA_ARGS=$@
 
 # Set the number of histories
-HISTORIES=1000000
+HISTORIES=1e6
 # Set the max runtime (in minutes, 1 day = 1440 )
 TIME=1400
 

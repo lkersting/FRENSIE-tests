@@ -165,4 +165,4 @@ if __name__ == "__main__":
                         options.electron_secondary_grid_refinement,
                         options.version )
 
-    print bcolors.BOLD + bcolors.OKGREEN + "H native data updated successfully!\n" + bcolors.ENDC
+    print bcolors.BOLD + bcolors.OKGREEN + "native data updated successfully!\n" + bcolors.ENDC

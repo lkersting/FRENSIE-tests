@@ -675,11 +675,11 @@ def restartInfiniteMediumSimulation( rendezvous_file_name,
       if "adjoint" in filename:
         title = setup.getAdjointSimulationPlotTitle( filename )
         estimator = event_handler.getEstimator( 2 )
-        processAdjointData( event_handler, filename, title )
+        processAdjointData( estimator, filename, title )
       else:
         title = setup.getSimulationPlotTitle( filename )
         estimator = event_handler.getEstimator( 1 )
-        processForwardData( event_handler, filename, title )
+        processForwardData( estimator, filename, title )
 
       print "Results will be in ", path.dirname(filename)
 
@@ -703,21 +703,20 @@ def processAdjointDataFromRendezvous( rendezvous_file, db_path ):
   if "adjoint" in filename:
     title = setup.getAdjointSimulationPlotTitle( filename )
     estimator = event_handler.getEstimator( 2 )
-    processAdjointData( event_handler, filename, title )
+    processAdjointData( estimator, filename, title )
   else:
     title = setup.getSimulationPlotTitle( filename )
     estimator = event_handler.getEstimator( 1 )
-    processForwardData( event_handler, filename, title )
+    processForwardData( estimator, filename, title )
 
   print "Results will be in ", path.dirname(filename)
 
 ##----------------------------------------------------------------------------##
 ##---------------------------- processAdjointData ----------------------------##
 ##----------------------------------------------------------------------------##
-def processAdjointData( event_handler, filename, title ):
+def processAdjointData( surface_flux, filename, title ):
 
   # Process surface flux data
-  surface_flux = event_handler.getEstimator( 2 )
   ids = surface_flux.getEntityIds()
 
   for id in ids:
@@ -740,10 +739,9 @@ def processAdjointData( event_handler, filename, title ):
 ##----------------------------------------------------------------------------##
 ##---------------------------- processForwardData ----------------------------##
 ##----------------------------------------------------------------------------##
-def processForwardData( event_handler, filename, title ):
+def processForwardData( surface_flux, filename, title ):
 
   # Process surface flux data
-  surface_flux = event_handler.getEstimator( 1 )
   ids = surface_flux.getEntityIds()
 
   for id in ids:

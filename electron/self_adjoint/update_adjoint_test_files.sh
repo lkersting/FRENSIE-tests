@@ -1,9 +1,5 @@
-#!/bin/sh
+#!/bin/bash
 # This file is named update_adjoint_test_files.sh
-#SBATCH --partition=pre
-#SBATCH --time=1-00:00:00
-#SBATCH --ntasks=1
-#SBATCH --cpus-per-task=5
 
 ##---------------------------------------------------------------------------##
 ## ------------------------- adjoint test file updater ----------------------##
@@ -13,73 +9,109 @@
 ##---------------------------------------------------------------------------##
 EXTRA_ARGS=$@
 
+# Set the ionization sampling mode ( "Knock-On" "Outgoing Energy" )
+ionizations=( "Knock-On" "Outgoing Energy" )
+# Set the bivariate Grid Policy ( "UnitBaseCorrelated" "UnitBase" )
+grid_policies=( "UnitBaseCorrelated" "UnitBase" )
+# Set the nudge past max energy mode on/off ( 'on' 'off' )
+nudge_modes=( 'on' 'off' )
+
+# Sbatch variables
+partition=pre
+time=1-00:00:00
+ntasks=1
+cpus=5
+
 ##---------------------------------------------------------------------------##
 ## ------------------------------- COMMANDS ---------------------------------##
 ##---------------------------------------------------------------------------##
 
 database='/home/lkersting/software/mcnp6.2/MCNP_DATA/database.xml'
+sbatch_command="sbatch --partition=${partition} --time=${time} --ntasks=${ntasks} --cpus-per-task=${cpus}"
+
 if [ ! -f "${database}" ]; then
   database='/home/software/mcnpdata/database.xml'
+  sbatch_command=''
 fi
 
-# Set the version number
-version=7
+for ionization in "${ionizations[@]}"
+do
+  # Set the ionization sampling mode
+  echo "Setting ionization sampling mode to ${ionization}"
 
-# Set the grid policy ('UnitBaseCorrelated', 'UnitBase')
-grid_policy='UnitBase'
+  for grid_policy in "${grid_policies[@]}"
+  do
+    # Set the bivariate Grid Policy
+    echo "  Setting bivariate Grid Policy to ${grid_policy}"
 
-# Set the ionization sampling mode ('Knock-On', 'Outgoing Energy')
-ionization='Outgoing Energy'
+    # Set the tolerances
+    if [ "${grid_policy}" = "UnitBaseCorrelated" ]; then
+      xs_convergence_tol=1e-4
+      brem_convergence_tol=1e-4
+      ion_convergence_tol=1e-4
+      brem_eval_tol=1e-6
+      version=0
 
-# Turn scatter above max on/off
-scatter_above_max_mode='on'
+      if [ "${ionization}" = "Outgoing Energy" ]; then
+        ion_eval_tol=1e-5
+        version=$((version + 4))
+      else
+        ion_eval_tol=1e-6
+      fi
 
-if [ "${grid_policy}" = "UnitBaseCorrelated" ]; then
-  xs_convergence_tol=1e-4
-  brem_convergence_tol=1e-4
-  ion_convergence_tol=1e-4
-  brem_eval_tol=1e-6
+    elif [ "${grid_policy}" = "UnitBase" ]; then
+      xs_convergence_tol=1e-4
+      brem_convergence_tol=1e-4
+      ion_convergence_tol=1e-4
+      brem_eval_tol=1e-7
+      version=2
 
-  if [ "${ionization}" = "Outgoing Energy" ]; then
-    ion_eval_tol=1e-5
-  else
-    ion_eval_tol=1e-6
-  fi
+      if [ "${ionization}" = "Outgoing Energy" ]; then
+        ion_eval_tol=1e-6
+        version=$((version + 4))
+      else
+        ion_eval_tol=1e-7
+      fi
 
-elif [ "${grid_policy}" = "UnitBase" ]; then
-  xs_convergence_tol=1e-4
-  brem_convergence_tol=1e-4
-  ion_convergence_tol=1e-4
-  brem_eval_tol=1e-7
+    elif [ "${grid_policy}" = "Correlated" ]; then
+      xs_convergence_tol=1e-4
+      brem_convergence_tol=1e-4
+      ion_convergence_tol=1e-4
+      brem_eval_tol=1e-7
+      version=8
 
-  if [ "${ionization}" = "Outgoing Energy" ]; then
-    ion_eval_tol=1e-6
-  else
-    ion_eval_tol=1e-7
-  fi
+      if [ "${ionization}" = "Outgoing Energy" ]; then
+        ion_eval_tol=1e-4
+        version=$((version + 4))
+      else
+        ion_eval_tol=1e-5
+      fi
 
-elif [ "${grid_policy}" = "Correlated" ]; then
-  xs_convergence_tol=1e-4
-  brem_convergence_tol=1e-4
-  ion_convergence_tol=1e-4
-  brem_eval_tol=1e-7
+    else
+      echo "The grid policy ${grid_policy} is currently not supported!"
+    fi
 
-  if [ "${ionization}" = "Outgoing Energy" ]; then
-    ion_eval_tol=1e-4
-  else
-    ion_eval_tol=1e-5
-  fi
+    for nudge_mode in "${nudge_modes[@]}"
+    do
+      # Set the nudge mode
+      echo "    Setting nudge past max energy to ${nudge_mode}"
 
-else
-  echo "The grid policy ${grid_policy} is currently not supported!"
-fi
+      convergence_tol="--ion_grid_convergence=${ion_convergence_tol} --brem_grid_convergence=${brem_convergence_tol} --xs_grid_convergence=${xs_convergence_tol}"
+      eval_tol="--ion_eval_tol=${ion_eval_tol} --brem_eval_tol=${brem_eval_tol}"
 
-convergence_tol="--ion_grid_convergence=${ion_convergence_tol} --brem_grid_convergence=${brem_convergence_tol} --xs_grid_convergence=${xs_convergence_tol}"
-eval_tol="--ion_eval_tol=${ion_eval_tol} --brem_eval_tol=${brem_eval_tol}"
+      # Update the test file
+      if [ "${nudge_mode}" = "on" ]; then
+        # Set the version
+        echo "     Setting version number to ${version}"
 
-# Update the test file
-if [ "${scatter_above_max_mode}" = "on" ]; then
-  python ../update_adjoint_test_files.py -d ${database} -z 1000 -g ${grid_policy} -i "${ionization}" -v ${version} ${convergence_tol} ${eval_tol}
-else
-  python ../update_adjoint_test_files.py -d ${database} -z 1000 -g ${grid_policy} -i "${ionization}" -v ${version}  ${convergence_tol} ${eval_tol} --scatter_above_max_mode_off
-fi
+        ${sbatch_command} python ../update_adjoint_test_files.py -d ${database} -z 1000 -g ${grid_policy} -i "${ionization}" -v ${version} ${convergence_tol} ${eval_tol}
+      else
+        version=$((version + 1))
+        # Set the version
+        echo "     Setting version number to ${version}"
+
+        ${sbatch_command} python ../update_adjoint_test_files.py -d ${database} -z 1000 -g ${grid_policy} -i "${ionization}" -v ${version} ${convergence_tol} ${eval_tol} --scatter_above_max_mode_off
+      fi
+    done
+  done
+done
