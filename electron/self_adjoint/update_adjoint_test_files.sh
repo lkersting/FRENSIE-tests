@@ -27,11 +27,14 @@ cpus=5
 ##---------------------------------------------------------------------------##
 
 database='/home/lkersting/software/mcnp6.2/MCNP_DATA/database.xml'
-sbatch_command="sbatch --partition=${partition} --time=${time} --ntasks=${ntasks} --cpus-per-task=${cpus}"
-
 if [ ! -f "${database}" ]; then
   database='/home/software/mcnpdata/database.xml'
-  sbatch_command=''
+fi
+
+sbatch_command="sbatch --partition=${partition} --time=${time} --ntasks=${ntasks} --cpus-per-task=${cpus}"
+# sbatch_command=bash
+if ! type "sbatch" > /dev/null; then
+  sbatch_command=bash
 fi
 
 for ionization in "${ionizations[@]}"
@@ -104,13 +107,19 @@ do
         # Set the version
         echo "     Setting version number to ${version}"
 
-        ${sbatch_command} python ../update_adjoint_test_files.py -d ${database} -z 1000 -g ${grid_policy} -i "${ionization}" -v ${version} ${convergence_tol} ${eval_tol}
+        python_command="python ../update_adjoint_test_files.py -d ${database} -z 1000 -g ${grid_policy} -i "${ionization}" -v ${version} ${convergence_tol} ${eval_tol}"
+        printf "#!/bin/bash\n${python_command}" > temp.sh
+        ${sbatch_command} temp.sh
+        rm temp.sh
       else
         version=$((version + 1))
         # Set the version
         echo "     Setting version number to ${version}"
 
-        ${sbatch_command} python ../update_adjoint_test_files.py -d ${database} -z 1000 -g ${grid_policy} -i "${ionization}" -v ${version} ${convergence_tol} ${eval_tol} --scatter_above_max_mode_off
+        python_command="python ../update_adjoint_test_files.py -d ${database} -z 1000 -g ${grid_policy} -i "${ionization}" -v ${version} ${convergence_tol} ${eval_tol} --scatter_above_max_mode_off"
+        printf "#!/bin/bash\n${python_command}" > temp.sh
+        ${sbatch_command} temp.sh
+        rm temp.sh
       fi
     done
   done

@@ -27,11 +27,14 @@ cpus=5
 ##---------------------------------------------------------------------------##
 
 database='/home/lkersting/software/mcnp6.2/MCNP_DATA/database.xml'
-sbatch_command="sbatch --partition=${partition} --time=${time} --ntasks=${ntasks} --cpus-per-task=${cpus}"
-
 if [ ! -f "${database}" ]; then
   database='/home/software/mcnpdata/database.xml'
-  # sbatch_command='bash'
+fi
+
+sbatch_command="sbatch --partition=${partition} --time=${time} --ntasks=${ntasks} --cpus-per-task=${cpus}"
+# sbatch_command=bash
+if ! type "sbatch" > /dev/null; then
+  sbatch_command=bash
 fi
 
 for ionization in "${ionizations[@]}"
@@ -44,14 +47,17 @@ do
     # Set the bivariate Grid Policy
     echo "  Setting bivariate Grid Policy to ${grid_policy}"
 
+    # Set the tolerances
     if [ "${grid_policy}" = "UnitBaseCorrelated" ]; then
       xs_convergence_tol=1e-4
       brem_convergence_tol=1e-4
       ion_convergence_tol=1e-3
       brem_eval_tol=1e-6
+      version=0
 
       if [ "${ionization}" = "Outgoing Energy" ]; then
         ion_eval_tol=1e-5
+        version=$((version + 4))
       else
         ion_eval_tol=1e-6
       fi
@@ -61,9 +67,11 @@ do
       brem_convergence_tol=1e-4
       ion_convergence_tol=1e-3
       brem_eval_tol=1e-7
+      version=2
 
       if [ "${ionization}" = "Outgoing Energy" ]; then
         ion_eval_tol=1e-6
+        version=$((version + 4))
       else
         ion_eval_tol=1e-7
       fi
@@ -73,9 +81,11 @@ do
       brem_convergence_tol=5e-3
       ion_convergence_tol=5e-3
       brem_eval_tol=1e-7
+      version=8
 
       if [ "${ionization}" = "Outgoing Energy" ]; then
         ion_eval_tol=1e-4
+        version=$((version + 4))
       else
         ion_eval_tol=1e-5
       fi
@@ -97,13 +107,19 @@ do
         # Set the version
         echo "     Setting version number to ${version}"
 
-        ${sbatch_command} python ../../update_adjoint_test_files.py -d ${database} -z 13000 -g ${grid_policy} -i "${ionization}" -v ${version} ${convergence_tol} ${eval_tol}
+        python_command="python ../../update_adjoint_test_files.py -d ${database} -z 13000 -g ${grid_policy} -i "${ionization}" -v ${version} ${convergence_tol} ${eval_tol}"
+        printf "#!/bin/bash\n${python_command}" > temp.sh
+        ${sbatch_command} temp.sh
+        rm temp.sh
       else
         version=$((version + 1))
         # Set the version
         echo "     Setting version number to ${version}"
 
-        ${sbatch_command} python ../../update_adjoint_test_files.py -d ${database} -z 13000 -g ${grid_policy} -i "${ionization}" -v ${version} ${convergence_tol} ${eval_tol} --scatter_above_max_mode_off
+        python_command="python ../../update_adjoint_test_files.py -d ${database} -z 13000 -g ${grid_policy} -i "${ionization}" -v ${version} ${convergence_tol} ${eval_tol} --scatter_above_max_mode_off"
+        printf "#!/bin/bash\n${python_command}" > temp.sh
+        ${sbatch_command} temp.sh
+        rm temp.sh
       fi
     done
   done

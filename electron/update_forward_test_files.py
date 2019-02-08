@@ -59,7 +59,7 @@ def generateNativeFile( db_name,
       print "ERROR: The file", db_name, "doesn't exist!"
       sys.exit(1)
 
-    print "The PyFrensie path is set to: ", path.dirname( path.dirname(path.abspath(Data.__file__)))
+    print "The PyFrensie path is set to: ", path.dirname( path.dirname(path.abspath(Data.__file__))), "\n"
 
     database_save_required = False
     generation_required = True
@@ -159,10 +159,16 @@ if __name__ == "__main__":
 
     options,args = parser.parse_args()
 
+    # Get the atom properties for the zaid
+    zaid = Data.ZAID(options.atomic_number*1000)
+    atom_name = zaid.toName()
+
+    print bcolors.BOLD + "Updating the", atom_name, "native data file version", str(options.version), "...\n" + bcolors.ENDC
+
     generateNativeFile( options.db_name,
                         options.atomic_number,
                         options.grid_policy,
                         options.electron_secondary_grid_refinement,
                         options.version )
 
-    print bcolors.BOLD + bcolors.OKGREEN + "native data updated successfully!\n" + bcolors.ENDC
+    print bcolors.BOLD + bcolors.OKGREEN  + atom_name, "native data file version", str(options.version), "updated successfully!\n" + bcolors.ENDC

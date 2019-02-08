@@ -13,63 +13,62 @@ cpus=1
 ## ------------------------------- COMMANDS ---------------------------------##
 ##---------------------------------------------------------------------------##
 
-if ! type "sbatch" > /dev/null; then
-  echo "no sbatch"
-fi
-if type "bash" > /dev/null; then
-  echo "bash available"
-fi
-
 database='/home/lkersting/software/mcnp6.2/MCNP_DATA/database.xml'
-# sbatch_command=''
-sbatch_command="sbatch --partition=${partition} --time=${time} --ntasks=${ntasks} --cpus-per-task=${cpus}"
-
 if [ ! -f "${database}" ]; then
   database='/home/software/mcnpdata/database.xml'
-  sbatch_command=''
+fi
+
+sbatch_command="sbatch --partition=${partition} --time=${time} --ntasks=${ntasks} --cpus-per-task=${cpus}"
+# sbatch_command=bash
+if ! type "sbatch" > /dev/null; then
+  sbatch_command=bash
 fi
 
 if [ -f "${database}" ]; then
 
     # Update Al data version 0
-    printf "Updating the Al native version 0 test data...\n"
-    ${sbatch_command} python ../../update_forward_test_files.py --db_name="${database}" -z 13 -g "UnitBaseCorrelatedGrid" -v 0
-    if [ $? -eq 0 ]; then
-        printf "Al native data version 0 updated successfully!\n\n"
-    else
-        printf "Al native data version 0 FAILED to update!\n"
+    python_command="python ../../update_forward_test_files.py --db_name="${database}" -z 13 -g 'UnitBaseCorrelatedGrid' -v 0"
+    printf "#!/bin/bash\n${python_command}" > temp0.sh
+    ${sbatch_command} temp0.sh
+    if [ ! $? -eq 0 ]; then
+        printf "\nAl native data version 0 FAILED to update!\n"
+        rm temp0.sh
         exit 1
     fi
+    rm temp0.sh
 
     # Update Al data version 1
-    printf "Updating the Al native version 1 test data...\n"
-    ${sbatch_command} python ../../update_forward_test_files.py --db_name="${database}" -z 13 -g "UnitBaseGrid" -v 1 --refine_electron_secondary_grids
-    if [ $? -eq 0 ]; then
-        printf "Al native data version 1 updated successfully!\n\n"
-    else
-        printf "Al native data version 1 FAILED to update!\n"
+    python_command="python ../../update_forward_test_files.py --db_name="${database}" -z 13 -g 'UnitBaseGrid' -v 1 --refine_electron_secondary_grids"
+    printf "#!/bin/bash\n${python_command}" > temp1.sh
+    ${sbatch_command} temp1.sh
+    if [ ! $? -eq 0 ]; then
+        printf "\nAl native data version 1 FAILED to update!\n"
+        rm temp1.sh
         exit 1
     fi
+    rm temp1.sh
 
     # Update Al data version 2
-    printf "Updating the Al native version 2 test data...\n"
-    ${sbatch_command} python ../../update_forward_test_files.py --db_name="${database}" -z 13 -g "UnitBaseCorrelatedGrid" -v 2 --refine_electron_secondary_grids
-    if [ $? -eq 0 ]; then
-        printf "Al native data version 2 updated successfully!\n\n"
-    else
-        printf "Al native data version 2 FAILED to update!\n"
+    python_command="python ../../update_forward_test_files.py --db_name="${database}" -z 13 -g 'UnitBaseCorrelatedGrid' -v 2 --refine_electron_secondary_grids"
+    printf "#!/bin/bash\n${python_command}" > temp2.sh
+    ${sbatch_command} temp2.sh
+    if [ ! $? -eq 0 ]; then
+        printf "\nAl native data version 2 FAILED to update!\n"
+        rm temp2.sh
         exit 1
     fi
+    rm temp2.sh
 
     # Update Al data version 3
-    printf "Updating the Al native version 3 test data...\n"
-    ${sbatch_command} python ../../update_forward_test_files.py --db_name="${database}" -z 13 -g "CorrelatedGrid" -v 3 --refine_electron_secondary_grids
-    if [ $? -eq 0 ]; then
-        printf "Al native data version 3 updated successfully!\n\n"
-    else
-        printf "Al native data version 3 FAILED to update!\n"
+    python_command="python ../../update_forward_test_files.py --db_name="${database}" -z 13 -g 'CorrelatedGrid' -v 3 --refine_electron_secondary_grids"
+    printf "#!/bin/bash\n${python_command}" > temp3.sh
+    ${sbatch_command} temp3.sh
+    if [ ! $? -eq 0 ]; then
+        printf "\nAl native data version 3 FAILED to update!\n"
+        rm temp3.sh
         exit 1
     fi
+    rm temp3.sh
 
 else
     printf "\nERROR: Invalid database file: ${database}\n"
