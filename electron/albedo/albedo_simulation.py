@@ -393,6 +393,17 @@ def createResultsDirectory(file_type, interpolation, element):
   if not path.exists(directory):
     makedirs(directory)
 
+##----------------------------------------------------------------------------##
+## -------------------- Create Adjoint Results Directory -------------------- ##
+##----------------------------------------------------------------------------##
+def createAdjointResultsDirectory():
+
+  date = str(datetime.datetime.today()).split()[0]
+  directory = "results/adjoint/" + date + "/"
+
+  if not path.exists(directory):
+    makedirs(directory)
+
 ##---------------------------------------------------------------------------##
 ## -------------------------- setSimulationName -----------------------------##
 ##---------------------------------------------------------------------------##
@@ -425,7 +436,7 @@ def setAdjointSimulationName( properties, element, grid_policy, ionization_sampl
       name += "unit_base"
 
   # Add the ionization sampling to the name
-  if ionization == MonteCarlo.OUTGOING_ENERGY_SAMPLING:
+  if ionization_sampling == MonteCarlo.OUTGOING_ENERGY_SAMPLING:
     name += '_outgoing_energy'
 
   # Add the nudge past max energy mode to the name

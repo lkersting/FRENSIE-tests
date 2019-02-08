@@ -107,7 +107,7 @@ do
         # Set the version
         echo "     Setting version number to ${version}"
 
-        python_command="python ../../update_adjoint_test_files.py -d ${database} -z 13000 -g ${grid_policy} -i "${ionization}" -v ${version} ${convergence_tol} ${eval_tol}"
+        python_command="python ../../update_adjoint_test_files.py -d ${database} -z 13000 -e 0.256 -g ${grid_policy} -i "${ionization}" -v ${version} ${convergence_tol} ${eval_tol}"
         printf "#!/bin/bash\n${python_command}" > temp.sh
         ${sbatch_command} temp.sh
         rm temp.sh
@@ -116,7 +116,7 @@ do
         # Set the version
         echo "     Setting version number to ${version}"
 
-        python_command="python ../../update_adjoint_test_files.py -d ${database} -z 13000 -g ${grid_policy} -i "${ionization}" -v ${version} ${convergence_tol} ${eval_tol} --scatter_above_max_mode_off"
+        python_command="python ../../update_adjoint_test_files.py -d ${database} -z 13000 -e 0.256 -g ${grid_policy} -i "${ionization}" -v ${version} ${convergence_tol} ${eval_tol} --scatter_above_max_mode_off"
         printf "#!/bin/bash\n${python_command}" > temp.sh
         ${sbatch_command} temp.sh
         rm temp.sh

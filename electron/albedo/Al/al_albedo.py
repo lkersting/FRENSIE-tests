@@ -80,7 +80,7 @@ def printAdjointSimulationName():
   # Set the adjoint simulation properties
   properties = setup.setAdjointSimulationProperties( 1, 1, mode, method )
 
-  sim_name = setAdjointSimulationName( properties, element, grid_policy, ionization, nudge_past_max_energy )
+  sim_name = setAdjointSimulationName( properties, element, grid_policy, ionization, nudge_past_max )
 
   print sim_name
 
@@ -168,13 +168,10 @@ if __name__ == "__main__":
       # properties.setAdjointAtomicExcitationModeOff()
 
       # Create the results directory
-      date = str(datetime.datetime.today()).split()[0]
-      directory = "results/adjoint/" + date + "/"
-      if not path.exists(directory):
-        makedirs(directory)
+      simulation.createAdjointResultsDirectory()
 
       # Set the simulation name and title
-      sim_name = setAdjointSimulationName( properties, element, grid_policy, ionization, nudge_past_max_energy )
+      sim_name = simulation.setAdjointSimulationName( properties, element, grid_policy, ionization, nudge_past_max )
 
       if grid_policy == MonteCarlo.UNIT_BASE_CORRELATED_GRID:
         version = 0

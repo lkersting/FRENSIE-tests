@@ -34,6 +34,8 @@ if __name__ == "__main__":
                       help="the database file with path")
     parser.add_option("-z", "--zaid", type="int", dest="zaid",
                       help="the atom number of the element")
+    parser.add_option("-e", "--max_energy", type="float", dest="max_energy", default=0.01,
+                      help="the max electron energy")
     parser.add_option("-g", "--grid_policy", type="string", dest="grid_policy", default="UnitBaseCorrelated",
                       help="the electron two d grid policy")
     parser.add_option("-v", "--version", type="int", dest="version", default=0,
@@ -99,9 +101,6 @@ if __name__ == "__main__":
     # Update adjoint Hydrogen data
     print bcolors.BOLD + "Updating the adjoint " + atom_name + " native test data ...\n" + bcolors.ENDC
 
-
-    max_electron_energy = 0.01
-
     min_photon_energy = 1e-3
     max_photon_energy = 3.0
     min_electron_energy = 1e-4
@@ -159,7 +158,7 @@ if __name__ == "__main__":
                   min_photon_energy,
                   max_photon_energy,
                   min_electron_energy,
-                  max_electron_energy,
+                  options.max_energy,
                   photon_grid_convergence_tol,
                   photon_grid_abs_diff_tol,
                   photon_grid_dist_tol,
