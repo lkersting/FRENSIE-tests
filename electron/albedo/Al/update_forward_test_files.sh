@@ -28,47 +28,47 @@ if [ -f "${database}" ]; then
 
     # Update Al data version 0
     python_command="python ../../update_forward_test_files.py --db_name="${database}" -z 13 -g 'UnitBaseCorrelatedGrid' -v 0"
-    printf "#!/bin/bash\n${python_command}" > temp0.sh
-    ${sbatch_command} temp0.sh
+    printf "#!/bin/bash\n${python_command}" > update_Al_0_temp.sh
+    ${sbatch_command} update_Al_0_temp.sh
     if [ ! $? -eq 0 ]; then
         printf "\nAl native data version 0 FAILED to update!\n"
-        rm temp0.sh
+        rm update_Al_0_temp.sh
         exit 1
     fi
-    rm temp0.sh
+    rm update_Al_0_temp.sh
 
     # Update Al data version 1
     python_command="python ../../update_forward_test_files.py --db_name="${database}" -z 13 -g 'UnitBaseGrid' -v 1 --refine_electron_secondary_grids"
-    printf "#!/bin/bash\n${python_command}" > temp1.sh
-    ${sbatch_command} temp1.sh
+    printf "#!/bin/bash\n${python_command}" > update_Al_1_temp.sh
+    ${sbatch_command} update_Al_1_temp.sh
     if [ ! $? -eq 0 ]; then
         printf "\nAl native data version 1 FAILED to update!\n"
-        rm temp1.sh
+        rm update_Al_1_temp.sh
         exit 1
     fi
-    rm temp1.sh
+    rm update_Al_1_temp.sh
 
     # Update Al data version 2
     python_command="python ../../update_forward_test_files.py --db_name="${database}" -z 13 -g 'UnitBaseCorrelatedGrid' -v 2 --refine_electron_secondary_grids"
-    printf "#!/bin/bash\n${python_command}" > temp2.sh
-    ${sbatch_command} temp2.sh
+    printf "#!/bin/bash\n${python_command}" > update_Al_2_temp.sh
+    ${sbatch_command} update_Al_2_temp.sh
     if [ ! $? -eq 0 ]; then
         printf "\nAl native data version 2 FAILED to update!\n"
-        rm temp2.sh
+        rm update_Al_2_temp.sh
         exit 1
     fi
-    rm temp2.sh
+    rm update_Al_2_temp.sh
 
     # Update Al data version 3
     python_command="python ../../update_forward_test_files.py --db_name="${database}" -z 13 -g 'CorrelatedGrid' -v 3 --refine_electron_secondary_grids"
-    printf "#!/bin/bash\n${python_command}" > temp3.sh
-    ${sbatch_command} temp3.sh
+    printf "#!/bin/bash\n${python_command}" > update_Al_3_temp.sh
+    ${sbatch_command} update_Al_3_temp.sh
     if [ ! $? -eq 0 ]; then
         printf "\nAl native data version 3 FAILED to update!\n"
-        rm temp3.sh
+        rm update_Al_3_temp.sh
         exit 1
     fi
-    rm temp3.sh
+    rm update_Al_3_temp.sh
 
 else
     printf "\nERROR: Invalid database file: ${database}\n"
