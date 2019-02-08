@@ -107,7 +107,7 @@ do
         # Set the version
         echo "      Setting version number to ${version}"
 
-        python_command="python ../update_adjoint_test_files.py -d ${database} -z 1000 -e 0.01 -g ${grid_policy} -i "${ionization}" -v ${version} ${convergence_tol} ${eval_tol}"
+        python_command="python ../update_adjoint_test_files.py -d ${database} -z 1000 -e 0.01 -g ${grid_policy} -i \"${ionization}\" -v ${version} ${convergence_tol} ${eval_tol}"
         printf "#!/bin/bash\n${python_command}" > update_H_adjoint_temp.sh
         ${sbatch_command} update_H_adjoint_temp.sh
         rm update_H_adjoint_temp.sh
@@ -116,7 +116,7 @@ do
         # Set the version
         echo "      Setting version number to ${version}"
 
-        python_command="python ../update_adjoint_test_files.py -d ${database} -z 1000 -e 0.01 -g ${grid_policy} -i "${ionization}" -v ${version} ${convergence_tol} ${eval_tol} --scatter_above_max_mode_off"
+        python_command="python ../update_adjoint_test_files.py -d ${database} -z 1000 -e 0.01 -g ${grid_policy} -i \"${ionization}\" -v ${version} ${convergence_tol} ${eval_tol} --scatter_above_max_mode_off"
         printf "#!/bin/bash\n${python_command}" > update_H_adjoint_temp.sh
         ${sbatch_command} update_H_adjoint_temp.sh
         rm update_H_adjoint_temp.sh
