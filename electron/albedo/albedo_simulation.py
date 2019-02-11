@@ -250,7 +250,7 @@ def runAdjointAlbedoSimulation( sim_name,
 
     # Uniform distribution for all angles in the positive z direction
     uniform_positive_mu = Distribution.UniformDistribution( 0.0, 1.0, 1.0 )
-    mu_dimension_dist = ActiveRegion.IndependentSecondaryDirectionalDimensionDistribution( uniform_positive_mu )
+    mu_dimension_dist = ActiveRegion.IndependentTertiaryDirectionalDimensionDistribution( uniform_positive_mu )
     particle_distribution.setDimensionDistribution( mu_dimension_dist )
 
     particle_distribution.constructDimensionDistributionDependencyTree()
@@ -278,8 +278,15 @@ def runAdjointAlbedoSimulation( sim_name,
     current_estimator.setEnergyDiscretization( energy_bins )
 
     # Set the cosine bins
-    cosine_bins = [ 1.0, np.cos(np.deg2rad(10)), np.cos(np.deg2rad(50)), np.cos(np.deg2rad(70)), np.cos(np.deg2rad(110)), np.cos(np.deg2rad(130)), np.cos(np.deg2rad(170)), -1.0 ]
+    cosine_bins = [ -1.0, np.cos(np.deg2rad(170)), np.cos(np.deg2rad(130)), np.cos(np.deg2rad(110)), 0.0, np.cos(np.deg2rad(70)), np.cos(np.deg2rad(50)), np.cos(np.deg2rad(10)), 1.0 ]
     current_estimator.setCosineDiscretization( cosine_bins )
+
+  ## -------------------------- Particle Tracker ---------------------------- ##
+
+    # particle_tracker = Event.ParticleTracker( 0, 10 )
+
+    # # Add the particle tracker to the event handler
+    # event_handler.addParticleTracker( particle_tracker )
 
   ##--------------------------------------------------------------------------##
   ## ----------------------- SIMULATION MANAGER SETUP ----------------------- ##
@@ -316,6 +323,9 @@ def runAdjointAlbedoSimulation( sim_name,
 
       print "Processing the results:"
       processCosineEnergyBinData( current_estimator, sim_name, title )
+
+      if event_handler.getNumberOfParticleTrackers():
+        setup.printParticleTrackInfo( particle_tracker )
 
       print "Results will be in ", path.dirname(path.abspath(sim_name))
 
@@ -363,23 +373,26 @@ def runSimulationFromRendezvous( threads, histories, time, rendezvous ):
 
     # Get the event handler
     event_handler = manager.getEventHandler()
+    sim_name = rendezvous.split("_rendezvous_")[0]
 
-    # Get the estimator data
-    estimator_1 = event_handler.getEstimator( 1 )
+    if "adjoint" in rendezvous:
 
-    # Get the simulation name and title
-    properties = manager.getSimulationProperties()
+      # Get the plot title and filename
+      title = setup.getAdjointSimulationPlotTitle( rendezvous )
 
-    # Get the plot title and filename
-    title = setup.getSimulationPlotTitle( rendezvous )
-    filename = rendezvous.split("_rendezvous_")[0]
-    energy = float(rendezvous.split("_")[2])
-    print str(energy)
+      print "Processing the adjoint results:"
+      processCosineEnergyBinData( event_handler.getEstimator( 2 ), sim_name, title )
 
-    print "Processing the results:"
-    processCosineBinData( estimator_1, energy, filename, title )
+    else:
 
-    print "Results will be in ", path.dirname(filename)
+      # Get the plot title and filename
+      title = setup.getSimulationPlotTitle( rendezvous )
+      energy = float(rendezvous.split("_")[2])
+
+      print "Processing the forward results:"
+      processCosineBinData( event_handler.getEstimator( 1 ), energy, sim_name, title )
+
+    print "Results will be in ", path.dirname(path.abspath(sim_name))
 
 ##----------------------------------------------------------------------------##
 ## ------------------------ Create Results Directory ------------------------ ##
@@ -496,7 +509,7 @@ def processCosineBinData( estimator, energy, filename, title ):
 
   ids = list(estimator.getEntityIds() )
   if not 2 in ids:
-    print "ERROR: estimator does not contain entity 2!"
+    message = "ERROR: estimator does not contain entity 2!"
     raise ValueError(message)
 
   today = datetime.date.today()
@@ -535,7 +548,7 @@ def processCosineEnergyBinData( estimator, filename, title ):
 
   ids = list(estimator.getEntityIds() )
   if not 2 in ids:
-    print "ERROR: estimator does not contain entity 2!"
+    message = "ERROR: estimator does not contain entity 2!"
     raise ValueError(message)
 
   today = datetime.date.today()
@@ -551,22 +564,21 @@ def processCosineEnergyBinData( estimator, filename, title ):
   cosine_bins = estimator.getCosineDiscretization()
   energy_bins = estimator.getEnergyDiscretization()
 
-  print current
-  print cosine_bins
-  print energy_bins
+  # print current
+  # print cosine_bins
+  # print energy_bins
   # Write title to file
   out_file.write( "# " + title +"\n")
   # Write data header to file
-  header = "# Angle\tEnergy (MeV)\tCurrent\tError\t"+str(today)+"\n"
+  header = "# Angle bin\tEnergy bin (MeV)\tCurrent\tError\t"+str(today)+"\n"
   out_file.write(header)
 
   # Write data to file
-  for i in range(1, len(cosine_bins) ):
-    angle = '%.6e' % cosine_bins[i-1] + " - ", '%.6e' % cosine_bins[i]
-    out_file.write( angle )
-    for j in range(0, len(energy_bins) ):
-      output = '%.6e' % energy_bins[j] + "\t" + \
-              '%.16e' % current[i-1+j] + "\t" + \
-              '%.16e' % current_rel_error[i-1+j] + "\n"
+  for i in range(0, len(cosine_bins)-1 ):
+    for j in range(0, len(energy_bins)-1 ):
+      output = '%.6e' % cosine_bins[i] + " to " + '%.6e' % cosine_bins[i+1] + "\t" + \
+              '%.6e' % energy_bins[j] + " to " + '%.6e' % energy_bins[j+1] + "\t" + \
+              '%.16e' % current[i*(len(energy_bins)-1)+j] + "\t" + \
+              '%.16e' % current_rel_error[i*(len(energy_bins)-1)+j] + "\n"
       out_file.write( output )
   out_file.close()

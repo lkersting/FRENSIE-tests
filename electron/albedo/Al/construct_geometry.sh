@@ -30,8 +30,8 @@ echo "merge all" >> temp_file
 # Set groups
 echo "group 'termination.cell' add vol 4" >> temp_file
 echo "group 'material_1_density_-2.6989' add vol 1" >> temp_file
-echo "group 'estimator_1.surface.flux.e' add surface 1 2" >> temp_file
-echo "group 'estimator_2.surface.flux.e*' add surface 1 2" >> temp_file
+echo "group 'estimator_1.surface.current.e' add surface 1 2" >> temp_file
+echo "group 'estimator_2.surface.current.e*' add surface 1 2" >> temp_file
 echo "group 'reflecting.surface' add surface 3 to 6" >> temp_file
 
 

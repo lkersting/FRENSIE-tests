@@ -119,6 +119,9 @@ else
     command=s/use_refined_grid=.*/use_refined_grid=${REFINED}/
     sed -i "${command}" ${python_script}
 
+    # Get the simulation name
+    name=$(python -c "import ${script_name}; ${script_name}.printSimulationName();" 2>&1)
+
   elif [ "${TRANSPORT}" = "adjoint" ]; then
 
     # Set the nudge past max energy mode
@@ -129,10 +132,10 @@ else
     command=s/ionization=.*/ionization=MonteCarlo.${IONIZATION}_SAMPLING/
     sed -i "${command}" ${python_script}
 
-  fi
+    # Get the simulation name
+    name=$(python -c "import ${script_name}; ${script_name}.printAdjointSimulationName();" 2>&1)
 
-  # Get the results
-  name=$(python -c "import ${script_name}; ${script_name}.printSimulationName();" 2>&1)
+  fi
 
   RENDEZVOUS="${PWD}/${name}_rendezvous_0.xml"
 

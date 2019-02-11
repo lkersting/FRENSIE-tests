@@ -237,6 +237,42 @@ def setSimulationNameExtention( properties, file_type ):
   return name
 
 ##----------------------------------------------------------------------------##
+## ------------------ setAdjointSimulationNameExtention ----------------------##
+##----------------------------------------------------------------------------##
+# Define a function for naming an electron simulation
+def setAdjointSimulationNameExtention( properties ):
+
+  # Set the name reaction and extention
+  name_extention = ""
+  name_reaction = ""
+  if properties.isAdjointElasticModeOn():
+    if properties.getAdjointElasticElectronDistributionMode() == MonteCarlo.COUPLED_DISTRIBUTION:
+      if properties.getAdjointCoupledElasticSamplingMode() == MonteCarlo.MODIFIED_TWO_D_UNION:
+        name_extention += "_m2d"
+      elif properties.getAdjointCoupledElasticSamplingMode() == MonteCarlo.TWO_D_UNION:
+        name_extention += "_2d"
+      else:
+        name_extention += "_1d"
+    elif properties.getAdjointElasticElectronDistributionMode() == MonteCarlo.DECOUPLED_DISTRIBUTION:
+      name_extention += "_decoupled"
+    elif properties.getAdjointElasticElectronDistributionMode() == MonteCarlo.HYBRID_DISTRIBUTION:
+      name_extention += "_hybrid"
+  else:
+    name_reaction = name_reaction + "_no_elastic"
+
+  if not properties.isAdjointBremsstrahlungModeOn():
+    name_reaction += "_no_brem"
+  if not properties.isAdjointElectroionizationModeOn():
+      name_reaction += "_no_ionization"
+  if not properties.isAdjointAtomicExcitationModeOn():
+      name_reaction += "_no_excitation"
+
+  date = str(datetime.datetime.today()).split()[0]
+  name = name_extention + name_reaction
+
+  return name
+
+##----------------------------------------------------------------------------##
 ## ------------------------ getSimulationPlotTitle ---------------------------##
 ##----------------------------------------------------------------------------##
 # Define a function for creating a plot title for an electron simulation
@@ -333,57 +369,11 @@ def getAdjointSimulationPlotTitle( filename ):
       message = 'The filename ' + filename + ' does not include an elastic reaction type!'
       raise Exception(message)
 
-  # Add a space
-  title += " "
-
   # Set the ionization sampling in title
-  if not "_outgoing_energy" in filename:
-    title += "Outgoing Energy Ionization Sampling"
+  if "_outgoing_energy" in filename:
+    title += " Outgoing Energy Ionization Sampling"
 
   return title
-
-##----------------------------------------------------------------------------##
-## ------------------ setAdjointSimulationNameExtention ----------------------##
-##----------------------------------------------------------------------------##
-# Define a function for naming an electron simulation
-def setAdjointSimulationNameExtention( properties ):
-
-  # Set the name reaction and extention
-  title = ""
-  name_extention = ""
-  name_reaction = ""
-  if properties.isAdjointElasticModeOn():
-    if properties.getAdjointElasticElectronDistributionMode() == MonteCarlo.COUPLED_DISTRIBUTION:
-      if properties.getAdjointCoupledElasticSamplingMode() == MonteCarlo.MODIFIED_TWO_D_UNION:
-        name_extention += "_m2d"
-        title += " M2D"
-      elif properties.getAdjointCoupledElasticSamplingMode() == MonteCarlo.TWO_D_UNION:
-        name_extention += "_2d"
-        title += " 2D"
-      else:
-        name_extention += "_1d"
-        title += " 1D"
-    elif properties.getAdjointElasticElectronDistributionMode() == MonteCarlo.DECOUPLED_DISTRIBUTION:
-      name_extention += "_decoupled"
-      title += " DE"
-    elif properties.getAdjointElasticElectronDistributionMode() == MonteCarlo.HYBRID_DISTRIBUTION:
-      name_extention += "_hybrid"
-      title += " HE"
-  else:
-    name_reaction = name_reaction + "_no_elastic"
-
-  if not properties.isAdjointBremsstrahlungModeOn():
-    name_reaction += "_no_brem"
-  if not properties.isAdjointElectroionizationModeOn():
-      name_reaction += "_no_ionization"
-  if not properties.isAdjointAtomicExcitationModeOn():
-      name_reaction += "_no_excitation"
-
-  date = str(datetime.datetime.today()).split()[0]
-  name = name_extention + name_reaction
-
-  return name
-
 
 ##----------------------------------------------------------------------------##
 ## ------------------------ Create Results Directory ------------------------ ##
@@ -398,7 +388,6 @@ def getResultsDirectory(file_type, interpolation):
     name = ""
 
   # Set the interp in results directory
-  title = ""
   if interpolation == MonteCarlo.LOGLOGLOG_INTERPOLATION:
       interp = "loglog"
   elif interpolation == MonteCarlo.LINLINLIN_INTERPOLATION:
@@ -427,7 +416,6 @@ def getResultsDirectoryFromString(file_type, interpolation):
     name = ""
 
   # Set the interp in results directory
-  title = ""
   if interpolation == "LOGLOGLOG":
       interp = "loglog"
   elif interpolation == "LINLINLIN":
@@ -667,3 +655,42 @@ def processSurfaceCurrentSourceEnergyBinData( estimator, est_id, filename, title
     data = str(energy_bins[i]) + '\t' + str(current[i]) + '\t' + str(rel_error[i]) + '\n'
     out_file.write(data)
   out_file.close()
+
+##----------------------------------------------------------------------------##
+##------------------------ printParticleTrackInfo -------------------------##
+##----------------------------------------------------------------------------##
+
+# This function print the particle tracker info
+def printParticleTrackInfo( particle_tracker ):
+
+  history_map = particle_tracker.getHistoryData()
+  print "len(history_map) = ", len(history_map)
+  # print "history_map = ", history_map
+  # print "len(history_map[0]) = ", len(list(history_map[0]))
+
+  print particle_tracker.getTrackedHistories()
+  print list(history_map)
+
+  cached_particle_state = None
+  for i in history_map:
+    print "\nHistory number:", i
+    if MonteCarlo.ADJOINT_ELECTRON in history_map[i]:
+      map_i = history_map[i][MonteCarlo.ADJOINT_ELECTRON]
+      for j in range(len(map_i)):
+        print "  j:",j
+        for k in range(len(map_i[j])):
+          print "    k:",k
+          print "state:\tenergy\t\tweight\t\tlocation\t\t\t\tdirection\t\t\t\tcollision number"
+          cached_particle_state = map_i[j][k]
+
+          for l in range(len(cached_particle_state)):
+            location = list(cached_particle_state[l][0])
+            direction = list(cached_particle_state[l][1])
+            energy = cached_particle_state[l][2]
+            time = cached_particle_state[l][3]
+            weight = cached_particle_state[l][4]
+            collision = cached_particle_state[l][5]
+            if collision == 0 and l > 1:
+              print ''
+            if l < 6:
+              print l,":\t",'%.8e' % energy,"\t",'%.6e' % weight,"\t",location,"\t",direction,"\t",collision

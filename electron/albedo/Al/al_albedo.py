@@ -80,7 +80,7 @@ def printAdjointSimulationName():
   # Set the adjoint simulation properties
   properties = setup.setAdjointSimulationProperties( 1, 1, mode, method )
 
-  sim_name = setAdjointSimulationName( properties, element, grid_policy, ionization, nudge_past_max )
+  sim_name = simulation.setAdjointSimulationName( properties, element, grid_policy, ionization, nudge_past_max )
 
   print sim_name
 
