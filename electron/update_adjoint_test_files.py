@@ -199,11 +199,11 @@ if __name__ == "__main__":
     #     sys.exit(1)
 
     addToDatabase( aepr_file_name,
-                  path.dirname( options.db_name ),
-                  database,
-                  data_container.getAtomicNumber(),
-                  data_container.getAtomicWeight(),
-                  options.version )
+                   path.dirname( options.db_name ),
+                   database,
+                   data_container.getAtomicNumber(),
+                   data_container.getAtomicWeight(),
+                   options.version )
 
     database.saveToFile( options.db_name, True )
 

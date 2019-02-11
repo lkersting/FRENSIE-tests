@@ -149,12 +149,12 @@ else
     done
 
     # Run the simulation from the last rendezvous
-    echo "Running Facemc Albedo test with ${HISTORIES} particles with ${SLURM_NTASKS} MPI processes with ${SLURM_CPUS_PER_TASK} OpenMP threads each from the rendezvous '${RENDEZVOUS}'!"
+    echo "Running Facemc ${TRANSPORT} albedo test with ${HISTORIES} particles with ${SLURM_NTASKS} MPI processes with ${SLURM_CPUS_PER_TASK} OpenMP threads each from the rendezvous '${RENDEZVOUS}'!"
     mpiexec -n ${SLURM_NTASKS} python -c "from os import path; import sys; sys.path.insert(1, '../'); import albedo_simulation; albedo_simulation.runSimulationFromRendezvous(${SLURM_CPUS_PER_TASK}, ${HISTORIES}, ${TIME}, '${RENDEZVOUS}' )"
 
   else
     # Run the simulation from the start
-    echo "Running Facemc Albedo test with ${HISTORIES} particles with ${SLURM_NTASKS} MPI processes with ${SLURM_CPUS_PER_TASK} OpenMP threads each!"
+    echo "Running Facemc ${TRANSPORT} albedo test with ${HISTORIES} particles with ${SLURM_NTASKS} MPI processes with ${SLURM_CPUS_PER_TASK} OpenMP threads each!"
     mpiexec -n ${SLURM_NTASKS} python ${python_script} --num_particles=${HISTORIES} --threads=$SLURM_CPUS_PER_TASK --time=${TIME} --transport=${TRANSPORT}
   fi
 
