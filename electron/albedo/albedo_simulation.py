@@ -256,7 +256,7 @@ def runAdjointAlbedoSimulation( sim_name,
     particle_distribution.constructDimensionDistributionDependencyTree()
 
     # The generic distribution will be used to generate electrons
-    electron_distribution = [ActiveRegion.StandardAdjointElectronSourceComponent( 0, 1.0, model, particle_distribution )]
+    electron_distribution = [ActiveRegion.StandardAdjointElectronSourceComponent( 0, 1.0, filled_model, particle_distribution )]
 
     # Assign the electron source component to the source
     source = ActiveRegion.StandardParticleSource( electron_distribution )
