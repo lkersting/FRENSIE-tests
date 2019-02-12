@@ -1,12 +1,11 @@
 #! /usr/bin/env python
-from os import path, makedirs
+from os import path, makedirs, environ
 import sys
 import numpy
 import datetime
-import socket
 
 # Add the parent directory to the path
-sys.path.insert(1,path.dirname(path.dirname(path.dirname(path.abspath(__file__)))))
+sys.path.insert(1,path.dirname(path.dirname(path.abspath(__file__))))
 import simulation_setup as setup
 import PyFrensie.Data as Data
 import PyFrensie.Data.Native as Native
@@ -24,6 +23,7 @@ import PyFrensie.MonteCarlo.Event as Event
 import PyFrensie.MonteCarlo.Manager as Manager
 
 pyfrensie_path =path.dirname( path.dirname(path.abspath(MonteCarlo.__file__)))
+database_path = environ['DATABASE_PATH']
 
 ##---------------------------------------------------------------------------##
 ## Set up and run the forward simulation
@@ -107,7 +107,7 @@ def runForwardDeltaEnergyInfiniteMediumSimulation( sim_name,
     electron_distribution = [ActiveRegion.StandardElectronSourceComponent( 0, 1.0, model, particle_distribution )]
 
     # Assign the electron source component to the source
-    source = ActiveRegion.StandardParticleSource( [electron_distribution] )
+    source = ActiveRegion.StandardParticleSource( electron_distribution )
 
   ##--------------------------------------------------------------------------##
   ## -------------------------- EVENT HANDLER SETUP ------------------------- ##
@@ -631,7 +631,7 @@ def restartInfiniteMediumSimulation( rendezvous_file_name,
         session.initializeLogs( log_file, 0, True )
 
     # Set the database path
-    Collision.FilledGeometryModel.setDefaultDatabasePath( db_path )
+    Collision.FilledGeometryModel.setDefaultDatabasePath( database_path )
 
     time_sec = time*60
 
@@ -688,9 +688,9 @@ def restartInfiniteMediumSimulation( rendezvous_file_name,
 ##----------------------------------------------------------------------------##
 
 # This function pulls data from the rendezvous file
-def processAdjointDataFromRendezvous( rendezvous_file, db_path ):
+def processAdjointDataFromRendezvous( rendezvous_file ):
 
-  Collision.FilledGeometryModel.setDefaultDatabasePath( db_path )
+  Collision.FilledGeometryModel.setDefaultDatabasePath( database_path )
 
   # Load data from file
   manager = Manager.ParticleSimulationManagerFactory( rendezvous_file ).getManager()
@@ -760,3 +760,138 @@ def processForwardData( surface_flux, filename, title ):
 
     output_file = filename + "_" + str(radius)
     setup.processSurfaceFluxEnergyBinData( surface_flux, id, output_file, title )
+
+##----------------------------------------------------------------------------##
+## --------------------- setForwardSimulationProperties --------------------- ##
+##----------------------------------------------------------------------------##
+def setForwardSimulationProperties( histories, time, interpolation, grid_policy, mode, method, cutoff_energy, source_energy ):
+
+  properties = setup.setSimulationProperties( histories, time, interpolation, grid_policy, mode, method, cutoff_energy, source_energy )
+
+  ## -------------------------- ELECTRON PROPERTIES ------------------------- ##
+
+  # Turn off Atomic Relaxation
+  properties.setAtomicRelaxationModeOff( MonteCarlo.ELECTRON )
+
+  # Turn certain reactions off
+  # properties.setElasticModeOff()
+  # properties.setElectroionizationModeOff()
+  # properties.setBremsstrahlungModeOff()
+  # properties.setAtomicExcitationModeOff()
+
+  return properties
+
+##----------------------------------------------------------------------------##
+## -------------------- setAdjointSimulationProperties ---------------------- ##
+##----------------------------------------------------------------------------##
+def setAdjointSimulationProperties( histories, time, mode, method, min_energy, max_energy ):
+
+  properties = setup.setAdjointSimulationProperties( histories, time, mode, method, min_energy, max_energy )
+
+  ## -------------------------- ELECTRON PROPERTIES ------------------------- ##
+
+  # Set the critical line energies
+  properties.setCriticalAdjointElectronLineEnergies( [max_energy] )
+
+  # Turn certain reactions off
+  # properties.setAdjointElasticModeOff()
+  # properties.setAdjointElectroionizationModeOff()
+  # properties.setAdjointBremsstrahlungModeOff()
+  # properties.setAdjointAtomicExcitationModeOff()
+
+  return properties
+
+##----------------------------------------------------------------------------##
+## ---------------------- setForwardSimulationName ---------------------------##
+##----------------------------------------------------------------------------##
+# Define a function for naming an electron simulation
+def setForwardSimulationName( properties, energy, file_type, element ):
+  extension = setup.setSimulationNameExtention( properties, file_type )
+  sim_name = "forward_" + element + "_" + str(energy) + extension
+
+  date = str(datetime.datetime.today()).split()[0]
+  directory = "results/" + date
+
+  return directory + "/" + sim_name
+
+##----------------------------------------------------------------------------##
+## ---------------------- setAdjointSimulationName ---------------------------##
+##----------------------------------------------------------------------------##
+# Define a function for naming an electron simulation
+def setAdjointSimulationName( properties, energy, element, grid_policy ):
+  extension = setup.setAdjointSimulationNameExtention( properties )
+  sim_name = "adjoint_" + element + "_" + str(energy) + extension
+
+  # Add the grid policy to the name
+  if grid_policy == MonteCarlo.UNIT_BASE_CORRELATED_GRID:
+    sim_name += "_unit_correlated"
+  elif grid_policy == MonteCarlo.UNIT_BASE_GRID:
+    sim_name += "_unit_base"
+  else:
+    message = 'The grid policy ' + str(grid_policy) + 'is currently not available!'
+    raise Exception(message)
+
+  sim_name += extension
+
+  date = str(datetime.datetime.today()).split()[0]
+  directory = "results/" + date
+
+  return directory + "/" + sim_name
+
+##----------------------------------------------------------------------------##
+## ----------------------- Create Results Directory ------------------------- ##
+##----------------------------------------------------------------------------##
+def createResultsDirectory(sim_name):
+
+  directory = path.dirname(sim_name)
+
+  if not path.exists(directory):
+    makedirs(directory)
+
+##----------------------------------------------------------------------------##
+## ----------------------- getGridPolicyFromString -------------------------- ##
+##----------------------------------------------------------------------------##
+def getGridPolicyFromString(raw_grid_policy):
+
+  # Set the bivariate Grid Policy ( UNIT_BASE_CORRELATED, CORRELATED, UNIT_BASE )
+  if raw_grid_policy == "unit correlated":
+    return MonteCarlo.UNIT_BASE_CORRELATED_GRID
+  elif raw_grid_policy == "unit base":
+    return MonteCarlo.UNIT_BASE_GRID
+  elif raw_grid_policy == "correlated":
+    return MonteCarlo.CORRELATED_GRID
+  else:
+    message = 'The grid policy ' + raw_grid_policy + ' is currently not available!'
+    raise Exception(message)
+
+##----------------------------------------------------------------------------##
+## ----------------------- getElasticModeFromString ------------------------- ##
+##----------------------------------------------------------------------------##
+def getElasticModeFromString(raw_mode):
+
+    # Set the elastic distribution mode ( DECOUPLED, COUPLED, HYBRID )
+    if raw_mode == "decoupled":
+      return MonteCarlo.DECOUPLED_DISTRIBUTION
+    elif raw_mode == "coupled":
+      return MonteCarlo.COUPLED_DISTRIBUTION
+    elif raw_mode == "hybrid":
+      return MonteCarlo.HYBRID_DISTRIBUTION
+    else:
+      message = 'The elastic distribution mode ' + raw_mode + ' is currently not available!'
+      raise Exception(message)
+
+##----------------------------------------------------------------------------##
+## -------------------- getElasticMethodFromString -------------------------- ##
+##----------------------------------------------------------------------------##
+def getElasticMethodFromString(raw_method):
+
+    # Set the elastic coupled sampling method ( TWO_D, ONE_D, MODIFIED_TWO_D )
+    if raw_method == "modified 2D":
+      return MonteCarlo.MODIFIED_TWO_D_UNION
+    elif raw_method == "2D":
+      return MonteCarlo.TWO_D_UNION
+    elif raw_method == "1D":
+      return MonteCarlo.ONE_D_UNION
+    else:
+      message = 'The elastic coupled sampling method ' + raw_method + ' is currently not available!'
+      raise Exception(message)

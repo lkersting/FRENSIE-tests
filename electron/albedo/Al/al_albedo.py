@@ -1,8 +1,7 @@
 #! /usr/bin/env python
-from os import path, makedirs
+from os import path, makedirs, environ
 import sys
 from optparse import *
-import socket
 
 # Add the parent and grandparent directory to the path
 parent_dir=path.dirname(path.dirname(path.abspath(__file__)))
@@ -15,6 +14,7 @@ import PyFrensie.Data as Data
 import PyFrensie.MonteCarlo as MonteCarlo
 
 pyfrensie_path =path.dirname( path.dirname(path.abspath(MonteCarlo.__file__)))
+database_path = environ['DATABASE_PATH']
 
 # Set the element
 element="Al"; zaid=13000
@@ -33,6 +33,9 @@ mode=MonteCarlo.DECOUPLED_DISTRIBUTION
 method=MonteCarlo.MODIFIED_TWO_D_UNION
 
 ## ------- FORWARD OPTIONS ------- ##
+
+# set use spectrum source mode
+spectrum_source=True
 
 # Set the source energy
 source_energy=0.256
@@ -53,15 +56,6 @@ nudge_past_max=True
 
 # Set the electro-ionization sampling mode ( KNOCK_ON, OUTGOING_ENERGY )
 ionization=MonteCarlo.KNOCK_ON_SAMPLING
-
-# Set database directory path (for Denali)
-if socket.gethostname() == "Denali":
-  database_path = "/home/software/mcnpdata/database.xml"
-# Set database directory path (for Elbrus)
-elif socket.gethostname() == "Elbrus":
-  database_path = "/home/software/mcnpdata/database.xml"
-else: # Set database directory path (for Cluster)
-  database_path = "/home/lkersting/software/mcnp6.2/MCNP_DATA/database.xml"
 
 geometry_path = path.dirname(path.realpath(__file__)) + "/geom.h5m"
 
@@ -118,9 +112,6 @@ if __name__ == "__main__":
       if not path.exists(directory):
         makedirs(directory)
 
-      # Set the simulation name and title
-      sim_name = simulation.setSimulationName( properties, file_type, element, source_energy, use_refined_grid )
-
       version = 0
 
       if use_refined_grid:
@@ -135,17 +126,39 @@ if __name__ == "__main__":
       if file_type == Data.ElectroatomicDataProperties.ACE_EPR_FILE:
         version = 14
 
-      # Run the simulation
-      simulation.runForwardAlbedoSimulation( sim_name,
-                                            database_path,
-                                            geometry_path,
-                                            properties,
-                                            source_energy,
-                                            zaid,
-                                            file_type,
-                                            version,
-                                            options.threads,
-                                            options.log_file )
+      if spectrum_source:
+        # Set the simulation name and title
+        sim_name = simulation.setSimulationName( properties, file_type, element, "spectrum", use_refined_grid )
+
+        # Run the simulation
+        simulation.runForwardSpectrumAlbedoSimulation( sim_name,
+                                                       database_path,
+                                                       geometry_path,
+                                                       properties,
+                                                       cutoff_energy,
+                                                       source_energy,
+                                                       zaid,
+                                                       file_type,
+                                                       version,
+                                                       options.threads,
+                                                       options.log_file )
+
+      else:
+        # Set the simulation name and title
+        sim_name = simulation.setSimulationName( properties, file_type, element, source_energy, use_refined_grid )
+
+        # Run the simulation
+        simulation.runForwardAlbedoSimulation( sim_name,
+                                              database_path,
+                                              geometry_path,
+                                              properties,
+                                              source_energy,
+                                              zaid,
+                                              file_type,
+                                              version,
+                                              options.threads,
+                                              options.log_file )
+
     elif options.transport == "adjoint":
       # Set the adjoint simulation properties
       properties = setup.setAdjointSimulationProperties( options.num_particles, options.time, mode, method )

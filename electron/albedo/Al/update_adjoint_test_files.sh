@@ -26,14 +26,9 @@ cpus=5
 ## ------------------------------- COMMANDS ---------------------------------##
 ##---------------------------------------------------------------------------##
 
-database='/home/lkersting/software/mcnp6.2/MCNP_DATA/database.xml'
-if [ ! -f "${database}" ]; then
-  database='/home/software/mcnpdata/database.xml'
-fi
-
 sbatch_command="sbatch --partition=${partition} --time=${time} --ntasks=${ntasks} --cpus-per-task=${cpus}"
 # sbatch_command=bash
-if ! type "sbatch" > /dev/null; then
+if ! type sbatch > /dev/null 2>&1; then
   sbatch_command=bash
 fi
 

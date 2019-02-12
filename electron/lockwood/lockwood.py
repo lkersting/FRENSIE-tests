@@ -1,9 +1,8 @@
 #! /usr/bin/env python
-from os import path, makedirs
+from os import path, makedirs, environ
 import sys
 import numpy
 import datetime
-import socket
 
 # Add the parent directory to the path
 sys.path.insert(1,path.dirname(path.dirname(path.abspath(__file__))))
@@ -24,6 +23,7 @@ import PyFrensie.MonteCarlo.Event as Event
 import PyFrensie.MonteCarlo.Manager as Manager
 
 pyfrensie_path =path.dirname( path.dirname(path.abspath(MonteCarlo.__file__)))
+database_path = environ['DATABASE_PATH']
 
 ##----------------------------------------------------------------------------##
 ## ---------------------- GLOBAL SIMULATION VARIABLES ----------------------- ##
@@ -57,16 +57,6 @@ calorimeter_thickness=5.050E-03
 
 # Set the range (g/cm2)
 test_range=0.0025
-
-# Set database directory path (for Denali)
-if socket.gethostname() == "Denali":
-  database_path = "/home/software/mcnpdata/database.xml"
-# Set database directory path (for Elbrus)
-elif socket.gethostname() == "Elbrus":
-  database_path = "/home/software/mcnpdata/database.xml"
-# Set database directory path (for Cluster)
-else:
-  database_path = "/home/lkersting/software/mcnp6.2/MCNP_DATA/database.xml"
 
 geometry_path = path.dirname(path.realpath(__file__)) + "/"
 geometry_path += element + "/" + element + "_" + str(energy) + "/dagmc/geom_" + str(test_number) + ".h5m"

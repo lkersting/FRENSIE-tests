@@ -152,7 +152,7 @@ if __name__ == "__main__":
                    data_container.getAtomicNumber(),
                    data_container.getAtomicWeight(),
                    0 )
-    
+
     database.saveToFile( options.db_name, True )
-    
+
     print "Adjoint H native data updated successfully!\n"

@@ -36,7 +36,7 @@ import PyFrensie.MonteCarlo.Manager as Manager
 ##----------------------------------------------------------------------------##
 ## ------------------------- SIMULATION PROPERTIES -------------------------- ##
 ##----------------------------------------------------------------------------##
-def setSimulationProperties( histories, time, interpolation, grid_policy, elastic_mode, elastic_sampling_method ):
+def setSimulationProperties( histories, time, interpolation, grid_policy, elastic_mode, elastic_sampling_method, min_energy=1e-4, max_energy=20.0 ):
 
   properties = MonteCarlo.SimulationProperties()
 
@@ -58,17 +58,13 @@ def setSimulationProperties( histories, time, interpolation, grid_policy, elasti
   # Set the wall time
   properties.setSimulationWallTime( time_sec )
 
-  ## -------------------------- NEUTRON PROPERTIES -------------------------- ##
-
-  ## -------------------------- PHOTON PROPERTIES --------------------------- ##
-
   ## ------------------------- ELECTRON PROPERTIES -------------------------- ##
 
   # Set the min electron energy in MeV (Default is 100 eV)
-  properties.setMinElectronEnergy( 1e-4 )
+  properties.setMinElectronEnergy( min_energy )
 
   # Set the max electron energy in MeV (Default is 20 MeV)
-  properties.setMaxElectronEnergy( 20.0 )
+  properties.setMaxElectronEnergy( max_energy )
 
   # Set the bivariate interpolation (LOGLOGLOG, LINLINLIN, LINLINLOG)
   properties.setElectronTwoDInterpPolicy( interpolation )
@@ -81,9 +77,6 @@ def setSimulationProperties( histories, time, interpolation, grid_policy, elasti
 
   ## --- Elastic Properties ---
 
-  # Turn elastic electron scattering off
-  # properties.setElasticModeOff()
-
   # Set the elastic distribution mode ( DECOUPLED, COUPLED, HYBRID )
   properties.setElasticElectronDistributionMode( elastic_mode )
 
@@ -94,31 +87,18 @@ def setSimulationProperties( histories, time, interpolation, grid_policy, elasti
   # Set the elastic cutoff angle cosine ( -1.0 < mu < 1.0 )
   properties.setElasticCutoffAngleCosine( 1.0 )
 
-  ## --- Electroionization Properties ---
-
-  # Turn the electro-ionization reaction off
-  # properties.setElectroionizationModeOff()
-
   ## --- Bremsstrahlung Properties ---
-
-  # Turn electron bremsstrahlung reaction off
-  # properties.setBremsstrahlungModeOff()
 
   # Set the bremsstrahlung angular distribution function
   # ( DIPOLE, TABULAR, ??? )
   properties.setBremsstrahlungAngularDistributionFunction( MonteCarlo.DIPOLE_DISTRIBUTION )
-
-  ## --- Atomic Excitation Properties ---
-
-  # Turn electron atomic excitation reaction off
-  # properties.setAtomicExcitationModeOff()
 
   return properties
 
 ##----------------------------------------------------------------------------##
 ## ------------------------- SIMULATION PROPERTIES -------------------------- ##
 ##----------------------------------------------------------------------------##
-def setAdjointSimulationProperties( histories, time, elastic_mode, elastic_sampling_method ):
+def setAdjointSimulationProperties( histories, time, elastic_mode, elastic_sampling_method, min_energy=1e-4, max_energy=20.0 ):
 
   properties = MonteCarlo.SimulationProperties()
 
@@ -140,20 +120,20 @@ def setAdjointSimulationProperties( histories, time, elastic_mode, elastic_sampl
   # Set the wall time
   properties.setSimulationWallTime( time_sec )
 
-  ## ---------------------- ADJOINT NEUTRON PROPERTIES ---------------------- ##
-
-  ## ---------------------- ADJOINT PHOTON PROPERTIES ----------------------- ##
-
   ## --------------------- ADJOINT ELECTRON PROPERTIES ---------------------- ##
 
   # Set the min electron energy in MeV (Default is 100 eV)
-  properties.setMinAdjointElectronEnergy( 1e-4 )
+  properties.setMinAdjointElectronEnergy( min_energy )
 
   # Set the max electron energy in MeV (Default is 20 MeV)
-  properties.setMaxAdjointElectronEnergy( 20.0 )
+  properties.setMaxAdjointElectronEnergy( max_energy )
 
   # Set the electron evaluation tolerance (Default is 1e-6)
   properties.setAdjointElectronEvaluationTolerance( 1e-6 )
+
+  # Set the cutoff weight properties for rouletting
+  properties.setAdjointElectronRouletteThresholdWeight( 1e-8 )
+  properties.setAdjointElectronRouletteSurvivalWeight( 1e-6 )
 
   ## --- Adjoint Elastic Properties ---
 
@@ -228,7 +208,6 @@ def setSimulationNameExtention( properties, file_type ):
   elif properties.getElectroionizationSamplingMode() == MonteCarlo.OUTGOING_ENERGY_SAMPLING:
     name_reaction += "_outgoing_energy"
 
-  date = str(datetime.datetime.today()).split()[0]
   if name == "epr14":
     name = "_" + name + name_reaction
   else:
@@ -267,10 +246,7 @@ def setAdjointSimulationNameExtention( properties ):
   if not properties.isAdjointAtomicExcitationModeOn():
       name_reaction += "_no_excitation"
 
-  date = str(datetime.datetime.today()).split()[0]
-  name = name_extention + name_reaction
-
-  return name
+  return name_extention + name_reaction
 
 ##----------------------------------------------------------------------------##
 ## ------------------------ getSimulationPlotTitle ---------------------------##

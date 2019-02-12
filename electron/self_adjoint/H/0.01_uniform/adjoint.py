@@ -1,9 +1,8 @@
 #! /usr/bin/env python
-from os import path, makedirs
+from os import path, makedirs, environ
 import sys
 import numpy
 import datetime
-import socket
 
 # Add the parent directory to the path
 sys.path.insert(1,path.dirname(path.dirname(path.dirname(path.dirname(path.abspath(__file__))))))
@@ -24,6 +23,7 @@ import PyFrensie.MonteCarlo.Event as Event
 import PyFrensie.MonteCarlo.Manager as Manager
 
 pyfrensie_path =path.dirname( path.dirname(path.abspath(MonteCarlo.__file__)))
+database_path = environ['DATABASE_PATH']
 
 ##----------------------------------------------------------------------------##
 ## ---------------------- GLOBAL SIMULATION VARIABLES ----------------------- ##
@@ -53,16 +53,6 @@ grid_policy='UNIT_BASE_CORRELATED'
 
 # Set the nudge past max energy mode on/off (true/false)
 nudge_past_max_energy = True
-
-# Set database directory path (for Denali)
-if socket.gethostname() == "Denali":
-  database_path = "/home/software/mcnpdata/database.xml"
-# Set database directory path (for Elbrus)
-elif socket.gethostname() == "Elbrus":
-  database_path = "/home/software/mcnpdata/database.xml"
-# Set database directory path (for Cluster)
-else:
-  database_path = "/home/lkersting/software/mcnp6.2/MCNP_DATA/database.xml"
 
 geometry_path = path.dirname(path.realpath(__file__)) + "/geom.h5m"
 
