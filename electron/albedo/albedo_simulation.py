@@ -268,7 +268,7 @@ def runForwardSpectrumAlbedoSimulation( sim_name,
     # Set the energy bins (for each cosine bin)
     bin_string = "{ " + str(min_energy) + ", 149l, " + str(max_energy) +" }"
     energy_bins = list(Utility.doubleArrayFromString( bin_string ))
-    current_estimator.setEnergyDiscretization( energy_bins )
+    current_estimator.setSourceEnergyDiscretization( energy_bins )
 
     # Set the cosine bins
     cosine_bins = [ -1.0, -0.99, 0.0, 1.0 ]
