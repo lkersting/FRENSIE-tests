@@ -132,7 +132,7 @@ do
         if [ "${interp}" == "LINLINLOG" ] && [ "${grid_policy}" == "CORRELATED" ]; then
           echo "    The interp (${interp}) and grid policy (${grid_policy}) combo will be skipped."
         else
-          # Set 2D grid policy
+          # Set bivariate grid policy
           command=s/GRID_POLICY=.*/GRID_POLICY=${grid_policy}/
           sed -i "${command}" lockwood.sh
           echo "    Setting grid policy to ${grid_policy}"

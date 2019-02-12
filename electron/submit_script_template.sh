@@ -70,7 +70,7 @@ else
   command=s/interpolation=MonteCarlo.*/interpolation=MonteCarlo.${INTERP}_INTERPOLATION/
   sed -i "${command}" ${python_script}.py
 
-  # Set 2D grid policy
+  # Set bivariate grid policy
   command=s/grid_policy=MonteCarlo.*/grid_policy=MonteCarlo.${GRID_POLICY}_GRID/
   sed -i "${command}" ${python_script}.py
 

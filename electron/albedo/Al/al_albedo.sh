@@ -67,6 +67,9 @@ else
   # Set if a refined grid should be used ( True, False )
   REFINED=False
 
+  # Set if a spectrum source should be used ( True, False )
+  SPECTRUM=True
+
   ## ------- ADJOINT OPTIONS ------- ##
   # Set the nudge past max energy mode ( True, False )
   NUDGE=True
@@ -102,6 +105,10 @@ else
   sed -i "${command}" ${python_script}
 
   if [ "${TRANSPORT}" = "forward" ]; then
+
+    # Set if a spectrum source should be used
+    command=s/spectrum_source=.*/spectrum_source=${SPECTRUM}/
+    sed -i "${command}" ${python_script}
 
     # Set the source energy
     command=s/source_energy=.*/source_energy=${ENERGY}/
