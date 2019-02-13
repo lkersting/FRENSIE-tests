@@ -31,8 +31,9 @@ if [ "$#" -eq 1 ]; then
   echo "Restarting Facemc Albedo test for ${HISTORIES} particles with ${SLURM_NTASKS} MPI processes with ${SLURM_CPUS_PER_TASK} OpenMP threads each!"
 
   RENDEZVOUS="${PWD}/${RENDEZVOUS}"
-  cd ../
-  mpiexec -n ${SLURM_NTASKS} python2.7 -c "import albedo_simulation; albedo_simulation.runSimulationFromRendezvous(${SLURM_CPUS_PER_TASK}, ${HISTORIES}, ${TIME}, '${RENDEZVOUS}' )"
+  python_path="$(dirname "${PWD}")/"
+
+  mpiexec -n ${SLURM_NTASKS} python2.7 -c "import sys; sys.path.insert(1,'${python_path}'); import albedo_simulation; albedo_simulation.runSimulationFromRendezvous(${SLURM_CPUS_PER_TASK}, ${HISTORIES}, ${TIME}, '${RENDEZVOUS}' )"
 
   directory="$(dirname "${RENDEZVOUS}")/"
 

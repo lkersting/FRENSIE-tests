@@ -483,25 +483,46 @@ def runAdjointAlbedoSimulation( sim_name,
 ##----------------------------------------------------------------------------##
 ## --------------------- Run Simulation From Rendezvous --------------------- ##
 ##----------------------------------------------------------------------------##
-def runSimulationFromRendezvous( threads, histories, time, rendezvous ):
+def runSimulationFromRendezvous( threads,
+                                 histories,
+                                 time,
+                                 rendezvous,
+                                 log_file = None,
+                                 num_rendezvous = None ):
 
   ##--------------------------------------------------------------------------##
   ## ------------------------------ MPI Session ----------------------------- ##
   ##--------------------------------------------------------------------------##
   session = MPI.GlobalMPISession( len(sys.argv), sys.argv )
+
+  # Suppress logging on all procs except for the master (proc=0)
   Utility.removeAllLogs()
   session.initializeLogs( 0, True )
 
   if session.rank() == 0:
     print "The PyFrensie path is set to: ", pyfrensie_path
 
+  if not log_file is None:
+      session.initializeLogs( log_file, 0, True )
+
   # Set the data path
   Collision.FilledGeometryModel.setDefaultDatabasePath( database_path )
 
-  print rendezvous
-
   time_sec = time*60
-  factory = Manager.ParticleSimulationManagerFactory( rendezvous, histories, time_sec, threads )
+  if not num_rendezvous is None:
+      new_simulation_properties = MonteCarlo.SimulationGeneralProperties()
+      new_simulation_properties.setNumberOfHistories( int(histories) )
+      new_simulation_properties.setMinNumberOfRendezvous( int(num_rendezvous) )
+      new_simulation_properties.setSimulationWallTime( time_sec )
+
+      factory = Manager.ParticleSimulationManagerFactory( rendezvous,
+                                                          new_simulation_properties,
+                                                          threads )
+  else:
+      factory = Manager.ParticleSimulationManagerFactory( rendezvous,
+                                                          int(histories),
+                                                          time_sec,
+                                                          threads )
 
   manager = factory.getManager()
   manager.setSimulationName( rendezvous )

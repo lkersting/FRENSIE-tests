@@ -38,8 +38,9 @@ def plotAlbedoSimulationSpectrum( forward_rendezvous_file,
     # Get the adjoint energy bins
     adjoint_data["e_bins"] = list(estimator.getEnergyDiscretization())
 
-    ADJOINT_NORM=1.0
-    start_index = (len(estimator.getCosineDiscretization())-2)*num_bins
+    angles = estimator.getCosineDiscretization()
+    ADJOINT_NORM=(adjoint_data["e_bins"][-1]-adjoint_data["e_bins"][0])/(angles[-1]-angles[-2])
+    start_index = (len(angles)-2)*num_bins
     for i in range(0, num_bins):
         j = start_index + i
         # print j, full_entity_bin_data["mean"][j], full_entity_bin_data["re"][j]
@@ -54,17 +55,17 @@ def plotAlbedoSimulationSpectrum( forward_rendezvous_file,
     estimator = manager.getEventHandler().getEstimator( 1 )
     full_entity_bin_data = estimator.getEntityBinProcessedData( 2 )
 
-    num_bins = estimator.getNumberOfBins( Event.OBSERVER_ENERGY_DIMENSION )
+    num_bins = estimator.getNumberOfBins( Event.OBSERVER_SOURCE_ENERGY_DIMENSION )
 
     forward_data = {"mean": [None]*num_bins, "re": [None]*num_bins, "e_bins": []}
 
     # Get the forward energy bins
-    forward_data["e_bins"] = list(estimator.getEnergyDiscretization())
+    forward_data["e_bins"] = list(estimator.getSourceEnergyDiscretization())
     for i in range(0, len(forward_data["e_bins"])):
         if not forward_data["e_bins"][i] == adjoint_data["e_bins"][i]:
           raise ValueError( "The forward and adjoint energy bins must match!")
 
-    FORWARD_NORM=1.0
+    FORWARD_NORM=(forward_data["e_bins"][-1]-forward_data["e_bins"][0])
     start_index = (len(estimator.getCosineDiscretization())-2)*num_bins
     for i in range(0, num_bins):
         j = start_index + i
@@ -82,9 +83,9 @@ def plotAlbedoSimulationSpectrum( forward_rendezvous_file,
     forward_data_name = "Forward"
     adjoint_data_name = "Adjoint"
 
+    top_ylims = [0.0, 1.0]
     if not include_experimental:
 
-      top_ylims = [0.0, 0.3]
       # Plot the data
       plotSpectralDataWithErrors( forward_data_name,
                                   forward_data,
@@ -106,17 +107,17 @@ def plotAlbedoSimulationSpectrum( forward_rendezvous_file,
       exp_names = ['assad', 'bienlein','bishop', 'bongeler', 'bronshtein', 'cosslett', 'drescher', 'el_gomati', 'heinrich', 'kanter', 'kulenkampff', 'lockwood', 'neubert', 'reimer', 'shimizu', 'soum', 'trump', 'wittry' ]
 
       # Compute the bin norm constants and convert the mean values to mean per energy
-      bin_norm_consts = [None]*num_bins
       forward_normalized_mean = [None]*num_bins
       forward_error = [None]*num_bins
       adjoint_normalized_mean = [None]*num_bins
       adjoint_error = [None]*num_bins
 
       for i in range(0, num_bins):
-          bin_norm_consts[i] = forward_data["e_bins"][i+1] - forward_data["e_bins"][i]
-          forward_normalized_mean[i] = forward_data["mean"][i]/bin_norm_consts[i]
+          bin_norm_const = forward_data["e_bins"][i+1] - forward_data["e_bins"][i]
+          forward_normalized_mean[i] = forward_data["mean"][i]/bin_norm_const
           forward_error[i] = forward_data["re"][i]*forward_normalized_mean[i]
-          adjoint_normalized_mean[i] = adjoint_data["mean"][i]/bin_norm_consts[i]
+          # bin_norm_const = adjoint_data["e_bins"][i+1] - adjoint_data["e_bins"][i]
+          adjoint_normalized_mean[i] = adjoint_data["mean"][i]/bin_norm_const
           adjoint_error[i] = adjoint_data["re"][i]*adjoint_normalized_mean[i]
 
       # Compute the F/T values and uncertainties
@@ -163,6 +164,20 @@ def plotAlbedoSimulationSpectrum( forward_rendezvous_file,
           ax[0].scatter(x, y, label="Experimental", marker=markers[1], s=50, facecolors='none', edgecolors='b' )
         else:
           ax[0].scatter(x, y, marker=markers[1], s=50, facecolors='none', edgecolors='b' )
+
+      # filename = directory + "/Al/combined_data.txt"
+      # with open(filename) as input:
+      #     name = input.readline().strip()
+      #     input.readline()
+      #     data = zip(*(line.strip().split('\t') for line in input))
+      #     x = [None] * len(data[0][:])
+      #     x = [0 for k in range(len(data[0][:]))]
+      #     y = [0 for k in range(len(data[1][:]))]
+      #     for j in range(len(x)):
+      #       x[j] = float(data[0][j])
+      #       y[j] = float(data[1][j])
+
+      # ax[0].scatter(x, y, label="Unit-base Correlated", marker=markers[2], s=50, facecolors='none', edgecolors='g' )
 
       # Plot forward histogram of results
       label = forward_data_name
