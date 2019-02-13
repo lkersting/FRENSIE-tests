@@ -177,13 +177,13 @@ def plotAlbedoSimulationSpectrum( forward_rendezvous_file,
       #       x[j] = float(data[0][j])
       #       y[j] = float(data[1][j])
 
-      # ax[0].scatter(x, y, label="Unit-base Correlated", marker=markers[2], s=50, facecolors='none', edgecolors='g' )
+      # ax[0].scatter(x, y, label="Forward-discrete", marker=markers[2], s=50, facecolors='none', edgecolors='g' )
 
       # Plot forward histogram of results
       label = forward_data_name
       if not FORWARD_NORM == 1.0:
         label += "*" + str(FORWARD_NORM)
-      m_bin, bins, plt1 = ax[0].hist(forward_data["e_bins"][:-1], bins=forward_data["e_bins"], weights=forward_normalized_mean, histtype='step', label=label, color='b', linestyle=linestyles[0], linewidth=1.8 )
+      m_bin, bins, plt1 = ax[0].hist(forward_data["e_bins"][:-1], bins=forward_data["e_bins"], weights=forward_normalized_mean, histtype='step', label=label, color='g', linestyle=linestyles[0], linewidth=1.8 )
 
       # Plot error bars
       forward_mid = 0.5*(bins[1:] + bins[:-1])
@@ -193,7 +193,7 @@ def plotAlbedoSimulationSpectrum( forward_rendezvous_file,
       label = adjoint_data_name
       if not ADJOINT_NORM == 1.0:
         label += "*" + str(ADJOINT_NORM)
-      m_bin, bins, plt3 = ax[0].hist(adjoint_data["e_bins"][:-1], bins=adjoint_data["e_bins"], weights=adjoint_normalized_mean, histtype='step', label=label, color='g', linestyle=linestyles[1], linewidth=1.8 )
+      m_bin, bins, plt3 = ax[0].hist(adjoint_data["e_bins"][:-1], bins=adjoint_data["e_bins"], weights=adjoint_normalized_mean, histtype='step', label=label, color='r', linestyle=linestyles[1], linewidth=1.8 )
 
       # Plot error bars
       adjoint_mid = 0.5*(bins[1:] + bins[:-1])
