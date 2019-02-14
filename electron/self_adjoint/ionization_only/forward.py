@@ -126,9 +126,13 @@ def runSimulation( threads, histories, time ):
 
   element_definition = scattering_center_definition_database.createDefinition( element, Data.ZAID(zaid) )
 
-
-  version = 1
-  if file_type == Data.ElectroatomicDataProperties.ACE_EPR_FILE:
+  if grid_policy == MonteCarlo.UNIT_BASE_GRID:
+    version = 1
+  elif grid_policy == MonteCarlo.UNIT_BASE_CORRELATED_GRID:
+    version = 2
+  elif grid_policy == MonteCarlo.CORRELATED_GRID:
+    version = 3
+  elif file_type == Data.ElectroatomicDataProperties.ACE_EPR_FILE:
     version = 14
 
   element_definition.setElectroatomicDataProperties(

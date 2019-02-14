@@ -79,7 +79,13 @@ if __name__ == "__main__":
         print "The database does not contain the " + atom_name + " native data"
         sys.exit(1)
 
-    epr_version = 1
+    if options.grid_policy == 'UnitBase':
+      epr_version = 1
+    elif options.grid_policy == 'UnitBaseCorrelated':
+      epr_version = 2
+    elif options.grid_policy == 'Correlated':
+      epr_version = 3
+
     if not element_properties.photoatomicDataAvailable( Data.PhotoatomicDataProperties.Native_EPR_FILE, epr_version ):
         print "The database does not contain version ", epr_version, " of " + atom_name + " native data"
         sys.exit(1)

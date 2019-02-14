@@ -137,16 +137,19 @@ def runSimulation( threads, histories, time ):
 
   element_definition = scattering_center_definition_database.createDefinition( element, Data.ZAID(zaid) )
 
-  if grid_policy == 'UNIT_BASE_CORRELATED':
+  # Set the file version
+  if grid_policy == 'UNIT_BASE':
     version = 0
-  elif grid_policy == 'UNIT_BASE':
+  elif grid_policy == 'UNIT_BASE_CORRELATED':
+    version = 1
+  elif grid_policy == 'CORRELATED_GRID':
     version = 2
 
   if not nudge_past_max_energy:
-    version += 1
+    version += 3
 
   if ionization == MonteCarlo.OUTGOING_ENERGY_SAMPLING:
-    version += 4
+    version += 6
 
   file_type = Data.AdjointElectroatomicDataProperties.Native_EPR_FILE
 

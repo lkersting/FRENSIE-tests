@@ -131,33 +131,34 @@ do
                 # Set if a refined grid should be used
                 command=s/REFINED=.*/REFINED=${refined_grid}/
                 sed -i "${command}" ${script}
+                echo "        Setting refined grid mode to ${refined_grid}"
 
                 for mode in "${modes[@]}"
                 do
                   # Set the elastic distribution mode
                   command=s/MODE=.*/MODE=${mode}/
                   sed -i "${command}" ${script}
-                  echo "        Setting elastic mode to ${mode}"
+                  echo "          Setting elastic mode to ${mode}"
 
                   if [ "${mode}" == "COUPLED" ]; then
 
                     for method in "${methods[@]}"
                     do
                       if [ "${interp}" == "LOGLOGLOG" ] && [ "${grid_policy}" == "UNIT_BASE" ] && [ "${method}" == "MODIFIED_TWO_D" ]; then
-                        echo "          The interp (${interp}), grid policy (${grid_policy}), mode (${mode}), and method (${method}) combo will be skipped."
+                        echo "            The interp (${interp}), grid policy (${grid_policy}), mode (${mode}), and method (${method}) combo will be skipped."
                       else
 
                         # Set the elastic coupled sampling method
                         command=s/METHOD=.*/METHOD=${method}/
                         sed -i "${command}" ${script}
-                        echo "          Setting elastic coupled sampling method to ${method}"
+                        echo "            Setting elastic coupled sampling method to ${method}"
 
                         for spectrum in "${spectrums[@]}"
                         do
                           # Set if a spectrum source mode
                           command=s/SPECTRUM=.*/SPECTRUM=${spectrum}/
                           sed -i "${command}" ${script}
-                          echo "          Setting the spectrum source mode to ${spectrum}"
+                          echo "              Setting the spectrum source mode to ${spectrum}"
 
                           if [ "${spectrum}" == "True" ]; then
                               # Set the energy to 0.256
@@ -173,7 +174,7 @@ do
                                 command=s/ENERGY=.*/ENERGY=${energy}/
                                 sed -i "${command}" ${script}
 
-                              echo -e "            Running Albedo at ${energy} MeV!\n"
+                              echo -e "              Running Albedo at ${energy} MeV!\n"
                               sbatch ${script}
                             done
                           fi
@@ -186,7 +187,7 @@ do
                       # Set if a spectrum source mode
                       command=s/SPECTRUM=.*/SPECTRUM=${spectrum}/
                       sed -i "${command}" ${script}
-                      echo "          Setting the spectrum source mode to ${spectrum}"
+                      echo "            Setting the spectrum source mode to ${spectrum}"
 
                       if [ "${spectrum}" == "True" ]; then
                           # Set the energy to 0.256
@@ -202,7 +203,7 @@ do
                             command=s/ENERGY=.*/ENERGY=${energy}/
                             sed -i "${command}" ${script}
 
-                          echo -e "            Running Albedo at ${energy} MeV!\n"
+                          echo -e "              Running Albedo at ${energy} MeV!\n"
                           sbatch ${script}
                         done
                       fi

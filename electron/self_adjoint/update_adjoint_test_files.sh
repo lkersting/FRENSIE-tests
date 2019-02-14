@@ -10,11 +10,11 @@
 EXTRA_ARGS=$@
 
 # Set the ionization sampling mode ( "Knock-On" "Outgoing Energy" )
-ionizations=( "Knock-On" "Outgoing Energy" )
+ionizations=( "Knock-On" )
 # Set the bivariate Grid Policy ( "UnitBaseCorrelated" "UnitBase" )
 grid_policies=( "UnitBaseCorrelated" "UnitBase" )
 # Set the nudge past max energy mode on/off ( 'on' 'off' )
-nudge_modes=( 'on' 'off' )
+nudge_modes=( 'on' )
 
 # Sbatch variables
 partition=pre
@@ -48,11 +48,11 @@ do
       brem_convergence_tol=1e-4
       ion_convergence_tol=1e-4
       brem_eval_tol=1e-6
-      version=0
+      version=1
 
       if [ "${ionization}" = "Outgoing Energy" ]; then
         ion_eval_tol=1e-5
-        version=$((version + 4))
+        version=$((version + 6))
       else
         ion_eval_tol=1e-6
       fi
@@ -62,11 +62,11 @@ do
       brem_convergence_tol=1e-4
       ion_convergence_tol=1e-4
       brem_eval_tol=1e-7
-      version=2
+      version=0
 
       if [ "${ionization}" = "Outgoing Energy" ]; then
         ion_eval_tol=1e-6
-        version=$((version + 4))
+        version=$((version + 6))
       else
         ion_eval_tol=1e-7
       fi
@@ -76,11 +76,11 @@ do
       brem_convergence_tol=1e-4
       ion_convergence_tol=1e-4
       brem_eval_tol=1e-7
-      version=8
+      version=2
 
       if [ "${ionization}" = "Outgoing Energy" ]; then
         ion_eval_tol=1e-4
-        version=$((version + 4))
+        version=$((version + 6))
       else
         ion_eval_tol=1e-5
       fi
@@ -107,7 +107,7 @@ do
         ${sbatch_command} update_H_adjoint_temp.sh
         rm update_H_adjoint_temp.sh
       else
-        version=$((version + 1))
+        version=$((version + 3))
         # Set the version
         echo "      Setting version number to ${version}"
 

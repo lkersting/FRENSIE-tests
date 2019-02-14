@@ -113,15 +113,14 @@ if __name__ == "__main__":
         makedirs(directory)
 
       version = 0
-
+      use_refined_grid
       if use_refined_grid:
-        version += 1
-        # if grid_policy == MonteCarlo.UNIT_BASE_GRID:
-        #   version = 1
-        # elif grid_policy == MonteCarlo.UNIT_BASE_CORRELATED_GRID:
-        #   version = 2
-        # elif grid_policy == MonteCarlo.CORRELATED_GRID:
-        #   version = 3
+        if grid_policy == MonteCarlo.UNIT_BASE_GRID:
+          version = 1
+        elif grid_policy == MonteCarlo.UNIT_BASE_CORRELATED_GRID:
+          version = 2
+        elif grid_policy == MonteCarlo.CORRELATED_GRID:
+          version = 3
 
       if file_type == Data.ElectroatomicDataProperties.ACE_EPR_FILE:
         version = 14
@@ -186,16 +185,18 @@ if __name__ == "__main__":
       # Set the simulation name and title
       sim_name = simulation.setAdjointSimulationName( properties, element, grid_policy, ionization, nudge_past_max )
 
-      if grid_policy == MonteCarlo.UNIT_BASE_CORRELATED_GRID:
+      if grid_policy == MonteCarlo.UNIT_BASE_GRID:
         version = 0
-      elif grid_policy == MonteCarlo.UNIT_BASE_GRID:
+      elif grid_policy == MonteCarlo.UNIT_BASE_CORRELATED_GRID:
+        version = 1
+      elif grid_policy == MonteCarlo.CORRELATED_GRID:
         version = 2
 
       if not nudge_past_max:
-        version += 1
+        version += 3
 
       if ionization == MonteCarlo.OUTGOING_ENERGY_SAMPLING:
-        version += 4
+        version += 6
 
       # Run the simulation
       simulation.runAdjointAlbedoSimulation( sim_name,
