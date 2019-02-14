@@ -280,7 +280,7 @@ def runForwardSpectrumAlbedoSimulation( sim_name,
     response_function = ActiveRegion.StandardParticleResponse( particle_response_function )
 
     # Set the response function
-    surface_flux_estimator.setResponseFunctions( [response_function] )
+    current_estimator.setResponseFunctions( [response_function] )
 
   ##--------------------------------------------------------------------------##
   ## ----------------------- SIMULATION MANAGER SETUP ----------------------- ##
@@ -440,10 +440,13 @@ def runAdjointAlbedoSimulation( sim_name,
     cosine_bins = [ -1.0, 0.0, np.cos(np.deg2rad(70)), np.cos(np.deg2rad(50)), np.cos(np.deg2rad(10)), 1.0 ]
     current_estimator.setCosineDiscretization( cosine_bins )
 
-  # Create response function
-  uniform_energy = Distribution.UniformDistribution( min_energy, max_energy, 0.5*(max_energy - min_energy) )
-  particle_response_function = ActiveRegion.EnergyParticleResponseFunction( uniform_energy )
-  response_function = ActiveRegion.StandardParticleResponse( particle_response_function )
+    # Create response function
+    uniform_energy = Distribution.UniformDistribution( min_energy, max_energy, 0.5*(max_energy - min_energy) )
+    particle_response_function = ActiveRegion.EnergyParticleResponseFunction( uniform_energy )
+    response_function = ActiveRegion.StandardParticleResponse( particle_response_function )
+
+    # Set the response function
+    current_estimator.setResponseFunctions( [response_function] )
 
   ## -------------------------- Particle Tracker ---------------------------- ##
 
