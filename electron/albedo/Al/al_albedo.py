@@ -107,11 +107,6 @@ if __name__ == "__main__":
       # properties.setBremsstrahlungModeOff()
       # properties.setAtomicExcitationModeOff()
 
-      # Create the results directory
-      directory = setup.getResultsDirectory(file_type, interpolation)
-      if not path.exists(directory):
-        makedirs(directory)
-
       version = 0
       use_refined_grid
       if use_refined_grid:
@@ -129,6 +124,9 @@ if __name__ == "__main__":
         # Set the simulation name and title
         sim_name = simulation.setSimulationName( properties, file_type, element, "spectrum", use_refined_grid )
 
+        # Create the results directory
+        simulation.createResultsDirectory(sim_name)
+
         # Run the simulation
         simulation.runForwardSpectrumAlbedoSimulation( sim_name,
                                                        database_path,
@@ -145,6 +143,9 @@ if __name__ == "__main__":
       else:
         # Set the simulation name and title
         sim_name = simulation.setSimulationName( properties, file_type, element, source_energy, use_refined_grid )
+
+        # Create the results directory
+        simulation.createResultsDirectory(sim_name)
 
         # Run the simulation
         simulation.runForwardAlbedoSimulation( sim_name,

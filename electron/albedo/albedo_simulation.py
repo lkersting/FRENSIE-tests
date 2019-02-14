@@ -274,13 +274,13 @@ def runForwardSpectrumAlbedoSimulation( sim_name,
     cosine_bins = [ -1.0, -0.99, 0.0, 1.0 ]
     current_estimator.setCosineDiscretization( cosine_bins )
 
-    # Create response function
-    uniform_energy = Distribution.UniformDistribution( min_energy, max_energy, max_energy - min_energy )
-    particle_response_function = ActiveRegion.EnergyParticleResponseFunction( uniform_energy )
-    response_function = ActiveRegion.StandardParticleResponse( particle_response_function )
+    # # Create response function
+    # uniform_energy = Distribution.UniformDistribution( min_energy, max_energy, max_energy - min_energy )
+    # particle_response_function = ActiveRegion.EnergyParticleResponseFunction( uniform_energy )
+    # response_function = ActiveRegion.StandardParticleResponse( particle_response_function )
 
-    # Set the response function
-    current_estimator.setResponseFunctions( [response_function] )
+    # # Set the response function
+    # current_estimator.setResponseFunctions( [response_function] )
 
   ##--------------------------------------------------------------------------##
   ## ----------------------- SIMULATION MANAGER SETUP ----------------------- ##
@@ -316,7 +316,7 @@ def runForwardSpectrumAlbedoSimulation( sim_name,
       title = setup.getSimulationPlotTitle( sim_name )
 
       print "Processing the results:"
-      processCosineEnergyBinData( current_estimator, sim_name, title )
+      processCosineSourceEnergyBinData( current_estimator, sim_name, title )
 
       if event_handler.getNumberOfParticleTrackers():
         setup.printParticleTrackInfo( particle_tracker )
@@ -440,13 +440,13 @@ def runAdjointAlbedoSimulation( sim_name,
     cosine_bins = [ -1.0, 0.0, np.cos(np.deg2rad(70)), np.cos(np.deg2rad(50)), np.cos(np.deg2rad(10)), 1.0 ]
     current_estimator.setCosineDiscretization( cosine_bins )
 
-    # Create response function
-    uniform_energy = Distribution.UniformDistribution( min_energy, max_energy, 0.5*(max_energy - min_energy) )
-    particle_response_function = ActiveRegion.EnergyParticleResponseFunction( uniform_energy )
-    response_function = ActiveRegion.StandardParticleResponse( particle_response_function )
+    # # Create response function
+    # uniform_energy = Distribution.UniformDistribution( min_energy, max_energy, 0.5*(max_energy - min_energy) )
+    # particle_response_function = ActiveRegion.EnergyParticleResponseFunction( uniform_energy )
+    # response_function = ActiveRegion.StandardParticleResponse( particle_response_function )
 
-    # Set the response function
-    current_estimator.setResponseFunctions( [response_function] )
+    # # Set the response function
+    # current_estimator.setResponseFunctions( [response_function] )
 
   ## -------------------------- Particle Tracker ---------------------------- ##
 
@@ -576,11 +576,9 @@ def runSimulationFromRendezvous( threads,
 ##----------------------------------------------------------------------------##
 ## ------------------------ Create Results Directory ------------------------ ##
 ##----------------------------------------------------------------------------##
-def createResultsDirectory(file_type, interpolation, element):
+def createResultsDirectory(sim_name):
 
-  directory = setup.getResultsDirectory(file_type, interpolation)
-
-  directory = element + "/" + directory
+  directory = path.dirname(sim_name)
 
   if not path.exists(directory):
     makedirs(directory)
@@ -605,11 +603,12 @@ def setSimulationName( properties, file_type, element, energy, refined ):
   name = "albedo_" + element + "_" + str(energy)
   if refined:
     name += "_refined"
-  else:
-    name = extension[:-1] + "/" name + extension
+  if not str(energy) == "spectrum":
+    name = extension[1:] + "/" + name
+  name += extension
   interpolation = properties.getElectronTwoDInterpPolicy()
   output = setup.getResultsDirectory(file_type, interpolation) + "/" + name
-  print output
+
   return output
 
 ##---------------------------------------------------------------------------##
@@ -742,6 +741,50 @@ def processCosineEnergyBinData( estimator, filename, title ):
   out_file.write( "# " + title +"\n")
   # Write data header to file
   header = "# Angle bin\tEnergy bin (MeV)\tCurrent\tError\t"+str(today)+"\n"
+  out_file.write(header)
+
+  # Write data to file
+  for i in range(0, len(cosine_bins)-1 ):
+    for j in range(0, len(energy_bins)-1 ):
+      output = '%.6e' % cosine_bins[i] + " to " + '%.6e' % cosine_bins[i+1] + "\t" + \
+              '%.6e' % energy_bins[j] + " to " + '%.6e' % energy_bins[j+1] + "\t" + \
+              '%.16e' % current[i*(len(energy_bins)-1)+j] + "\t" + \
+              '%.16e' % current_rel_error[i*(len(energy_bins)-1)+j] + "\n"
+      out_file.write( output )
+  out_file.close()
+
+##----------------------------------------------------------------------------##
+##--------------------- processCosineSourceEnergyBinData ---------------------##
+##----------------------------------------------------------------------------##
+
+# This function pulls cosine energy bin estimator data outputs it to a separate file.
+def processCosineSourceEnergyBinData( estimator, filename, title ):
+
+  ids = list(estimator.getEntityIds() )
+  if not 2 in ids:
+    message = "ERROR: estimator does not contain entity 2!"
+    raise ValueError(message)
+
+  today = datetime.date.today()
+
+  # Read the data file for surface tallies
+  name = filename+"_albedo.txt"
+  out_file = open(name, 'w')
+
+  # Get the current and relative error
+  processed_data = estimator.getEntityBinProcessedData( 2 )
+  current = processed_data['mean']
+  current_rel_error = processed_data['re']
+  cosine_bins = estimator.getCosineDiscretization()
+  energy_bins = estimator.getSourceEnergyDiscretization()
+
+  # print current
+  # print cosine_bins
+  # print energy_bins
+  # Write title to file
+  out_file.write( "# " + title +"\n")
+  # Write data header to file
+  header = "# Angle bin\tSource Energy bin (MeV)\tCurrent\tError\t"+str(today)+"\n"
   out_file.write(header)
 
   # Write data to file
