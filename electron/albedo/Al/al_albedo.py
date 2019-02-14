@@ -148,15 +148,15 @@ if __name__ == "__main__":
 
         # Run the simulation
         simulation.runForwardAlbedoSimulation( sim_name,
-                                              database_path,
-                                              geometry_path,
-                                              properties,
-                                              source_energy,
-                                              zaid,
-                                              file_type,
-                                              version,
-                                              options.threads,
-                                              options.log_file )
+                                               database_path,
+                                               geometry_path,
+                                               properties,
+                                               source_energy,
+                                               zaid,
+                                               file_type,
+                                               version,
+                                               options.threads,
+                                               options.log_file )
 
     elif options.transport == "adjoint":
       # Set the adjoint simulation properties

@@ -274,13 +274,13 @@ def runForwardSpectrumAlbedoSimulation( sim_name,
     cosine_bins = [ -1.0, -0.99, 0.0, 1.0 ]
     current_estimator.setCosineDiscretization( cosine_bins )
 
-  # Create response function
-  uniform_energy = Distribution.UniformDistribution( min_energy, max_energy, max_energy - min_energy )
-  particle_response_function = ActiveRegion.EnergyParticleResponseFunction( uniform_energy )
-  response_function = ActiveRegion.StandardParticleResponse( particle_response_function )
+    # Create response function
+    uniform_energy = Distribution.UniformDistribution( min_energy, max_energy, max_energy - min_energy )
+    particle_response_function = ActiveRegion.EnergyParticleResponseFunction( uniform_energy )
+    response_function = ActiveRegion.StandardParticleResponse( particle_response_function )
 
-  # Set the response function
-  surface_flux_estimator.setResponseFunctions( [response_function] )
+    # Set the response function
+    surface_flux_estimator.setResponseFunctions( [response_function] )
 
   ##--------------------------------------------------------------------------##
   ## ----------------------- SIMULATION MANAGER SETUP ----------------------- ##
@@ -441,7 +441,7 @@ def runAdjointAlbedoSimulation( sim_name,
     current_estimator.setCosineDiscretization( cosine_bins )
 
   # Create response function
-  uniform_energy = Distribution.UniformDistribution( min_energy, max_energy, max_energy - min_energy )
+  uniform_energy = Distribution.UniformDistribution( min_energy, max_energy, 0.5*(max_energy - min_energy) )
   particle_response_function = ActiveRegion.EnergyParticleResponseFunction( uniform_energy )
   response_function = ActiveRegion.StandardParticleResponse( particle_response_function )
 
@@ -602,10 +602,11 @@ def setSimulationName( properties, file_type, element, energy, refined ):
   name = "albedo_" + element + "_" + str(energy)
   if refined:
     name += "_refined"
-  name += extension
+  else:
+    name = extension[:-1] + "/" name + extension
   interpolation = properties.getElectronTwoDInterpPolicy()
   output = setup.getResultsDirectory(file_type, interpolation) + "/" + name
-
+  print output
   return output
 
 ##---------------------------------------------------------------------------##
