@@ -54,6 +54,8 @@ if __name__ == "__main__":
                       help="The bremsstrahlung grid convergence")
     parser.add_option("--xs_grid_convergence", type="float", dest="xs_grid_convergence", default=1e-4,
                       help="The electron cross section grid convergence")
+    parser.add_option("--tabular_evaluation_tol", type="float", dest="tabular_evaluation_tol", default=1e-7,
+                      help="The tabular evaluation tolerance")
     options,args = parser.parse_args()
 
     if path.exists( options.db_name ):
@@ -133,7 +135,6 @@ if __name__ == "__main__":
 
     cutoff_angle_cosine = 1.0
     num_moment_preserving_angles = 0
-    tabular_evaluation_tol = 1e-7
     electron_two_d_interp_policy = "LogLogLog"
     brems_min_energy_nudge_val = 1e-9
     brems_max_energy_nudge_val = 1e-6
@@ -183,7 +184,7 @@ if __name__ == "__main__":
                   electron_grid_dist_tol,
                   cutoff_angle_cosine,
                   num_moment_preserving_angles,
-                  tabular_evaluation_tol,
+                  options.tabular_evaluation_tol,
                   options.above_max_mode,
                   electron_two_d_interp_policy,
                   options.grid_policy,

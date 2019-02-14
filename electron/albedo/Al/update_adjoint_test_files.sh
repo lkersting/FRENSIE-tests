@@ -44,6 +44,7 @@ do
 
     # Set the tolerances
     if [ "${grid_policy}" = "UnitBase" ]; then
+      tabular_eval_tol=1e-7
       xs_convergence_tol=1e-4
       brem_convergence_tol=1e-4
       ion_convergence_tol=1e-3
@@ -58,6 +59,7 @@ do
       fi
 
     elif [ "${grid_policy}" = "UnitBaseCorrelated" ]; then
+      tabular_eval_tol=1e-6
       xs_convergence_tol=1e-4
       brem_convergence_tol=1e-4
       ion_convergence_tol=1e-3
@@ -72,6 +74,7 @@ do
       fi
 
     elif [ "${grid_policy}" = "Correlated" ]; then
+      tabular_eval_tol=5e-6
       xs_convergence_tol=5e-3
       brem_convergence_tol=5e-3
       ion_convergence_tol=5e-3
@@ -95,7 +98,7 @@ do
       echo "    Setting nudge past max energy to ${nudge_mode}"
 
       convergence_tol="--ion_grid_convergence=${ion_convergence_tol} --brem_grid_convergence=${brem_convergence_tol} --xs_grid_convergence=${xs_convergence_tol}"
-      eval_tol="--ion_eval_tol=${ion_eval_tol} --brem_eval_tol=${brem_eval_tol}"
+      eval_tol="--ion_eval_tol=${ion_eval_tol} --brem_eval_tol=${brem_eval_tol} --tabular_evaluation_tol=${tabular_eval_tol}"
 
       # Update the test file
       if [ "${nudge_mode}" = "on" ]; then
