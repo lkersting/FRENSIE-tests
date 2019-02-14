@@ -11,8 +11,8 @@ EXTRA_ARGS=$@
 
 # Set the ionization sampling mode ( "Knock-On" "Outgoing Energy" )
 ionizations=( "Knock-On" )
-# Set the bivariate Grid Policy ( "UnitBaseCorrelated" "UnitBase" )
-grid_policies=( "UnitBaseCorrelated" "UnitBase" )
+# Set the bivariate Grid Policy ( "UnitBase" "UnitBaseCorrelated" "Correlated" )
+grid_policies=( "UnitBase" "UnitBaseCorrelated" "Correlated" )
 # Set the nudge past max energy mode on/off ( 'on' 'off' )
 nudge_modes=( 'on' )
 
@@ -43,21 +43,7 @@ do
     echo "  Setting bivariate Grid Policy to ${grid_policy}"
 
     # Set the tolerances
-    if [ "${grid_policy}" = "UnitBaseCorrelated" ]; then
-      xs_convergence_tol=1e-4
-      brem_convergence_tol=1e-4
-      ion_convergence_tol=1e-4
-      brem_eval_tol=1e-6
-      version=1
-
-      if [ "${ionization}" = "Outgoing Energy" ]; then
-        ion_eval_tol=1e-5
-        version=$((version + 6))
-      else
-        ion_eval_tol=1e-6
-      fi
-
-    elif [ "${grid_policy}" = "UnitBase" ]; then
+    if [ "${grid_policy}" = "UnitBase" ]; then
       xs_convergence_tol=1e-4
       brem_convergence_tol=1e-4
       ion_convergence_tol=1e-4
@@ -69,6 +55,20 @@ do
         version=$((version + 6))
       else
         ion_eval_tol=1e-7
+      fi
+
+    elif [ "${grid_policy}" = "UnitBaseCorrelated" ]; then
+      xs_convergence_tol=1e-4
+      brem_convergence_tol=1e-4
+      ion_convergence_tol=1e-4
+      brem_eval_tol=1e-6
+      version=1
+
+      if [ "${ionization}" = "Outgoing Energy" ]; then
+        ion_eval_tol=1e-5
+        version=$((version + 6))
+      else
+        ion_eval_tol=1e-6
       fi
 
     elif [ "${grid_policy}" = "Correlated" ]; then

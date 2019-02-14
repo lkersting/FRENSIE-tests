@@ -11,7 +11,9 @@ from spectrum_plot_tools import plotSpectralDataWithErrors
 
 def plotAlbedoSimulationSpectrum( forward_rendezvous_file,
                                   adjoint_rendezvous_file,
+                                  combined_forward_files,
                                   include_experimental = False,
+                                  output_plot_name = None,
                                   top_ylims = None,
                                   bottom_ylims = None,
                                   xlims = None,
@@ -39,7 +41,7 @@ def plotAlbedoSimulationSpectrum( forward_rendezvous_file,
     adjoint_data["e_bins"] = list(estimator.getEnergyDiscretization())
 
     angles = estimator.getCosineDiscretization()
-    ADJOINT_NORM=(adjoint_data["e_bins"][-1]-adjoint_data["e_bins"][0])/(angles[-1]-angles[-2])
+    ADJOINT_NORM=(adjoint_data["e_bins"][-1]-adjoint_data["e_bins"][0])*0.5/(angles[-1]-angles[-2])
     start_index = (len(angles)-2)*num_bins
     for i in range(0, num_bins):
         j = start_index + i
@@ -73,7 +75,8 @@ def plotAlbedoSimulationSpectrum( forward_rendezvous_file,
         forward_data["mean"][i] = full_entity_bin_data["mean"][j]*FORWARD_NORM
         forward_data["re"][i] = full_entity_bin_data["re"][j]
 
-    output_plot_name = "al_albedo"
+    if output_plot_name is None:
+      output_plot_name = "al_albedo"
     output_plot_names = []
 
     output_plot_names.append( output_plot_name + ".eps" )
@@ -165,19 +168,21 @@ def plotAlbedoSimulationSpectrum( forward_rendezvous_file,
         else:
           ax[0].scatter(x, y, marker=markers[1], s=50, facecolors='none', edgecolors='b' )
 
-      # filename = directory + "/Al/combined_data.txt"
-      # with open(filename) as input:
-      #     name = input.readline().strip()
-      #     input.readline()
-      #     data = zip(*(line.strip().split('\t') for line in input))
-      #     x = [None] * len(data[0][:])
-      #     x = [0 for k in range(len(data[0][:]))]
-      #     y = [0 for k in range(len(data[1][:]))]
-      #     for j in range(len(x)):
-      #       x[j] = float(data[0][j])
-      #       y[j] = float(data[1][j])
+      if not combined_forward_files == None:
+        for i in range(len(combined_forward_files)):
+          filename = combined_forward_files[i]
+          with open(filename) as input:
+              name = input.readline().strip()
+              input.readline()
+              data = zip(*(line.strip().split('\t') for line in input))
+              x = [None] * len(data[0][:])
+              x = [0 for k in range(len(data[0][:]))]
+              y = [0 for k in range(len(data[1][:]))]
+              for j in range(len(x)):
+                x[j] = float(data[0][j])
+                y[j] = float(data[1][j])
 
-      # ax[0].scatter(x, y, label="Forward-discrete", marker=markers[2], s=50, facecolors='none', edgecolors='g' )
+          ax[0].scatter(x, y, label=name, marker=markers[i+3=2], s=50, facecolors='none', edgecolors='g' )
 
       # Plot forward histogram of results
       label = forward_data_name
