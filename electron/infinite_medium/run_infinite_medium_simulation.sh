@@ -122,6 +122,7 @@ do
       # Move back to the material directory
       cd ../
     done
-    # Move back to the start directory
-    cd ../
   done
+  # Move back to the start directory
+  cd ../
+done
