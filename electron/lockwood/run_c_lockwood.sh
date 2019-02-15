@@ -26,6 +26,9 @@ TIME=1400
 # Set the data file type (ACE Native)
 file_types=( Native )
 
+# Set if a refined grid should be used ( "True" "False" )
+refined_grids=( "False" )
+
 # Set the bivariate interpolation ( LOGLOGLOG LINLINLIN LINLINLOG )
 interps=( LOGLOGLOG )
 
@@ -113,22 +116,46 @@ do
           sed -i "${command}" lockwood.sh
           echo "    Setting grid policy to ${grid_policy}"
 
-          for mode in "${modes[@]}"
+          # Set the refined grid mode on/off
+          for refined_grid in "${refined_grids[@]}"
           do
-            # Set the elastic distribution mode
-            command=s/MODE=.*/MODE=${mode}/
-            sed -i "${command}" lockwood.sh
-            echo "      Setting elastic mode to ${mode}"
+            # Set if a refined grid should be used
+            command=s/REFINED=.*/REFINED=${refined_grid}/
+            sed -i "${command}" ${script}
+            echo "      Setting refined grid mode to ${refined_grid}"
 
-            if [ "${mode}" == "COUPLED" ]; then
+            for mode in "${modes[@]}"
+            do
+              # Set the elastic distribution mode
+              command=s/MODE=.*/MODE=${mode}/
+              sed -i "${command}" lockwood.sh
+              echo "        Setting elastic mode to ${mode}"
 
-              for method in "${methods[@]}"
-              do
-                # Set the elastic coupled sampling method
-                command=s/METHOD=.*/METHOD=${method}/
-                sed -i "${command}" lockwood.sh
-                echo "        Setting elastic coupled sampling method to ${method}"
+              if [ "${mode}" == "COUPLED" ]; then
 
+                for method in "${methods[@]}"
+                do
+                  # Set the elastic coupled sampling method
+                  command=s/METHOD=.*/METHOD=${method}/
+                  sed -i "${command}" lockwood.sh
+                  echo "          Setting elastic coupled sampling method to ${method}"
+
+                  # loop through test numbers and run mpi script
+                  for test_number in "${test_numbers[@]}"
+                  do
+                      # Change the test number
+                      command=s/TEST_NUMBER=.*/TEST_NUMBER=$test_number/
+                      sed -i "${command}" lockwood.sh
+
+                      # Set the range
+                      command=s/RANGE=.*/RANGE=${ranges[$test_number]}/
+                      sed -i "${command}" lockwood.sh
+
+                      echo -e "            -Running Lockwood ${energy} Test Number $test_number!\n"
+                      sbatch lockwood.sh
+                  done
+                done
+              else
                 # loop through test numbers and run mpi script
                 for test_number in "${test_numbers[@]}"
                 do
@@ -140,26 +167,11 @@ do
                     command=s/RANGE=.*/RANGE=${ranges[$test_number]}/
                     sed -i "${command}" lockwood.sh
 
-                    echo -e "          Running Lockwood ${energy} Test Number $test_number!\n"
+                    echo -e "        Running Lockwood ${energy} Test Number $test_number!\n"
                     sbatch lockwood.sh
                 done
-              done
-            else
-              # loop through test numbers and run mpi script
-              for test_number in "${test_numbers[@]}"
-              do
-                  # Change the test number
-                  command=s/TEST_NUMBER=.*/TEST_NUMBER=$test_number/
-                  sed -i "${command}" lockwood.sh
-
-                  # Set the range
-                  command=s/RANGE=.*/RANGE=${ranges[$test_number]}/
-                  sed -i "${command}" lockwood.sh
-
-                  echo -e "        Running Lockwood ${energy} Test Number $test_number!\n"
-                  sbatch lockwood.sh
-              done
-            fi
+              fi
+            done
           done
         fi
       done

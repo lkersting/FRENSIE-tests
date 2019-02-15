@@ -108,7 +108,6 @@ if __name__ == "__main__":
       # properties.setAtomicExcitationModeOff()
 
       version = 0
-      use_refined_grid
       if use_refined_grid:
         if grid_policy == MonteCarlo.UNIT_BASE_GRID:
           version = 1
@@ -116,8 +115,7 @@ if __name__ == "__main__":
           version = 2
         elif grid_policy == MonteCarlo.CORRELATED_GRID:
           version = 3
-
-      if file_type == Data.ElectroatomicDataProperties.ACE_EPR_FILE:
+      elif file_type == Data.ElectroatomicDataProperties.ACE_EPR_FILE:
         version = 14
 
       if spectrum_source:

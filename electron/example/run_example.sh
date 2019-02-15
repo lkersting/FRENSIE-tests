@@ -29,6 +29,9 @@ energy=0.01
 # Set the data file type (ACE Native)
 file_types=( Native )
 
+# Set if a refined grid should be used ( "True" "False" )
+refined_grids=( "False" )
+
 # Set the bivariate interpolation ( LOGLOGLOG LINLINLIN LINLINLOG )
 interps=( LOGLOGLOG )
 
@@ -88,29 +91,38 @@ do
           sed -i "${command}" example.sh
           echo "    Setting grid policy to ${grid_policy}"
 
-          for mode in "${modes[@]}"
+          # Set the refined grid mode on/off
+          for refined_grid in "${refined_grids[@]}"
           do
-            # Set the elastic distribution mode
-            command=s/MODE=.*/MODE=${mode}/
-            sed -i "${command}" example.sh
-            echo "      Setting elastic mode to ${mode}"
+            # Set if a refined grid should be used
+            command=s/REFINED=.*/REFINED=${refined_grid}/
+            sed -i "${command}" ${script}
+            echo "      Setting refined grid mode to ${refined_grid}"
 
-            if [ "${mode}" == "COUPLED" ]; then
+            for mode in "${modes[@]}"
+            do
+              # Set the elastic distribution mode
+              command=s/MODE=.*/MODE=${mode}/
+              sed -i "${command}" example.sh
+              echo "        Setting elastic mode to ${mode}"
 
-              for method in "${methods[@]}"
-              do
-                # Set the elastic coupled sampling method
-                command=s/METHOD=.*/METHOD=${method}/
-                sed -i "${command}" example.sh
-                echo "        Setting elastic coupled sampling method to ${method}"
+              if [ "${mode}" == "COUPLED" ]; then
 
+                for method in "${methods[@]}"
+                do
+                  # Set the elastic coupled sampling method
+                  command=s/METHOD=.*/METHOD=${method}/
+                  sed -i "${command}" example.sh
+                  echo "          Setting elastic coupled sampling method to ${method}"
+
+                  # Submit the script
+                  sbatch example.sh
+                done
+              else
                 # Submit the script
                 sbatch example.sh
-              done
-            else
-              # Submit the script
-              sbatch example.sh
-            fi
+              fi
+            done
           done
         fi
       done

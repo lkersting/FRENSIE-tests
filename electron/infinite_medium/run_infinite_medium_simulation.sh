@@ -32,7 +32,7 @@ modes=( "coupled" )
 methods=( "2D" )
 
 # Desired bivariate grid policies ( "unit correlated" "unit base" "correlated" )
-grid_policies=( "unit correlated" )
+grid_policies=( "unit correlated" "unit base" "correlated" )
 
 sbatch_command="sbatch --partition=${partition} --time=${time} --ntasks=${ntasks} --cpus-per-task=${threads}"
 

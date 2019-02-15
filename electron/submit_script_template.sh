@@ -40,6 +40,9 @@ else
   # Set the data file type (ACE Native)
   FILE_TYPE=Native
 
+  # Set if a refined grid should be used ( True, False )
+  REFINED=False
+
   # Set the bivariate interpolation ( LOGLOGLOG LINLINLIN LINLINLOG )
   INTERP=LOGLOGLOG
 
@@ -65,6 +68,10 @@ else
   # Set the file type
   command=s/file_type=Data.ElectroatomicDataProperties.*/file_type=Data.ElectroatomicDataProperties.${FILE_TYPE}_EPR_FILE/
   sed -i "${command}" ${python_script}.py
+
+  # Set if a refined grid should be used
+  command=s/use_refined_grid=.*/use_refined_grid=${REFINED}/
+  sed -i "${command}" ${python_script}
 
   # Set the interp
   command=s/interpolation=MonteCarlo.*/interpolation=MonteCarlo.${INTERP}_INTERPOLATION/

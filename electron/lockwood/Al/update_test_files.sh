@@ -3,27 +3,63 @@
 ## Al Lockwood test data updater
 ##---------------------------------------------------------------------------##
 
-# Set the database directory path.
-while getopts d: option
-do case "${option}"
-   in
-       d) database_directory=${OPTARG};;
-   esac
-done
+# Sbatch variables
+partition=pre
+time=1-00:00:00
+ntasks=1
+cpus=1
 
-epr="../../../../bin/generate_native_epr.py"
-if [ -d "$database_directory" ]; then
+##---------------------------------------------------------------------------##
+## ------------------------------- COMMANDS ---------------------------------##
+##---------------------------------------------------------------------------##
 
-    # Update Al data
-    printf "Updating the Al native test data...\n"
-    $epr --db_name="$database_directory/database.xml" --zaid=13000 --version=0
-    if [ $? -eq 0 ]; then
-        printf "Al native data updated successfully!\n\n"
-    else
-        printf "Al native data FAILED to update!\n"
-        exit 1
-    fi
-else
-    printf "\nERROR: Invalid cross section directory!\n"
-    printf "  update_test_files.sh -d cross_sectin_directory\n\n"
+sbatch_command="sbatch --partition=${partition} --time=${time} --ntasks=${ntasks} --cpus-per-task=${cpus}"
+# sbatch_command=bash
+if ! type sbatch > /dev/null 2>&1; then
+  sbatch_command=bash
 fi
+
+# Update Al data version 0
+python_command="python ../update_forward_test_files.py --db_name="${DATABASE_PATH}" -z 13 -g 'UnitBaseCorrelatedGrid' -v 0"
+printf "#!/bin/bash\n${python_command}" > update_Al_0_temp.sh
+${sbatch_command} update_Al_0_temp.sh
+if [ ! $? -eq 0 ]; then
+    printf "\nAl native data version 0 FAILED to update!\n"
+    rm update_Al_0_temp.sh
+    exit 1
+fi
+rm update_Al_0_temp.sh
+
+# Update Al data version 1
+python_command="python ../update_forward_test_files.py --db_name="${DATABASE_PATH}" -z 13 -g 'UnitBaseGrid' -v 1 --refine_electron_secondary_grids"
+printf "#!/bin/bash\n${python_command}" > update_Al_1_temp.sh
+${sbatch_command} update_Al_1_temp.sh
+if [ ! $? -eq 0 ]; then
+    printf "\nAl native data version 1 FAILED to update!\n"
+    rm update_Al_1_temp.sh
+    exit 1
+fi
+rm update_Al_1_temp.sh
+
+# Update Al data version 2
+python_command="python ../update_forward_test_files.py --db_name="${DATABASE_PATH}" -z 13 -g 'UnitBaseCorrelatedGrid' -v 2 --refine_electron_secondary_grids"
+printf "#!/bin/bash\n${python_command}" > update_Al_2_temp.sh
+${sbatch_command} update_Al_2_temp.sh
+if [ ! $? -eq 0 ]; then
+    printf "\nAl native data version 2 FAILED to update!\n"
+    rm update_Al_2_temp.sh
+    exit 1
+fi
+rm update_Al_2_temp.sh
+
+# Update Al data version 3
+python_command="python ../update_forward_test_files.py --db_name="${DATABASE_PATH}" -z 13 -g 'CorrelatedGrid' -v 3 --refine_electron_secondary_grids"
+printf "#!/bin/bash\n${python_command}" > update_Al_3_temp.sh
+${sbatch_command} update_Al_3_temp.sh
+if [ ! $? -eq 0 ]; then
+    printf "\nAl native data version 3 FAILED to update!\n"
+    rm update_Al_3_temp.sh
+    exit 1
+fi
+rm update_Al_3_temp.sh
+

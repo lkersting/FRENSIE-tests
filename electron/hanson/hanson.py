@@ -45,6 +45,9 @@ method=MonteCarlo.MODIFIED_TWO_D_UNION
 # Set the data file type (ACE_EPR_FILE, Native_EPR_FILE)
 file_type=Data.ElectroatomicDataProperties.Native_EPR_FILE
 
+# Set if a refined grid should be used ( True, False )
+use_refined_grid=False
+
 geometry_path = path.dirname(path.realpath(__file__)) + "/geom.h5m"
 
 ##----------------------------------------------------------------------------##
@@ -155,9 +158,15 @@ def runSimulation( threads, histories, time ):
 
   element_definition = scattering_center_definition_database.createDefinition( element, Data.ZAID(zaid) )
 
-
   version = 0
-  if file_type == Data.ElectroatomicDataProperties.ACE_EPR_FILE:
+  if use_refined_grid:
+    if grid_policy == MonteCarlo.UNIT_BASE_GRID:
+      version = 1
+    elif grid_policy == MonteCarlo.UNIT_BASE_CORRELATED_GRID:
+      version = 2
+    elif grid_policy == MonteCarlo.CORRELATED_GRID:
+      version = 3
+  elif file_type == Data.ElectroatomicDataProperties.ACE_EPR_FILE:
     version = 14
 
   element_definition.setElectroatomicDataProperties(
