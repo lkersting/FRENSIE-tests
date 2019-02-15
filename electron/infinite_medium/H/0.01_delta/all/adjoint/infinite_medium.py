@@ -4,7 +4,7 @@ from optparse import *
 import sys
 
 # Add the parent directory to the path
-sys.path.insert(1,path.dirname(path.dirname(path.dirname(path.dirname(path.abspath(__file__))))))
+sys.path.insert(1,path.dirname(path.dirname(path.dirname(path.dirname(path.dirname(path.abspath(__file__)))))))
 import infinite_medium_simulation as simulation
 import PyFrensie.Data as Data
 import PyFrensie.Utility as Utility

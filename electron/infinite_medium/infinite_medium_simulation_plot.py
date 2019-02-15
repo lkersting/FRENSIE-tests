@@ -1,111 +1,254 @@
-import numpy
-import math as m
-import matplotlib.pyplot as plt
 import os
-import sys
-import PyFrensie.Utility as Utility
-import PyFrensie.Geometry.DagMC as DagMC
-import PyFrensie.Utility as Utility
-import PyFrensie.MonteCarlo as MonteCarlo
-import PyFrensie.MonteCarlo.Collision as Collision
-import PyFrensie.MonteCarlo.Event as Event
-import PyFrensie.MonteCarlo.Manager as Manager
-from spectrum_plot_tools import plotSpectralDataWithErrors
+import numpy as np
+import math
+import matplotlib.pyplot as plt
+from matplotlib import gridspec
+from matplotlib.ticker import FormatStrFormatter
+from matplotlib.lines import Line2D
 
-def plotInfiniteMediumSimulationSpectrum( rendezvous_file,
-                                          estimator_id,
-                                          entity_id,
-                                          mcnp_file,
-                                          mcnp_file_start,
-                                          mcnp_file_end,
-                                          is_a_current,
-                                          is_forward,
-                                          top_ylims = None,
-                                          bottom_ylims = None,
-                                          xlims = None,
-                                          legend_pos = None ):
+class bcolors:
+    HEADER = '\033[95m'
+    SIGMA2 = '\033[94m'
+    SIGMA1 = '\033[92m'
+    SIGMA3 = '\033[93m'
+    NO_SIGMA = '\033[91m'
+    ENDC = '\033[0m'
+    BOLD = '\033[1m'
+    UNDERLINE = '\033[4m'
 
-    # Activate just-in-time initialization to prevent automatic loading of the
-    # geometry and data tables
-    Utility.activateJustInTimeInitialization()
+def plotInfiniteMediumSimulationSurfaceFlux( forward_file,
+                                             adjoint_file,
+                                             output_name,
+                                             top_ylims = None,
+                                             bottom_ylims = None,
+                                             xlims = None,
+                                             legend_pos = None ):
 
-    # Set the database path
-    Collision.FilledGeometryModel.setDefaultDatabasePath( os.environ['DATABASE_PATH'] )
-    
-    # Reload the simulation
-    manager = Manager.ParticleSimulationManagerFactory( rendezvous_file ).getManager()
-    
-    # Extract the estimator of interest
-    estimator = manager.getEventHandler().getEstimator( estimator_id )
+  # Adjoint normalization factor
+  NORM=1.0
 
-    full_entity_bin_data = estimator.getEntityBinProcessedData( entity_id )
+  # Get forward data
+  with open(forward_file) as input:
+        forward_name = input.readline()[1:].strip()
+        input.readline().strip()[1:]
+        data = zip(*(line.strip().split('\t') for line in input))
+        # Get the forward x bin boundaries
+        forward_x = np.asfarray(data[0][:])
+        # Get the x bin widths
+        bin_widths = (forward_x[1:] - forward_x[:-1])
+        # Get the binned forward surface flux
+        forward_bin_y = np.asfarray(data[1][1:])
+        # Average the flux to the bin width
+        forward_y = forward_bin_y/bin_widths
+        # Calculate the error for the bin averaged surface flux
+        forward_error = np.asfarray(data[2][1:])*forward_y
 
-    start_index = 0
-    
-    if is_forward:
-        end_index = estimator.getNumberOfBins( Event.OBSERVER_ENERGY_DIMENSION )
+  # Get Adjoint Data
+  with open(adjoint_file) as input:
+        adjoint_name = input.readline()[1:].strip()
+        input.readline().strip()[1:]
+        data = zip(*(line.strip().split('\t') for line in input))
+        # Get the adjoint x bin boundaries
+        adjoint_x = np.asfarray(data[0][:])
+        # Get the x bin widths
+        bin_widths = (adjoint_x[1:] - adjoint_x[:-1])
+        # Get the binned adjoint surface flux
+        adjoint_bin_y = np.asfarray(data[1][1:])*NORM
+        # Average the flux to the bin width
+        adjoint_y = adjoint_bin_y/bin_widths
+        # Calculate the error for the bin averaged surface flux
+        adjoint_error = np.asfarray(data[2][1:])*adjoint_y
+
+  # Plot
+  fig = plt.figure(num=1, figsize=(10,6))
+
+  # set height ratios for sublots
+  gs = gridspec.GridSpec(2, 1, height_ratios=[2, 1])
+
+  # the first subplot
+  ax0 = plt.subplot(gs[0])
+
+  radius = forward_file.split("_")[-2]
+  plot_title = '$\mathrm{0.01\/MeV\/Electron\/Surface\/Flux\/in\/an\/infinite\/medium\/of\/hydrogen\/at\/' + radius +'\/cm}$'
+  x_label = 'Energy (MeV)'
+  plt.xlabel(x_label, size=14)
+  plt.ylabel('Surface Flux (#/cm$^2$)', size=14)
+  plt.title( plot_title, size=16)
+  ax=plt.gca()
+
+  if not top_ylims is None:
+    plt.ylim(top_ylims[0],top_ylims[1])
+
+  markers = ["--v","-.o",":^","--<","-.>",":+","--x","-.1",":2","--3","-.4",":8","--p","-.P",":*","--h","-.H",":X","--D","-.d"]
+  markerssizes = [6,5,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6]
+  marker_color = ['g', 'r', 'c', 'm', 'y', 'k', 'w', 'g', 'r', 'c', 'm', 'y', 'k', 'w']
+
+  linestyles = [(0, ()), (0, (5, 5)), (0, (3, 5, 1, 5)), (0, (1, 1)), (0, (3, 5, 1, 5, 1, 5)), (0, (5, 1)), (0, (3, 1, 1, 1)), (0, (3, 1, 1, 1, 1, 1)), (0, (1, 5)), (0, (5, 10)), (0, (3, 10, 1, 10)), (0, (3, 10, 1, 10, 1, 10))]
+
+  plots = []
+  labels = []
+
+  # Plot Adjoint Data
+
+  # Plot histogram of results
+  label = "adjoint"
+  if not NORM == 1.0:
+    label += "*" + str(NORM)
+  m, bins, plt1 = plt.hist(adjoint_x[:-1], bins=adjoint_x, weights=adjoint_y, histtype='step', label=label, color='b', linestyle=linestyles[0], linewidth=1.8 )
+
+  # Plot error bars
+  mid = 0.5*(bins[1:] + bins[:-1])
+  plt2 = plt.errorbar(mid, m, yerr=adjoint_error, ecolor='b', fmt=None)
+
+  # plt.errorbar(mid, adjoint_y, yerr=adjoint_error, label="adjoint", fmt="--s", markersize=6, color='b' )
+
+  handle1 = Line2D([], [], c='b', linestyle='--', dashes=linestyles[0][1], linewidth=1.8)
+  plots.append( handle1 )
+  labels.append("Adjoint")
+
+  # Plot Forward Data
+
+  # Plot histogram of results
+  m, bins, plt1 = plt.hist(forward_x[:-1], bins=forward_x, weights=forward_y, histtype='step', label="forward", color='g', linestyle=linestyles[1], linewidth=1.8 )
+
+  # Plot error bars
+  mid = 0.5*(bins[1:] + bins[:-1])
+  plt2 = plt.errorbar(mid, m, yerr=forward_error, ecolor='g', fmt=None)
+
+  # plt.errorbar(mid, forward_y, yerr=forward_error, label="forward", fmt="--s", markersize=6, color='b' )
+
+  handle1 = Line2D([], [], c='g', linestyle='--', dashes=linestyles[1][1], linewidth=1.8)
+  plots.append( handle1 )
+  labels.append("Forward")
+
+
+  plt.legend(loc='best')
+  ax.yaxis.set_major_formatter(FormatStrFormatter('%.2f'))
+
+  markers = ["v","o","^","<",">","+","x","1","2","3","4","8","p","P","*","h","H","X","D","d"]
+
+  # The C/R subplot (with shared x-axis)
+  ax1 = plt.subplot(gs[1], sharex = ax0)
+  plt.xlabel(x_label, size=14)
+  plt.ylabel('Adjoint/Forward', size=14)
+
+  yerr = np.sqrt( ((1.0/forward_y)**2)*(adjoint_error)**2 + ((adjoint_x[:-1]/forward_y**2)**2)*(forward_error)**2 )
+  y = adjoint_y/forward_y
+
+  if output_name is None:
+    output_name = "H_infinite_medium"
+
+  output_data_name = output_name + "_3_sigma.txt"
+
+  f = open(output_data_name, 'w')
+  f.write( "#" )
+  f.write( forward_name )
+  f.write( "\n#Energy\tRatio\tUncertainty\n" )
+
+  # calculate % of C/R values within 1,2,3 sigma
+  num_in_one_sigma = 0
+  num_in_two_sigma = 0
+  num_in_three_sigma = 0
+  num_below = 0
+  num_above = 0
+
+  N=0
+  length = len(y)-N
+  for i in range(N, len(y)):
+    # Print C/R results
+    # print adjoint_x[i+1], ": ", (1.0-y[i])*100, u"\u00B1", yerr[i]*100, "%"
+    # print adjoint_x[i+1], ": ", y[i], "\t",forward_y[i]
+    if not np.isfinite( y[i] ):
+      # print adjoint_x[i+1], ": ", y[i], "\t",forward_y[i], "\t",adjoint_y[i]
+      if forward_y[i] == adjoint_y[i]:
+        y[i] = 1.0
+        yerr[i] = 0.0
+      else:
+        y[i] = 0
+        yerr[i] = 1
+
+    # Calculate number above and below reference
+    if y[i] < 1.0:
+      num_below += 1
     else:
-        end_index = estimator.getNumberOfBins( Event.OBSERVER_SOURCE_ENERGY_DIMENSION )
+      num_above += 1
 
-    entity_bin_data = {"mean": [], "re": [], "e_bins": []}
+    diff = abs( 1.0 - y[i] )
+    # message = '%.4e' % adjoint_x[i+1] + ": " + '%.6f' % (y[i]) + u"\u00B1" + '%.6f' % (yerr[i]) + "%"
+    message = '%.4e' % adjoint_x[i+1] + "\t" + '%.6f' % (y[i]) +"\t"+ '%.6f' % (yerr[i])
 
-    for i in range(start_index, end_index):
-        print i, full_entity_bin_data["mean"][i], full_entity_bin_data["re"][i]
-        entity_bin_data["mean"].append( full_entity_bin_data["mean"][i] )
-        entity_bin_data["re"].append( full_entity_bin_data["re"][i] )
+    sigma = bcolors.NO_SIGMA
+    if diff <= 3*yerr[i]:
+        num_in_three_sigma += 1
+        sigma = bcolors.SIGMA3
+    if diff <= 2*yerr[i]:
+        num_in_two_sigma += 1
+        sigma = bcolors.SIGMA2
+    if diff <= yerr[i]:
+        num_in_one_sigma += 1
+        sigma = bcolors.SIGMA1
 
-    if is_forward:
-        entity_bin_data["e_bins"] = list(estimator.getEnergyDiscretization())
-    else:
-        entity_bin_data["e_bins"] = list(estimator.getSourceEnergyDiscretization())
+    f.write( message +"\n")
+    message = sigma + message + bcolors.ENDC
+    print message
 
-    # Extract the mcnp data from the output file
-    mcnp_file = open( mcnp_file, "r" )
-    mcnp_file_lines = mcnp_file.readlines()
-    
-    mcnp_bin_data = {"e_up": [], "mean": [], "re": []}
+  message = "----------------------------------------------------------------"
+  print message
+  f.write( message +"\n")
+  message = '%.3f' % (float(num_above)/length*100) + "% above reference"
+  print "  ", message
+  f.write( message +"\n")
+  message = '%.3f' % (float(num_below)/length*100) + "% below reference"
+  print "  ", message
+  f.write( message +"\n")
+  message = "----------------------------------------------------------------"
+  print message
+  f.write( message +"\n")
+  message = '%.3f' % (float(num_in_one_sigma)/length*100) + "% C/R within 1 sigma"
+  print "  ", bcolors.SIGMA1, message, bcolors.ENDC
+  f.write( message +"\n")
+  message = "----------------------------------------------------------------"
+  print message
+  f.write( message +"\n")
+  message = '%.3f' % (float(num_in_two_sigma)/length*100) + "% C/R within 2 sigma"
+  print "  ", bcolors.SIGMA2, message, bcolors.ENDC
+  f.write( message +"\n")
+  message = "----------------------------------------------------------------"
+  print message
+  f.write( message +"\n")
+  message = '%.3f' % (float(num_in_three_sigma)/length*100) + "% C/R within 3 sigma"
+  print "  ", bcolors.SIGMA3, message, bcolors.ENDC
+  f.write( message +"\n")
+  f.close()
+  # Plot histogram of results
+  m, bins, _ = ax1.hist(adjoint_x[:-1], bins=adjoint_x, weights=y, histtype='step', label="ratio", color='b', linestyle=linestyles[0], linewidth=1.8 )
+  # Plot error bars
+  mid = 0.5*(bins[1:] + bins[:-1])
+  ax1.errorbar(mid, m, yerr=yerr, ecolor='b', fmt=None)
 
-    mcnp_first_nonzero_index = 0
-    
-    for i in range(mcnp_file_start,mcnp_file_end+1):
-        split_line = mcnp_file_lines[i-1].split()
+  # make x ticks for first suplot invisible
+  plt.setp(ax0.get_xticklabels(), visible=False)
 
-        mean_value = float(split_line[1])
+  # remove first tick label for the first subplot
+  yticks = ax0.yaxis.get_major_ticks()
+  yticks[0].label1.set_visible(False)
+  ax0.grid(linestyle=':')
+  ax1.grid(linestyle=':')
 
-        if mean_value == 0.0:
-            mcnp_first_nonzero_index += 1
-        else:
-            mcnp_bin_data["e_up"].append( float(split_line[0]) )
-            mcnp_bin_data["mean"].append( mean_value )
-            mcnp_bin_data["re"].append( float(split_line[2]) )
+  output_plot_names = []
+  output_plot_names.append( output_name + ".eps" )
+  output_plot_names.append( output_name + ".png" )
 
-    # Filter out zero values
-    del entity_bin_data["e_bins"][0:mcnp_first_nonzero_index]
-    del entity_bin_data["mean"][0:mcnp_first_nonzero_index]
-    del entity_bin_data["re"][0:mcnp_first_nonzero_index]
+  if not xlims is None:
+    plt.xlim(xlims[0],xlims[1])
+  if not bottom_ylims is None:
+    plt.ylim(bottom_ylims[0],bottom_ylims[1])
 
-    output_file_name = "h_infinite_medium_"
-    output_file_names = []
+  # remove vertical gap between subplots
+  plt.subplots_adjust(hspace=.0)
 
-    if is_a_current:
-        output_file_names.append( output_file_name + "current.eps" )
-        output_file_names.append( output_file_name + "current.png" )
-        data_type = "Current"
-    else:
-        output_file_names.append( output_file_name + "flux.eps" )
-        output_file_names.append( output_file_name + "flux.png" )
-        data_type = "Flux"
-        
-    # Plot the data
-    plotSpectralDataWithErrors( "FRENSIE",
-                                entity_bin_data,
-                                "MCNP6",
-                                mcnp_bin_data,
-                                data_type,
-                                log_spacing = False,
-                                per_lethargy = False,
-                                top_ylims = top_ylims,
-                                bottom_ylims = bottom_ylims,
-                                xlims = xlims,
-                                legend_pos = legend_pos,
-                                output_plot_names = output_file_names )
+  print "Plot outputted to: ",output_name
+  # Save the figure
+  for i in range(0,len(output_plot_names)):
+    fig.savefig( output_plot_names[i], bbox_inches='tight', dpi=600)
+  plt.show()
