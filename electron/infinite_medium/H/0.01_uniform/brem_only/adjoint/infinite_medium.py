@@ -42,7 +42,7 @@ if __name__ == "__main__":
     # Set the bivariate Grid Policy ( UNIT_BASE_CORRELATED, CORRELATED, UNIT_BASE )
     grid_policy = simulation.getGridPolicyFromString(options.grid_policy)
 
-    # Set the source and cutoff energy
+    # Set the max and cutoff energy
     energy=0.01
     cutoff_energy=1e-4
 
@@ -64,7 +64,7 @@ if __name__ == "__main__":
     geometry_path = path.dirname(path.dirname(path.realpath(__file__))) + "/geom.h5m"
 
     # Set the energy bins
-    bins = list(Utility.doubleArrayFromString( "{ 1e-4, 68i, 7e-3, 199i, 1e-2}" ))
+    bins = list(Utility.doubleArrayFromString( "{ 1e-4, 99l, 8e-3, 99i, 1e-2}" ))
 
     # Set the file version
     if grid_policy == MonteCarlo.UNIT_BASE_GRID:
@@ -75,14 +75,13 @@ if __name__ == "__main__":
       version = 2
 
     # Run the simulation
-    simulation.runAdjointDeltaEnergyInfiniteMediumSimulation(
+    simulation.runAdjointUniformEnergyInfiniteMediumSimulation(
           sim_name,
           database_path,
           geometry_path,
           properties,
           cutoff_energy,
           energy,
-          None,
           bins,
           1000,
           version,

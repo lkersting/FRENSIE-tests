@@ -43,7 +43,7 @@ if __name__ == "__main__":
     grid_policy = simulation.getGridPolicyFromString(options.grid_policy)
 
     # Set the source and cutoff energy
-    source_energy = 0.01
+    max_energy = 0.01
     cutoff_energy = 1e-4
 
     # Set the bivariate interpolation ( LINLINLIN, LOGLOGLOG )
@@ -60,7 +60,7 @@ if __name__ == "__main__":
     elif grid_policy == MonteCarlo.CORRELATED_GRID:
       version = 3
 
-    properties = simulation.setForwardSimulationProperties( options.num_particles, options.wall_time, interpolation, grid_policy, mode, method, cutoff_energy, source_energy )
+    properties = simulation.setForwardSimulationProperties( options.num_particles, options.wall_time, interpolation, grid_policy, mode, method, cutoff_energy, max_energy )
 
     # Turn certain reactions off
     properties.setElasticModeOff()
@@ -69,7 +69,7 @@ if __name__ == "__main__":
     # properties.setAtomicExcitationModeOff()
 
     # Set the simulation name
-    sim_name = simulation.setForwardSimulationName( properties, source_energy, file_type, "H" )
+    sim_name = simulation.setForwardSimulationName( properties, max_energy, file_type, "H" )
 
     # Create the results directory
     simulation.createResultsDirectory(sim_name)
@@ -77,15 +77,16 @@ if __name__ == "__main__":
     geometry_path = path.dirname(path.dirname(path.realpath(__file__))) + "/geom.h5m"
 
     # Set the energy bins
-    bins = list(Utility.doubleArrayFromString( "{ 1e-4, 88i, 9e-3, 199i, 1e-2}" ))
+    bins = list(Utility.doubleArrayFromString( "{ 1e-4, 99l, 8e-3, 99i, 1e-2}" ))
 
     # Run the simulation
-    simulation.runForwardDeltaEnergyInfiniteMediumSimulation(
+    simulation.runForwardUniformEnergyInfiniteMediumSimulation(
           sim_name,
           database_path,
           geometry_path,
           properties,
-          source_energy,
+          cutoff_energy,
+          max_energy,
           bins,
           1000,
           version,
