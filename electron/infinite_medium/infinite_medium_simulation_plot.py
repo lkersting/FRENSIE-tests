@@ -16,51 +16,47 @@ class bcolors:
     BOLD = '\033[1m'
     UNDERLINE = '\033[4m'
 
-def plotInfiniteMediumSimulationSurfaceFlux( forward_file,
-                                             adjoint_file,
+def plotInfiniteMediumSimulationSurfaceFlux( forward_data,
+                                             adjoint_data,
+                                             energy_bins,
                                              output_name,
+                                             radius,
                                              top_ylims = None,
                                              bottom_ylims = None,
                                              xlims = None,
                                              legend_pos = None ):
 
-  # Adjoint normalization factor
-  NORM=1.0
+  # Make sure that the forward data is a dictionary
+  if not isinstance(forward_data, dict):
+      print "The forward data must be a dictionary with keys \"e_bins\", \"mean\" and \"re\""
+      sys.exit(1)
+
+  # Make sure that the tadjoint data is a dictionary
+  if not isinstance(adjoint_data, dict):
+      print "The adjoint data must be a dictionary with keys \"mean\" and \"re\""
+      sys.exit(1)
+
+  # Get the forward energy bin boundaries
+  energy_bins = np.array(energy_bins)
+  # Get the x bin widths
+  bin_widths = (energy_bins[1:] - energy_bins[:-1])
 
   # Get forward data
-  with open(forward_file) as input:
-        forward_name = input.readline()[1:].strip()
-        input.readline().strip()[1:]
-        data = zip(*(line.strip().split('\t') for line in input))
-        # Get the forward x bin boundaries
-        forward_x = np.asfarray(data[0][:])
-        # Get the x bin widths
-        bin_widths = (forward_x[1:] - forward_x[:-1])
-        # Get the binned forward surface flux
-        forward_bin_y = np.asfarray(data[1][1:])
-        # Average the flux to the bin width
-        forward_y = forward_bin_y/bin_widths
-        # Calculate the error for the bin averaged surface flux
-        forward_error = np.asfarray(data[2][1:])*forward_y
+  # Average the flux to the bin width
+  forward_y = np.array(forward_data['mean'])/bin_widths
+  # Calculate the error for the bin averaged surface flux
+  forward_error = np.array(forward_data['re'])*forward_y
 
   # Get Adjoint Data
-  with open(adjoint_file) as input:
-        adjoint_name = input.readline()[1:].strip()
-        input.readline().strip()[1:]
-        data = zip(*(line.strip().split('\t') for line in input))
-        # Get the adjoint x bin boundaries
-        adjoint_x = np.asfarray(data[0][:])
-        # Get the x bin widths
-        bin_widths = (adjoint_x[1:] - adjoint_x[:-1])
-        # Get the binned adjoint surface flux
-        adjoint_bin_y = np.asfarray(data[1][1:])*NORM
-        # Average the flux to the bin width
-        adjoint_y = adjoint_bin_y/bin_widths
-        # Calculate the error for the bin averaged surface flux
-        adjoint_error = np.asfarray(data[2][1:])*adjoint_y
+  NORM = 1.0
+
+  # Average the flux to the bin width
+  adjoint_y = np.array(adjoint_data['mean'])/bin_widths*NORM
+  # Calculate the error for the bin averaged surface flux
+  adjoint_error = np.array(adjoint_data['re'])*adjoint_y
 
   # Plot
-  fig = plt.figure(num=1, figsize=(10,6))
+  fig = plt.figure(figsize=(10,6))
 
   # set height ratios for sublots
   gs = gridspec.GridSpec(2, 1, height_ratios=[2, 1])
@@ -68,8 +64,7 @@ def plotInfiniteMediumSimulationSurfaceFlux( forward_file,
   # the first subplot
   ax0 = plt.subplot(gs[0])
 
-  radius = forward_file.split("_")[-2]
-  plot_title = '$\mathrm{0.01\/MeV\/Electron\/Surface\/Flux\/in\/an\/infinite\/medium\/of\/hydrogen\/at\/' + radius +'\/cm}$'
+  plot_title = '$\mathrm{0.01\/MeV\/Electron\/Surface\/Flux\/in\/an\/infinite\/medium\/of\/hydrogen\/at\/' + str(radius) +'\/cm}$'
   x_label = 'Energy (MeV)'
   plt.xlabel(x_label, size=14)
   plt.ylabel('Surface Flux (#/cm$^2$)', size=14)
@@ -94,7 +89,7 @@ def plotInfiniteMediumSimulationSurfaceFlux( forward_file,
   label = "adjoint"
   if not NORM == 1.0:
     label += "*" + str(NORM)
-  m, bins, plt1 = plt.hist(adjoint_x[:-1], bins=adjoint_x, weights=adjoint_y, histtype='step', label=label, color='b', linestyle=linestyles[0], linewidth=1.8 )
+  m, bins, plt1 = plt.hist(energy_bins[:-1], bins=energy_bins, weights=adjoint_y, histtype='step', label=label, color='b', linestyle=linestyles[0], linewidth=1.8 )
 
   # Plot error bars
   mid = 0.5*(bins[1:] + bins[:-1])
@@ -109,7 +104,7 @@ def plotInfiniteMediumSimulationSurfaceFlux( forward_file,
   # Plot Forward Data
 
   # Plot histogram of results
-  m, bins, plt1 = plt.hist(forward_x[:-1], bins=forward_x, weights=forward_y, histtype='step', label="forward", color='g', linestyle=linestyles[1], linewidth=1.8 )
+  m, bins, plt1 = plt.hist(energy_bins[:-1], bins=energy_bins, weights=forward_y, histtype='step', label="forward", color='g', linestyle=linestyles[1], linewidth=1.8 )
 
   # Plot error bars
   mid = 0.5*(bins[1:] + bins[:-1])
@@ -132,17 +127,15 @@ def plotInfiniteMediumSimulationSurfaceFlux( forward_file,
   plt.xlabel(x_label, size=14)
   plt.ylabel('Adjoint/Forward', size=14)
 
-  yerr = np.sqrt( ((1.0/forward_y)**2)*(adjoint_error)**2 + ((adjoint_x[:-1]/forward_y**2)**2)*(forward_error)**2 )
+  yerr = np.sqrt( ((1.0/forward_y)**2)*(adjoint_error)**2 + ((energy_bins[:-1]/forward_y**2)**2)*(forward_error)**2 )
   y = adjoint_y/forward_y
 
   if output_name is None:
-    output_name = "H_infinite_medium"
+    output_name = "H_infinite_medium_" + str(radius)
 
   output_data_name = output_name + "_3_sigma.txt"
 
   f = open(output_data_name, 'w')
-  f.write( "#" )
-  f.write( forward_name )
   f.write( "\n#Energy\tRatio\tUncertainty\n" )
 
   # calculate % of C/R values within 1,2,3 sigma
@@ -156,10 +149,10 @@ def plotInfiniteMediumSimulationSurfaceFlux( forward_file,
   length = len(y)-N
   for i in range(N, len(y)):
     # Print C/R results
-    # print adjoint_x[i+1], ": ", (1.0-y[i])*100, u"\u00B1", yerr[i]*100, "%"
-    # print adjoint_x[i+1], ": ", y[i], "\t",forward_y[i]
+    # print energy_bins[i+1], ": ", (1.0-y[i])*100, u"\u00B1", yerr[i]*100, "%"
+    # print energy_bins[i+1], ": ", y[i], "\t",forward_y[i]
     if not np.isfinite( y[i] ):
-      # print adjoint_x[i+1], ": ", y[i], "\t",forward_y[i], "\t",adjoint_y[i]
+      # print energy_binsx[i+1], ": ", y[i], "\t",forward_y[i], "\t",adjoint_y[i]
       if forward_y[i] == adjoint_y[i]:
         y[i] = 1.0
         yerr[i] = 0.0
@@ -174,8 +167,8 @@ def plotInfiniteMediumSimulationSurfaceFlux( forward_file,
       num_above += 1
 
     diff = abs( 1.0 - y[i] )
-    # message = '%.4e' % adjoint_x[i+1] + ": " + '%.6f' % (y[i]) + u"\u00B1" + '%.6f' % (yerr[i]) + "%"
-    message = '%.4e' % adjoint_x[i+1] + "\t" + '%.6f' % (y[i]) +"\t"+ '%.6f' % (yerr[i])
+    # message = '%.4e' % energy_bins[i+1] + ": " + '%.6f' % (y[i]) + u"\u00B1" + '%.6f' % (yerr[i]) + "%"
+    message = '%.4e' % energy_bins[i+1] + "\t" + '%.6f' % (y[i]) +"\t"+ '%.6f' % (yerr[i])
 
     sigma = bcolors.NO_SIGMA
     if diff <= 3*yerr[i]:
@@ -190,7 +183,7 @@ def plotInfiniteMediumSimulationSurfaceFlux( forward_file,
 
     f.write( message +"\n")
     message = sigma + message + bcolors.ENDC
-    print message
+    # print message
 
   message = "----------------------------------------------------------------"
   print message
@@ -221,7 +214,7 @@ def plotInfiniteMediumSimulationSurfaceFlux( forward_file,
   f.write( message +"\n")
   f.close()
   # Plot histogram of results
-  m, bins, _ = ax1.hist(adjoint_x[:-1], bins=adjoint_x, weights=y, histtype='step', label="ratio", color='b', linestyle=linestyles[0], linewidth=1.8 )
+  m, bins, _ = ax1.hist(energy_bins[:-1], bins=energy_bins, weights=y, histtype='step', label="ratio", color='b', linestyle=linestyles[0], linewidth=1.8 )
   # Plot error bars
   mid = 0.5*(bins[1:] + bins[:-1])
   ax1.errorbar(mid, m, yerr=yerr, ecolor='b', fmt=None)
@@ -251,4 +244,5 @@ def plotInfiniteMediumSimulationSurfaceFlux( forward_file,
   # Save the figure
   for i in range(0,len(output_plot_names)):
     fig.savefig( output_plot_names[i], bbox_inches='tight', dpi=600)
+  plt.draw()
   plt.show()

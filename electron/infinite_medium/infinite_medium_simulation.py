@@ -152,16 +152,6 @@ def runForwardDeltaEnergyInfiniteMediumSimulation( sim_name,
     else:
         manager.runSimulation()
 
-    if session.rank() == 0:
-
-      # Get the plot title
-      title = setup.getSimulationPlotTitle( sim_name )
-
-      print "Processing the results:"
-      processForwardData( surface_flux_estimator, sim_name, title )
-
-      print "Results will be in ", path.dirname(path.abspath(sim_name))
-
 ##---------------------------------------------------------------------------##
 ## Set up and run the adjoint simulation
 def runAdjointDeltaEnergyInfiniteMediumSimulation( sim_name,
@@ -308,16 +298,6 @@ def runAdjointDeltaEnergyInfiniteMediumSimulation( sim_name,
     else:
         manager.runSimulation()
 
-    if session.rank() == 0:
-
-      # Get the plot title
-      title = setup.getAdjointSimulationPlotTitle( sim_name )
-
-      print "Processing the results:"
-      processAdjointData( surface_flux_estimator, sim_name, title )
-
-      print "Results will be in ", path.dirname(path.abspath(sim_name))
-
 ##---------------------------------------------------------------------------##
 ## Set up and run the forward simulation
 def runForwardUniformEnergyInfiniteMediumSimulation( sim_name,
@@ -448,16 +428,6 @@ def runForwardUniformEnergyInfiniteMediumSimulation( sim_name,
         manager.runInterruptibleSimulation()
     else:
         manager.runSimulation()
-
-    if session.rank() == 0:
-
-      # Get the plot title
-      title = setup.getSimulationPlotTitle( sim_name )
-
-      print "Processing the results:"
-      processForwardData( surface_flux_estimator, sim_name, title )
-
-      print "Results will be in ", path.dirname(path.abspath(sim_name))
 
 ##---------------------------------------------------------------------------##
 ## Set up and run the adjoint simulation
@@ -598,16 +568,6 @@ def runAdjointUniformEnergyInfiniteMediumSimulation( sim_name,
     else:
         manager.runSimulation()
 
-    if session.rank() == 0:
-
-      # Get the plot title
-      title = setup.getAdjointSimulationPlotTitle( sim_name )
-
-      print "Processing the results:"
-      processAdjointData( surface_flux_estimator, sim_name, title )
-
-      print "Results will be in ", path.dirname(path.abspath(sim_name))
-
 ##---------------------------------------------------------------------------##
 def restartInfiniteMediumSimulation( rendezvous_file_name,
                                      db_path,
@@ -662,104 +622,6 @@ def restartInfiniteMediumSimulation( rendezvous_file_name,
         manager.runInterruptibleSimulation()
     else:
         manager.runSimulation()
-
-    if session.rank() == 0:
-
-      # Get the event handler
-      event_handler = manager.getEventHandler()
-
-      # Get the simulation name
-      filename = rendezvous.split("_rendezvous_")[0]
-
-      print "Processing the results:"
-      if "adjoint" in filename:
-        title = setup.getAdjointSimulationPlotTitle( filename )
-        estimator = event_handler.getEstimator( 2 )
-        processAdjointData( estimator, filename, title )
-      else:
-        title = setup.getSimulationPlotTitle( filename )
-        estimator = event_handler.getEstimator( 1 )
-        processForwardData( estimator, filename, title )
-
-      print "Results will be in ", path.dirname(filename)
-
-##----------------------------------------------------------------------------##
-##--------------------- processAdjointDataFromRendezvous ---------------------##
-##----------------------------------------------------------------------------##
-
-# This function pulls data from the rendezvous file
-def processAdjointDataFromRendezvous( rendezvous_file ):
-
-  Collision.FilledGeometryModel.setDefaultDatabasePath( database_path )
-
-  # Load data from file
-  manager = Manager.ParticleSimulationManagerFactory( rendezvous_file ).getManager()
-  event_handler = manager.getEventHandler()
-
-  # Get the simulation name
-  filename = rendezvous.split("_rendezvous_")[0]
-
-  print "Processing the results:"
-  if "adjoint" in filename:
-    title = setup.getAdjointSimulationPlotTitle( filename )
-    estimator = event_handler.getEstimator( 2 )
-    processAdjointData( estimator, filename, title )
-  else:
-    title = setup.getSimulationPlotTitle( filename )
-    estimator = event_handler.getEstimator( 1 )
-    processForwardData( estimator, filename, title )
-
-  print "Results will be in ", path.dirname(filename)
-
-##----------------------------------------------------------------------------##
-##---------------------------- processAdjointData ----------------------------##
-##----------------------------------------------------------------------------##
-def processAdjointData( surface_flux, filename, title ):
-
-  # Process surface flux data
-  ids = surface_flux.getEntityIds()
-
-  for id in ids:
-    if id == 1:
-      radius = 1
-    elif id == 18 or id == 27:
-      radius = 2
-    elif id == 16 or id == 25:
-      radius = 5
-    elif id == 23:
-      radius = 10
-    elif id == 21:
-      radius = 20
-    elif id == 19:
-      radius = 40
-
-    output_file = filename + "_" + str(radius)
-    setup.processSurfaceFluxSourceEnergyBinData( surface_flux, id, output_file, title )
-
-##----------------------------------------------------------------------------##
-##---------------------------- processForwardData ----------------------------##
-##----------------------------------------------------------------------------##
-def processForwardData( surface_flux, filename, title ):
-
-  # Process surface flux data
-  ids = surface_flux.getEntityIds()
-
-  for id in ids:
-    if id == 1:
-      radius = 1
-    elif id == 18 or id == 27:
-      radius = 2
-    elif id == 16 or id == 25:
-      radius = 5
-    elif id == 23:
-      radius = 10
-    elif id == 21:
-      radius = 20
-    elif id == 19:
-      radius = 40
-
-    output_file = filename + "_" + str(radius)
-    setup.processSurfaceFluxEnergyBinData( surface_flux, id, output_file, title )
 
 ##----------------------------------------------------------------------------##
 ## --------------------- setForwardSimulationProperties --------------------- ##
