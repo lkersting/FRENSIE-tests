@@ -75,7 +75,7 @@ else
   sed -i $command ${python_script}.py
   # Set if a refined grid should be used
   command=s/use_refined_grid=.*/use_refined_grid=${REFINED}/
-  sed -i "${command}" ${python_script}
+  sed -i "${command}" ${python_script}.py
   # Set the elastic distribution mode
   command=s/mode=MonteCarlo.*/mode=MonteCarlo.${MODE}_DISTRIBUTION/
   sed -i $command ${python_script}.py

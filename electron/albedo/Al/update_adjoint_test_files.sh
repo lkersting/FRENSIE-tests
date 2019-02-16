@@ -59,7 +59,7 @@ do
       fi
 
     elif [ "${grid_policy}" = "UnitBaseCorrelated" ]; then
-      tabular_eval_tol=1e-6
+      tabular_eval_tol=5e-6
       xs_convergence_tol=1e-4
       brem_convergence_tol=1e-4
       ion_convergence_tol=1e-3

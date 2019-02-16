@@ -101,7 +101,7 @@ else
 
   # Set if a refined grid should be used
   command=s/use_refined_grid=.*/use_refined_grid=${REFINED}/
-  sed -i "${command}" ${python_script}
+  sed -i "${command}" ${python_script}.py
 
   # Set the interp
   command=s/interpolation=MonteCarlo.*/interpolation=MonteCarlo.${INTERP}_INTERPOLATION/
