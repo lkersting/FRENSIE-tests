@@ -168,10 +168,10 @@ def restartDysonSphereSimulation( rendezvous_file_name,
                                                             new_simulation_properties,
                                                             threads )
     else:
-        factory = Manger.ParticleSimulationManagerFactory( rendezvous_file_name,
+        factory = Manager.ParticleSimulationManagerFactory( rendezvous_file_name,
                                                            int(num_particles),
                                                            threads )
-    
+
     manager = factory.getManager()
 
     # Allow logging on all procs

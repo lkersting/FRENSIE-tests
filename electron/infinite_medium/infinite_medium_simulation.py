@@ -570,7 +570,6 @@ def runAdjointUniformEnergyInfiniteMediumSimulation( sim_name,
 
 ##---------------------------------------------------------------------------##
 def restartInfiniteMediumSimulation( rendezvous_file_name,
-                                     db_path,
                                      num_particles,
                                      threads,
                                      time,
@@ -595,7 +594,7 @@ def restartInfiniteMediumSimulation( rendezvous_file_name,
 
     time_sec = time*60
 
-    if not num_rendevous is None:
+    if not num_rendezvous is None:
         new_simulation_properties = MonteCarlo.SimulationGeneralProperties()
         new_simulation_properties.setNumberOfHistories( int(num_particles) )
         new_simulation_properties.setSimulationWallTime( float(time_sec) )
@@ -605,10 +604,10 @@ def restartInfiniteMediumSimulation( rendezvous_file_name,
                                                             new_simulation_properties,
                                                             threads )
     else:
-        factory = Manger.ParticleSimulationManagerFactory( rendezvous_file_name,
-                                                           int(num_particles),
-                                                           float(time_sec),
-                                                           threads )
+        factory = Manager.ParticleSimulationManagerFactory( rendezvous_file_name,
+                                                            int(num_particles),
+                                                            float(time_sec),
+                                                            threads )
 
     manager = factory.getManager()
 
@@ -672,7 +671,7 @@ def setForwardSimulationName( properties, energy, file_type, element ):
   sim_name = "forward_" + element + "_" + str(energy) + extension
 
   date = str(datetime.datetime.today()).split()[0]
-  directory = "results/" + date
+  directory = "results/forward/" + date
 
   return directory + "/" + sim_name
 
@@ -689,14 +688,16 @@ def setAdjointSimulationName( properties, energy, element, grid_policy ):
     sim_name += "_unit_correlated"
   elif grid_policy == MonteCarlo.UNIT_BASE_GRID:
     sim_name += "_unit_base"
+  elif grid_policy == MonteCarlo.CORRELATED_GRID:
+    sim_name += "_correlated"
   else:
-    message = 'The grid policy ' + str(grid_policy) + 'is currently not available!'
+    message = 'The grid policy ' + grid_policy + ' is currently not available!'
     raise Exception(message)
 
   sim_name += extension
 
   date = str(datetime.datetime.today()).split()[0]
-  directory = "results/" + date
+  directory = "results/adjoint/" + date
 
   return directory + "/" + sim_name
 

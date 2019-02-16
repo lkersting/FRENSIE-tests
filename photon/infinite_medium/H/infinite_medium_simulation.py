@@ -513,7 +513,7 @@ def restartInfiniteMediumSimulation( rendezvous_file_name,
     # Set the database path
     Collision.FilledGeometryModel.setDefaultDatabasePath( db_path )
 
-    if not num_rendevous is None:
+    if not num_rendezvous is None:
         new_simulation_properties = MonteCarlo.SimulationGeneralProperties()
         new_simulation_properties.setNumberOfHistories( int(num_particles) )
         new_simulation_properties.setMinNumberOfRendezvous( int(num_rendezvous) )
@@ -522,10 +522,10 @@ def restartInfiniteMediumSimulation( rendezvous_file_name,
                                                             new_simulation_properties,
                                                             threads )
     else:
-        factory = Manger.ParticleSimulationManagerFactory( rendezvous_file_name,
+        factory = Manager.ParticleSimulationManagerFactory( rendezvous_file_name,
                                                            int(num_particles),
                                                            threads )
-    
+
     manager = factory.getManager()
 
     manager.initialize()

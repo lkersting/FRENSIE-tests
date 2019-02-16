@@ -20,6 +20,7 @@ if ! type sbatch > /dev/null 2>&1; then
 fi
 
 # Update Au data version 0
+echo "Update Au data version 0 with a unit-base correlated grid policy!"
 python_command="python ../update_forward_test_files.py --db_name="${DATABASE_PATH}" -z 79 -g 'UnitBaseCorrelatedGrid' -v 0"
 printf "#!/bin/bash\n${python_command}" > update_Au_0_temp.sh
 ${sbatch_command} update_Au_0_temp.sh
@@ -31,6 +32,7 @@ fi
 rm update_Au_0_temp.sh
 
 # Update Au data version 1
+echo "Update Au data version 1 with a unit-base grid policy and refined secondary grids!"
 python_command="python ../update_forward_test_files.py --db_name="${DATABASE_PATH}" -z 79 -g 'UnitBaseGrid' -v 1 --refine_electron_secondary_grids"
 printf "#!/bin/bash\n${python_command}" > update_Au_1_temp.sh
 ${sbatch_command} update_Au_1_temp.sh
@@ -42,6 +44,7 @@ fi
 rm update_Au_1_temp.sh
 
 # Update Au data version 2
+echo "Update Au data version 2 with a unit-base correlated grid policy and refined secondary grids!"
 python_command="python ../update_forward_test_files.py --db_name="${DATABASE_PATH}" -z 79 -g 'UnitBaseCorrelatedGrid' -v 2 --refine_electron_secondary_grids"
 printf "#!/bin/bash\n${python_command}" > update_Au_2_temp.sh
 ${sbatch_command} update_Au_2_temp.sh
@@ -53,6 +56,7 @@ fi
 rm update_Au_2_temp.sh
 
 # Update Au data version 3
+echo "Update Au data version 3 with a correlated grid policy and refined secondary grids!"
 python_command="python ../update_forward_test_files.py --db_name="${DATABASE_PATH}" -z 79 -g 'CorrelatedGrid' -v 3 --refine_electron_secondary_grids"
 printf "#!/bin/bash\n${python_command}" > update_Au_3_temp.sh
 ${sbatch_command} update_Au_3_temp.sh

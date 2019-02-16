@@ -49,25 +49,26 @@ methods=( MODIFIED_TWO_D )
 ##---------------------------------------------------------------------------##
 ## ------------------------------- COMMANDS ---------------------------------##
 ##---------------------------------------------------------------------------##
+script=hanson.sh
 
 # Set the number of threads
 command="s/\#SBATCH[[:space:]]--ntasks=.*/\#SBATCH --ntasks=${MPI_PROCESSES}/"
-sed -i "${command}" hanson.sh
+sed -i "${command}" ${script}
 command="s/\#SBATCH[[:space:]]--cpus-per-task=.*/\#SBATCH --cpus-per-task=${OPEN_MP_THREADS}/"
-sed -i "${command}" hanson.sh
+sed -i "${command}" ${script}
 
 # Set the wall time and number of histories
 command=s/TIME=.*/TIME=${TIME}/
-sed -i "${command}" hanson.sh
+sed -i "${command}" ${script}
 command=s/HISTORIES=.*/HISTORIES=${HISTORIES}/
-sed -i "${command}" hanson.sh
+sed -i "${command}" ${script}
 
 
 for file_type in "${file_types[@]}"
 do
   # Set the file type
   command=s/FILE_TYPE=.*/FILE_TYPE=${file_type}/
-  sed -i "${command}" hanson.sh
+  sed -i "${command}" ${script}
   echo "Setting file type to ${file_type}"
 
   if [ "${file_type}" = "Native" ]; then
@@ -76,7 +77,7 @@ do
     do
       # Set the interp
       command=s/INTERP=.*/INTERP=${interp}/
-      sed -i "${command}" hanson.sh
+      sed -i "${command}" ${script}
       echo "  Setting interpolation to ${interp}"
 
       for grid_policy in "${grid_policys[@]}"
@@ -86,7 +87,7 @@ do
         else
           # Set bivariate grid policy
           command=s/GRID_POLICY=.*/GRID_POLICY=${grid_policy}/
-          sed -i "${command}" hanson.sh
+          sed -i "${command}" ${script}
           echo "    Setting grid policy to ${grid_policy}"
 
           # Set the refined grid mode on/off
@@ -101,7 +102,7 @@ do
             do
               # Set the elastic distribution mode
               command=s/MODE=.*/MODE=${mode}/
-              sed -i "${command}" hanson.sh
+              sed -i "${command}" ${script}
               echo "        Setting elastic mode to ${mode}"
 
               if [ "${mode}" == "COUPLED" ]; then
@@ -110,14 +111,14 @@ do
                 do
                   # Set the elastic coupled sampling method
                   command=s/METHOD=.*/METHOD=${method}/
-                  sed -i "${command}" hanson.sh
+                  sed -i "${command}" ${script}
                   echo "          Setting elastic coupled sampling method to ${method}"
 
-                  sbatch hanson.sh
+                  sbatch ${script}
 
                 done
               else
-                  sbatch hanson.sh
+                  sbatch ${script}
               fi
             done
           done
@@ -125,7 +126,7 @@ do
       done
     done
   else
-    sbatch hanson.sh
+    sbatch ${script}
   fi
 
 done

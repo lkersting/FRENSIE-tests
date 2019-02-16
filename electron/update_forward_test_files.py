@@ -61,7 +61,7 @@ def generateNativeFile( db_name,
 
     print "The PyFrensie path is set to: ", path.dirname( path.dirname(path.abspath(Data.__file__))), "\n"
 
-    database_save_required = False
+    database_save_required = True
     generation_required = True
 
     # Check if the output file has already been generated

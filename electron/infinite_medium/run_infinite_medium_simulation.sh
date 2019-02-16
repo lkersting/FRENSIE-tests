@@ -1,11 +1,19 @@
 #!/bin/bash
-# This file is named infinite_medium.sh
+##---------------------------------------------------------------------------##
+## -------------------------- FRENSIE test runner ---------------------------##
+##---------------------------------------------------------------------------##
+## Run an infinite medium simulation
+##---------------------------------------------------------------------------##
 
 # Sbatch variables
 partition=pre
 time=1-00:00:00
 ntasks=40
 threads=4
+
+##---------------------------------------------------------------------------##
+## ------------------------- SIMULATION VARIABLES ---------------------------##
+##---------------------------------------------------------------------------##
 
 # Desired number of histories
 num_particles=1e6
@@ -34,7 +42,13 @@ methods=( "2D" )
 # Desired bivariate grid policies ( "unit correlated" "unit base" "correlated" )
 grid_policies=( "unit correlated" "unit base" "correlated" )
 
+##---------------------------------------------------------------------------##
+## ------------------------------- COMMANDS ---------------------------------##
+##---------------------------------------------------------------------------##
+
 sbatch_command="sbatch --partition=${partition} --time=${time} --ntasks=${ntasks} --cpus-per-task=${threads}"
+run_date=$(date +'%Y-%m-%d')
+mv_slurm_command="\nmv slurm-${SLURM_JOB_ID}.out ./results/${run_date}"
 
 if ! type sbatch > /dev/null 2>&1; then
   sbatch_command=bash
@@ -78,9 +92,6 @@ do
         do
           echo "  Setting transport mode to ${bold}${transport}${normal}"
 
-          # Move to the transport directory
-          cd ${transport}
-
           # Set the bivariate Grid Policy
           for grid_policy in "${grid_policies[@]}"
           do
@@ -98,23 +109,21 @@ do
                 do
                   echo "        Setting elastic coupled sampling method to ${bold}${method}${normal}"
 
-                  python_command="mpirun -np ${ntasks} python2.7 infinite_medium.py --num_particles=${num_particles} --threads=${threads} --grid_policy=\'${grid_policy}\' --elastic_mode=\'${mode}\' --elastic_method=\'${method}\'"
-                  printf "#!/bin/bash\n${python_command}" > infinite_medium_temp.sh
+                  python_command="mpirun -np ${ntasks} python2.7 ${transport}_infinite_medium.py --num_particles=${num_particles} --threads=${threads} --grid_policy=\'${grid_policy}\' --elastic_mode=\'${mode}\' --elastic_method=\'${method}\'"
+                  printf "#!/bin/bash\n${python_command}${mv_slurm_command}" > infinite_medium_temp.sh
 
                   ${sbatch_command} infinite_medium_temp.sh
                   rm infinite_medium_temp.sh
                 done
               else
-                python_command="mpirun -np ${ntasks} python2.7 infinite_medium.py --num_particles=${num_particles} --threads=${threads} --grid_policy=\'${grid_policy}\' --elastic_mode=\'${mode}\'"
-                printf "#!/bin/bash\n${python_command}" > infinite_medium_temp.sh
+                python_command="mpirun -np ${ntasks} python2.7 ${transport}_infinite_medium.py --num_particles=${num_particles} --threads=${threads} --grid_policy=\'${grid_policy}\' --elastic_mode=\'${mode}\'"
+                printf "#!/bin/bash\n${python_command}${mv_slurm_command}" > infinite_medium_temp.sh
 
                 ${sbatch_command} infinite_medium_temp.sh
                 rm infinite_medium_temp.sh
               fi
             done
           done
-          # Move back to the reaction directory
-          cd ../
         done
         # Move back to the sorce type and max energy directory
         cd ../
