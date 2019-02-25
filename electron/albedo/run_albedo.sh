@@ -91,218 +91,239 @@ do
   # Move to the material directory
   cd ${material}
 
-for transport in "${transports[@]}"
-do
-  # Set the transport mode
-  command=s/TRANSPORT=.*/TRANSPORT=\"${transport}\"/
-  sed -i "${command}" ${script}
-  echo "Setting the transport mode to ${transport}"
+  for transport in "${transports[@]}"
+  do
+    # Set the transport mode
+    command=s/TRANSPORT=.*/TRANSPORT=\"${transport}\"/
+    sed -i "${command}" ${script}
+    echo "Setting the transport mode to ${transport}"
 
-  if [ "${transport}" = "forward" ]; then
-    for file_type in "${file_types[@]}"
-    do
-      # Set the file type
-      command=s/FILE_TYPE=.*/FILE_TYPE=${file_type}/
-      sed -i "${command}" ${script}
-      echo "  Setting file type to ${file_type}"
+    if [ "${transport}" = "forward" ]; then
+      for file_type in "${file_types[@]}"
+      do
+        # Set the file type
+        command=s/FILE_TYPE=.*/FILE_TYPE=${file_type}/
+        sed -i "${command}" ${script}
+        echo "  Setting file type to ${file_type}"
 
-      if [ "${file_type}" = "Native" ]; then
+        if [ "${file_type}" = "Native" ]; then
 
-        for interp in "${interps[@]}"
-        do
-          # Set the interp
-          command=s/INTERP=.*/INTERP=${interp}/
-          sed -i "${command}" ${script}
-          echo "    Setting interpolation to ${interp}"
-
-          for grid_policy in "${grid_policys[@]}"
+          for interp in "${interps[@]}"
           do
-            if [ "${interp}" == "LINLINLOG" ] && [ "${grid_policy}" == "CORRELATED" ]; then
-              echo "    The interp (${interp}) and grid policy (${grid_policy}) combo will be skipped."
-            else
-              # Set bivariate grid policy
-              command=s/GRID_POLICY=.*/GRID_POLICY=${grid_policy}/
-              sed -i "${command}" ${script}
-              echo "      Setting grid policy to ${grid_policy}"
+            # Set the interp
+            command=s/INTERP=.*/INTERP=${interp}/
+            sed -i "${command}" ${script}
+            echo "    Setting interpolation to ${interp}"
 
-              # Set the refined grid mode on/off
-              for refined_grid in "${refined_grids[@]}"
-              do
-                # Set if a refined grid should be used
-                command=s/REFINED=.*/REFINED=${refined_grid}/
+            for grid_policy in "${grid_policys[@]}"
+            do
+              if [ "${interp}" == "LINLINLOG" ] && [ "${grid_policy}" == "CORRELATED" ]; then
+                echo "    The interp (${interp}) and grid policy (${grid_policy}) combo will be skipped."
+              else
+                # Set bivariate grid policy
+                command=s/GRID_POLICY=.*/GRID_POLICY=${grid_policy}/
                 sed -i "${command}" ${script}
-                echo "        Setting refined grid mode to ${refined_grid}"
+                echo "      Setting grid policy to ${grid_policy}"
 
-                for mode in "${modes[@]}"
+                # Set the refined grid mode on/off
+                for refined_grid in "${refined_grids[@]}"
                 do
-                  # Set the elastic distribution mode
-                  command=s/MODE=.*/MODE=${mode}/
+                  # Set if a refined grid should be used
+                  command=s/REFINED=.*/REFINED=${refined_grid}/
                   sed -i "${command}" ${script}
-                  echo "          Setting elastic mode to ${mode}"
+                  echo "        Setting refined grid mode to ${refined_grid}"
 
-                  if [ "${mode}" == "COUPLED" ]; then
+                  for mode in "${modes[@]}"
+                  do
+                    # Set the elastic distribution mode
+                    command=s/MODE=.*/MODE=${mode}/
+                    sed -i "${command}" ${script}
+                    echo "          Setting elastic mode to ${mode}"
 
-                    for method in "${methods[@]}"
-                    do
-                      if [ "${interp}" == "LOGLOGLOG" ] && [ "${grid_policy}" == "UNIT_BASE" ] && [ "${method}" == "MODIFIED_TWO_D" ]; then
-                        echo "            The interp (${interp}), grid policy (${grid_policy}), mode (${mode}), and method (${method}) combo will be skipped."
-                      else
+                    if [ "${mode}" == "COUPLED" ]; then
 
-                        # Set the elastic coupled sampling method
-                        command=s/METHOD=.*/METHOD=${method}/
-                        sed -i "${command}" ${script}
-                        echo "            Setting elastic coupled sampling method to ${method}"
+                      for method in "${methods[@]}"
+                      do
+                        if [ "${interp}" == "LOGLOGLOG" ] && [ "${grid_policy}" == "UNIT_BASE" ] && [ "${method}" == "MODIFIED_TWO_D" ]; then
+                          echo "            The interp (${interp}), grid policy (${grid_policy}), mode (${mode}), and method (${method}) combo will be skipped."
+                        else
 
-                        for spectrum in "${spectrums[@]}"
-                        do
-                          # Set if a spectrum source mode
-                          command=s/SPECTRUM=.*/SPECTRUM=${spectrum}/
+                          # Set the elastic coupled sampling method
+                          command=s/METHOD=.*/METHOD=${method}/
                           sed -i "${command}" ${script}
-                          echo "              Setting the spectrum source mode to ${spectrum}"
+                          echo "            Setting elastic coupled sampling method to ${method}"
 
-                          if [ "${spectrum}" == "True" ]; then
-                              # Set the energy to 0.256
-                              command=s/ENERGY=.*/ENERGY=0.256/
-                              sed -i "${command}" ${script}
+                          for spectrum in "${spectrums[@]}"
+                          do
+                            # Set if a spectrum source mode
+                            command=s/SPECTRUM=.*/SPECTRUM=${spectrum}/
+                            sed -i "${command}" ${script}
+                            echo "              Setting the spectrum source mode to ${spectrum}"
 
-                              for isotropic in "${isotropics[@]}"
-                              do
-                                # Set if a isotropic source mode
-                                command=s/ISOTROPIC=.*/ISOTROPIC=${isotropic}/
+                            if [ "${spectrum}" == "True" ]; then
+                                # Set the energy to 0.256
+                                command=s/ENERGY=.*/ENERGY=0.256/
                                 sed -i "${command}" ${script}
-                                echo "                Setting the isotropic source mode to ${isotropic}"
 
+                                for isotropic in "${isotropics[@]}"
+                                do
+                                  # Set if a isotropic source mode
+                                  command=s/ISOTROPIC=.*/ISOTROPIC=${isotropic}/
+                                  sed -i "${command}" ${script}
+                                  echo "                Setting the isotropic source mode to ${isotropic}"
+
+                                  sbatch ${script}
+                                done
+                            else
+                              # loop through test energies and run mpi script
+                              for energy in "${energies[@]}"
+                              do
+                                  # Set the energy
+                                  command=s/ENERGY=.*/ENERGY=${energy}/
+                                  sed -i "${command}" ${script}
+
+                                echo -e "              Running Albedo at ${energy} MeV!\n"
                                 sbatch ${script}
                               done
-                          else
-                            # loop through test energies and run mpi script
-                            for energy in "${energies[@]}"
-                            do
-                                # Set the energy
-                                command=s/ENERGY=.*/ENERGY=${energy}/
-                                sed -i "${command}" ${script}
+                            fi
+                          done
+                        fi
+                      done
+                    else
+                      for spectrum in "${spectrums[@]}"
+                      do
+                        # Set if a spectrum source mode
+                        command=s/SPECTRUM=.*/SPECTRUM=${spectrum}/
+                        sed -i "${command}" ${script}
+                        echo "            Setting the spectrum source mode to ${spectrum}"
 
-                              echo -e "              Running Albedo at ${energy} MeV!\n"
-                              sbatch ${script}
-                            done
-                          fi
-                        done
-                      fi
-                    done
-                  else
-                    for spectrum in "${spectrums[@]}"
-                    do
-                      # Set if a spectrum source mode
-                      command=s/SPECTRUM=.*/SPECTRUM=${spectrum}/
-                      sed -i "${command}" ${script}
-                      echo "            Setting the spectrum source mode to ${spectrum}"
-
-                      if [ "${spectrum}" == "True" ]; then
-                          # Set the energy to 0.256
-                          command=s/ENERGY=.*/ENERGY=0.256/
-                          sed -i "${command}" ${script}
-
-                          sbatch ${script}
-                      else
-                        # loop through test energies and run mpi script
-                        for energy in "${energies[@]}"
-                        do
-                            # Set the energy
-                            command=s/ENERGY=.*/ENERGY=${energy}/
+                        if [ "${spectrum}" == "True" ]; then
+                            # Set the energy to 0.256
+                            command=s/ENERGY=.*/ENERGY=0.256/
                             sed -i "${command}" ${script}
 
-                          echo -e "              Running Albedo at ${energy} MeV!\n"
-                          sbatch ${script}
-                        done
-                      fi
-                    done
-                  fi
+                            for isotropic in "${isotropics[@]}"
+                            do
+                              # Set if a isotropic source mode
+                              command=s/ISOTROPIC=.*/ISOTROPIC=${isotropic}/
+                              sed -i "${command}" ${script}
+                              echo "              Setting the isotropic source mode to ${isotropic}"
+
+                              sbatch ${script}
+                            done
+
+                        else
+                          # loop through test energies and run mpi script
+                          for energy in "${energies[@]}"
+                          do
+                              # Set the energy
+                              command=s/ENERGY=.*/ENERGY=${energy}/
+                              sed -i "${command}" ${script}
+
+                            echo -e "              Running Albedo at ${energy} MeV!\n"
+                            sbatch ${script}
+                          done
+                        fi
+                      done
+                    fi
+                  done
                 done
+              fi
+            done
+          done
+        else
+          for spectrum in "${spectrums[@]}"
+          do
+            # Set if a spectrum source mode
+            command=s/SPECTRUM=.*/SPECTRUM=${spectrum}/
+            sed -i "${command}" ${script}
+            echo "    Setting the spectrum source mode to ${spectrum}"
+
+            if [ "${spectrum}" == "True" ]; then
+                # Set the energy to 0.256
+                command=s/ENERGY=.*/ENERGY=0.256/
+                sed -i "${command}" ${script}
+
+                for isotropic in "${isotropics[@]}"
+                do
+                  # Set if a isotropic source mode
+                  command=s/ISOTROPIC=.*/ISOTROPIC=${isotropic}/
+                  sed -i "${command}" ${script}
+                  echo "      Setting the isotropic source mode to ${isotropic}"
+
+                  sbatch ${script}
+                done
+            else
+              # loop through test energies and run mpi script
+              for energy in "${energies[@]}"
+              do
+                  # Set the energy
+                  command=s/ENERGY=.*/ENERGY=${energy}/
+                  sed -i "${command}" ${script}
+
+                echo -e "      Running Albedo at ${energy} MeV!\n"
+                sbatch ${script}
               done
             fi
           done
-        done
-      else
-        for spectrum in "${spectrums[@]}"
-        do
-          # Set if a spectrum source mode
-          command=s/SPECTRUM=.*/SPECTRUM=${spectrum}/
-          sed -i "${command}" ${script}
-          echo "    Setting the spectrum source mode to ${spectrum}"
-
-          if [ "${spectrum}" == "True" ]; then
-              # Set the energy to 0.256
-              command=s/ENERGY=.*/ENERGY=0.256/
-              sed -i "${command}" ${script}
-
-              sbatch ${script}
-          else
-            # loop through test energies and run mpi script
-            for energy in "${energies[@]}"
-            do
-                # Set the energy
-                command=s/ENERGY=.*/ENERGY=${energy}/
-                sed -i "${command}" ${script}
-
-              echo -e "      Running Albedo at ${energy} MeV!\n"
-              sbatch ${script}
-            done
-          fi
-        done
-      fi
-    done
-  elif [ "${transport}" = "adjoint" ]; then
-    for grid_policy in "${grid_policys[@]}"
-    do
-      # Set bivariate grid policy
-      command=s/GRID_POLICY=.*/GRID_POLICY=${grid_policy}/
-      sed -i "${command}" ${script}
-      echo "  Setting grid policy to ${grid_policy}"
-
-      # Set the nudge past max energy mode on/off
-      for nudge in "${nudges[@]}"
+        fi
+      done
+    elif [ "${transport}" = "adjoint" ]; then
+      for grid_policy in "${grid_policys[@]}"
       do
-        # Set the nudge past max energy mode on/off
-        command=s/NUDGE=.*/NUDGE=${nudge}/
+        # Set bivariate grid policy
+        command=s/GRID_POLICY=.*/GRID_POLICY=${grid_policy}/
         sed -i "${command}" ${script}
-        echo "    Setting the nudge past max energy mode to ${nudge}"
+        echo "  Setting grid policy to ${grid_policy}"
 
-        for ionization in "${ionizations[@]}"
+        # Set the nudge past max energy mode on/off
+        for nudge in "${nudges[@]}"
         do
-          # Set the electro-ionization sampling mode
-          command=s/IONIZATION=.*/IONIZATION=${ionization}/
+          # Set the nudge past max energy mode on/off
+          command=s/NUDGE=.*/NUDGE=${nudge}/
           sed -i "${command}" ${script}
-          echo "      Setting electro-ionization sampling to ${ionization}"
+          echo "    Setting the nudge past max energy mode to ${nudge}"
 
-          for mode in "${modes[@]}"
+          for ionization in "${ionizations[@]}"
           do
-            # Set the elastic distribution mode
-            command=s/MODE=.*/MODE=${mode}/
+            # Set the electro-ionization sampling mode
+            command=s/IONIZATION=.*/IONIZATION=${ionization}/
             sed -i "${command}" ${script}
-            echo "        Setting elastic mode to ${mode}"
+            echo "      Setting electro-ionization sampling to ${ionization}"
 
-            if [ "${mode}" == "COUPLED" ]; then
+            for mode in "${modes[@]}"
+            do
+              # Set the elastic distribution mode
+              command=s/MODE=.*/MODE=${mode}/
+              sed -i "${command}" ${script}
+              echo "        Setting elastic mode to ${mode}"
 
-              for method in "${methods[@]}"
-              do
-                if [ "${grid_policy}" == "UNIT_BASE" ] && [ "${method}" == "MODIFIED_TWO_D" ]; then
-                  echo "          The grid policy (${grid_policy}), mode (${mode}), and method (${method}) combo will be skipped."
-                else
+              if [ "${mode}" == "COUPLED" ]; then
 
-                  # Set the elastic coupled sampling method
-                  command=s/METHOD=.*/METHOD=${method}/
-                  sed -i "${command}" ${script}
-                  echo "          Setting elastic coupled sampling method to ${method}"
+                for method in "${methods[@]}"
+                do
+                  if [ "${grid_policy}" == "UNIT_BASE" ] && [ "${method}" == "MODIFIED_TWO_D" ]; then
+                    echo "          The grid policy (${grid_policy}), mode (${mode}), and method (${method}) combo will be skipped."
+                  else
 
-                  sbatch ${script}
-                fi
-              done
-            else
-              sbatch ${script}
-            fi
+                    # Set the elastic coupled sampling method
+                    command=s/METHOD=.*/METHOD=${method}/
+                    sed -i "${command}" ${script}
+                    echo "          Setting elastic coupled sampling method to ${method}"
+
+                    sbatch ${script}
+                  fi
+                done
+              else
+                sbatch ${script}
+              fi
+            done
           done
         done
       done
-    done
-  fi
+    fi
+  done
+
+  # Move back to the main directory
+  cd ../
 done
