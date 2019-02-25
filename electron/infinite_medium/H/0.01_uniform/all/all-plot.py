@@ -45,8 +45,8 @@ if __name__ == "__main__":
     radii = [1, 2, 5, 10, 20, 40]
 
     if "unit_base" in user_args.forward_rendezvous_file:
-      top_ylims = [ [0.0, 250], [0.0, 60], [0.0, 8], [0.0, 0.4], [0.0, .003], [0.0, 0.0001] ]
-      bottom_ylims = [ [0.0, 2.0], [0.0, 2.0], [0.0, 1.1], [0.0, 1.3], [0.7, 1.3], [0.7, 1.3] ]
+      top_ylims = [ [0.0, 10], [0.0, 3], [0.0, 0.4], [0.0, 0.1], [0.0, .03], [0.0, 0.01] ]
+      bottom_ylims = [ [0.9, 1.1], [0.85, 1.15], [0.85, 1.15], [0.85, 1.15], [0.8, 1.2], [0.7, 1.3] ]
       xlims = [ [0.0,0.01], [0.0,0.01], [0.0,0.01], [0.0,0.01], [0.0,0.01], [0.0,0.01] ]
       legend_pos = [ (0.95,0.95), (0.95,0.95), (0.95,0.95), (0.95,0.95), (0.95,0.95), (0.95,0.95) ]
     if "unit_correlated" in user_args.forward_rendezvous_file:
@@ -60,12 +60,12 @@ if __name__ == "__main__":
       xlims = [ [0.0,0.01], [0.0,0.01], [0.0,0.01], [0.0,0.01], [0.0,0.01], [0.0,0.01] ]
       legend_pos = [ (0.95,0.95), (0.95,0.95), (0.95,0.95), (0.95,0.95), (0.95,0.95), (0.95,0.95) ]
 
-    output = None
-    if not user_args.output_name is None:
-      output = user_args.output_name
-    else:
-      output = user_args.forward_rendezvous_file.split("_rendezvous_")[0]
-      output = output.split("forward_0.01_loglog_")[-1]
+    # output = None
+    # if not user_args.output_name is None:
+    #   output = user_args.output_name
+    # else:
+    #   output = user_args.forward_rendezvous_file.split("_rendezvous_")[0]
+    #   output = output.split("forward_0.01_loglog_")[-1]
 
     for i in range(0, len(entity_ids)):
       # Load forward data from file
@@ -88,13 +88,13 @@ if __name__ == "__main__":
       # delete manager
       manager = []
 
-      output_data_name = output + "_" + str(radii[i])
+      # output_data_name = output + "_" + str(radii[i])
 
       # Plot the results
       plotInfiniteMediumSimulationSurfaceFlux( forward_data,
                                                adjoint_data,
                                                energy_bins,
-                                               output_data_name,
+                                               None,
                                                radii[i],
                                                top_ylims[i],
                                                bottom_ylims[i],

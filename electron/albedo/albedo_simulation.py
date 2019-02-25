@@ -326,16 +326,16 @@ def runForwardSpectrumAlbedoSimulation( sim_name,
 ##---------------------------------------------------------------------------##
 ## Set up and run the forward spectrum simulation
 def runForwardIsotrpoicSpectrumAlbedoSimulation( sim_name,
-                                                      db_path,
-                                                      geom_name,
-                                                      properties,
-                                                      min_energy,
-                                                      max_energy,
-                                                      zaid,
-                                                      file_type,
-                                                      version,
-                                                      threads,
-                                                      log_file = None ):
+                                                 db_path,
+                                                 geom_name,
+                                                 properties,
+                                                 min_energy,
+                                                 max_energy,
+                                                 zaid,
+                                                 file_type,
+                                                 version,
+                                                 threads,
+                                                 log_file = None ):
 
 
     ## Initialize the MPI session
