@@ -16,7 +16,7 @@ threads=4
 ##---------------------------------------------------------------------------##
 
 # Desired number of histories
-num_particles=1e6
+num_particles=1e7
 
 # Materials ( "H" )
 materials=( "H" )
