@@ -41,23 +41,12 @@ if __name__ == "__main__":
     # Set the database path
     Collision.FilledGeometryModel.setDefaultDatabasePath( environ['DATABASE_PATH'] )
 
-    entity_ids = [1, 18, 16]
-    radii = [1, 2, 5]
-    if "unit_base" in user_args.forward_rendezvous_file:
-      top_ylims = [ [0.0, 2e3], [0.0, 200], [0.0, 1.0] ]
-      bottom_ylims = [ [0.8, 1.2], [0.8, 1.2], [0.85, 1.15] ]
-      xlims = [ [0.008,0.01], [0.004,0.01], [0.0,0.01] ]
-      legend_pos = [ (0.95,0.95), (0.95,0.95), (0.95,0.95) ]
-    elif "unit_correlated" in user_args.forward_rendezvous_file:
-      top_ylims = [ [0.0, 1e3], [0.0, 30], [0.0, .015] ]
-      bottom_ylims = [ [0.95, 1.05], [0.0, 1.05], [0.0, 2.0] ]
-      xlims = [ [0.008,0.01], [0.004,0.01], [0.0,0.01] ]
-      legend_pos = [ (0.95,0.95), (0.95,0.95), (0.95,0.95) ]
-    elif "correlated" in user_args.forward_rendezvous_file:
-      top_ylims = [ [0.0, 2e3], [0.0, 200], [0.0, 1.0] ]
-      bottom_ylims = [ [0.8, 1.2], [0.8, 1.2], [0.85, 1.15] ]
-      xlims = [ [0.008,0.01], [0.004,0.01], [0.0,0.01] ]
-      legend_pos = [ (0.95,0.95), (0.95,0.95), (0.95,0.95) ]
+    entity_ids = [1, 27, 25, 23, 21, 19]
+    radii = [1, 2, 5, 10, 20, 40]
+    top_ylims = [ [0.0, 4e3], [0.0, 700], [0.0, 50], [0.0, 6], [0.0, 1], [0.0, 0.11] ]
+    bottom_ylims = [ [0.7, 1.3], [0.7, 1.3], [0.7, 1.3], [0.7, 1.3], [0.7, 1.3], [0.7, 1.3] ]
+    xlims = [ [0.0085,0.01], [0.0085,0.01], [0.0085,0.01], [0.0085,0.01], [0.008,0.01], [0.008,0.01] ]
+    legend_pos = [ (0.95,0.95), (0.95,0.95), (0.95,0.95), (0.95,0.95), (0.95,0.95), (0.95,0.95) ]
 
     output = None
     if not user_args.output_name is None:

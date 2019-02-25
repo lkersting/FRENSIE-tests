@@ -34,8 +34,11 @@ method=MonteCarlo.MODIFIED_TWO_D_UNION
 
 ## ------- FORWARD OPTIONS ------- ##
 
-# set use spectrum source mode
+# set spectrum source mode
 spectrum_source=True
+
+# set cosine source mode
+cosine_source=True
 
 # Set the source energy
 source_energy=0.256
@@ -118,6 +121,26 @@ if __name__ == "__main__":
       elif file_type == Data.ElectroatomicDataProperties.ACE_EPR_FILE:
         version = 14
 
+      if cosine_source and spectrum_source:
+        # Set the simulation name and title
+        sim_name = simulation.setSimulationName( properties, file_type, element, "cosine_spectrum", use_refined_grid )
+
+        # Create the results directory
+        simulation.createResultsDirectory(sim_name)
+
+        # Run the simulation
+        simulation.runForwardSpectrumAlbedoSimulationWithCosineBins(
+                                                       sim_name,
+                                                       database_path,
+                                                       geometry_path,
+                                                       properties,
+                                                       cutoff_energy,
+                                                       source_energy,
+                                                       zaid,
+                                                       file_type,
+                                                       version,
+                                                       options.threads,
+                                                       options.log_file )
       if spectrum_source:
         # Set the simulation name and title
         sim_name = simulation.setSimulationName( properties, file_type, element, "spectrum", use_refined_grid )

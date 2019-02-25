@@ -4,7 +4,7 @@ from optparse import *
 import sys
 
 # Add the parent directory to the path
-sys.path.insert(1,path.dirname(path.dirname(path.dirname(path.dirname(path.dirname(path.abspath(__file__)))))))
+sys.path.insert(1,path.dirname(path.dirname(path.dirname(path.dirname(path.abspath(__file__))))))
 import infinite_medium_simulation as simulation
 import PyFrensie.Data as Data
 import PyFrensie.Utility as Utility
@@ -61,7 +61,7 @@ if __name__ == "__main__":
     # Create the results directory
     simulation.createResultsDirectory(sim_name)
 
-    geometry_path = path.dirname(path.dirname(path.realpath(__file__))) + "/geom.h5m"
+    geometry_path = path.dirname(path.realpath(__file__)) + "/geom.h5m"
 
     # Set the energy bins
     bins = list(Utility.doubleArrayFromString( "{ 1e-4, 99l, 8e-3, 99i, 1e-2}" ))

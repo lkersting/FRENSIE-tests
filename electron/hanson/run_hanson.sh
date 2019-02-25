@@ -25,26 +25,26 @@ OPEN_MP_THREADS=4
 # Set the number of histories
 HISTORIES=1e6
 # Set the max runtime (in minutes, 1 day = 1440 )
-TIME=1400
+TIME=1350
 
 # Set the data file type (ACE Native)
 file_types=( Native )
 
 # Set if a refined grid should be used ( "True" "False" )
-refined_grids=( "False" )
+refined_grids=( "True" "False" )
 
 # Set the bivariate interpolation ( LOGLOGLOG LINLINLIN LINLINLOG )
 interps=( LOGLOGLOG )
 
-# Set the bivariate Grid Policy ( UNIT_BASE_CORRELATED CORRELATED UNIT_BASE )
-grid_policys=( UNIT_BASE_CORRELATED )
+# Set the bivariate Grid Policy ( UNIT_BASE UNIT_BASE_CORRELATED CORRELATED )
+grid_policys=( UNIT_BASE UNIT_BASE_CORRELATED CORRELATED )
 
 # Set the elastic distribution mode ( DECOUPLED COUPLED HYBRID )
 modes=( COUPLED )
 
 # Set the elastic coupled sampling method
 # ( ONE_D TWO_D MODIFIED_TWO_D )
-methods=( MODIFIED_TWO_D )
+methods=( TWO_D )
 
 ##---------------------------------------------------------------------------##
 ## ------------------------------- COMMANDS ---------------------------------##

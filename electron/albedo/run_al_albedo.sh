@@ -1,25 +1,21 @@
 #!/bin/bash
 ##---------------------------------------------------------------------------##
-## ---------------------------- FACEMC test runner --------------------------##
+## -------------------------- FRENSIE test runner ---------------------------##
 ##---------------------------------------------------------------------------##
-## The electron albedo is found for a semi-infinite aluminum slab.
+## Run an infinite medium simulation
 ##---------------------------------------------------------------------------##
 
-##---------------------------------------------------------------------------##
-## ---------------------------- TEST VARIABLES ------------------------------##
-##---------------------------------------------------------------------------##
-EXTRA_ARGS=$@
-
-# Set the number of mpi processes and openMP threads
-# NOTE: OpenMP threads should be a factor of 16 for univ and 20 for univ2
-# NOTE: the max OpenMP threads should be <= 6
-MPI_PROCESSES=40
-OPEN_MP_THREADS=4
+# Sbatch variables
+partition=pre
+time=1-00:00:00
+ntasks=40
+threads=4
 
 # Set the number of histories
-HISTORIES=1e6
-# Set the max runtime (in minutes, 1 day = 1440 )
-TIME=1350
+num_particles=1e6
+
+# Materials ( "Al" "C" )
+materials=( "Al" "C" )
 
 # Set the bivariate Grid Policy ( UNIT_BASE_CORRELATED CORRELATED UNIT_BASE )
 grid_policys=( UNIT_BASE_CORRELATED )
@@ -66,30 +62,31 @@ ionizations=( KNOCK_ON )
 ## ------------------------------- COMMANDS ---------------------------------##
 ##---------------------------------------------------------------------------##
 
+sbatch_command="sbatch --partition=${partition} --time=${time} --ntasks=${ntasks} --cpus-per-task=${threads}"
+
+if ! type sbatch > /dev/null 2>&1; then
+  sbatch_command=bash
+  ntasks=1
+fi
+
+bold=$(tput bold)
+normal=$(tput sgr0)
+
 # Set the energies to all
 if [ ${energies} == "all" ]; then
     energies=(0.0002 0.0003 0.0004 0.0005 0.0006 0.0008 0.001 0.0015 0.002 0.0025 0.003 0.0035 0.004 0.0045 0.005 0.006 0.0093 0.01 0.011 0.0134 0.015 0.0173 0.02 0.0252 0.03 0.04 0.0415 0.05 0.06 0.0621 0.07 0.08 0.0818 0.1 0.102 0.121 0.146 0.172 0.196 0.2 0.238 0.256 )
 fi
 
-# Material element
-element="Al"; zaid=13000
-
-# Move to element directory
-cd ${element}
-
 # Set the script name
 script=al_albedo.sh
 
-# Set the number of threads
-command="s/\#SBATCH[[:space:]]--ntasks=.*/\#SBATCH --ntasks=${MPI_PROCESSES}/"
-sed -i "${command}" ${script}
-command="s/\#SBATCH[[:space:]]--cpus-per-task=.*/\#SBATCH --cpus-per-task=${OPEN_MP_THREADS}/"
-sed -i "${command}" ${script}
+# Set the material mode
+for material in "${materials[@]}"
+do
+  echo "Setting the material to ${bold}${material}${normal}"
 
-command=s/TIME=.*/TIME=${TIME}/
-sed -i "${command}" ${script}
-command=s/HISTORIES=.*/HISTORIES=${HISTORIES}/
-sed -i "${command}" ${script}
+  # Move to the material directory
+  cd ${material}
 
 for transport in "${transports[@]}"
 do

@@ -324,6 +324,172 @@ def runForwardSpectrumAlbedoSimulation( sim_name,
       print "Results will be in ", path.dirname(path.abspath(sim_name))
 
 ##---------------------------------------------------------------------------##
+## Set up and run the forward spectrum simulation
+def runForwardSpectrumAlbedoSimulationWithCosineBins( sim_name,
+                                                      db_path,
+                                                      geom_name,
+                                                      properties,
+                                                      min_energy,
+                                                      max_energy,
+                                                      zaid,
+                                                      file_type,
+                                                      version,
+                                                      threads,
+                                                      log_file = None ):
+
+
+    ## Initialize the MPI session
+    session = MPI.GlobalMPISession( len(sys.argv), sys.argv )
+
+    # Suppress logging on all procs except for the master (proc=0)
+    Utility.removeAllLogs()
+    session.initializeLogs( 0, True )
+
+    if not log_file is None:
+        session.initializeLogs( log_file, 0, True )
+
+    if session.rank() == 0:
+      print "The PyFrensie path is set to: ", pyfrensie_path
+
+    simulation_properties = properties
+
+  ##--------------------------------------------------------------------------##
+  ## ---------------------------- MATERIALS SETUP --------------------------- ##
+  ##--------------------------------------------------------------------------##
+
+    # Set element name
+    element_name="albedo"
+
+    ## Set up the materials
+    database = Data.ScatteringCenterPropertiesDatabase( db_path )
+
+    # Extract the properties for the zaid from the database
+    atom_properties = database.getAtomProperties( Data.ZAID(zaid) )
+
+    # Set the definition for the zaid for this simulation
+    scattering_center_definitions = Collision.ScatteringCenterDefinitionDatabase()
+    atom_definition = scattering_center_definitions.createDefinition( element_name, Data.ZAID(zaid) )
+
+    atom_definition.setElectroatomicDataProperties(
+      atom_properties.getSharedElectroatomicDataProperties( file_type, version ) )
+
+    # Set the definition for material 1
+    material_definitions = Collision.MaterialDefinitionDatabase()
+    material_definitions.addDefinition( element_name, 1, [element_name], [1.0] )
+
+  ##--------------------------------------------------------------------------##
+  ## ---------------------------- GEOMETRY SETUP ---------------------------- ##
+  ##--------------------------------------------------------------------------##
+
+    ## Set up the geometry
+    model_properties = DagMC.DagMCModelProperties( geom_name )
+    model_properties.useFastIdLookup()
+
+    # Load the model
+    model = DagMC.DagMCModel( model_properties )
+
+    # Fill the model with the defined material
+    filled_model = Collision.FilledGeometryModel( db_path, scattering_center_definitions, material_definitions, simulation_properties, model, True )
+
+  ##--------------------------------------------------------------------------##
+  ## ----------------------------- SOURCE SETUP ----------------------------- ##
+  ##--------------------------------------------------------------------------##
+
+    ## Set up the source
+    particle_distribution = ActiveRegion.StandardParticleDistribution( "uniform energy beam dist" )
+
+    # Uniform distribution from min energy to max problem energy
+    uniform_energy = Distribution.UniformDistribution( min_energy, max_energy )
+    energy_dimension_dist = ActiveRegion.IndependentEnergyDimensionDistribution( uniform_energy )
+    particle_distribution.setDimensionDistribution( energy_dimension_dist )
+
+    # Slightly to the left (negative z-direction) of the semi-infinite slab
+    particle_distribution.setPosition( 0.0, 0.0, -0.1 )
+
+    # Uniform distribution for all angles in the positive z direction
+    uniform_positive_mu = Distribution.UniformDistribution( 0.0, 1.0, 1.0 )
+    mu_dimension_dist = ActiveRegion.IndependentTertiaryDirectionalDimensionDistribution( uniform_positive_mu )
+    particle_distribution.setDimensionDistribution( mu_dimension_dist )
+
+    particle_distribution.constructDimensionDistributionDependencyTree()
+
+    # The generic distribution will be used to generate electrons
+    electron_distribution = [ActiveRegion.StandardElectronSourceComponent( 0, 1.0, model, particle_distribution )]
+
+    # Assign the electron source component to the source
+    source = ActiveRegion.StandardParticleSource( electron_distribution )
+
+  ##--------------------------------------------------------------------------##
+  ## -------------------------- EVENT HANDLER SETUP ------------------------- ##
+  ##--------------------------------------------------------------------------##
+
+    ## Set up the event handler
+    event_handler = Event.EventHandler( model, simulation_properties )
+
+  ##----------------------- Surface Current Estimators -----------------------##
+
+    current_estimator = event_handler.getEstimator( 1 )
+
+    # Set the energy bins (for each cosine bin)
+    bin_string = "{ " + str(min_energy) + ", 149l, " + str(max_energy) +" }"
+    energy_bins = list(Utility.doubleArrayFromString( bin_string ))
+    current_estimator.setSourceEnergyDiscretization( energy_bins )
+
+    # Set the cosine bins
+    # Set the cosine bins
+    cosine_bins = [ -1.0, 0.0, np.cos(np.deg2rad(70)), np.cos(np.deg2rad(50)), np.cos(np.deg2rad(10)), 1.0 ]
+    current_estimator.setCosineDiscretization( cosine_bins )
+
+    # # Create response function
+    # uniform_energy = Distribution.UniformDistribution( min_energy, max_energy, max_energy - min_energy )
+    # particle_response_function = ActiveRegion.EnergyParticleResponseFunction( uniform_energy )
+    # response_function = ActiveRegion.StandardParticleResponse( particle_response_function )
+
+    # # Set the response function
+    # current_estimator.setResponseFunctions( [response_function] )
+
+  ##--------------------------------------------------------------------------##
+  ## ----------------------- SIMULATION MANAGER SETUP ----------------------- ##
+  ##--------------------------------------------------------------------------##
+
+    # Set the archive type
+    archive_type = "xml"
+
+    ## Set up the simulation manager
+    factory = Manager.ParticleSimulationManagerFactory( filled_model,
+                                                        source,
+                                                        event_handler,
+                                                        simulation_properties,
+                                                        sim_name,
+                                                        archive_type,
+                                                        threads )
+
+    # Create the simulation manager
+    manager = factory.getManager()
+
+    # Allow logging on all procs
+    session.restoreOutputStreams()
+
+    ## Run the simulation
+    if session.size() == 1:
+        manager.runInterruptibleSimulation()
+    else:
+        manager.runSimulation()
+
+    if session.rank() == 0:
+
+      # Get the plot title and filename
+      title = setup.getSimulationPlotTitle( sim_name )
+
+      print "Processing the results:"
+      processCosineSourceEnergyBinData( current_estimator, sim_name, title )
+
+      if event_handler.getNumberOfParticleTrackers():
+        setup.printParticleTrackInfo( particle_tracker )
+
+      print "Results will be in ", path.dirname(path.abspath(sim_name))
+
+##---------------------------------------------------------------------------##
 ## Set up and run the adjoint simulation
 def runAdjointAlbedoSimulation( sim_name,
                                 db_path,

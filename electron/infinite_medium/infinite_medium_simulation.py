@@ -104,10 +104,10 @@ def runForwardDeltaEnergyInfiniteMediumSimulation( sim_name,
     particle_distribution.constructDimensionDistributionDependencyTree()
 
     # The generic distribution will be used to generate electrons
-    electron_distribution = [ActiveRegion.StandardElectronSourceComponent( 0, 1.0, model, particle_distribution )]
+    electron_distribution = ActiveRegion.StandardElectronSourceComponent( 0, 1.0, model, particle_distribution )
 
     # Assign the electron source component to the source
-    source = ActiveRegion.StandardParticleSource( electron_distribution )
+    source = ActiveRegion.StandardParticleSource( [electron_distribution] )
 
   ##--------------------------------------------------------------------------##
   ## -------------------------- EVENT HANDLER SETUP ------------------------- ##
@@ -381,7 +381,7 @@ def runForwardUniformEnergyInfiniteMediumSimulation( sim_name,
     particle_distribution.constructDimensionDistributionDependencyTree()
 
     # Set source components
-    source_component = [ActiveRegion.StandardElectronSourceComponent( 0, 1.0, geom_model, particle_distribution )]
+    electron_distribution = ActiveRegion.StandardElectronSourceComponent( 0, 1.0, model, particle_distribution )
 
     # Assign the electron source component to the source
     source = ActiveRegion.StandardParticleSource( [electron_distribution] )
@@ -509,6 +509,9 @@ def runAdjointUniformEnergyInfiniteMediumSimulation( sim_name,
     particle_distribution.setDimensionDistribution( energy_dimension_dist )
     particle_distribution.setPosition( 0.0, 0.0, 0.0 )
     particle_distribution.constructDimensionDistributionDependencyTree()
+
+    # The generic distribution will be used to generate electron
+    adjoint_electron_distribution = ActiveRegion.StandardAdjointElectronSourceComponent( 0, 1.0, filled_model, particle_distribution )
 
     # Assign the electron source component to the source
     source = ActiveRegion.StandardParticleSource( [adjoint_electron_distribution] )
