@@ -654,9 +654,6 @@ def setAdjointSimulationProperties( histories, time, mode, method, min_energy, m
 
   ## -------------------------- ELECTRON PROPERTIES ------------------------- ##
 
-  # Set the critical line energies
-  properties.setCriticalAdjointElectronLineEnergies( [max_energy] )
-
   # Turn certain reactions off
   # properties.setAdjointElasticModeOff()
   # properties.setAdjointElectroionizationModeOff()
@@ -684,7 +681,7 @@ def setForwardSimulationName( properties, energy, file_type, element ):
 # Define a function for naming an electron simulation
 def setAdjointSimulationName( properties, energy, element, grid_policy ):
   extension = setup.setAdjointSimulationNameExtention( properties )
-  sim_name = "adjoint_" + element + "_" + str(energy) + extension
+  sim_name = "adjoint_" + element + "_" + str(energy)
 
   # Add the grid policy to the name
   if grid_policy == MonteCarlo.UNIT_BASE_CORRELATED_GRID:

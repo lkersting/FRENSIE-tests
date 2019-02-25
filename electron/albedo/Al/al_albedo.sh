@@ -41,13 +41,13 @@ if [ "$#" -eq 1 ]; then
 else
 
   # Set the bivariate Grid Policy ( UNIT_BASE_CORRELATED CORRELATED UNIT_BASE )
-  GRID_POLICY=UNIT_BASE_CORRELATED
+  GRID_POLICY=UNIT_BASE
 
   # Set the elastic distribution mode ( DECOUPLED COUPLED HYBRID )
   MODE=COUPLED
 
   # Set the elastic coupled sampling method ( ONE_D TWO_D MODIFIED_TWO_D )
-  METHOD=MODIFIED_TWO_D
+  METHOD=TWO_D
 
   # Set the electron cutoff energy
   CUTOFF=1e-4

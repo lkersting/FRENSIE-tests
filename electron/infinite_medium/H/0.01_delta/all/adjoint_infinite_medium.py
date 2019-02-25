@@ -49,6 +49,9 @@ if __name__ == "__main__":
     # Set the simulation properties
     properties = simulation.setAdjointSimulationProperties( options.num_particles, options.wall_time, mode, method, cutoff_energy, energy )
 
+    # Set the critical line energies
+    properties.setCriticalAdjointElectronLineEnergies( [energy] )
+
     # Turn certain reactions off
     # properties.setAdjointElasticModeOff()
     # properties.setAdjointElectroionizationModeOff()
