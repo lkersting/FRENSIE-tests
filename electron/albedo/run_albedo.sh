@@ -12,31 +12,34 @@ ntasks=40
 threads=4
 
 # Set the number of histories
-num_particles=1e6
+num_particles=1e7
 
 # Materials ( "Al" "C" )
-materials=( "Al" "C" )
+materials=( "Al" )
 
 # Set the bivariate Grid Policy ( UNIT_BASE_CORRELATED CORRELATED UNIT_BASE )
-grid_policys=( UNIT_BASE_CORRELATED )
+grid_policys=( UNIT_BASE_CORRELATED CORRELATED UNIT_BASE )
 
 # Set the elastic distribution mode ( DECOUPLED COUPLED HYBRID )
 modes=( COUPLED )
 
 # Set the elastic coupled sampling method
 # ( ONE_D TWO_D MODIFIED_TWO_D )
-methods=( MODIFIED_TWO_D )
+methods=( TWO_D )
 
 # Set the electron cutoff energy ( 1e-4 )
 cutoffs=( 1e-4 )
 
 # Set the transport mode ( "adjoint" "forward" )
-transports=( "forward" )
+transports=( "adjoint" "forward" )
 
 ## ------- FORWARD OPTIONS ------- ##
 
 # Set if a spectrum source should be used ( True False )
 spectrums=( True )
+
+# Set if an isotropic source should be used ( True False )
+isotropics=( True )
 
 # Set the test energy (0.0002 0.0003 0.0004 0.0005 0.0006 0.0008 0.001 0.0015 0.002 0.0025 0.003 0.0035 0.004 0.0045 0.005 0.006 0.0093 0.01 0.011 0.0134 0.015 0.0173 0.02 0.0252 0.03 0.04 0.0415 0.05 0.06 0.0621 0.07 0.08 0.0818 0.1 0.102 0.121 0.146 0.172 0.196 0.2 0.238 0.256 )
 # energies can be set to indivual energies e.g. ( 0.02 0.03 0.04 ) or "all"
@@ -46,7 +49,7 @@ energies="all"
 file_types=( Native )
 
 # Set if a refined grid should be used ( "True" "False" )
-refined_grids=( "False" )
+refined_grids=( "True" )
 
 # Set the bivariate interpolation ( LOGLOGLOG LINLINLIN LINLINLOG )
 interps=( LOGLOGLOG )
@@ -162,7 +165,15 @@ do
                               command=s/ENERGY=.*/ENERGY=0.256/
                               sed -i "${command}" ${script}
 
-                              sbatch ${script}
+                              for isotropic in "${isotropics[@]}"
+                              do
+                                # Set if a isotropic source mode
+                                command=s/ISOTROPIC=.*/ISOTROPIC=${isotropic}/
+                                sed -i "${command}" ${script}
+                                echo "                Setting the isotropic source mode to ${isotropic}"
+
+                                sbatch ${script}
+                              done
                           else
                             # loop through test energies and run mpi script
                             for energy in "${energies[@]}"

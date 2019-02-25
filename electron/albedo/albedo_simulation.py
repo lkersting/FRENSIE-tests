@@ -325,7 +325,7 @@ def runForwardSpectrumAlbedoSimulation( sim_name,
 
 ##---------------------------------------------------------------------------##
 ## Set up and run the forward spectrum simulation
-def runForwardSpectrumAlbedoSimulationWithCosineBins( sim_name,
+def runForwardIsotrpoicSpectrumAlbedoSimulation( sim_name,
                                                       db_path,
                                                       geom_name,
                                                       properties,

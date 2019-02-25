@@ -66,10 +66,13 @@ else
   FILE_TYPE=Native
 
   # Set if a refined grid should be used ( True, False )
-  REFINED=False
+  REFINED=True
 
   # Set if a spectrum source should be used ( True, False )
   SPECTRUM=True
+
+  # Set if a isotrpoic source should be used ( True, False )
+  ISOTROPIC=True
 
   ## ------- ADJOINT OPTIONS ------- ##
   # Set the nudge past max energy mode ( True, False )
@@ -109,6 +112,10 @@ else
 
     # Set if a spectrum source should be used
     command=s/spectrum_source=.*/spectrum_source=${SPECTRUM}/
+    sed -i "${command}" ${python_script}
+
+    # Set if a isotropic source should be used
+    command=s/isotropic_source=.*/isotropic_source=${ISOTROPIC}/
     sed -i "${command}" ${python_script}
 
     # Set the source energy
