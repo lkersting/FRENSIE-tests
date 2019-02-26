@@ -406,8 +406,8 @@ def runForwardIsotrpoicSpectrumAlbedoSimulation( sim_name,
     # Slightly to the left (negative z-direction) of the semi-infinite slab
     particle_distribution.setPosition( 0.0, 0.0, -0.1 )
 
-    # Uniform distribution for all angles in the positive z direction
-    uniform_positive_mu = Distribution.UniformDistribution( 0.0, 1.0, 1.0 )
+    # Uniform distribution for angles 0-10 degrees in the positive z direction
+    uniform_positive_mu = Distribution.UniformDistribution( np.cos(np.deg2rad(10)), 1.0, 1.0 )
     mu_dimension_dist = ActiveRegion.IndependentTertiaryDirectionalDimensionDistribution( uniform_positive_mu )
     particle_distribution.setDimensionDistribution( mu_dimension_dist )
 
@@ -436,8 +436,7 @@ def runForwardIsotrpoicSpectrumAlbedoSimulation( sim_name,
     current_estimator.setSourceEnergyDiscretization( energy_bins )
 
     # Set the cosine bins
-    # Set the cosine bins
-    cosine_bins = [ -1.0, 0.0, np.cos(np.deg2rad(70)), np.cos(np.deg2rad(50)), np.cos(np.deg2rad(10)), 1.0 ]
+    cosine_bins = [ -1.0, -0.99, 0.0, 1.0 ]
     current_estimator.setCosineDiscretization( cosine_bins )
 
     # # Create response function

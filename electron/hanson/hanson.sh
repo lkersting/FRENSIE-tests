@@ -49,19 +49,19 @@ else
   FILE_TYPE=Native
 
   # Set if a refined grid should be used ( True, False )
-  REFINED=False
+  REFINED=True
 
   # Set the bivariate interpolation ( LOGLOGLOG LINLINLIN LINLINLOG )
   INTERP=LOGLOGLOG
 
   # Set the bivariate Grid Policy ( UNIT_BASE_CORRELATED CORRELATED UNIT_BASE )
-  GRID_POLICY=UNIT_BASE_CORRELATED
+  GRID_POLICY=UNIT_BASE
 
   # Set the elastic distribution mode ( DECOUPLED COUPLED HYBRID )
   MODE=COUPLED
 
   # Set the elastic coupled sampling method ( ONE_D TWO_D MODIFIED_TWO_D )
-  METHOD=MODIFIED_TWO_D
+  METHOD=TWO_D
 
   # Create a unique python script and change the parameters
   python_script="hanson_${SLURM_JOB_ID}"
