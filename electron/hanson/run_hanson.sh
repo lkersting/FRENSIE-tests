@@ -51,6 +51,9 @@ methods=( TWO_D )
 ##---------------------------------------------------------------------------##
 script=hanson.sh
 
+bold=$(tput bold)
+normal=$(tput sgr0)
+
 # Set the number of threads
 command="s/\#SBATCH[[:space:]]--ntasks=.*/\#SBATCH --ntasks=${MPI_PROCESSES}/"
 sed -i "${command}" ${script}
@@ -69,7 +72,7 @@ do
   # Set the file type
   command=s/FILE_TYPE=.*/FILE_TYPE=${file_type}/
   sed -i "${command}" ${script}
-  echo "Setting file type to ${file_type}"
+  echo "Setting file type to ${bold}${file_type}${normal}"
 
   if [ "${file_type}" = "Native" ]; then
 
@@ -78,17 +81,17 @@ do
       # Set the interp
       command=s/INTERP=.*/INTERP=${interp}/
       sed -i "${command}" ${script}
-      echo "  Setting interpolation to ${interp}"
+      echo "  Setting interpolation to ${bold}${interp}${normal}"
 
       for grid_policy in "${grid_policys[@]}"
       do
         if [ "${interp}" == "LINLINLOG" ] && [ "${grid_policy}" == "CORRELATED" ]; then
-          echo "    The interp (${interp}) and grid policy (${grid_policy}) combo will be skipped."
+          echo "    The interp (${bold}${interp}${normal}) and grid policy (${bold}${grid_policy}${normal}) combo will be skipped."
         else
           # Set bivariate grid policy
           command=s/GRID_POLICY=.*/GRID_POLICY=${grid_policy}/
           sed -i "${command}" ${script}
-          echo "    Setting grid policy to ${grid_policy}"
+          echo "    Setting the bivariate grid policy to ${bold}${grid_policy}${normal}"
 
           # Set the refined grid mode on/off
           for refined_grid in "${refined_grids[@]}"
@@ -96,14 +99,14 @@ do
             # Set if a refined grid should be used
             command=s/REFINED=.*/REFINED=${refined_grid}/
             sed -i "${command}" ${script}
-            echo "      Setting refined grid mode to ${refined_grid}"
+            echo "      Setting refined grid mode to ${bold}${refined_grid}${normal}"
 
             for mode in "${modes[@]}"
             do
               # Set the elastic distribution mode
               command=s/MODE=.*/MODE=${mode}/
               sed -i "${command}" ${script}
-              echo "        Setting elastic mode to ${mode}"
+              echo "        Setting elastic mode to ${bold}${mode}${normal}"
 
               if [ "${mode}" == "COUPLED" ]; then
 
@@ -112,7 +115,7 @@ do
                   # Set the elastic coupled sampling method
                   command=s/METHOD=.*/METHOD=${method}/
                   sed -i "${command}" ${script}
-                  echo "          Setting elastic coupled sampling method to ${method}"
+                  echo "          Setting elastic coupled sampling method to ${bold}${method}${normal}"
 
                   sbatch ${script}
 

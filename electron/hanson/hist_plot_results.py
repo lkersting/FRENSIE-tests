@@ -53,10 +53,13 @@ for n in range(N):
         names[n] = input.readline()[1:].strip()
         print names[n]
         print input.readline().strip()[1:]
-        data = zip(*(line.strip().split('\t') for line in input))
-        data_x[n] = np.asfarray(data[0][0:M])
-        data_y[n] = np.asfarray(data[1][0:M])
-        data_error[n] = np.asfarray(data[2][0:M])*data_y[n]
+        for line in input:
+          data = line.strip().split('\t')
+          data_x[n].append( float(data[0]) )
+          if len(data) > 1:
+            data_y[n].append( float(data[1]) )
+            data_error[n].append( float(data[2])*data_y[n] )
+        del data_x[n][0]
 
 # Plot
 if user_args.m:

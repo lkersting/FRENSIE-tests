@@ -52,6 +52,9 @@ inelastic_reactions=''
 ## ------------------------------- COMMANDS ---------------------------------##
 ##---------------------------------------------------------------------------##
 
+bold=$(tput bold)
+normal=$(tput sgr0)
+
 # Set the number of threads
 command1="s/\#SBATCH[[:space:]]--ntasks=.*/\#SBATCH --ntasks=${MPI_PROCESSES}/"
 command2="s/\#SBATCH[[:space:]]--cpus-per-task=.*/\#SBATCH --cpus-per-task=${OPEN_MP_THREADS}/"
@@ -75,7 +78,7 @@ do
   for script in ${scripts[@]}; do
     sed -i "${command}" ${script}
   done
-  echo "Setting elastic mode to ${mode}"
+  echo "Setting elastic mode to ${bold}${mode}${normal}"
 
   if [ "${mode}" == "COUPLED" ]; then
 
@@ -86,7 +89,7 @@ do
       for script in ${scripts[@]}; do
         sed -i "${command}" ${script}
       done
-      echo "  Setting elastic coupled sampling method to ${method}"
+      echo "  Setting elastic coupled sampling method to ${bold}${method}${normal}"
 
       for ionization in "${ionizations[@]}"
       do
@@ -95,7 +98,7 @@ do
         for script in ${scripts[@]}; do
           sed -i "${command}" ${script}
         done
-        echo "    Setting ionization sampling mode to ${ionization}"
+        echo "    Setting electro-ionization sampling to ${bold}${ionization}${normal}"
 
         for grid_policy in "${grid_policies[@]}"
         do
@@ -104,14 +107,14 @@ do
           for script in ${scripts[@]}; do
             sed -i "${command}" ${script}
           done
-          echo "      Setting bivariate Grid Policy to ${grid_policy}"
+          echo "      Setting the bivariate grid policy to ${bold}${grid_policy}${normal}"
 
           for nudge_mode in "${nudge_modes[@]}"
           do
             # Set the nudge mode
             command=s/NUDGE_PAST_MAX=.*/NUDGE_PAST_MAX=\'${nudge_mode}\'/
             sed -i "${command}" adjoint.sh
-            echo "        Setting nudge past max energy to ${nudge_mode}"
+            echo "        Setting the nudge past max energy mode to ${bold}${nudge_mode}${normal}"
 
             for reaction in "${reactions_off[@]}"
             do
@@ -120,7 +123,7 @@ do
               for script in "${scripts[@]}"; do
                 sed -i "${command}" ${script}
               done
-              echo "          Turning the ${reaction} reaction off"
+              echo "          Turning the ${bold}${reaction}${normal} reaction off"
 
               for script in "${scripts[@]}"; do
                 sbatch ${script}
@@ -185,7 +188,7 @@ do
       for script in ${scripts[@]}; do
         sed -i "${command}" ${script}
       done
-      echo "  Setting ionization sampling mode to ${ionization}"
+      echo "  Setting electro-ionization sampling to ${bold}${ionization}${normal}"
 
       for grid_policy in "${grid_policies[@]}"
       do
@@ -194,7 +197,7 @@ do
         for script in ${scripts[@]}; do
           sed -i "${command}" ${script}
         done
-        echo "    Setting bivariate Grid Policy to ${grid_policy}"
+        echo "    Setting the bivariate grid policy to ${bold}${grid_policy}${normal}"
 
 
         for nudge_mode in "${nudge_modes[@]}"
@@ -202,7 +205,7 @@ do
           # Set the nudge mode
           command=s/NUDGE_PAST_MAX=.*/NUDGE_PAST_MAX=\'${nudge_mode}\'/
           sed -i "${command}" adjoint.sh
-          echo "      Setting nudge past max energy to ${nudge_mode}"
+          echo "      Setting the nudge past max energy mode to ${bold}${nudge_mode}${normal}"
 
           for reaction in "${reactions_off[@]}"
           do
@@ -211,7 +214,7 @@ do
             for script in "${scripts[@]}"; do
               sed -i "${command}" ${script}
             done
-            echo "        Turning the ${reaction} reaction off"
+            echo "        Turning the ${bold}${reaction}${normal} reaction off"
 
             for script in "${scripts[@]}"; do
               sbatch ${script}

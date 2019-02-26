@@ -312,7 +312,7 @@ def plotAlbedoSimulationForwardSpectrum( forward_rendezvous_files,
 
     markers = ["o","*","v","^","<",">","+","x","1","2","3","4","p","s","h","D","d","H","8","o","*"]
     exp_names = ['assad', 'bienlein','bishop', 'bongeler', 'bronshtein', 'cosslett', 'drescher', 'el_gomati', 'heinrich', 'kanter', 'kulenkampff', 'lockwood', 'neubert', 'reimer', 'shimizu', 'soum', 'trump', 'wittry' ]
-    marker_color = ['g', 'r', 'c', 'm', 'y', 'k', 'w', 'g', 'r', 'c', 'm', 'y', 'k', 'w']
+    marker_color = ['g', 'r', 'c', 'm', 'y', 'k', 'g', 'r', 'c', 'm', 'y', 'k' ]
 
     edge_thickness = 1.1
 

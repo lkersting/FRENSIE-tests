@@ -768,8 +768,8 @@ def setSimulationName( properties, file_type, element, energy, refined ):
   name = "albedo_" + element + "_" + str(energy)
   if refined:
     name += "_refined"
-  if not str(energy) == "spectrum":
-    name = extension[1:] + "/" + name
+  if not "spectrum" in str(energy):
+    name = extension[8:] + "/" + name
   name += extension
   interpolation = properties.getElectronTwoDInterpPolicy()
   output = setup.getResultsDirectory(file_type, interpolation) + "/" + name
