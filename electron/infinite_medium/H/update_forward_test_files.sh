@@ -20,7 +20,7 @@ if ! type sbatch > /dev/null 2>&1; then
 fi
 
 # Update H data version 0
-python_command="python ../update_forward_test_files.py --db_name="${DATABASE_PATH}" -z 1 -g 'UnitBaseCorrelatedGrid' -v 0"
+python_command="python ../../update_forward_test_files.py --db_name="${DATABASE_PATH}" -z 1 -g 'UnitBaseCorrelatedGrid' -v 0"
 printf "#!/bin/bash\n${python_command}" > update_H_0_temp.sh
 ${sbatch_command} update_H_0_temp.sh
 if [ ! $? -eq 0 ]; then
@@ -31,7 +31,7 @@ fi
 rm update_H_0_temp.sh
 
 # Update H data version 1
-python_command="python ../update_forward_test_files.py --db_name="${DATABASE_PATH}" -z 1 -g 'UnitBaseGrid' -v 1 --refine_electron_secondary_grids"
+python_command="python ../../update_forward_test_files.py --db_name="${DATABASE_PATH}" -z 1 -g 'UnitBaseGrid' -v 1 --refine_electron_secondary_grids"
 printf "#!/bin/bash\n${python_command}" > update_H_1_temp.sh
 ${sbatch_command} update_H_1_temp.sh
 if [ ! $? -eq 0 ]; then
@@ -42,7 +42,7 @@ fi
 rm update_H_1_temp.sh
 
 # Update H data version 2
-python_command="python ../update_forward_test_files.py --db_name="${DATABASE_PATH}" -z 1 -g 'UnitBaseCorrelatedGrid' -v 2 --refine_electron_secondary_grids"
+python_command="python ../../update_forward_test_files.py --db_name="${DATABASE_PATH}" -z 1 -g 'UnitBaseCorrelatedGrid' -v 2 --refine_electron_secondary_grids"
 printf "#!/bin/bash\n${python_command}" > update_H_2_temp.sh
 ${sbatch_command} update_H_2_temp.sh
 if [ ! $? -eq 0 ]; then
@@ -53,7 +53,7 @@ fi
 rm update_H_2_temp.sh
 
 # Update H data version 3
-python_command="python ../update_forward_test_files.py --db_name="${DATABASE_PATH}" -z 1 -g 'CorrelatedGrid' -v 3 --refine_electron_secondary_grids"
+python_command="python ../../update_forward_test_files.py --db_name="${DATABASE_PATH}" -z 1 -g 'CorrelatedGrid' -v 3 --refine_electron_secondary_grids"
 printf "#!/bin/bash\n${python_command}" > update_H_3_temp.sh
 ${sbatch_command} update_H_3_temp.sh
 if [ ! $? -eq 0 ]; then
