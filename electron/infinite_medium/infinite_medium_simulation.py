@@ -709,7 +709,12 @@ def createResultsDirectory(sim_name):
   directory = path.dirname(sim_name)
 
   if not path.exists(directory):
-    makedirs(directory)
+    try:
+        makedirs(directory)
+    except OSError as exc:
+        if exc.errno != errno.EEXIST:
+            raise
+        pass
 
 ##----------------------------------------------------------------------------##
 ## ----------------------- getGridPolicyFromString -------------------------- ##
