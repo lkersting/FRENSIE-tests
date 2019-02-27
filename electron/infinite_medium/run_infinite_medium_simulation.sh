@@ -109,18 +109,20 @@ do
                 do
                   echo "        Setting elastic coupled sampling method to ${bold}${method}${normal}"
 
+                  temp_script = "${transport}_infinite_medium_${grid_policy}_${mode}_${method}_temp.sh"
                   python_command="mpirun -np ${ntasks} python2.7 ${transport}_infinite_medium.py --num_particles=${num_particles} --threads=${threads} --grid_policy=\'${grid_policy}\' --elastic_mode=\'${mode}\' --elastic_method=\'${method}\'"
-                  printf "#!/bin/bash\n${python_command}${mv_slurm_command}" > infinite_medium_temp.sh
+                  printf "#!/bin/bash\n${python_command}${mv_slurm_command}" > ${temp_script}
 
-                  ${sbatch_command} infinite_medium_temp.sh
-                  rm infinite_medium_temp.sh
+                  ${sbatch_command} ${temp_script}
+                  rm ${temp_script}
                 done
               else
+                temp_script = "${transport}_infinite_medium_${grid_policy}_${mode}_${method}_temp.sh"
                 python_command="mpirun -np ${ntasks} python2.7 ${transport}_infinite_medium.py --num_particles=${num_particles} --threads=${threads} --grid_policy=\'${grid_policy}\' --elastic_mode=\'${mode}\'"
-                printf "#!/bin/bash\n${python_command}${mv_slurm_command}" > infinite_medium_temp.sh
+                printf "#!/bin/bash\n${python_command}${mv_slurm_command}" > ${temp_script}
 
-                ${sbatch_command} infinite_medium_temp.sh
-                rm infinite_medium_temp.sh
+                ${sbatch_command} ${temp_script}
+                rm ${temp_script}
               fi
             done
           done

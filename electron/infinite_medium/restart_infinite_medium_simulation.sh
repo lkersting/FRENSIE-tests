@@ -43,7 +43,8 @@ python_command="mpirun -np ${ntasks} python2.7 -c \"import sys; sys.path.insert(
 
 cd ${run_directory}
 
-printf "#!/bin/bash\n${python_command}${mv_slurm_command}" > infinite_medium_temp.sh
+temp_script=$(echo $(basename ${RENDEZVOUS}) | sed 's/_rendezvous_.*//')_temp.sh
+printf "#!/bin/bash\n${python_command}${mv_slurm_command}" > ${temp_script}
 
-${sbatch_command} infinite_medium_temp.sh
-rm infinite_medium_temp.sh
+${sbatch_command} ${temp_script}
+rm ${temp_script}
