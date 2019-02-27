@@ -58,7 +58,7 @@ for n in range(N):
           data_x[n].append( float(data[0]) )
           if len(data) > 1:
             data_y[n].append( float(data[1]) )
-            data_error[n].append( float(data[2])*data_y[n] )
+            data_error[n].append( float(data[2])*float(data[1]) )
         del data_x[n][0]
 
 # Plot
