@@ -722,9 +722,9 @@ def createResultsDirectory(sim_name):
 def getGridPolicyFromString(raw_grid_policy):
 
   # Set the bivariate Grid Policy ( UNIT_BASE_CORRELATED, CORRELATED, UNIT_BASE )
-  if raw_grid_policy == "unit correlated":
+  if raw_grid_policy == "unit_correlated":
     return MonteCarlo.UNIT_BASE_CORRELATED_GRID
-  elif raw_grid_policy == "unit base":
+  elif raw_grid_policy == "unit_base":
     return MonteCarlo.UNIT_BASE_GRID
   elif raw_grid_policy == "correlated":
     return MonteCarlo.CORRELATED_GRID

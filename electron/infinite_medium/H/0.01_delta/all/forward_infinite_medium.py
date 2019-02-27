@@ -21,8 +21,8 @@ if __name__ == "__main__":
                       help="the elastic distribution mode ( decoupled, coupled, hybrid )")
     parser.add_option("--elastic_method", type="string", dest="method", default="2D",
                       help="the elastic coupled sampling method ( 2D, 1D, modified 2D )")
-    parser.add_option("--grid_policy", type="string", dest="grid_policy", default="unit correlated",
-                      help="the bivariate Grid Policy ( unit correlated, unit vase, correlated )")
+    parser.add_option("--grid_policy", type="string", dest="grid_policy", default="unit_correlated",
+                      help="the bivariate Grid Policy ( unit_correlated, unit vase, correlated )")
     parser.add_option("--threads", type="int", dest="threads", default=4,
                       help="the number of threads to use")
     parser.add_option("--num_particles", type="float", dest="num_particles", default=1e6,

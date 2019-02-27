@@ -39,8 +39,8 @@ modes=( "coupled" )
 # Desired elastic coupled sampling methods ( "modified 2D" "2D" "1D" )
 methods=( "2D" )
 
-# Desired bivariate grid policies ( "unit correlated" "unit base" "correlated" )
-grid_policies=( "unit correlated" "unit base" "correlated" )
+# Desired bivariate grid policies ( "unit_correlated" "unit_base" "correlated" )
+grid_policies=( "unit_correlated" "unit_base" "correlated" )
 
 ##---------------------------------------------------------------------------##
 ## ------------------------------- COMMANDS ---------------------------------##
