@@ -694,7 +694,7 @@ def runSimulationFromRendezvous( threads,
       new_simulation_properties = MonteCarlo.SimulationGeneralProperties()
       new_simulation_properties.setNumberOfHistories( int(histories) )
       new_simulation_properties.setMinNumberOfRendezvous( int(num_rendezvous) )
-      new_simulation_properties.setSimulationWallTime( time_sec )
+      new_simulation_properties.setSimulationWallTime( float(time_sec) )
 
       factory = Manager.ParticleSimulationManagerFactory( rendezvous,
                                                           new_simulation_properties,
@@ -702,16 +702,21 @@ def runSimulationFromRendezvous( threads,
   else:
       factory = Manager.ParticleSimulationManagerFactory( rendezvous,
                                                           int(histories),
-                                                          time_sec,
+                                                          float(time_sec),
                                                           threads )
 
   manager = factory.getManager()
-  manager.setSimulationName( rendezvous )
 
-  Utility.removeAllLogs()
-  session.initializeLogs( 0, False )
+  manager.initialize()
 
-  manager.runSimulation()
+  # Allow logging on all procs
+  session.restoreOutputStreams()
+
+  ## Run the simulation
+  if session.size() == 1:
+      manager.runInterruptibleSimulation()
+  else:
+      manager.runSimulation()
 
   if session.rank() == 0:
 
