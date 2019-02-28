@@ -262,7 +262,12 @@ def createResultsDirectory():
   directory = element + "/" + directory
 
   if not path.exists(directory):
-    makedirs(directory)
+    try:
+        makedirs(directory)
+    except OSError as exc:
+        if exc.errno != errno.EEXIST:
+            raise
+        pass
 
   print directory
   return directory

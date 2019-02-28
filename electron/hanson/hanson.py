@@ -307,7 +307,12 @@ def createResultsDirectory():
   directory = setup.getResultsDirectory(file_type, interpolation)
 
   if not path.exists(directory):
-    makedirs(directory)
+    try:
+        makedirs(directory)
+    except OSError as exc:
+        if exc.errno != errno.EEXIST:
+            raise
+        pass
 
   return directory
 
