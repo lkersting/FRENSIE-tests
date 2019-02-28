@@ -48,8 +48,8 @@ energies="all"
 # Set the data file type (ACE Native)
 file_types=( Native )
 
-# Set if a refined grid should be used ( "True" "False" )
-refined_grids=( "True" )
+# Set if a refined grid should be used ( True False )
+refined_grids=( True )
 
 # Set the bivariate interpolation ( LOGLOGLOG LINLINLIN LINLINLOG )
 interps=( LOGLOGLOG )

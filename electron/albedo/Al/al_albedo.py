@@ -188,15 +188,9 @@ if __name__ == "__main__":
                                                options.log_file )
 
     elif options.transport == "adjoint":
-      # Set the adjoint simulation properties
-      properties = setup.setAdjointSimulationProperties( options.num_particles, options.time, mode, method )
-
-      # Set the min electron energy
-      properties.setMinAdjointElectronEnergy( cutoff_energy )
-
-      # Set the max electron energy to be the max source energy
       max_source_energy = 0.256
-      properties.setMaxAdjointElectronEnergy( max_source_energy )
+      # Set the adjoint simulation properties
+      properties = setup.setAdjointSimulationProperties( options.num_particles, options.time, mode, method, cutoff_energy, max_source_energy )
 
       # Set the cutoff weight properties for rouletting
       # properties.setAdjointElectronRouletteThresholdWeight( 1e-8 )

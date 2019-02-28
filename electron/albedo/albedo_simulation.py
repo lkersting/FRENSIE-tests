@@ -573,8 +573,8 @@ def runAdjointAlbedoSimulation( sim_name,
     particle_distribution.setPosition( 0.0, 0.0, -0.1 )
 
     # Uniform distribution for all angles in the positive z direction
-    uniform_positive_mu = Distribution.UniformDistribution( 0.0, 1.0, 1.0 )
-    mu_dimension_dist = ActiveRegion.IndependentTertiaryDirectionalDimensionDistribution( uniform_positive_mu )
+    positive_mu = Distribution.PowerDistribution_2( 1.0, 0.0, 1.0 )
+    mu_dimension_dist = ActiveRegion.IndependentTertiaryDirectionalDimensionDistribution( positive_mu )
     particle_distribution.setDimensionDistribution( mu_dimension_dist )
 
     particle_distribution.constructDimensionDistributionDependencyTree()
