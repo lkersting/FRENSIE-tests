@@ -246,9 +246,6 @@ def runSimulationFromRendezvous( threads, histories, time, rendezvous ):
   if session.rank() == 0:
     print "The PyFrensie path is set to: ", pyfrensie_path
 
-  if not log_file is None:
-      session.initializeLogs( log_file, 0, True )
-
   # Set the data path
   Collision.FilledGeometryModel.setDefaultDatabasePath( database_path )
 
