@@ -40,6 +40,9 @@ spectrum_source=True
 # set isotropic source mode
 isotropic_source=True
 
+# set atomic relaxation mode
+atomic_relaxation=False
+
 # Set the source energy
 source_energy=0.256
 
@@ -109,6 +112,10 @@ if __name__ == "__main__":
       # properties.setElectroionizationModeOff()
       # properties.setBremsstrahlungModeOff()
       # properties.setAtomicExcitationModeOff()
+
+      if not atomic_relaxation:
+        # Turn off Atomic Relaxation
+        properties.setAtomicRelaxationModeOff( MonteCarlo.ELECTRON )
 
       version = 0
       if use_refined_grid:
