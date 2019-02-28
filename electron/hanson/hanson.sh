@@ -21,7 +21,7 @@ EXTRA_ARGS=$@
 # Set the number of histories
 HISTORIES=1e6
 # Set the max runtime (in minutes, 1 day = 1440 )
-TIME=1400
+TIME=1350
 
 # These parameters can be set if the cluster is not used
 # SLURM_CPUS_PER_TASK=4
@@ -106,7 +106,7 @@ else
 
     # Run the simulation from the last rendezvous
     echo "Running Facemc Hanson test with ${HISTORIES} particles with ${SLURM_NTASKS} MPI processes with ${SLURM_CPUS_PER_TASK} OpenMP threads each from the rendezvous '${RENDEZVOUS}'!"
-    mpiexec -n ${SLURM_NTASKS} python -c "import ${python_script}; ${python_script}.runSimulationFromRendezvous(${SLURM_CPUS_PER_TASK}, ${HISTORIES}, ${TIME}, '${RENDEZVOUS}' )"
+    mpiexec -n ${SLURM_NTASKS} python -c "import ${python_script}; ${python_script}.runSimulationFromRendezvous(${SLURM_CPUS_PER_TASK}, ${HISTORIES}, ${TIME}, \"${RENDEZVOUS}\" )"
   else
     # Run the simulation from the start
     echo "Running Facemc Hanson test with ${HISTORIES} particles with ${SLURM_NTASKS} MPI processes with ${SLURM_CPUS_PER_TASK} OpenMP threads each!"
