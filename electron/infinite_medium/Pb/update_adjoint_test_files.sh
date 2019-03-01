@@ -108,7 +108,7 @@ do
         # Set the version
         echo "      Setting version number to ${bold}${version}${normal}"
 
-        python_command="python ../update_adjoint_test_files.py -d ${DATABASE_PATH} -z 82000 -e 0.01 -g ${grid_policy} -i \"${ionization}\" -v ${version} ${convergence_tol} ${eval_tol}"
+        python_command="python ../../update_adjoint_test_files.py -d ${DATABASE_PATH} -z 82000 -e 0.01 -g ${grid_policy} -i \"${ionization}\" -v ${version} ${convergence_tol} ${eval_tol}"
         printf "#!/bin/bash\n${python_command}" > update_Pb_adjoint_temp.sh
         ${sbatch_command} update_Pb_adjoint_temp.sh
         rm update_Pb_adjoint_temp.sh
@@ -117,7 +117,7 @@ do
         # Set the version
         echo "      Setting version number to ${bold}${version}${normal}"
 
-        python_command="python ../update_adjoint_test_files.py -d ${DATABASE_PATH} -z 82000 -e 0.01 -g ${grid_policy} -i \"${ionization}\" -v ${version} ${convergence_tol} ${eval_tol} --scatter_above_max_mode_off"
+        python_command="python ../../update_adjoint_test_files.py -d ${DATABASE_PATH} -z 82000 -e 0.01 -g ${grid_policy} -i \"${ionization}\" -v ${version} ${convergence_tol} ${eval_tol} --scatter_above_max_mode_off"
         printf "#!/bin/bash\n${python_command}" > update_Pb_adjoint_temp.sh
         ${sbatch_command} update_Pb_adjoint_temp.sh
         rm update_Pb_adjoint_temp.sh
