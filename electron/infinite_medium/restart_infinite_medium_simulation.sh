@@ -21,7 +21,7 @@ num_particles=1e7
 wall_time=1350
 
 # Set the rendezvous
-RENDEZVOUS=$(realpath "$1")
+RENDEZVOUS=$(readlink -e "$1")
 # Set the file's current directory
 current_directory=$PWD
 # Set the original run directory
