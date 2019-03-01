@@ -37,7 +37,7 @@ if __name__ == "__main__":
     else:
       combined_forward_files = None
 
-    top_ylims = [0.0, 0.8]
+    top_ylims = [0.0, 0.6]
     bottom_ylims = [0.0, 3.0]
     legend_pos = (0.95,0.95)
 

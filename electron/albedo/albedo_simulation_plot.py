@@ -41,12 +41,13 @@ def plotAlbedoSimulationSpectrum( forward_rendezvous_file,
     adjoint_data["e_bins"] = list(estimator.getEnergyDiscretization())
 
     angles = estimator.getCosineDiscretization()
-    ADJOINT_NORM=(adjoint_data["e_bins"][-1]-adjoint_data["e_bins"][0])*0.5/(angles[-1]-angles[-2])
+    ADJOINT_NORM=1.0
+    adjoint_respone=(adjoint_data["e_bins"][-1]-adjoint_data["e_bins"][0])*0.5/(angles[-1]-angles[-2])*ADJOINT_NORM
     start_index = (len(angles)-2)*num_bins
     for i in range(0, num_bins):
         j = start_index + i
         # print j, full_entity_bin_data["mean"][j], full_entity_bin_data["re"][j]
-        adjoint_data["mean"][i] = full_entity_bin_data["mean"][j]*ADJOINT_NORM
+        adjoint_data["mean"][i] = full_entity_bin_data["mean"][j]*adjoint_respone
         adjoint_data["re"][i] = full_entity_bin_data["re"][j]
 
     manager = None
@@ -67,12 +68,13 @@ def plotAlbedoSimulationSpectrum( forward_rendezvous_file,
         if not forward_data["e_bins"][i] == adjoint_data["e_bins"][i]:
           raise ValueError( "The forward and adjoint energy bins must match!")
 
-    FORWARD_NORM=(forward_data["e_bins"][-1]-forward_data["e_bins"][0])
+    FORWARD_NORM=1.0
+    forward_respone=(forward_data["e_bins"][-1]-forward_data["e_bins"][0])*FORWARD_NORM
     start_index = (len(estimator.getCosineDiscretization())-2)*num_bins
     for i in range(0, num_bins):
         j = start_index + i
         # print j, full_entity_bin_data["mean"][j], full_entity_bin_data["re"][j]
-        forward_data["mean"][i] = full_entity_bin_data["mean"][j]*FORWARD_NORM
+        forward_data["mean"][i] = full_entity_bin_data["mean"][j]*forward_respone
         forward_data["re"][i] = full_entity_bin_data["re"][j]
 
     if output_plot_name is None:
@@ -86,7 +88,6 @@ def plotAlbedoSimulationSpectrum( forward_rendezvous_file,
     forward_data_name = "Forward"
     adjoint_data_name = "Adjoint"
 
-    top_ylims = [0.0, 1.0]
     if not include_experimental:
 
       # Plot the data
