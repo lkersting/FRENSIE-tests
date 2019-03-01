@@ -12,7 +12,7 @@ EXTRA_ARGS=$@
 # Set the ionization sampling mode ( "Knock-On" "Outgoing Energy" )
 ionizations=( "Knock-On" )
 # Set the bivariate Grid Policy ( "UnitBase" "UnitBaseCorrelated" "Correlated" )
-grid_policies=( "UnitBase" "UnitBaseCorrelated" "Correlated" )
+grid_policies=( "UnitBase" )
 # Set the nudge past max energy mode on/off ( 'on' 'off' )
 nudge_modes=( 'on' )
 
