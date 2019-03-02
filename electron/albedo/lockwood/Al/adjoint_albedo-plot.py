@@ -41,19 +41,32 @@ if __name__ == "__main__":
     bottom_ylims = [0.0, 3.0]
     legend_pos = (0.95,0.95)
 
-    exp_files = ['assad', 'bienlein','bishop', 'bongeler', 'bronshtein', 'cosslett', 'drescher', 'el_gomati', 'heinrich', 'kanter', 'kulenkampff', 'lockwood', 'neubert', 'reimer', 'shimizu', 'soum', 'trump', 'wittry' ]
 
-    for i in range(len(exp_files)):
-      exp_files[i] = dir + "/experimental_results/" + exp_files[i] + ".tsv"
-      print exp_files[i]
-
+    source_angle = 0.0
+    exp_base = dir + "/experimental_results/lockwood_"
+    exp_file += "0.tsv"
+    if "15.0" in forward_filename:
+      source_angle = 15.0
+      exp_file += "15.tsv"
+    if "30.0" in forward_filename:
+      source_angle = 30.0
+      exp_file += "30.tsv"
+    if "45.0" in forward_filename:
+      source_angle = 45.0
+      exp_file += "45.tsv"
+    if "60.0" in forward_filename:
+      source_angle = 60.0
+      exp_file += "60.tsv"
+    if "75.0" in forward_filename:
+      source_angle = 75.0
+      exp_file += "75.tsv"
 
     # Plot the spectrum
     plotAlbedoSimulationSpectrum( forward_filename,
                                   adjoint_filename,
-                                  exp_files,
+                                  exp_file,
                                   combined_forward_files,
-                                  0.0,
+                                  source_angle,
                                   "Al",
                                   user_args.output_name,
                                   top_ylims,

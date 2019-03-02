@@ -14,7 +14,7 @@
 EXTRA_ARGS=$@
 
 # Set the number of histories
-HISTORIES=1e6
+HISTORIES=1e7
 # Set the max runtime (in minutes, 1 day = 1440 )
 TIME=1350
 
@@ -60,7 +60,10 @@ else
   INTERP=LOGLOGLOG
 
   # Set the test source energy
-  ENERGY=0.256
+  ENERGY=1.033
+
+  # Set the test source angle in degrees (0, 60)
+  ANGLE=0.0
 
   # Set the data file type (ACE Native)
   FILE_TYPE=Native
@@ -122,6 +125,10 @@ else
     command=s/source_energy=.*/source_energy=${ENERGY}/
     sed -i "${command}" ${python_script}
 
+    # Set the source angle
+    command=s/source_angle=.*/source_angle=${ANGLE}/
+    sed -i "${command}" ${python_script}
+
     # Set the interp
     command=s/interpolation=MonteCarlo.*/interpolation=MonteCarlo.${INTERP}_INTERPOLATION/
     sed -i "${command}" ${python_script}
@@ -138,14 +145,6 @@ else
     name=$(python -c "import ${script_name}; ${script_name}.printSimulationName();" 2>&1)
 
   elif [ "${TRANSPORT}" = "adjoint" ]; then
-
-    # Set the nudge past max energy mode
-    command=s/nudge_past_max=.*/nudge_past_max=${NUDGE}/
-    sed -i "${command}" ${python_script}
-
-    # Set the electro-ionization sampling mode
-    command=s/ionization=.*/ionization=MonteCarlo.${IONIZATION}_SAMPLING/
-    sed -i "${command}" ${python_script}
 
     # Get the simulation name
     name=$(python -c "import ${script_name}; ${script_name}.printAdjointSimulationName();" 2>&1)

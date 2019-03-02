@@ -11,9 +11,10 @@ from spectrum_plot_tools import plotSpectralDataWithErrors
 
 def plotAlbedoSimulationSpectrum( forward_rendezvous_file,
                                   adjoint_rendezvous_file,
+                                  experimental_files,
                                   combined_forward_files,
                                   source_angle,
-                                  include_experimental = False,
+                                  material,
                                   output_plot_name = None,
                                   top_ylims = None,
                                   bottom_ylims = None,
@@ -57,7 +58,7 @@ def plotAlbedoSimulationSpectrum( forward_rendezvous_file,
     elif float(source_angle) == 75.0:
       mu_start=-11
 
-    start_index = (len(angles)-1-mu_start)*num_bins
+    start_index = (len(angles) -1 + mu_start)*num_bins
 
     adjoint_respone=(adjoint_data["e_bins"][-1]-adjoint_data["e_bins"][0])*0.5/(angles[mu_start]-angles[mu_start-1])*ADJOINT_NORM
     for i in range(0, num_bins):
@@ -94,7 +95,7 @@ def plotAlbedoSimulationSpectrum( forward_rendezvous_file,
         forward_data["re"][i] = full_entity_bin_data["re"][j]
 
     if output_plot_name is None:
-      output_plot_name = "al_albedo"
+      output_plot_name = material + "_albedo"
     output_plot_names = []
 
     output_plot_names.append( output_plot_name + ".eps" )
@@ -140,7 +141,7 @@ def plotAlbedoSimulationSpectrum( forward_rendezvous_file,
 
     edge_thickness = 1.1
 
-    title='Electron Albedos for an infinite slab of Al'
+    title='Electron Albedos for an infinite slab of ' + material
     if float(source_angle) == 60.0:
       title+=' 60 Degrees Incident Source'
 
@@ -151,12 +152,11 @@ def plotAlbedoSimulationSpectrum( forward_rendezvous_file,
 
     # Set up the top subplot
 
-    if include_experimental:
+    if not experimental_files is None:
       # Plot experimental data
       directory = os.path.dirname(os.path.abspath(__file__))
 
-      for i in range(len(exp_names)):
-        filename = directory + "/Al/experimental_results/" + exp_names[i] +".tsv"
+      for filename in experimental_files:
         with open(filename) as input:
             name = input.readline().strip()
             input.readline()
