@@ -34,7 +34,7 @@ normal=$(tput sgr0)
 for grid_policy in "${grid_policies[@]}"
 do
   # Set the bivariate Grid Policy
-  echo "  Setting the bivariate grid policy to ${bold}${grid_policy}${normal}"
+  echo "Setting the bivariate grid policy to ${bold}${grid_policy}${normal}"
 
   # Set the tolerances
   if [ "${grid_policy}" = "UnitBase" ]; then

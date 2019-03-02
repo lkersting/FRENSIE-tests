@@ -77,13 +77,6 @@ else
   # Set if a isotrpoic source should be used ( True, False )
   ISOTROPIC=True
 
-  ## ------- ADJOINT OPTIONS ------- ##
-  # Set the nudge past max energy mode ( True, False )
-  NUDGE=True
-
-  # Set the electro-ionization sampling mode ( KNOCK_ON, OUTGOING_ENERGY )
-  IONIZATION=KNOCK_ON
-
   ##---------------------------------------------------------------------------##
   ## ------------------------------- COMMANDS ---------------------------------##
   ##---------------------------------------------------------------------------##

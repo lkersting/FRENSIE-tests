@@ -74,13 +74,6 @@ else
   # Set if a isotrpoic source should be used ( True, False )
   ISOTROPIC=True
 
-  ## ------- ADJOINT OPTIONS ------- ##
-  # Set the nudge past max energy mode ( True, False )
-  NUDGE=True
-
-  # Set the electro-ionization sampling mode ( KNOCK_ON, OUTGOING_ENERGY )
-  IONIZATION=KNOCK_ON
-
   ##---------------------------------------------------------------------------##
   ## ------------------------------- COMMANDS ---------------------------------##
   ##---------------------------------------------------------------------------##
@@ -138,14 +131,6 @@ else
     name=$(python -c "import ${script_name}; ${script_name}.printSimulationName();" 2>&1)
 
   elif [ "${TRANSPORT}" = "adjoint" ]; then
-
-    # Set the nudge past max energy mode
-    command=s/nudge_past_max=.*/nudge_past_max=${NUDGE}/
-    sed -i "${command}" ${python_script}
-
-    # Set the electro-ionization sampling mode
-    command=s/ionization=.*/ionization=MonteCarlo.${IONIZATION}_SAMPLING/
-    sed -i "${command}" ${python_script}
 
     # Get the simulation name
     name=$(python -c "import ${script_name}; ${script_name}.printAdjointSimulationName();" 2>&1)

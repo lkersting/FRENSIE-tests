@@ -295,49 +295,32 @@ do
         sed -i "${command}" ${script}
         echo "  Setting the bivariate grid policy to ${bold}${grid_policy}${normal}"
 
-        # Set the nudge past max energy mode on/off
-        for nudge_mode in "${nudge_modes[@]}"
+        for mode in "${modes[@]}"
         do
-          # Set the nudge past max energy mode on/off
-          command=s/NUDGE=.*/NUDGE=${nudge_mode}/
+          # Set the elastic distribution mode
+          command=s/MODE=.*/MODE=${mode}/
           sed -i "${command}" ${script}
-          echo "    Setting the nudge past max energy mode to ${bold}${nudge_mode}${normal}"
+          echo "    Setting elastic mode to ${bold}${mode}${normal}"
 
-          for ionization in "${ionizations[@]}"
-          do
-            # Set the electro-ionization sampling mode
-            command=s/IONIZATION=.*/IONIZATION=${ionization}/
-            sed -i "${command}" ${script}
-            echo "      Setting electro-ionization sampling to ${bold}${ionization}${normal}"
+          if [ "${mode}" == "COUPLED" ]; then
 
-            for mode in "${modes[@]}"
+            for method in "${methods[@]}"
             do
-              # Set the elastic distribution mode
-              command=s/MODE=.*/MODE=${mode}/
-              sed -i "${command}" ${script}
-              echo "        Setting elastic mode to ${bold}${mode}${normal}"
-
-              if [ "${mode}" == "COUPLED" ]; then
-
-                for method in "${methods[@]}"
-                do
-                  if [ "${grid_policy}" == "UNIT_BASE" ] && [ "${method}" == "MODIFIED_TWO_D" ]; then
-                    echo "          The grid policy (${grid_policy}), mode (${mode}), and method (${method}) combo will be skipped."
-                  else
-
-                    # Set the elastic coupled sampling method
-                    command=s/METHOD=.*/METHOD=${method}/
-                    sed -i "${command}" ${script}
-                    echo "          Setting elastic coupled sampling method to ${bold}${method}${normal}"
-
-                    sbatch ${script}
-                  fi
-                done
+              if [ "${grid_policy}" == "UNIT_BASE" ] && [ "${method}" == "MODIFIED_TWO_D" ]; then
+                echo "          The grid policy (${grid_policy}), mode (${mode}), and method (${method}) combo will be skipped."
               else
+
+                # Set the elastic coupled sampling method
+                command=s/METHOD=.*/METHOD=${method}/
+                sed -i "${command}" ${script}
+                echo "      Setting elastic coupled sampling method to ${bold}${method}${normal}"
+
                 sbatch ${script}
               fi
             done
-          done
+          else
+            sbatch ${script}
+          fi
         done
       done
     fi
