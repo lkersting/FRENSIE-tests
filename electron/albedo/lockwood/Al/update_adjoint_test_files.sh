@@ -43,6 +43,7 @@ do
     brem_convergence_tol=1e-4
     ion_convergence_tol=1e-3
     brem_eval_tol=1e-7
+    ion_eval_tol=1e-7
     version=3
 
   elif [ "${grid_policy}" = "UnitBaseCorrelated" ]; then
@@ -51,6 +52,7 @@ do
     brem_convergence_tol=1e-4
     ion_convergence_tol=1e-3
     brem_eval_tol=1e-6
+    ion_eval_tol=1e-6
     version=4
 
   elif [ "${grid_policy}" = "Correlated" ]; then
@@ -59,6 +61,7 @@ do
     brem_convergence_tol=5e-3
     ion_convergence_tol=5e-3
     brem_eval_tol=1e-7
+    ion_eval_tol=1e-5
     version=5
 
   else
