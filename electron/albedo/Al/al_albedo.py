@@ -43,8 +43,11 @@ isotropic_source=True
 # set atomic relaxation mode
 atomic_relaxation=False
 
-# Set the source energy
+# Set the source energy (1e-4 - 0.256)
 source_energy=0.256
+
+# Set the source angle in degrees ( 0.0, 60.0 )
+source_angle=0.0
 
 # Set the bivariate interpolation (LOGLOGLOG, LINLINLIN, LINLINLOG)
 interpolation=MonteCarlo.LOGLOGLOG_INTERPOLATION
@@ -71,7 +74,7 @@ def printSimulationName():
   properties = setup.setSimulationProperties( 1, 1, interpolation, grid_policy, mode, method )
 
   # Print the simulation name
-  sim_name = simulation.setSimulationName( properties, file_type, element, source_energy, use_refined_grid )
+  sim_name = simulation.setSimulationName( properties, file_type, element, source_energy, source_angle, use_refined_grid )
 
   print sim_name
 
@@ -130,7 +133,7 @@ if __name__ == "__main__":
 
       if isotropic_source and spectrum_source:
         # Set the simulation name and title
-        sim_name = simulation.setSimulationName( properties, file_type, element, "cosine_spectrum", use_refined_grid )
+        sim_name = simulation.setSimulationName( properties, file_type, element, "cosine_spectrum", source_angle, use_refined_grid )
 
         # Create the results directory
         simulation.createResultsDirectory(sim_name)
@@ -143,6 +146,7 @@ if __name__ == "__main__":
                                                        properties,
                                                        cutoff_energy,
                                                        source_energy,
+                                                       source_angle,
                                                        zaid,
                                                        file_type,
                                                        version,
@@ -150,7 +154,7 @@ if __name__ == "__main__":
                                                        options.log_file )
       elif spectrum_source:
         # Set the simulation name and title
-        sim_name = simulation.setSimulationName( properties, file_type, element, "spectrum", use_refined_grid )
+        sim_name = simulation.setSimulationName( properties, file_type, element, "spectrum", source_angle, use_refined_grid )
 
         # Create the results directory
         simulation.createResultsDirectory(sim_name)
@@ -162,6 +166,7 @@ if __name__ == "__main__":
                                                        properties,
                                                        cutoff_energy,
                                                        source_energy,
+                                                       source_angle,
                                                        zaid,
                                                        file_type,
                                                        version,
@@ -170,7 +175,7 @@ if __name__ == "__main__":
 
       else:
         # Set the simulation name and title
-        sim_name = simulation.setSimulationName( properties, file_type, element, source_energy, use_refined_grid )
+        sim_name = simulation.setSimulationName( properties, file_type, element, source_energy, source_angle, use_refined_grid )
 
         # Create the results directory
         simulation.createResultsDirectory(sim_name)
@@ -181,6 +186,7 @@ if __name__ == "__main__":
                                                geometry_path,
                                                properties,
                                                source_energy,
+                                               source_angle,
                                                zaid,
                                                file_type,
                                                version,

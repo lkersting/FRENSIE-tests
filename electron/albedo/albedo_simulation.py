@@ -32,6 +32,7 @@ def runForwardAlbedoSimulation( sim_name,
                                 geom_name,
                                 properties,
                                 source_energy,
+                                source_angle,
                                 zaid,
                                 file_type,
                                 version,
@@ -101,7 +102,7 @@ def runForwardAlbedoSimulation( sim_name,
 
     particle_distribution.setEnergy( source_energy )
     particle_distribution.setPosition( 0.0, 0.0, -0.1 )
-    particle_distribution.setDirection( 0.0, 0.0, 1.0 )
+    particle_distribution.setDirection( 0.0, 0.0, np.cos(np.deg2rad(source_angle)) )
     particle_distribution.constructDimensionDistributionDependencyTree()
 
     # The generic distribution will be used to generate electrons
@@ -172,6 +173,7 @@ def runForwardSpectrumAlbedoSimulation( sim_name,
                                         properties,
                                         min_energy,
                                         max_energy,
+                                        source_angle,
                                         zaid,
                                         file_type,
                                         version,
@@ -245,7 +247,7 @@ def runForwardSpectrumAlbedoSimulation( sim_name,
     particle_distribution.setDimensionDistribution( energy_dimension_dist )
 
     particle_distribution.setPosition( 0.0, 0.0, -0.1 )
-    particle_distribution.setDirection( 0.0, 0.0, 1.0 )
+    particle_distribution.setDirection( 0.0, 0.0, np.cos(np.deg2rad(source_angle)) )
     particle_distribution.constructDimensionDistributionDependencyTree()
 
     # The generic distribution will be used to generate electrons
@@ -273,14 +275,6 @@ def runForwardSpectrumAlbedoSimulation( sim_name,
     # Set the cosine bins
     cosine_bins = [ -1.0, -0.99, 0.0, 1.0 ]
     current_estimator.setCosineDiscretization( cosine_bins )
-
-    # # Create response function
-    # uniform_energy = Distribution.UniformDistribution( min_energy, max_energy, max_energy - min_energy )
-    # particle_response_function = ActiveRegion.EnergyParticleResponseFunction( uniform_energy )
-    # response_function = ActiveRegion.StandardParticleResponse( particle_response_function )
-
-    # # Set the response function
-    # current_estimator.setResponseFunctions( [response_function] )
 
   ##--------------------------------------------------------------------------##
   ## ----------------------- SIMULATION MANAGER SETUP ----------------------- ##
@@ -331,6 +325,7 @@ def runForwardIsotrpoicSpectrumAlbedoSimulation( sim_name,
                                                  properties,
                                                  min_energy,
                                                  max_energy,
+                                                 source_angle,
                                                  zaid,
                                                  file_type,
                                                  version,
@@ -406,8 +401,27 @@ def runForwardIsotrpoicSpectrumAlbedoSimulation( sim_name,
     # Slightly to the left (negative z-direction) of the semi-infinite slab
     particle_distribution.setPosition( 0.0, 0.0, -0.1 )
 
+    if source_angle = 0.0:
+      max_cosine = 1.0
+      min_cosine = np.cos(np.deg2rad(10))
+    elif source_angle = 15.0:
+      max_cosine = np.cos(np.deg2rad(10))
+      min_cosine = np.cos(np.deg2rad(20))
+    elif source_angle = 30.0:
+      max_cosine = np.cos(np.deg2rad(20))
+      min_cosine = np.cos(np.deg2rad(40))
+    elif source_angle = 45.0:
+      max_cosine = np.cos(np.deg2rad(40))
+      min_cosine = np.cos(np.deg2rad(50))
+    elif source_angle = 60.0:
+      max_cosine = np.cos(np.deg2rad(50))
+      min_cosine = np.cos(np.deg2rad(70))
+    elif source_angle = 75.0:
+      max_cosine = np.cos(np.deg2rad(70))
+      min_cosine = np.cos(np.deg2rad(80))
+
     # Uniform distribution for angles 0-10 degrees in the positive z direction
-    uniform_positive_mu = Distribution.UniformDistribution( np.cos(np.deg2rad(10)), 1.0, 1.0 )
+    uniform_positive_mu = Distribution.UniformDistribution( min_cosine, max_cosine, 1.0 )
     mu_dimension_dist = ActiveRegion.IndependentTertiaryDirectionalDimensionDistribution( uniform_positive_mu )
     particle_distribution.setDimensionDistribution( mu_dimension_dist )
 
@@ -438,14 +452,6 @@ def runForwardIsotrpoicSpectrumAlbedoSimulation( sim_name,
     # Set the cosine bins
     cosine_bins = [ -1.0, -0.99, 0.0, 1.0 ]
     current_estimator.setCosineDiscretization( cosine_bins )
-
-    # # Create response function
-    # uniform_energy = Distribution.UniformDistribution( min_energy, max_energy, max_energy - min_energy )
-    # particle_response_function = ActiveRegion.EnergyParticleResponseFunction( uniform_energy )
-    # response_function = ActiveRegion.StandardParticleResponse( particle_response_function )
-
-    # # Set the response function
-    # current_estimator.setResponseFunctions( [response_function] )
 
   ##--------------------------------------------------------------------------##
   ## ----------------------- SIMULATION MANAGER SETUP ----------------------- ##
@@ -602,16 +608,8 @@ def runAdjointAlbedoSimulation( sim_name,
     current_estimator.setEnergyDiscretization( energy_bins )
 
     # Set the cosine bins
-    cosine_bins = [ -1.0, 0.0, np.cos(np.deg2rad(70)), np.cos(np.deg2rad(50)), np.cos(np.deg2rad(10)), 1.0 ]
+    cosine_bins = [ -1.0, 0.0, np.cos(np.deg2rad(80)), np.cos(np.deg2rad(70)), np.cos(np.deg2rad(50)), np.cos(np.deg2rad(40)), np.cos(np.deg2rad(20)), np.cos(np.deg2rad(10)), 1.0 ]
     current_estimator.setCosineDiscretization( cosine_bins )
-
-    # # Create response function
-    # uniform_energy = Distribution.UniformDistribution( min_energy, max_energy, 0.5*(max_energy - min_energy) )
-    # particle_response_function = ActiveRegion.EnergyParticleResponseFunction( uniform_energy )
-    # response_function = ActiveRegion.StandardParticleResponse( particle_response_function )
-
-    # # Set the response function
-    # current_estimator.setResponseFunctions( [response_function] )
 
   ## -------------------------- Particle Tracker ---------------------------- ##
 
@@ -778,9 +776,9 @@ def createAdjointResultsDirectory():
 ## -------------------------- setSimulationName -----------------------------##
 ##---------------------------------------------------------------------------##
 # Define a function for naming an electron simulation
-def setSimulationName( properties, file_type, element, energy, refined ):
+def setSimulationName( properties, file_type, element, energy, angle, refined ):
   extension = setup.setSimulationNameExtention( properties, file_type )
-  name = "albedo_" + element + "_" + str(energy)
+  name = "albedo_" + element + "_" + str(energy) + "_" + str(angle)
   if refined:
     name += "_refined"
   if not "spectrum" in str(energy):

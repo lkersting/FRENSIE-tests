@@ -18,7 +18,7 @@ num_particles=1e7
 materials=( "Al" )
 
 # Set the bivariate Grid Policy ( UNIT_BASE_CORRELATED CORRELATED UNIT_BASE )
-grid_policys=( UNIT_BASE_CORRELATED CORRELATED UNIT_BASE )
+grid_policys=( UNIT_BASE )
 
 # Set the elastic distribution mode ( DECOUPLED COUPLED HYBRID )
 modes=( COUPLED )
@@ -44,6 +44,9 @@ isotropics=( True )
 # Set the test energy (0.0002 0.0003 0.0004 0.0005 0.0006 0.0008 0.001 0.0015 0.002 0.0025 0.003 0.0035 0.004 0.0045 0.005 0.006 0.0093 0.01 0.011 0.0134 0.015 0.0173 0.02 0.0252 0.03 0.04 0.0415 0.05 0.06 0.0621 0.07 0.08 0.0818 0.1 0.102 0.121 0.146 0.172 0.196 0.2 0.238 0.256 )
 # energies can be set to indivual energies e.g. ( 0.02 0.03 0.04 ) or "all"
 energies="all"
+
+# Set the source angle in degrees ( 0.0 60.0 )
+angles=( 0.0 )
 
 # Set the data file type (ACE Native)
 file_types=( Native )
@@ -160,32 +163,40 @@ do
                             sed -i "${command}" ${script}
                             echo "              Setting the spectrum source mode to ${bold}${spectrum}${normal}"
 
-                            if [ "${spectrum}" == "True" ]; then
-                                # Set the energy to 0.256
-                                command=s/ENERGY=.*/ENERGY=0.256/
-                                sed -i "${command}" ${script}
+                            for angle in "${angles[@]}"
+                            do
+                              # Set if a ssource angle
+                              command=s/ANGLE=.*/ANGLE=${angle}/
+                              sed -i "${command}" ${script}
+                              echo "                Setting the source angle to ${bold}${angle}${normal}"
 
-                                for isotropic in "${isotropics[@]}"
-                                do
-                                  # Set if a isotropic source mode
-                                  command=s/ISOTROPIC=.*/ISOTROPIC=${isotropic}/
+                              if [ "${spectrum}" == "True" ]; then
+                                  # Set the energy to 0.256
+                                  command=s/ENERGY=.*/ENERGY=0.256/
                                   sed -i "${command}" ${script}
-                                  echo "                Setting the isotropic source mode to ${bold}${isotropic}${normal}"
 
+                                  for isotropic in "${isotropics[@]}"
+                                  do
+                                    # Set if a isotropic source mode
+                                    command=s/ISOTROPIC=.*/ISOTROPIC=${isotropic}/
+                                    sed -i "${command}" ${script}
+                                    echo "                  Setting the isotropic source mode to ${bold}${isotropic}${normal}"
+
+                                    sbatch ${script}
+                                  done
+                              else
+                                # loop through test energies and run mpi script
+                                for energy in "${energies[@]}"
+                                do
+                                    # Set the energy
+                                    command=s/ENERGY=.*/ENERGY=${energy}/
+                                    sed -i "${command}" ${script}
+
+                                  echo -e "                Running Albedo at ${bold}${energy}${normal} MeV!\n"
                                   sbatch ${script}
                                 done
-                            else
-                              # loop through test energies and run mpi script
-                              for energy in "${energies[@]}"
-                              do
-                                  # Set the energy
-                                  command=s/ENERGY=.*/ENERGY=${energy}/
-                                  sed -i "${command}" ${script}
-
-                                echo -e "              Running Albedo at ${bold}${energy}${normal} MeV!\n"
-                                sbatch ${script}
-                              done
-                            fi
+                              fi
+                            done
                           done
                         fi
                       done
@@ -197,33 +208,41 @@ do
                         sed -i "${command}" ${script}
                         echo "            Setting the spectrum source mode to ${bold}${spectrum}${normal}"
 
-                        if [ "${spectrum}" == "True" ]; then
-                            # Set the energy to 0.256
-                            command=s/ENERGY=.*/ENERGY=0.256/
-                            sed -i "${command}" ${script}
+                        for angle in "${angles[@]}"
+                        do
+                          # Set if a ssource angle
+                          command=s/ANGLE=.*/ANGLE=${angle}/
+                          sed -i "${command}" ${script}
+                          echo "              Setting the source angle to ${bold}${angle}${normal}"
 
-                            for isotropic in "${isotropics[@]}"
-                            do
-                              # Set if a isotropic source mode
-                              command=s/ISOTROPIC=.*/ISOTROPIC=${isotropic}/
+                          if [ "${spectrum}" == "True" ]; then
+                              # Set the energy to 0.256
+                              command=s/ENERGY=.*/ENERGY=0.256/
                               sed -i "${command}" ${script}
-                              echo "              Setting the isotropic source mode to ${bold}${isotropic}${normal}"
 
+                              for isotropic in "${isotropics[@]}"
+                              do
+                                # Set if a isotropic source mode
+                                command=s/ISOTROPIC=.*/ISOTROPIC=${isotropic}/
+                                sed -i "${command}" ${script}
+                                echo "                Setting the isotropic source mode to ${bold}${isotropic}${normal}"
+
+                                sbatch ${script}
+                              done
+
+                          else
+                            # loop through test energies and run mpi script
+                            for energy in "${energies[@]}"
+                            do
+                                # Set the energy
+                                command=s/ENERGY=.*/ENERGY=${energy}/
+                                sed -i "${command}" ${script}
+
+                              echo -e "                Running Albedo at ${bold}${energy}${normal} MeV!\n"
                               sbatch ${script}
                             done
-
-                        else
-                          # loop through test energies and run mpi script
-                          for energy in "${energies[@]}"
-                          do
-                              # Set the energy
-                              command=s/ENERGY=.*/ENERGY=${energy}/
-                              sed -i "${command}" ${script}
-
-                            echo -e "              Running Albedo at ${bold}${energy}${normal} MeV!\n"
-                            sbatch ${script}
-                          done
-                        fi
+                          fi
+                        done
                       done
                     fi
                   done

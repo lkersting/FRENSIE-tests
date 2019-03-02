@@ -17,6 +17,8 @@ if __name__ == "__main__":
 
     parser = ap.ArgumentParser(description=description)
 
+    parser.add_argument("-a", "--angle", dest="source_angle",
+                      help="the problem source angle", required=False, default=0.0)
     parser.add_argument("-o", "--output_name", dest="output_name",
                       help="the plot output name", required=False)
     parser.add_argument("forward_rendezvous_files", nargs='*',
@@ -31,6 +33,7 @@ if __name__ == "__main__":
 
     # Plot the spectrum
     plotAlbedoSimulationForwardSpectrum( user_args.forward_rendezvous_files,
+                                         user_args.source_angle,
                                          True,
                                          user_args.output_name,
                                          top_ylims,

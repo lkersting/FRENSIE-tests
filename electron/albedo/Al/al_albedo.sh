@@ -62,6 +62,9 @@ else
   # Set the test source energy
   ENERGY=0.256
 
+  # Set the test source angle in degrees (0, 60)
+  ANGLE=0.0
+
   # Set the data file type (ACE Native)
   FILE_TYPE=Native
 
@@ -120,6 +123,10 @@ else
 
     # Set the source energy
     command=s/source_energy=.*/source_energy=${ENERGY}/
+    sed -i "${command}" ${python_script}
+
+    # Set the source angle
+    command=s/source_angle=.*/source_angle=${ANGLE}/
     sed -i "${command}" ${python_script}
 
     # Set the interp

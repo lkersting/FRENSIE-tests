@@ -16,7 +16,6 @@ from native_endl_to_native_epr import generateData, addToDatabase
 import PyFrensie.Utility as Utility
 import PyFrensie.Data as Data
 import PyFrensie.Data.Native as Native
-# import PyFrensie.MonteCarlo as MonteCarlo
 
 # Simple class for color output
 class bcolors:

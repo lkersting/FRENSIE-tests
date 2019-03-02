@@ -40,7 +40,7 @@ modes=( "coupled" )
 methods=( "2D" )
 
 # Desired bivariate grid policies ( "unit_correlated" "unit_base" "correlated" )
-grid_policies=( "unit_correlated" "unit_base" "correlated" )
+grid_policies=( "unit_base" )
 
 ##---------------------------------------------------------------------------##
 ## ------------------------------- COMMANDS ---------------------------------##
