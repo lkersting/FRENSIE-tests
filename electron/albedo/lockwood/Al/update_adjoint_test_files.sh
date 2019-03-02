@@ -75,7 +75,7 @@ do
   # Set the version
   echo "  Setting version number to ${bold}${version}${normal}"
 
-  python_command="python ../../update_adjoint_test_files.py -d ${DATABASE_PATH} -z 13000 -e 1.033 -g ${grid_policy} -v ${version} ${convergence_tol} ${eval_tol}"
+  python_command="python ../../../update_adjoint_test_files.py -d ${DATABASE_PATH} -z 13000 -e 1.033 -g ${grid_policy} -v ${version} ${convergence_tol} ${eval_tol}"
   printf "#!/bin/bash\n${python_command}" > update_Al_adjoint_temp${version}.sh
   ${sbatch_command} update_Al_adjoint_temp${version}.sh
   rm update_Al_adjoint_temp${version}.sh
