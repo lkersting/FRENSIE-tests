@@ -18,7 +18,7 @@ threads=4
 # Desired number of histories
 num_particles=1e7
 
-# Materials ( "H" )
+# Materials ( "H" "Pb" )
 materials=( "H" )
 
 # Sources ( "delta" "uniform" )
@@ -69,70 +69,74 @@ do
   # Set the source type
   for source in "${sources[@]}"
   do
-    echo "Setting the source energy type to ${bold}${source}${normal}"
+    echo "  Setting the source energy type to ${bold}${source}${normal}"
 
-    # Set the maximum problem energy
-    for energy in "${energies[@]}"
-    do
-      echo "Setting the maximum problem energy to ${bold}${energy}${normal}"
-
-      # Move to the source type and energy directory
-      cd ${energy}_${source}
-
-      # Set the reaction mode
-      for reaction in "${reactions[@]}"
+    if [ "${material}" == "Pb" ] && [ "${source}" == "delta" ]; then
+      echo "    The material (${bold}${material}${normal}) and source type (${bold}${source}${normal}) combo will be skipped."
+    else
+      # Set the maximum problem energy
+      for energy in "${energies[@]}"
       do
-        echo "Setting the reaction mode to ${bold}${reaction}${normal}"
+        echo "    Setting the maximum problem energy to ${bold}${energy}${normal}"
 
-        # Move to the reaction directory
-        cd ${reaction}
+        # Move to the source type and energy directory
+        cd ${energy}_${source}
 
-        # Set the transport mode
-        for transport in "${transports[@]}"
+        # Set the reaction mode
+        for reaction in "${reactions[@]}"
         do
-          echo "  Setting transport mode to ${bold}${transport}${normal}"
+          echo "      Setting the reaction mode to ${bold}${reaction}${normal}"
 
-          # Set the bivariate Grid Policy
-          for grid_policy in "${grid_policies[@]}"
+          # Move to the reaction directory
+          cd ${reaction}
+
+          # Set the transport mode
+          for transport in "${transports[@]}"
           do
-            echo "    Setting bivariate grid policy to ${bold}${grid_policy}${normal}"
+            echo "        Setting transport mode to ${bold}${transport}${normal}"
 
-            # Set the elastic distribution mode
-            for mode in "${modes[@]}"
+            # Set the bivariate Grid Policy
+            for grid_policy in "${grid_policies[@]}"
             do
-              echo "      Setting elastic mode to ${bold}${mode}${normal}"
+              echo "          Setting bivariate grid policy to ${bold}${grid_policy}${normal}"
 
-              if [ "${mode}" == "coupled" ]; then
+              # Set the elastic distribution mode
+              for mode in "${modes[@]}"
+              do
+                echo "            Setting elastic mode to ${bold}${mode}${normal}"
 
-                # Set the elastic coupled sampling method
-                for method in "${methods[@]}"
-                do
-                  echo "        Setting elastic coupled sampling method to ${bold}${method}${normal}"
+                if [ "${mode}" == "coupled" ]; then
 
+                  # Set the elastic coupled sampling method
+                  for method in "${methods[@]}"
+                  do
+                    echo "            Setting elastic coupled sampling method to ${bold}${method}${normal}"
+
+                    temp_script="${transport}_infinite_medium_${grid_policy}_${mode}_${method}_temp.sh"
+                    python_command="mpirun -np ${ntasks} python2.7 ${transport}_infinite_medium.py --num_particles=${num_particles} --threads=${threads} --grid_policy=\'${grid_policy}\' --elastic_mode=\'${mode}\' --elastic_method=\'${method}\'"
+                    printf "#!/bin/bash\n${python_command}${mv_slurm_command}" > ${temp_script}
+
+                    ${sbatch_command} ${temp_script}
+                    # rm ${temp_script}
+                  done
+                else
                   temp_script="${transport}_infinite_medium_${grid_policy}_${mode}_${method}_temp.sh"
-                  python_command="mpirun -np ${ntasks} python2.7 ${transport}_infinite_medium.py --num_particles=${num_particles} --threads=${threads} --grid_policy=\'${grid_policy}\' --elastic_mode=\'${mode}\' --elastic_method=\'${method}\'"
+                  python_command="mpirun -np ${ntasks} python2.7 ${transport}_infinite_medium.py --num_particles=${num_particles} --threads=${threads} --grid_policy=\'${grid_policy}\' --elastic_mode=\'${mode}\'"
                   printf "#!/bin/bash\n${python_command}${mv_slurm_command}" > ${temp_script}
 
                   ${sbatch_command} ${temp_script}
                   rm ${temp_script}
-                done
-              else
-                temp_script="${transport}_infinite_medium_${grid_policy}_${mode}_${method}_temp.sh"
-                python_command="mpirun -np ${ntasks} python2.7 ${transport}_infinite_medium.py --num_particles=${num_particles} --threads=${threads} --grid_policy=\'${grid_policy}\' --elastic_mode=\'${mode}\'"
-                printf "#!/bin/bash\n${python_command}${mv_slurm_command}" > ${temp_script}
-
-                ${sbatch_command} ${temp_script}
-                rm ${temp_script}
-              fi
+                fi
+              done
             done
           done
+          # Move back to the sorce type and max energy directory
+          cd ../
         done
-        # Move back to the sorce type and max energy directory
+        # Move back to the material directory
         cd ../
       done
-      # Move back to the material directory
-      cd ../
-    done
+    fi
   done
   # Move back to the start directory
   cd ../

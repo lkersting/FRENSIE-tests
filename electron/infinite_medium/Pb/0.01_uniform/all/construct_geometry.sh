@@ -57,7 +57,7 @@ echo "merge all" >> temp_file
 
 # Set groups
 echo "group 'termination.cell' add vol 16" >> temp_file
-echo "group 'material_1_density_-0.000000000000000000000000000001064' add vol 1 8 9 10 11 12 13" >> temp_file
+echo "group 'material_1_density_-0.000001064' add vol 1 8 9 10 11 12 13" >> temp_file
 echo "group 'estimator_1.surface.flux.e' add surface 1 19 21 23 25 27" >> temp_file
 echo "group 'estimator_2.surface.flux.e*' add surface 1 19 21 23 25 27" >> temp_file
 
