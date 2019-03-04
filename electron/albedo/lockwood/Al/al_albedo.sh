@@ -55,12 +55,12 @@ else
   # Set the transport mode ( "forward", "adjoint" )
   TRANSPORT="forward"
 
+  # Set the forward source energy/max adjoint energy
+  ENERGY=1.033
+
   ## ------- FORWARD OPTIONS ------- ##
   # Set the bivariate interpolation ( LOGLOGLOG LINLINLIN LINLINLOG )
   INTERP=LOGLOGLOG
-
-  # Set the test source energy
-  ENERGY=1.033
 
   # Set the test source angle in degrees (0, 60)
   ANGLE=0.0
@@ -104,6 +104,10 @@ else
   command=s/cutoff_energy=.*/cutoff_energy=${CUTOFF}/
   sed -i "${command}" ${python_script}
 
+  # Set the forward source energy/max adjoint energy
+  command=s/source_energy=.*/source_energy=${ENERGY}/
+  sed -i "${command}" ${python_script}
+
   if [ "${TRANSPORT}" = "forward" ]; then
 
     # Set if a spectrum source should be used
@@ -112,10 +116,6 @@ else
 
     # Set if a isotropic source should be used
     command=s/isotropic_source=.*/isotropic_source=${ISOTROPIC}/
-    sed -i "${command}" ${python_script}
-
-    # Set the source energy
-    command=s/source_energy=.*/source_energy=${ENERGY}/
     sed -i "${command}" ${python_script}
 
     # Set the source angle

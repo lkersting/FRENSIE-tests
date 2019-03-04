@@ -196,7 +196,7 @@ if __name__ == "__main__":
       elif grid_policy == MonteCarlo.CORRELATED_GRID:
         version = 2
 
-      if source_energy > 0.256
+      if source_energy > 0.256:
         max_source_energy = 1.033
         version += 3
 
