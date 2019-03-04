@@ -110,7 +110,7 @@ do
                   # Set the elastic coupled sampling method
                   for method in "${methods[@]}"
                   do
-                    echo "            Setting elastic coupled sampling method to ${bold}${method}${normal}"
+                    echo "              Setting elastic coupled sampling method to ${bold}${method}${normal}"
 
                     temp_script="${transport}_infinite_medium_${grid_policy}_${mode}_${method}_temp.sh"
                     python_command="mpirun -np ${ntasks} python2.7 ${transport}_infinite_medium.py --num_particles=${num_particles} --threads=${threads} --grid_policy=\'${grid_policy}\' --elastic_mode=\'${mode}\' --elastic_method=\'${method}\'"
