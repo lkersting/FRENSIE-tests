@@ -401,22 +401,22 @@ def runForwardIsotrpoicSpectrumAlbedoSimulation( sim_name,
     # Slightly to the left (negative z-direction) of the semi-infinite slab
     particle_distribution.setPosition( 0.0, 0.0, -0.1 )
 
-    if source_angle = 0.0:
+    if source_angle == 0.0:
       max_cosine = 1.0
       min_cosine = np.cos(np.deg2rad(10))
-    elif source_angle = 15.0:
+    elif source_angle == 15.0:
       max_cosine = np.cos(np.deg2rad(10))
       min_cosine = np.cos(np.deg2rad(20))
-    elif source_angle = 30.0:
+    elif source_angle == 30.0:
       max_cosine = np.cos(np.deg2rad(20))
       min_cosine = np.cos(np.deg2rad(40))
-    elif source_angle = 45.0:
+    elif source_angle == 45.0:
       max_cosine = np.cos(np.deg2rad(40))
       min_cosine = np.cos(np.deg2rad(50))
-    elif source_angle = 60.0:
+    elif source_angle == 60.0:
       max_cosine = np.cos(np.deg2rad(50))
       min_cosine = np.cos(np.deg2rad(70))
-    elif source_angle = 75.0:
+    elif source_angle == 75.0:
       max_cosine = np.cos(np.deg2rad(70))
       min_cosine = np.cos(np.deg2rad(80))
 

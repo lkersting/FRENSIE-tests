@@ -26,11 +26,11 @@ cutoff_energy=1e-4
 grid_policy=MonteCarlo.UNIT_BASE_CORRELATED_GRID
 
 # Set the elastic distribution mode ( DECOUPLED, COUPLED, HYBRID )
-mode=MonteCarlo.DECOUPLED_DISTRIBUTION
+mode=MonteCarlo.COUPLED_DISTRIBUTION
 
 # Set the elastic coupled sampling method
 # ( TWO_D_UNION, ONE_D_UNION, MODIFIED_TWO_D_UNION )
-method=MonteCarlo.MODIFIED_TWO_D_UNION
+method=MonteCarlo.TWO_D_UNION
 
 ## ------- FORWARD OPTIONS ------- ##
 
@@ -46,7 +46,7 @@ atomic_relaxation=False
 # Set the source energy (1e-4 - 1.033)
 source_energy=1.033
 
-# Set the source angle in degrees ( 0.0, 60.0 )
+# Set the source angle in degrees ( 0.0, 15.0, 30.0, 45.0, 60.0, 75.0 )
 source_angle=0.0
 
 # Set the bivariate interpolation (LOGLOGLOG, LINLINLIN, LINLINLOG)
@@ -186,7 +186,20 @@ if __name__ == "__main__":
                                                options.log_file )
 
     elif options.transport == "adjoint":
-      max_source_energy = 1.033
+
+      max_source_energy = 0.256
+
+      if grid_policy == MonteCarlo.UNIT_BASE_GRID:
+        version = 0
+      elif grid_policy == MonteCarlo.UNIT_BASE_CORRELATED_GRID:
+        version = 1
+      elif grid_policy == MonteCarlo.CORRELATED_GRID:
+        version = 2
+
+      if source_energy > 0.256
+        max_source_energy = 1.033
+        version += 3
+
       # Set the adjoint simulation properties
       properties = setup.setAdjointSimulationProperties( options.num_particles, options.time, mode, method, cutoff_energy, max_source_energy )
 
@@ -205,13 +218,6 @@ if __name__ == "__main__":
 
       # Set the simulation name and title
       sim_name = simulation.setAdjointSimulationName( properties, element, grid_policy, ionization, nudge_past_max )
-
-      if grid_policy == MonteCarlo.UNIT_BASE_GRID:
-        version = 3
-      elif grid_policy == MonteCarlo.UNIT_BASE_CORRELATED_GRID:
-        version = 4
-      elif grid_policy == MonteCarlo.CORRELATED_GRID:
-        version = 5
 
       # Run the simulation
       simulation.runAdjointAlbedoSimulation( sim_name,
