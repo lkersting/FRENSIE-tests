@@ -12,6 +12,8 @@ EXTRA_ARGS=$@
 # Set the bivariate Grid Policy ( "UnitBase" "UnitBaseCorrelated" "Correlated" )
 grid_policies=( "UnitBase" )
 
+max_energies=( 0.256 1.033 )
+
 # Sbatch variables
 partition=pre
 time=1-00:00:00
@@ -68,16 +70,24 @@ do
     echo "The grid policy ${bold}${grid_policy}${normal} is currently not supported!"
   fi
 
-  convergence_tol="--ion_grid_convergence=${ion_convergence_tol} --brem_grid_convergence=${brem_convergence_tol} --xs_grid_convergence=${xs_convergence_tol}"
-  eval_tol="--ion_eval_tol=${ion_eval_tol} --brem_eval_tol=${brem_eval_tol} --tabular_evaluation_tol=${tabular_eval_tol}"
+  for max_energy in ${max_energies[@]}
+  do
+    version+=3
+
+    # Set the max energy
+    echo "  Setting the max energy to ${bold}${max_energy}${normal}"
+
+    convergence_tol="--ion_grid_convergence=${ion_convergence_tol} --brem_grid_convergence=${brem_convergence_tol} --xs_grid_convergence=${xs_convergence_tol}"
+    eval_tol="--ion_eval_tol=${ion_eval_tol} --brem_eval_tol=${brem_eval_tol} --tabular_evaluation_tol=${tabular_eval_tol}"
 
 
-  # Set the version
-  echo "  Setting version number to ${bold}${version}${normal}"
+    # Set the version
+    echo "  Setting version number to ${bold}${version}${normal}"
 
-  python_command="python ../../update_adjoint_test_files.py -d ${DATABASE_PATH} -z 13000 -e 1.033 -g ${grid_policy} -v ${version} ${convergence_tol} ${eval_tol}"
-  printf "#!/bin/bash\n${python_command}" > update_Al_adjoint_temp${version}.sh
-  ${sbatch_command} update_Al_adjoint_temp${version}.sh
-  rm update_Al_adjoint_temp${version}.sh
+    python_command="python ../../update_adjoint_test_files.py -d ${DATABASE_PATH} -z 13000 -e ${max_energy} -g ${grid_policy} -v ${version} ${convergence_tol} ${eval_tol}"
+    printf "#!/bin/bash\n${python_command}" > update_Al_adjoint_temp${version}.sh
+    ${sbatch_command} update_Al_adjoint_temp${version}.sh
+    rm update_Al_adjoint_temp${version}.sh
 
+  done
 done

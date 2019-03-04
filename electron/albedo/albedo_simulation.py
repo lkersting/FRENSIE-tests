@@ -1,6 +1,7 @@
 #! /usr/bin/env python
 from os import path, makedirs, environ
 import sys
+import errno
 import numpy as np
 import datetime
 
