@@ -4,7 +4,7 @@ import sys
 from optparse import *
 
 # Add the parent and grandparent directory to the path
-parent_dir=path.dirname(path.dirname(path.abspath(__file__)))
+parent_dir=path.dirname(path.dirname(path.dirname(path.abspath(__file__))))
 sys.path.insert(1,parent_dir)
 sys.path.insert(1,path.dirname(parent_dir))
 
