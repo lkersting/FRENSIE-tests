@@ -9,7 +9,8 @@
 ## ---------------------------- FACEMC test runner --------------------------##
 ##---------------------------------------------------------------------------##
 ## FRENSIE benchmark test: Reflection Coeficient in semi-infinite slabs.
-## The albedo for a particular material is calculated at several energies.
+## The albedo for a particular material can be calculated at different energies
+## and angles.
 ##---------------------------------------------------------------------------##
 EXTRA_ARGS=$@
 

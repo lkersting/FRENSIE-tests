@@ -2,7 +2,7 @@
 ##---------------------------------------------------------------------------##
 ## -------------------------- FRENSIE test runner ---------------------------##
 ##---------------------------------------------------------------------------##
-## Run an infinite medium simulation
+## Run an albedo simulation
 ##---------------------------------------------------------------------------##
 
 # Sbatch variables
@@ -288,6 +288,10 @@ do
         fi
       done
     elif [ "${transport}" = "adjoint" ]; then
+      # Set the energy to max energy
+      command=s/ENERGY=.*/ENERGY=0.256/
+      sed -i "${command}" ${script}
+
       for grid_policy in "${grid_policys[@]}"
       do
         # Set bivariate grid policy
