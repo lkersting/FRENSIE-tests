@@ -1,18 +1,19 @@
-## Aluminum albedo experiment ##
+## Aluminum albedo experiments ##
 
 # Experimental
 The reflection coefficient in a semi-infinite slab Al is measured at various
-energies.
+energies and angles.
 
 # Forward Setup
-Surface current estimator with cosines bin (-1.0, -0.99, 0.0, 1.0).
-For Al make the infinite slab 30 cm long
-Each source energy must be a separate run
+Surface current estimator with cosines bin (-1.0, 0.0, 1.0).
+A semi-infinite Al slab (30 cm deep).
+Each incident angle must be a separate run.
+Each source energy must be a separate run or source energy bins must be used.
 
 # Adjoint Setup
-Surface current estimator with cosines bin 0 to 10 degrees and 170 to 180 degrees.
-For Al make the infinite slab 30 cm long
-There can be one adjoint run for all source energies
+Surface current estimator with 10 to 20 degree cosines bins around the incident angle and energy bins.
+The same geometry is used as the forward.
+There can be one adjoint run for all source energies and angles.
 
 ## Trelis geometry commands
 brick x 60.0 y 60.0 z 30.0
@@ -33,10 +34,17 @@ group "estimator_2.surface.current.e*" add surface 1, 2
 group "reflecting.surface" add surface 3 to 6
 export dagmc "path-to-albedo/Al/geom.h5m" faceting_tolerance 1.e-5 make_watertight
 
-# Running the simulation if FRENSIE
+# Running the simulation for FRENSIE - normal incident angle
 
-Set the desired physics option at the top of run_al_albedo.sh.
-run `run_al_albedo.sh` on the UW-Cluster.
+Set the desired physics option at the top of run_albedo.sh.
+run `run_albedo.sh` on the UW-Cluster.
+Use scp to copy the rendezvous and albedo files from the results directory on
+the UW-Cluster to a local computer.
+
+# Running the simulation for FRENSIE - multiply incident angles
+
+Set the desired physics option at the top of run_lockwood_albedo.sh.
+run `run_lockwood_albedo.sh` on the UW-Cluster.
 Use scp to copy the rendezvous and albedo files from the results directory on
 the UW-Cluster to a local computer.
 

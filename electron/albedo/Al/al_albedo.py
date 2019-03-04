@@ -26,11 +26,11 @@ cutoff_energy=1e-4
 grid_policy=MonteCarlo.UNIT_BASE_CORRELATED_GRID
 
 # Set the elastic distribution mode ( DECOUPLED, COUPLED, HYBRID )
-mode=MonteCarlo.DECOUPLED_DISTRIBUTION
+mode=MonteCarlo.COUPLED_DISTRIBUTION
 
 # Set the elastic coupled sampling method
 # ( TWO_D_UNION, ONE_D_UNION, MODIFIED_TWO_D_UNION )
-method=MonteCarlo.MODIFIED_TWO_D_UNION
+method=MonteCarlo.TWO_D_UNION
 
 ## ------- FORWARD OPTIONS ------- ##
 
@@ -43,10 +43,10 @@ isotropic_source=True
 # set atomic relaxation mode
 atomic_relaxation=False
 
-# Set the source energy (1e-4 - 0.256)
-source_energy=0.256
+# Set the source energy (1e-4 - 1.033)
+source_energy=1.033
 
-# Set the source angle in degrees ( 0.0, 60.0 )
+# Set the source angle in degrees ( 0.0, 15.0, 30.0, 45.0, 60.0, 75.0, "normal" )
 source_angle=0.0
 
 # Set the bivariate interpolation (LOGLOGLOG, LINLINLIN, LINLINLOG)
@@ -57,14 +57,6 @@ file_type=Data.ElectroatomicDataProperties.Native_EPR_FILE
 
 # Set if a refined grid should be used ( True, False )
 use_refined_grid=False
-
-## ------- ADJOINT OPTIONS ------- ##
-
-# Set the nudge past max energy mode ( True, False )
-nudge_past_max=True
-
-# Set the electro-ionization sampling mode ( KNOCK_ON, OUTGOING_ENERGY )
-ionization=MonteCarlo.KNOCK_ON_SAMPLING
 
 geometry_path = path.dirname(path.realpath(__file__)) + "/geom.h5m"
 
@@ -83,7 +75,12 @@ def printAdjointSimulationName():
   # Set the adjoint simulation properties
   properties = setup.setAdjointSimulationProperties( 1, 1, mode, method )
 
-  sim_name = simulation.setAdjointSimulationName( properties, element, grid_policy, ionization, nudge_past_max )
+  # Set the max source energy
+  max_source_energy = 0.256
+  if source_energy > 0.256:
+    max_source_energy = 1.033
+
+  sim_name = simulation.setAdjointSimulationName( properties, element, grid_policy, max_source_energy )
 
   print sim_name
 
@@ -131,9 +128,13 @@ if __name__ == "__main__":
       elif file_type == Data.ElectroatomicDataProperties.ACE_EPR_FILE:
         version = 14
 
+      source_angle_name = source_angle
+      if source_angle_name == "normal":
+        source_angle = 0.0
+
       if isotropic_source and spectrum_source:
         # Set the simulation name and title
-        sim_name = simulation.setSimulationName( properties, file_type, element, "cosine_spectrum", source_angle, use_refined_grid )
+        sim_name = simulation.setSimulationName( properties, file_type, element, "cosine_spectrum", source_angle_name, use_refined_grid )
 
         # Create the results directory
         simulation.createResultsDirectory(sim_name)
@@ -154,7 +155,7 @@ if __name__ == "__main__":
                                                        options.log_file )
       elif spectrum_source:
         # Set the simulation name and title
-        sim_name = simulation.setSimulationName( properties, file_type, element, "spectrum", source_angle, use_refined_grid )
+        sim_name = simulation.setSimulationName( properties, file_type, element, "spectrum", source_angle_name, use_refined_grid )
 
         # Create the results directory
         simulation.createResultsDirectory(sim_name)
@@ -175,7 +176,7 @@ if __name__ == "__main__":
 
       else:
         # Set the simulation name and title
-        sim_name = simulation.setSimulationName( properties, file_type, element, source_energy, source_angle, use_refined_grid )
+        sim_name = simulation.setSimulationName( properties, file_type, element, source_energy, source_angle_name, use_refined_grid )
 
         # Create the results directory
         simulation.createResultsDirectory(sim_name)
@@ -194,7 +195,23 @@ if __name__ == "__main__":
                                                options.log_file )
 
     elif options.transport == "adjoint":
+
+      # Set the max source energy
       max_source_energy = 0.256
+
+      # Set the version number
+      if grid_policy == MonteCarlo.UNIT_BASE_GRID:
+        version = 0
+      elif grid_policy == MonteCarlo.UNIT_BASE_CORRELATED_GRID:
+        version = 1
+      elif grid_policy == MonteCarlo.CORRELATED_GRID:
+        version = 2
+
+      # Update the max source energy and version number for Lockwood problem
+      if source_energy > 0.256:
+        max_source_energy = 1.033
+        version += 3
+
       # Set the adjoint simulation properties
       properties = setup.setAdjointSimulationProperties( options.num_particles, options.time, mode, method, cutoff_energy, max_source_energy )
 
@@ -212,20 +229,7 @@ if __name__ == "__main__":
       simulation.createAdjointResultsDirectory()
 
       # Set the simulation name and title
-      sim_name = simulation.setAdjointSimulationName( properties, element, grid_policy, ionization, nudge_past_max )
-
-      if grid_policy == MonteCarlo.UNIT_BASE_GRID:
-        version = 0
-      elif grid_policy == MonteCarlo.UNIT_BASE_CORRELATED_GRID:
-        version = 1
-      elif grid_policy == MonteCarlo.CORRELATED_GRID:
-        version = 2
-
-      if not nudge_past_max:
-        version += 3
-
-      if ionization == MonteCarlo.OUTGOING_ENERGY_SAMPLING:
-        version += 6
+      sim_name = simulation.setAdjointSimulationName( properties, element, grid_policy, max_source_energy )
 
       # Run the simulation
       simulation.runAdjointAlbedoSimulation( sim_name,

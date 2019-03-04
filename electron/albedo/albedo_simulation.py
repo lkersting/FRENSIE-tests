@@ -794,9 +794,9 @@ def setSimulationName( properties, file_type, element, energy, angle, refined ):
 ## ---------------------- setAdjointSimulationName --------------------------##
 ##---------------------------------------------------------------------------##
 # Define a function for naming an electron simulation
-def setAdjointSimulationName( properties, element, grid_policy, ionization_sampling, nudge_past_max_energy ):
+def setAdjointSimulationName( properties, element, grid_policy, max_energy ):
   extension = setup.setAdjointSimulationNameExtention( properties )
-  name = "adjoint_albedo_" + element + "_"
+  name = "adjoint_albedo_" + element + "_" + str(max_energy) + "_"
 
   # Add the grid policy to the name
   if grid_policy == MonteCarlo.UNIT_BASE_CORRELATED_GRID:
@@ -805,14 +805,6 @@ def setAdjointSimulationName( properties, element, grid_policy, ionization_sampl
       name += "correlated"
   else:
       name += "unit_base"
-
-  # Add the ionization sampling to the name
-  if ionization_sampling == MonteCarlo.OUTGOING_ENERGY_SAMPLING:
-    name += '_outgoing_energy'
-
-  # Add the nudge past max energy mode to the name
-  if not nudge_past_max_energy:
-    name += '_no_nudge'
 
   name += extension
 

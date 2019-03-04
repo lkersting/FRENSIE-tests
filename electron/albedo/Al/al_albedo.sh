@@ -9,12 +9,13 @@
 ## ---------------------------- FACEMC test runner --------------------------##
 ##---------------------------------------------------------------------------##
 ## FRENSIE benchmark test: Reflection Coeficient in semi-infinite slabs.
-## The albedo for a particular material is calculated at several energies.
+## The albedo for a particular material can be calculated at different energies
+## and angles.
 ##---------------------------------------------------------------------------##
 EXTRA_ARGS=$@
 
 # Set the number of histories
-HISTORIES=1e6
+HISTORIES=1e7
 # Set the max runtime (in minutes, 1 day = 1440 )
 TIME=1350
 
@@ -55,12 +56,15 @@ else
   # Set the transport mode ( "forward", "adjoint" )
   TRANSPORT="forward"
 
+  # Set the forward source energy/max adjoint energy
+  ENERGY=1.033
+
   ## ------- FORWARD OPTIONS ------- ##
-  # Set the bivariate interpolation ( LOGLOGLOG LINLINLIN LINLINLOG )
+  # Set the bivariate interpolation ( LOGLOGLOG, LINLINLIN, LINLINLOG )
   INTERP=LOGLOGLOG
 
-  # Set the test source energy
-  ENERGY=0.256
+  # Set the test source angle in degrees ( 0, 15, 30, 45, 60, 75 )
+  ANGLE=0.0
 
   # Set the data file type (ACE Native)
   FILE_TYPE=Native
@@ -101,6 +105,10 @@ else
   command=s/cutoff_energy=.*/cutoff_energy=${CUTOFF}/
   sed -i "${command}" ${python_script}
 
+  # Set the forward source energy/max adjoint energy
+  command=s/source_energy=.*/source_energy=${ENERGY}/
+  sed -i "${command}" ${python_script}
+
   if [ "${TRANSPORT}" = "forward" ]; then
 
     # Set if a spectrum source should be used
@@ -111,8 +119,8 @@ else
     command=s/isotropic_source=.*/isotropic_source=${ISOTROPIC}/
     sed -i "${command}" ${python_script}
 
-    # Set the source energy
-    command=s/source_energy=.*/source_energy=${ENERGY}/
+    # Set the source angle
+    command=s/source_angle=.*/source_angle=${ANGLE}/
     sed -i "${command}" ${python_script}
 
     # Set the interp
