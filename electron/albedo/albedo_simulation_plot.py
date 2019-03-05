@@ -1,5 +1,6 @@
 # import numpy
 import math
+import numpy as np
 import matplotlib.pyplot as plt
 import os
 import PyFrensie.Utility as Utility
@@ -48,15 +49,15 @@ def plotAlbedoSimulationSpectrum( forward_rendezvous_file,
     if float(source_angle) == 0.0:
       mu_start=-1
     elif float(source_angle) == 15.0:
-      mu_start=-3
+      mu_start=-2
     elif float(source_angle) == 30.0:
-      mu_start=-5
+      mu_start=-3
     elif float(source_angle) == 45.0:
-      mu_start=-7
+      mu_start=-4
     elif float(source_angle) == 60.0:
-      mu_start=-9
+      mu_start=-5
     elif float(source_angle) == 75.0:
-      mu_start=-11
+      mu_start=-6
 
     start_index = (len(angles) -1 + mu_start)*num_bins
 

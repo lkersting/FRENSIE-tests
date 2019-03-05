@@ -2,6 +2,7 @@
 from os import path, makedirs, environ
 import sys
 import numpy
+import errno
 import datetime
 
 # Add the parent directory to the path
