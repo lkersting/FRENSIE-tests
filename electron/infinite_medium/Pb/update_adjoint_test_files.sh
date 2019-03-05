@@ -9,8 +9,6 @@
 ##---------------------------------------------------------------------------##
 EXTRA_ARGS=$@
 
-# Set the ionization sampling mode ( "Knock-On" "Outgoing Energy" )
-ionizations=( "Knock-On" )
 # Set the bivariate Grid Policy ( "UnitBase" "UnitBaseCorrelated" "Correlated" )
 grid_policies=( "UnitBase" )
 # Set the nudge past max energy mode on/off ( 'on' 'off' )
@@ -35,93 +33,69 @@ fi
 bold=$(tput bold)
 normal=$(tput sgr0)
 
-for ionization in "${ionizations[@]}"
+for grid_policy in "${grid_policies[@]}"
 do
-  # Set the ionization sampling mode
-  echo "Setting electro-ionization sampling to ${bold}${ionization}${normal}"
+  # Set the bivariate Grid Policy
+  echo "  Setting the bivariate grid policy to ${bold}${grid_policy}${normal}"
 
-  for grid_policy in "${grid_policies[@]}"
+  # Set the tolerances
+  if [ "${grid_policy}" = "UnitBase" ]; then
+    tabular_eval_tol=1e-7
+    xs_convergence_tol=1e-4
+    brem_convergence_tol=1e-4
+    ion_convergence_tol=1e-4
+    brem_eval_tol=1e-7
+    ion_eval_tol=1e-7
+    version=0
+
+  elif [ "${grid_policy}" = "UnitBaseCorrelated" ]; then
+    tabular_eval_tol=1e-7
+    xs_convergence_tol=1e-4
+    brem_convergence_tol=1e-4
+    ion_convergence_tol=1e-4
+    brem_eval_tol=1e-6
+    ion_eval_tol=1e-6
+    version=1
+
+  elif [ "${grid_policy}" = "Correlated" ]; then
+    tabular_eval_tol=1e-7
+    xs_convergence_tol=1e-4
+    brem_convergence_tol=1e-4
+    ion_convergence_tol=1e-4
+    brem_eval_tol=1e-7
+    ion_eval_tol=1e-5
+    version=2
+
+  else
+    echo "The grid policy ${bold}${grid_policy}${normal} is currently not supported!"
+  fi
+
+  for nudge_mode in "${nudge_modes[@]}"
   do
-    # Set the bivariate Grid Policy
-    echo "  Setting the bivariate grid policy to ${bold}${grid_policy}${normal}"
+    # Set the nudge mode
+    echo "    Setting the nudge past max energy mode to ${bold}${nudge_mode}${normal}"
 
-    # Set the tolerances
-    if [ "${grid_policy}" = "UnitBase" ]; then
-      tabular_eval_tol=1e-7
-      xs_convergence_tol=1e-4
-      brem_convergence_tol=1e-4
-      ion_convergence_tol=1e-4
-      brem_eval_tol=1e-7
-      version=0
+    convergence_tol="--ion_grid_convergence=${ion_convergence_tol} --brem_grid_convergence=${brem_convergence_tol} --xs_grid_convergence=${xs_convergence_tol}"
+    eval_tol="--ion_eval_tol=${ion_eval_tol} --brem_eval_tol=${brem_eval_tol} --tabular_evaluation_tol=${tabular_eval_tol}"
 
-      if [ "${ionization}" = "Outgoing Energy" ]; then
-        ion_eval_tol=1e-6
-        version=$((version + 6))
-      else
-        ion_eval_tol=1e-7
-      fi
+    # Update the test file
+    if [ "${nudge_mode}" = "on" ]; then
+      # Set the version
+      echo "      Setting version number to ${bold}${version}${normal}"
 
-    elif [ "${grid_policy}" = "UnitBaseCorrelated" ]; then
-      tabular_eval_tol=1e-7
-      xs_convergence_tol=1e-4
-      brem_convergence_tol=1e-4
-      ion_convergence_tol=1e-4
-      brem_eval_tol=1e-6
-      version=1
-
-      if [ "${ionization}" = "Outgoing Energy" ]; then
-        ion_eval_tol=1e-5
-        version=$((version + 6))
-      else
-        ion_eval_tol=1e-6
-      fi
-
-    elif [ "${grid_policy}" = "Correlated" ]; then
-      tabular_eval_tol=1e-7
-      xs_convergence_tol=1e-4
-      brem_convergence_tol=1e-4
-      ion_convergence_tol=1e-4
-      brem_eval_tol=1e-7
-      version=2
-
-      if [ "${ionization}" = "Outgoing Energy" ]; then
-        ion_eval_tol=1e-4
-        version=$((version + 6))
-      else
-        ion_eval_tol=1e-5
-      fi
-
+      python_command="python ../../update_adjoint_test_files.py -d ${DATABASE_PATH} -z 82000 -e 0.01 -g ${grid_policy} -v ${version} ${convergence_tol} ${eval_tol}"
+      printf "#!/bin/bash\n${python_command}" > update_Pb_adjoint_temp.sh
+      ${sbatch_command} update_Pb_adjoint_temp.sh
+      rm update_Pb_adjoint_temp.sh
     else
-      echo "The grid policy ${bold}${grid_policy}${normal} is currently not supported!"
+      version=$((version + 3))
+      # Set the version
+      echo "      Setting version number to ${bold}${version}${normal}"
+
+      python_command="python ../../update_adjoint_test_files.py -d ${DATABASE_PATH} -z 82000 -e 0.01 -g ${grid_policy} -v ${version} ${convergence_tol} ${eval_tol} --scatter_above_max_mode_off"
+      printf "#!/bin/bash\n${python_command}" > update_Pb_adjoint_temp.sh
+      ${sbatch_command} update_Pb_adjoint_temp.sh
+      rm update_Pb_adjoint_temp.sh
     fi
-
-    for nudge_mode in "${nudge_modes[@]}"
-    do
-      # Set the nudge mode
-      echo "    Setting the nudge past max energy mode to ${bold}${nudge_mode}${normal}"
-
-      convergence_tol="--ion_grid_convergence=${ion_convergence_tol} --brem_grid_convergence=${brem_convergence_tol} --xs_grid_convergence=${xs_convergence_tol}"
-      eval_tol="--ion_eval_tol=${ion_eval_tol} --brem_eval_tol=${brem_eval_tol} --tabular_evaluation_tol=${tabular_eval_tol}"
-
-      # Update the test file
-      if [ "${nudge_mode}" = "on" ]; then
-        # Set the version
-        echo "      Setting version number to ${bold}${version}${normal}"
-
-        python_command="python ../../update_adjoint_test_files.py -d ${DATABASE_PATH} -z 82000 -e 0.01 -g ${grid_policy} -i \"${ionization}\" -v ${version} ${convergence_tol} ${eval_tol}"
-        printf "#!/bin/bash\n${python_command}" > update_Pb_adjoint_temp.sh
-        ${sbatch_command} update_Pb_adjoint_temp.sh
-        rm update_Pb_adjoint_temp.sh
-      else
-        version=$((version + 3))
-        # Set the version
-        echo "      Setting version number to ${bold}${version}${normal}"
-
-        python_command="python ../../update_adjoint_test_files.py -d ${DATABASE_PATH} -z 82000 -e 0.01 -g ${grid_policy} -i \"${ionization}\" -v ${version} ${convergence_tol} ${eval_tol} --scatter_above_max_mode_off"
-        printf "#!/bin/bash\n${python_command}" > update_Pb_adjoint_temp.sh
-        ${sbatch_command} update_Pb_adjoint_temp.sh
-        rm update_Pb_adjoint_temp.sh
-      fi
-    done
   done
 done

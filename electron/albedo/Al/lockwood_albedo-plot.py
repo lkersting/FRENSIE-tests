@@ -37,39 +37,50 @@ if __name__ == "__main__":
     else:
       combined_forward_files = None
 
-    top_ylims = [0.0, 0.6]
-    bottom_ylims = [0.0, 3.0]
+    xlims = [0.03, 1.05]
     legend_pos = (0.95,0.95)
 
-
-    source_angle = 0.0
-    exp_base = dir + "/experimental_results/lockwood_"
-    exp_file += "0.tsv"
-    if "15.0" in forward_filename:
+    exp_file = dir + "/experimental_results/lockwood_"
+    if "0.0" in forward_filename:
+      source_angle = 0.0
+      exp_file += "0.tsv"
+      top_ylims = [0.0, 0.3]
+      bottom_ylims = [0.5, 1.5]
+    elif "15.0" in forward_filename:
       source_angle = 15.0
       exp_file += "15.tsv"
-    if "30.0" in forward_filename:
+      top_ylims = [0.0, 0.6]
+      bottom_ylims = [0.5, 1.5]
+    elif "30.0" in forward_filename:
       source_angle = 30.0
       exp_file += "30.tsv"
-    if "45.0" in forward_filename:
+      top_ylims = [0.0, 0.6]
+      bottom_ylims = [0.5, 1.5]
+    elif "45.0" in forward_filename:
       source_angle = 45.0
       exp_file += "45.tsv"
-    if "60.0" in forward_filename:
+      top_ylims = [0.0, 0.6]
+      bottom_ylims = [0.5, 1.5]
+    elif "60.0" in forward_filename:
       source_angle = 60.0
       exp_file += "60.tsv"
-    if "75.0" in forward_filename:
+      top_ylims = [0.0, 0.6]
+      bottom_ylims = [0.5, 1.5]
+    elif "75.0" in forward_filename:
       source_angle = 75.0
       exp_file += "75.tsv"
+      top_ylims = [0.0, 0.6]
+      bottom_ylims = [0.5, 1.5]
 
     # Plot the spectrum
     plotAlbedoSimulationSpectrum( forward_filename,
                                   adjoint_filename,
-                                  exp_file,
+                                  [exp_file],
                                   combined_forward_files,
                                   source_angle,
                                   "Al",
                                   user_args.output_name,
                                   top_ylims,
                                   bottom_ylims,
-                                  None,
+                                  xlims,
                                   legend_pos )

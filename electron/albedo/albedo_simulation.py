@@ -124,7 +124,7 @@ def runForwardAlbedoSimulation( sim_name,
     current_estimator = event_handler.getEstimator( 1 )
 
     # Set the cosine bins
-    cosine_bins = [ -1.0, -0.99, 0.0, 1.0 ]
+    cosine_bins = [ 0.0, 1.0 ]
     current_estimator.setCosineDiscretization( cosine_bins )
 
 
@@ -274,7 +274,7 @@ def runForwardSpectrumAlbedoSimulation( sim_name,
     current_estimator.setSourceEnergyDiscretization( energy_bins )
 
     # Set the cosine bins
-    cosine_bins = [ -1.0, -0.99, 0.0, 1.0 ]
+    cosine_bins = [ 0.0, 1.0 ]
     current_estimator.setCosineDiscretization( cosine_bins )
 
   ##--------------------------------------------------------------------------##
@@ -451,7 +451,7 @@ def runForwardIsotrpoicSpectrumAlbedoSimulation( sim_name,
     current_estimator.setSourceEnergyDiscretization( energy_bins )
 
     # Set the cosine bins
-    cosine_bins = [ -1.0, -0.99, 0.0, 1.0 ]
+    cosine_bins = [ 0.0, 1.0 ]
     current_estimator.setCosineDiscretization( cosine_bins )
 
   ##--------------------------------------------------------------------------##
@@ -609,7 +609,7 @@ def runAdjointAlbedoSimulation( sim_name,
     current_estimator.setEnergyDiscretization( energy_bins )
 
     # Set the cosine bins
-    cosine_bins = [ -1.0, 0.0, np.cos(np.deg2rad(80)), np.cos(np.deg2rad(70)), np.cos(np.deg2rad(50)), np.cos(np.deg2rad(40)), np.cos(np.deg2rad(20)), np.cos(np.deg2rad(10)), 1.0 ]
+    cosine_bins = [ np.cos(np.deg2rad(80)), np.cos(np.deg2rad(70)), np.cos(np.deg2rad(50)), np.cos(np.deg2rad(40)), np.cos(np.deg2rad(20)), np.cos(np.deg2rad(10)), 1.0 ]
     current_estimator.setCosineDiscretization( cosine_bins )
 
   ## -------------------------- Particle Tracker ---------------------------- ##

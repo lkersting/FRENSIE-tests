@@ -18,9 +18,9 @@ if __name__ == "__main__":
     parser = ap.ArgumentParser(description=description)
 
     parser.add_argument("-f", "--forward_file", dest="forward_file",
-                        help="the forward rendezvous file to load")
+                        help="the forward rendezvous file to load", required=True)
     parser.add_argument("-a", "--adjoint_file", dest="adjoint_file",
-                      help="the rendezvous file to load")
+                      help="the rendezvous file to load", required=True)
     parser.add_argument("-o", "--output_name", dest="output_name",
                       help="the plot output name", required=False)
     parser.add_argument("combined_forward_files", nargs='*',
@@ -38,7 +38,7 @@ if __name__ == "__main__":
       combined_forward_files = None
 
     top_ylims = [0.0, 0.6]
-    bottom_ylims = [0.0, 3.0]
+    bottom_ylims = [0.5, 2.0]
     legend_pos = (0.95,0.95)
 
     exp_files = ['assad', 'bienlein','bishop', 'bongeler', 'bronshtein', 'cosslett', 'drescher', 'el_gomati', 'heinrich', 'kanter', 'kulenkampff', 'lockwood', 'neubert', 'reimer', 'shimizu', 'soum', 'trump', 'wittry' ]

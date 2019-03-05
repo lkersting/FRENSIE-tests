@@ -54,13 +54,6 @@ refined_grids=( True )
 # Set the bivariate interpolation ( LOGLOGLOG LINLINLIN LINLINLOG )
 interps=( LOGLOGLOG )
 
-## ------- ADJOINT OPTIONS ------- ##
-# Set the nudge past max energy mode ( False True )
-nudge_modes=( True )
-
-# Set the electro-ionization sampling mode ( OUTGOING_ENERGY KNOCK_ON )
-ionizations=( KNOCK_ON )
-
 ##---------------------------------------------------------------------------##
 ## ------------------------------- COMMANDS ---------------------------------##
 ##---------------------------------------------------------------------------##
