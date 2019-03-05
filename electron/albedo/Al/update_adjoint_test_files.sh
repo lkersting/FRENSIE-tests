@@ -72,7 +72,8 @@ do
 
   for max_energy in ${max_energies[@]}
   do
-    version+=3
+    if max_energy == 1.033:
+      version+=3
 
     # Set the max energy
     echo "  Setting the max energy to ${bold}${max_energy}${normal}"
