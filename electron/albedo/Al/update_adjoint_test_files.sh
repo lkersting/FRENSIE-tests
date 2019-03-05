@@ -70,10 +70,11 @@ do
     echo "The grid policy ${bold}${grid_policy}${normal} is currently not supported!"
   fi
 
-  for max_energy in ${max_energies[@]}
+  for max_energy in "${max_energies[@]}"
   do
-    if max_energy == 1.033:
-      version+=3
+    if [ ${max_energy} = 1.033 ]; then
+      version=$((version + 3))
+    fi
 
     # Set the max energy
     echo "  Setting the max energy to ${bold}${max_energy}${normal}"
@@ -83,12 +84,11 @@ do
 
 
     # Set the version
-    echo "  Setting version number to ${bold}${version}${normal}"
+    echo "    Setting version number to ${bold}${version}${normal}"
 
     python_command="python ../../update_adjoint_test_files.py -d ${DATABASE_PATH} -z 13000 -e ${max_energy} -g ${grid_policy} -v ${version} ${convergence_tol} ${eval_tol}"
     printf "#!/bin/bash\n${python_command}" > update_Al_adjoint_temp${version}.sh
     ${sbatch_command} update_Al_adjoint_temp${version}.sh
     rm update_Al_adjoint_temp${version}.sh
-
   done
 done
