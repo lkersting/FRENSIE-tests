@@ -43,9 +43,9 @@ if __name__ == "__main__":
 
     entity_ids = [1, 18, 16]
     radii = [1, 2, 5]
-    top_ylims = [ [0.0, 2e3], [0.0, 200], [0.0, 1.0] ]
-    bottom_ylims = [ [0.8, 1.2], [0.8, 1.2], [0.85, 1.15] ]
-    xlims = [ [0.008,0.01], [0.004,0.01], [0.0,0.01] ]
+    top_ylims = [ [0.0, 12.0], [0.0, 4.0], [0.0, 1.2] ]
+    bottom_ylims = [ [0.96, 1.04], [0.96, 1.04], [0.96, 1.04] ]
+    xlims = [ [0.0,0.01], [0.0,0.01], [0.0,0.01] ]
     legend_pos = [ (0.95,0.95), (0.95,0.95), (0.95,0.95) ]
 
     output = None
@@ -84,6 +84,7 @@ if __name__ == "__main__":
                                                energy_bins,
                                                output_data_name,
                                                radii[i],
+                                               "Pb",
                                                top_ylims[i],
                                                bottom_ylims[i],
                                                xlims[i],

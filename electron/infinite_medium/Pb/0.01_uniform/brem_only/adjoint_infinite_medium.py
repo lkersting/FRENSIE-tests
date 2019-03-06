@@ -64,7 +64,7 @@ if __name__ == "__main__":
     geometry_path = path.dirname(path.realpath(__file__)) + "/geom.h5m"
 
     # Set the energy bins
-    bins = list(Utility.doubleArrayFromString( "{ 1e-4, 99l, 8e-3, 99i, 1e-2}" ))
+    bins = list(Utility.doubleArrayFromString( "{ 1e-4, 149l, 9e-3, 29i, 1e-2}" ))
 
     # Set the file version
     if grid_policy == MonteCarlo.UNIT_BASE_GRID:

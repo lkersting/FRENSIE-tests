@@ -96,6 +96,7 @@ if __name__ == "__main__":
                                                energy_bins,
                                                None,
                                                radii[i],
+                                               "H",
                                                top_ylims[i],
                                                bottom_ylims[i],
                                                xlims[i],

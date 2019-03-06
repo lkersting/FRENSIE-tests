@@ -95,6 +95,7 @@ if __name__ == "__main__":
                                                energy_bins,
                                                output_data_name,
                                                radii[i],
+                                               "H",
                                                top_ylims[i],
                                                bottom_ylims[i],
                                                xlims[i],

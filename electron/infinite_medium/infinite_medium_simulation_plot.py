@@ -21,6 +21,7 @@ def plotInfiniteMediumSimulationSurfaceFlux( forward_data,
                                              energy_bins,
                                              output_name,
                                              radius,
+                                             element,
                                              top_ylims = None,
                                              bottom_ylims = None,
                                              xlims = None,
@@ -64,7 +65,14 @@ def plotInfiniteMediumSimulationSurfaceFlux( forward_data,
   # the first subplot
   ax0 = plt.subplot(gs[0])
 
-  plot_title = '$\mathrm{0.01\/MeV\/Electron\/Surface\/Flux\/in\/an\/infinite\/medium\/of\/hydrogen\/at\/' + str(radius) +'\/cm}$'
+  if element == "Pb":
+    atom_name = "Lead"
+  elif element == "H":
+    atom_name = "Hydrogen"
+
+  mfps = ('%f' % (radius/2.0)).rstrip('0').rstrip('.')
+
+  plot_title = '$\mathrm{0.01\/MeV\/Electron\/Surface\/Flux\/in\/an\/Infinite\/Medium\/of\/' + atom_name + '\/at\/' + str(mfps) +'\/mfps}$'
   x_label = 'Energy (MeV)'
   plt.xlabel(x_label, size=14)
   plt.ylabel('Surface Flux (#/cm$^2$)', size=14)
@@ -131,7 +139,7 @@ def plotInfiniteMediumSimulationSurfaceFlux( forward_data,
   y = adjoint_y/forward_y
 
   if output_name is None:
-    output_name = "H_infinite_medium_" + str(radius)
+    output_name = element + "_infinite_medium_" + str(radius)
 
   output_data_name = output_name + "_3_sigma.txt"
 
