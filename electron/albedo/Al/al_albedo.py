@@ -65,21 +65,28 @@ def printSimulationName():
   # Set the simulation properties
   properties = setup.setSimulationProperties( 1, 1, interpolation, grid_policy, mode, method )
 
-  # Print the simulation name
-  sim_name = simulation.setSimulationName( properties, file_type, element, source_energy, source_angle, use_refined_grid )
+  if isotropic_source and spectrum_source:
+    sim_name = simulation.setSimulationName( properties, file_type, element, "cosine_spectrum", source_angle, use_refined_grid )
+  elif spectrum_source:
+    sim_name = simulation.setSimulationName( properties, file_type, element, "spectrum", source_angle, use_refined_grid )
+  else:
+    sim_name = simulation.setSimulationName( properties, file_type, element, source_energy, source_angle, use_refined_grid )
 
   print sim_name
 
 def printAdjointSimulationName():
-
-  # Set the adjoint simulation properties
-  properties = setup.setAdjointSimulationProperties( 1, 1, mode, method )
 
   # Set the max source energy
   max_source_energy = 0.256
   if source_energy > 0.256:
     max_source_energy = 1.033
 
+  sim_name = simulation.setAdjointSimulationName( properties, element, grid_policy, max_source_energy )
+
+  # Set the adjoint simulation properties
+  properties = setup.setAdjointSimulationProperties( 1, 1, mode, method, cutoff_energy, max_source_energy )
+
+  # Get the simulation name
   sim_name = simulation.setAdjointSimulationName( properties, element, grid_policy, max_source_energy )
 
   print sim_name
