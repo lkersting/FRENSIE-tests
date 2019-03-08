@@ -117,7 +117,7 @@ do
                     printf "#!/bin/bash\n${python_command}${mv_slurm_command}" > ${temp_script}
 
                     ${sbatch_command} ${temp_script}
-                    # rm ${temp_script}
+                    rm ${temp_script}
                   done
                 else
                   temp_script="${transport}_infinite_medium_${grid_policy}_${mode}_${method}_temp.sh"

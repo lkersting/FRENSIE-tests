@@ -145,7 +145,10 @@ else
 
   fi
 
+  echo ${PWD}
+  echo ${name}
   RENDEZVOUS="${PWD}/${name}_rendezvous_0.xml"
+  echo ${RENDEZVOUS}
 
   directory="$(dirname "${RENDEZVOUS}")/"
 

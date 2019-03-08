@@ -45,27 +45,17 @@ if __name__ == "__main__":
     radii = [1, 2, 5, 10, 20, 40]
 
     if "unit_base" in user_args.forward_rendezvous_file:
-      top_ylims = [ [0.0, 10], [0.0, 3], [0.0, 0.4], [0.0, 0.1], [0.0, .03], [0.0, 0.006] ]
-      bottom_ylims = [ [0.9, 1.1], [0.85, 1.15], [0.85, 1.15], [0.85, 1.15], [0.8, 1.2], [0.0, 2.0] ]
+      top_ylims = [ [0.0, 12], [0.0, 3], [0.0, 0.45], [0.0, 0.12], [0.0, .03], [0.0, 0.006] ]
+      bottom_ylims = [ [0.95, 1.05], [0.95, 1.05], [0.95, 1.05], [0.92, 1.05], [0.9, 1.1], [0.8, 1.2] ]
       xlims = [ [0.0,0.01], [0.0,0.01], [0.0,0.01], [0.0,0.01], [0.0,0.01], [0.0,0.01] ]
-      legend_pos = [ (0.95,0.95), (0.95,0.95), (0.95,0.95), (0.95,0.95), (0.95,0.95), (0.95,0.95) ]
-    elif "unit_correlated" in user_args.forward_rendezvous_file:
-      top_ylims = [ [0.0, 250], [0.0, 70], [0.0, 8], [0.0, 0.4], [0.0, .005], [0.0, 0.0001] ]
-      bottom_ylims = [ [0.5, 1.5], [0.4, 1.5], [0.2, 1.5], [0.0, 2.0], [0.0, 2.0], [0.7, 1.3] ]
-      xlims = [ [0.0,0.01], [0.0,0.01], [0.0,0.01], [0.0,0.01], [0.0,0.01], [0.0,0.01] ]
-      legend_pos = [ (0.95,0.95), (0.95,0.95), (0.95,0.95), (0.95,0.95), (0.95,0.95), (0.95,0.95) ]
-    elif "correlated" in user_args.forward_rendezvous_file:
-      top_ylims = [ [0.0, 10], [0.0, 3], [0.0, 0.4], [0.0, 0.1], [0.0, .03], [0.0, 0.006] ]
-      bottom_ylims = [ [0.9, 1.1], [0.85, 1.15], [0.85, 1.15], [0.85, 1.15], [0.8, 1.2], [0.0, 2.0] ]
-      xlims = [ [0.0,0.01], [0.0,0.01], [0.0,0.01], [0.0,0.01], [0.0,0.01], [0.0,0.01] ]
-      legend_pos = [ (0.95,0.95), (0.95,0.95), (0.95,0.95), (0.95,0.95), (0.95,0.95), (0.95,0.95) ]
+      legend_pos = [ 1, 1, 1, 1, 1, 1 ]
 
-    # output = None
-    # if not user_args.output_name is None:
-    #   output = user_args.output_name
-    # else:
-    #   output = user_args.forward_rendezvous_file.split("_rendezvous_")[0]
-    #   output = output.split("forward_0.01_loglog_")[-1]
+    output = None
+    if not user_args.output_name is None:
+      output = user_args.output_name
+    else:
+      output = user_args.forward_rendezvous_file.split("_rendezvous_")[0]
+      output = output.split("forward_0.01_loglog_")[-1]
 
     for i in range(0, len(entity_ids)):
       # Load forward data from file
@@ -88,13 +78,13 @@ if __name__ == "__main__":
       # delete manager
       manager = []
 
-      # output_data_name = output + "_" + str(radii[i])
+      output_data_name = output + "_" + str(radii[i])
 
       # Plot the results
       plotInfiniteMediumSimulationSurfaceFlux( forward_data,
                                                adjoint_data,
                                                energy_bins,
-                                               None,
+                                               output_data_name,
                                                radii[i],
                                                "H",
                                                top_ylims[i],

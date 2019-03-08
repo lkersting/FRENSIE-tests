@@ -49,7 +49,7 @@ if __name__ == "__main__":
     elif "15.0" in forward_filename:
       source_angle = 15.0
       exp_file += "15.tsv"
-      top_ylims = [0.0, 0.6]
+      top_ylims = [0.0, 0.3]
       bottom_ylims = [0.5, 1.5]
     elif "30.0" in forward_filename:
       source_angle = 30.0

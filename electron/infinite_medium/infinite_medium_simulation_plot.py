@@ -101,7 +101,7 @@ def plotInfiniteMediumSimulationSurfaceFlux( forward_data,
 
   # Plot error bars
   mid = 0.5*(bins[1:] + bins[:-1])
-  plt2 = plt.errorbar(mid, m, yerr=adjoint_error, ecolor='b', fmt=None)
+  # plt2 = plt.errorbar(mid, m, yerr=adjoint_error, ecolor='b', fmt=None)
 
   # plt.errorbar(mid, adjoint_y, yerr=adjoint_error, label="adjoint", fmt="--s", markersize=6, color='b' )
 
@@ -116,7 +116,7 @@ def plotInfiniteMediumSimulationSurfaceFlux( forward_data,
 
   # Plot error bars
   mid = 0.5*(bins[1:] + bins[:-1])
-  plt2 = plt.errorbar(mid, m, yerr=forward_error, ecolor='g', fmt=None)
+  # plt2 = plt.errorbar(mid, m, yerr=forward_error, ecolor='g', fmt=None)
 
   # plt.errorbar(mid, forward_y, yerr=forward_error, label="forward", fmt="--s", markersize=6, color='b' )
 
@@ -125,7 +125,7 @@ def plotInfiniteMediumSimulationSurfaceFlux( forward_data,
   labels.append("Forward")
 
 
-  plt.legend(loc='best')
+  plt.legend(loc=legend_pos)
   ax.yaxis.set_major_formatter(FormatStrFormatter('%.2f'))
 
   markers = ["v","o","^","<",">","+","x","1","2","3","4","8","p","P","*","h","H","X","D","d"]

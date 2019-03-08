@@ -133,8 +133,8 @@ if __name__ == "__main__":
     electron_grid_abs_diff_tol = 1e-20
     electron_grid_dist_tol = 1e-16
 
-    cutoff_angle_cosine = 0.9
-    num_moment_preserving_angles = 2
+    cutoff_angle_cosine = 1.0
+    num_moment_preserving_angles = 0
     electron_two_d_interp_policy = "LogLogLog"
     brems_min_energy_nudge_val = 1e-9
     brems_max_energy_nudge_val = 1e-6
