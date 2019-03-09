@@ -81,8 +81,6 @@ def printAdjointSimulationName():
   if source_energy > 0.256:
     max_source_energy = 1.033
 
-  sim_name = simulation.setAdjointSimulationName( properties, element, grid_policy, max_source_energy )
-
   # Set the adjoint simulation properties
   properties = setup.setAdjointSimulationProperties( 1, 1, mode, method, cutoff_energy, max_source_energy )
 
