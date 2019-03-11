@@ -204,7 +204,7 @@ def runSimulation( threads, histories, time ):
   # Set the archive type
   archive_type = "xml"
 
-  name = setSimulationName( properties )
+  name = setSimulationName( properties, use_refined_grid )
   title = setup.getSimulationPlotTitle( name )
 
   factory = Manager.ParticleSimulationManagerFactory( model,
@@ -321,10 +321,14 @@ def createResultsDirectory():
 ## -------------------------- setSimulationName ------------------------------##
 ##----------------------------------------------------------------------------##
 # Define a function for naming an electron simulation
-def setSimulationName( properties ):
+def setSimulationName( properties, refined ):
 
   extension = setup.setSimulationNameExtention( properties, file_type )
   name = "hanson" + extension
+
+  if refined:
+  name += "_refined"
+
   output = setup.getResultsDirectory(file_type, interpolation) + "/" + name
 
   return output
@@ -337,7 +341,7 @@ def getSimulationName():
 
   properties = setSimulationProperties( 1, 1.0 )
 
-  name = setSimulationName( properties )
+  name = setSimulationName( properties, use_refined_grid )
   title = setup.getSimulationPlotTitle( name )
 
   return name
@@ -367,7 +371,12 @@ def processData( rendezvous_file ):
   else:
     file_type = Data.ElectroatomicDataProperties.ACE_EPR_FILE
 
-  filename = setSimulationName( properties )
+  if "refined" in rendezvous_file:
+    refined = True
+  else:
+    refined = False
+
+  filename = setSimulationName( properties, refined )
   title = setup.getSimulationPlotTitle( filename )
 
   print "Processing the results:"

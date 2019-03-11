@@ -81,9 +81,9 @@ plt.title('$\mathrm{15.7\/MeV\/Electron\/Angular\/Distribution\/from\/a\/9.658\/
 ax=plt.gca()
 
 plt.xlim(0.0,7.0)
-plt.ylim(0.0,0.05)
+plt.ylim(0.0,0.045)
 if user_args.m:
-    plt.ylim(0.0,0.05)
+    plt.ylim(0.0,0.045)
 
 plots = []
 labels = []
@@ -168,9 +168,9 @@ for n in range(N):
     labels.append(names[n])
 
 plt.legend(plots, labels, loc=1)
-ax.yaxis.set_major_formatter(FormatStrFormatter('%.2f'))
+ax.yaxis.set_major_formatter(FormatStrFormatter('%.3f'))
 if user_args.m:
-    ax.yaxis.set_major_formatter(FormatStrFormatter('%.2f'))
+    ax.yaxis.set_major_formatter(FormatStrFormatter('%.3f'))
 
 markers = ["v","o","^","<",">","+","x","1","2","3","4","8","p","P","*","h","H","X","D","d"]
 if user_args.m:
