@@ -168,7 +168,7 @@ def runSimulation( threads, histories, time ):
   archive_type = "xml"
 
   # Set the simulation name and title
-  name = setSimulationName( properties )
+  name = setSimulationName( properties, use_refined_grid )
   title = setup.getSimulationPlotTitle( name )
 
   factory = Manager.ParticleSimulationManagerFactory( model,
@@ -277,9 +277,13 @@ def createResultsDirectory():
 ## -------------------------- setSimulationName ------------------------------##
 ##----------------------------------------------------------------------------##
 # Define a function for naming an electron simulation
-def setSimulationName( properties ):
+def setSimulationName( properties, refined ):
   extension = setup.setSimulationNameExtention( properties, file_type )
-  name = "lockwood_" + element + "_" + str(test_number) + extension
+  name = "lockwood_" + element + "_" + str(test_number)
+  if refined:
+    name += "_refined"
+  name += extension
+
   output = element + "/" + setup.getResultsDirectory(file_type, interpolation) + "/" + name
 
   return output
@@ -292,7 +296,7 @@ def getSimulationName():
 
   properties = setSimulationProperties( 1, 1.0 )
 
-  name = setSimulationName( properties )
+  name = setSimulationName( properties, use_refined_grid )
   title = setup.getSimulationPlotTitle( name )
 
   return name
@@ -304,6 +308,11 @@ def getSimulationName():
 # This function pulls pulse height estimator data outputs it to a separate file.
 def processDataFromRendezvous( rendezvous_file, range, calorimeter_thickness ):
 
+  # Activate just-in-time initialization to prevent automatic loading of the
+  # geometry and data tables
+  Utility.activateJustInTimeInitialization()
+
+  # Set the database path
   Collision.FilledGeometryModel.setDefaultDatabasePath( database_path )
 
   # Load data from file
@@ -316,12 +325,7 @@ def processDataFromRendezvous( rendezvous_file, range, calorimeter_thickness ):
   # Get the simulation name and title
   properties = manager.getSimulationProperties()
 
-  if "epr14" not in rendezvous_file:
-    file_type = Data.ElectroatomicDataProperties.Native_EPR_FILE
-  else:
-    file_type = Data.ElectroatomicDataProperties.ACE_EPR_FILE
-
-  filename = setSimulationName( properties )
+  filename = rendezvous_file.split("_rendezvous_")[0]
   title = setup.getSimulationPlotTitle( filename )
 
   print "Processing the results:"
@@ -339,8 +343,8 @@ def processData( estimator, filename, title, range, calorimeter_thickness ):
   ids = list(estimator.getEntityIds())
 
   processed_data = estimator.getEntityBinProcessedData( ids[0] )
-  energy_dep_mev = processed_data['mean']
-  rel_error = processed_data['re']
+  energy_dep_mev = processed_data['mean'][0]
+  rel_error = processed_data['re'][0]
 
   today = datetime.date.today()
 

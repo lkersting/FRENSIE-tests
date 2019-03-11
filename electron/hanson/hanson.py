@@ -324,10 +324,10 @@ def createResultsDirectory():
 def setSimulationName( properties, refined ):
 
   extension = setup.setSimulationNameExtention( properties, file_type )
-  name = "hanson" + extension
-
+  name = "hanson"
   if refined:
-  name += "_refined"
+    name += "_refined"
+  name += extension
 
   output = setup.getResultsDirectory(file_type, interpolation) + "/" + name
 
@@ -353,6 +353,11 @@ def getSimulationName():
 # This function pulls data from the rendezvous file
 def processData( rendezvous_file ):
 
+  # Activate just-in-time initialization to prevent automatic loading of the
+  # geometry and data tables
+  Utility.activateJustInTimeInitialization()
+
+  # Set the database path
   Collision.FilledGeometryModel.setDefaultDatabasePath( database_path )
 
   # Load data from file
@@ -366,17 +371,8 @@ def processData( rendezvous_file ):
   # Get the simulation name and title
   properties = manager.getSimulationProperties()
 
-  if "epr14" not in rendezvous_file:
-    file_type = Data.ElectroatomicDataProperties.Native_EPR_FILE
-  else:
-    file_type = Data.ElectroatomicDataProperties.ACE_EPR_FILE
 
-  if "refined" in rendezvous_file:
-    refined = True
-  else:
-    refined = False
-
-  filename = setSimulationName( properties, refined )
+  filename = rendezvous_file.split("_rendezvous_")[0]
   title = setup.getSimulationPlotTitle( filename )
 
   print "Processing the results:"

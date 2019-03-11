@@ -26,8 +26,8 @@ TIME=1400
 # Set the data file type (ACE Native)
 file_types=( Native )
 
-# Set if a refined grid should be used ( "True" "False" )
-refined_grids=( "False" )
+# Set if a refined grid should be used ( True False )
+refined_grids=( False )
 
 # Set the bivariate interpolation ( LOGLOGLOG LINLINLIN LINLINLOG )
 interps=( LOGLOGLOG )

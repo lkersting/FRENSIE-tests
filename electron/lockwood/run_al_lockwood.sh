@@ -29,8 +29,8 @@ energy=0.314
 # Set the data file type (ACE Native)
 file_types=( Native )
 
-# Set if a refined grid should be used ( "True" "False" )
-refined_grids=( "False" )
+# Set if a refined grid should be used ( True False )
+refined_grids=( False )
 
 # Set the bivariate interpolation ( LOGLOGLOG LINLINLIN LINLINLOG )
 interps=( LOGLOGLOG )
@@ -148,7 +148,7 @@ do
           do
             # Set if a refined grid should be used
             command=s/REFINED=.*/REFINED=${refined_grid}/
-            sed -i "${command}" ${script}
+            sed -i "${command}" lockwood.sh
             echo "      Setting refined grid mode to ${bold}${refined_grid}${normal}"
 
             for mode in "${modes[@]}"
