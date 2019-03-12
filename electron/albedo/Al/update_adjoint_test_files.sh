@@ -12,7 +12,7 @@ EXTRA_ARGS=$@
 # Set the bivariate Grid Policy ( "UnitBase" "UnitBaseCorrelated" "Correlated" )
 grid_policies=( "UnitBase" )
 
-max_energies=( 0.256 1.033 )
+max_energies=( 0.256 1.1892 )
 
 # Sbatch variables
 partition=pre
@@ -72,7 +72,7 @@ do
 
   for max_energy in "${max_energies[@]}"
   do
-    if [ ${max_energy} = 1.033 ]; then
+    if [ ${max_energy} != 0.256 ]; then
       version=$((version + 3))
     fi
 
