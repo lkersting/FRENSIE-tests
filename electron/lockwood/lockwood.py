@@ -196,44 +196,78 @@ def runSimulation( threads, histories, time ):
 ##----------------------------------------------------------------------------##
 ## --------------------- Run Simulation From Rendezvous --------------------- ##
 ##----------------------------------------------------------------------------##
-def runSimulationFromRendezvous( threads, histories, time, rendezvous ):
+def runSimulationFromRendezvous( threads,
+                                 histories,
+                                 time,
+                                 rendezvous,
+                                 range_for_test,
+                                 cal_thickness,
+                                 log_file = None,
+                                 num_rendezvous = None ):
 
   ##--------------------------------------------------------------------------##
   ## ------------------------------ MPI Session ----------------------------- ##
   ##--------------------------------------------------------------------------##
   session = MPI.GlobalMPISession( len(sys.argv), sys.argv )
+
+  # Suppress logging on all procs except for the master (proc=0)
   Utility.removeAllLogs()
   session.initializeLogs( 0, True )
 
   if session.rank() == 0:
-    print "The PyFrensie path is set to: ", pyfrensie_path
+      print "The PyFrensie path is set to: ", pyfrensie_path
+
+  if not log_file is None:
+      session.initializeLogs( log_file, 0, True )
 
   # Set the data path
   Collision.FilledGeometryModel.setDefaultDatabasePath( database_path )
 
-  factory = Manager.ParticleSimulationManagerFactory( rendezvous, histories, time, threads )
+  time_sec = time*60
+  if not num_rendezvous is None:
+      new_simulation_properties = MonteCarlo.SimulationGeneralProperties()
+      new_simulation_properties.setNumberOfHistories( int(histories) )
+      new_simulation_properties.setMinNumberOfRendezvous( int(num_rendezvous) )
+      new_simulation_properties.setSimulationWallTime( float(time_sec) )
+
+      factory = Manager.ParticleSimulationManagerFactory( rendezvous,
+                                                          new_simulation_properties,
+                                                          threads )
+  else:
+      factory = Manager.ParticleSimulationManagerFactory( rendezvous,
+                                                          int(histories),
+                                                          float(time_sec),
+                                                          threads )
 
   manager = factory.getManager()
 
-  Utility.removeAllLogs()
-  session.initializeLogs( 0, False )
+  manager.initialize()
 
-  manager.runSimulation()
+  # Allow logging on all procs
+  session.restoreOutputStreams()
+
+  ## Run the simulation
+  if session.size() == 1:
+      manager.runInterruptibleSimulation()
+  else:
+      manager.runSimulation()
 
   if session.rank() == 0:
 
-    rendezvous_number = manager.getNumberOfRendezvous()
+      # Get the event handler
+      event_handler = manager.getEventHandler()
+      sim_name = rendezvous.split("_rendezvous_")[0]
 
-    components = rendezvous.split("rendezvous_")
-    archive_name = components[0] + "rendezvous_"
-    archive_name += str( rendezvous_number - 1 )
-    archive_name += "."
-    archive_name += components[1].split(".")[1]
+      # Get the estimator data
+      estimator_1 = event_handler.getEstimator( 1 )
 
-    # print "Processing the results:"
-    # processData( archive_name )
 
-    # print "Results will be in ", path.dirname(archive_name)
+      title = setup.getSimulationPlotTitle( sim_name )
+
+      print "Processing the results:"
+      processData( estimator_1, sim_name, title, range_for_test, cal_thickness )
+
+      print "Results will be in ", path.dirname(sim_name)
 
 ##----------------------------------------------------------------------------##
 ## ------------------------- SIMULATION PROPERTIES -------------------------- ##
@@ -260,7 +294,16 @@ def createResultsDirectory():
 
   directory = setup.getResultsDirectory(file_type, interpolation)
 
-  directory = element + "/" + directory
+  directory = element + "/" + directory + "/"
+
+  if grid_policy=MonteCarlo.UNIT_BASE_CORRELATED_GRID:
+    policy="unit_correlated"
+  elif grid_policy=MonteCarlo.UNIT_BASE_GRID:
+    policy="unit_base"
+  elif grid_policy=MonteCarlo.CORRELATED_GRID:
+    policy="correlated"
+
+  directory += policy
 
   if not path.exists(directory):
     try:
@@ -279,12 +322,19 @@ def createResultsDirectory():
 # Define a function for naming an electron simulation
 def setSimulationName( properties, refined ):
   extension = setup.setSimulationNameExtention( properties, file_type )
-  name = "lockwood_" + element + "_" + str(test_number)
+  name = "lockwood_" + element + "_" + str(energy) + "_" + str(test_number)
   if refined:
     name += "_refined"
   name += extension
 
-  output = element + "/" + setup.getResultsDirectory(file_type, interpolation) + "/" + name
+  if grid_policy=MonteCarlo.UNIT_BASE_CORRELATED_GRID:
+    policy="unit_correlated"
+  elif grid_policy=MonteCarlo.UNIT_BASE_GRID:
+    policy="unit_base"
+  elif grid_policy=MonteCarlo.CORRELATED_GRID:
+    policy="correlated"
+
+  output = element + "/" + setup.getResultsDirectory(file_type, interpolation) + "/" + policy + "/" + name
 
   return output
 

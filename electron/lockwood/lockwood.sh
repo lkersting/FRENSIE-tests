@@ -23,52 +23,57 @@ TIME=1400
 # SLURM_CPUS_PER_TASK=4
 # SLURM_NTASKS=1
 
+# Set the test energy
+ENERGY=0.314
+
+# Set the data file type (ACE Native)
+FILE_TYPE=Native
+
+# Set if a refined grid should be used ( True, False )
+REFINED=False
+
+# Set the bivariate interpolation ( LOGLOGLOG LINLINLIN LINLINLOG )
+INTERP=LOGLOGLOG
+
+# Set the bivariate Grid Policy ( UNIT_BASE_CORRELATED CORRELATED UNIT_BASE )
+GRID_POLICY=UNIT_BASE_CORRELATED
+
+# Set the elastic distribution mode ( DECOUPLED COUPLED HYBRID )
+MODE=COUPLED
+
+# Set the elastic coupled sampling method ( ONE_D TWO_D MODIFIED_TWO_D )
+METHOD=MODIFIED_TWO_D
+
+# Set the material element and zaid
+ELEMENT="Al"; ZAID=13000
+
+# Set the test number
+TEST_NUMBER=11
+
+# Set the calorimeter thickness (g/cm2)
+CALORIMETER_THICKNESS=5.050E-03
+
+# Set the range (g/cm2)
+RANGE=0.0993
+
 # Run from the rendezvous
 if [ "$#" -eq 1 ]; then
   # Set the rendezvous
   RENDEZVOUS="$1"
 
+string='My long string'
+if [[ $string == *"My long"* ]]; then
+  echo "It's there!"
+fi
+
   # Restart the simulation
   echo "Restarting Facemc Lockwood test for ${HISTORIES} particles with ${SLURM_NTASKS} MPI processes with ${SLURM_CPUS_PER_TASK} OpenMP threads each!"
-  mpiexec -n ${SLURM_NTASKS} python -c "import lockwood; lockwood.runSimulationFromRendezvous(${SLURM_CPUS_PER_TASK}, ${HISTORIES}, ${TIME}, \"${RENDEZVOUS}\" )"
+  mpiexec -n ${SLURM_NTASKS} python -c "import lockwood; lockwood.runSimulationFromRendezvous(${SLURM_CPUS_PER_TASK}, ${HISTORIES}, ${TIME}, \"${RENDEZVOUS}\", ${RANGE}, ${CALORIMETER_THICKNESS} )"
 
   directory="$(dirname "${RENDEZVOUS}")/"
 
 # Run new simulation
 else
-
-  # Set the test energy
-  ENERGY=0.314
-
-  # Set the data file type (ACE Native)
-  FILE_TYPE=Native
-
-  # Set if a refined grid should be used ( True, False )
-  REFINED=False
-
-  # Set the bivariate interpolation ( LOGLOGLOG LINLINLIN LINLINLOG )
-  INTERP=LOGLOGLOG
-
-  # Set the bivariate Grid Policy ( UNIT_BASE_CORRELATED CORRELATED UNIT_BASE )
-  GRID_POLICY=UNIT_BASE_CORRELATED
-
-  # Set the elastic distribution mode ( DECOUPLED COUPLED HYBRID )
-  MODE=COUPLED
-
-  # Set the elastic coupled sampling method ( ONE_D TWO_D MODIFIED_TWO_D )
-  METHOD=MODIFIED_TWO_D
-
-  # Set the material element and zaid
-  ELEMENT="Al"; ZAID=13000
-
-  # Set the test number
-  TEST_NUMBER=11
-
-  # Set the calorimeter thickness (g/cm2)
-  CALORIMETER_THICKNESS=5.050E-03
-
-  # Set the range (g/cm2)
-  RANGE=0.0993
 
   ##--------------------------------------------------------------------------##
   ## ------------------------------- COMMANDS --------------------------------##
@@ -102,7 +107,7 @@ else
 
   # Set if a refined grid should be used
   command=s/use_refined_grid=.*/use_refined_grid=${REFINED}/
-  sed -i "${command}" ${python_script}
+  sed -i "${command}" ${python_script}.py
 
   # Set the interp
   command=s/interpolation=MonteCarlo.*/interpolation=MonteCarlo.${INTERP}_INTERPOLATION/
@@ -130,26 +135,30 @@ else
   # Get the simulation name
   name=$(python -c "import ${python_script}; name = ${python_script}.getSimulationName(); print name" 2>&1)
 
-  RENDEZVOUS="${name}_rendezvous_0.xml"
+  # RENDEZVOUS="${name}_rendezvous_0.xml"
 
-  # Run the simulation from the last rendezvous
-  if [ -f ${RENDEZVOUS} ]; then
+  # # Run the simulation from the last rendezvous
+  # if [ -f ${RENDEZVOUS} ]; then
 
-    # Get the last rendezvous
-    i=0
-    while [ -f "${name}_rendezvous_${i}.xml" ]; do
-      RENDEZVOUS="${name}_rendezvous_${i}.xml"
-      i=$[$i+1]
-    done
+  #   # Get the last rendezvous
+  #   i=0
+  #   while [ -f "${name}_rendezvous_${i}.xml" ]; do
+  #     RENDEZVOUS="${name}_rendezvous_${i}.xml"
+  #     i=$[$i+1]
+  #   done
 
-    # Run the simulation from the last rendezvous
-    echo "Running Facemc Lockwood test with ${HISTORIES} particles with ${SLURM_NTASKS} MPI processes with ${SLURM_CPUS_PER_TASK} OpenMP threads each from the rendezvous '${RENDEZVOUS}'!"
-    mpiexec -n ${SLURM_NTASKS} python -c "import ${python_script}; ${python_script}.runSimulationFromRendezvous(${SLURM_CPUS_PER_TASK}, ${HISTORIES}, ${TIME}, '${RENDEZVOUS}' )"
-  else
-    # Run the simulation from the start
-    echo "Running Facemc Lockwood test with ${HISTORIES} particles with ${SLURM_NTASKS} MPI processes with ${SLURM_CPUS_PER_TASK} OpenMP threads each!"
-    mpiexec -n ${SLURM_NTASKS} python -c "import ${python_script}; ${python_script}.runSimulation(${SLURM_CPUS_PER_TASK}, ${HISTORIES}, ${TIME})"
-  fi
+  #   # Run the simulation from the last rendezvous
+  #   echo "Running Facemc Lockwood test with ${HISTORIES} particles with ${SLURM_NTASKS} MPI processes with ${SLURM_CPUS_PER_TASK} OpenMP threads each from the rendezvous '${RENDEZVOUS}'!"
+  #   mpiexec -n ${SLURM_NTASKS} python -c "import ${python_script}; ${python_script}.runSimulationFromRendezvous(${SLURM_CPUS_PER_TASK}, ${HISTORIES}, ${TIME}, \"${RENDEZVOUS}\", ${RANGE}, ${CALORIMETER_THICKNESS} )"
+  # else
+    # # Run the simulation from the start
+    # echo "Running Facemc Lockwood test with ${HISTORIES} particles with ${SLURM_NTASKS} MPI processes with ${SLURM_CPUS_PER_TASK} OpenMP threads each!"
+    # mpiexec -n ${SLURM_NTASKS} python -c "import ${python_script}; ${python_script}.runSimulation(${SLURM_CPUS_PER_TASK}, ${HISTORIES}, ${TIME})"
+  # fi
+
+  # Run the simulation from the start
+  echo "Running Facemc Lockwood test with ${HISTORIES} particles with ${SLURM_NTASKS} MPI processes with ${SLURM_CPUS_PER_TASK} OpenMP threads each!"
+  mpiexec -n ${SLURM_NTASKS} python -c "import ${python_script}; ${python_script}.runSimulation(${SLURM_CPUS_PER_TASK}, ${HISTORIES}, ${TIME})"
 
   # Remove the temperary python script
   rm ${python_script}.py*
