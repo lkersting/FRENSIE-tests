@@ -43,9 +43,9 @@ if __name__ == "__main__":
 
     entity_ids = [1, 18, 16]
     radii = [1, 2, 5]
-    top_ylims = [ [0.0, 20], [0.0, 5], [0.0, 0.6] ]
+    top_ylims = [ [0.0, 20], [0.0, 4.9], [0.0, 0.68] ]
     bottom_ylims = [ [0.95, 1.05], [0.94, 1.04], [0.9, 1.09] ]
-    xlims = [ [0.0,0.01], [0.0,0.01], [0.0,0.01] ]
+    xlims = [0.0,0.01]
     legend_pos = [ 1, 1, 1 ]
 
     forward_data = [dict]*len(entity_ids)
@@ -86,7 +86,6 @@ if __name__ == "__main__":
                                                 energy_bins,
                                                 output_data_name,
                                                 radii,
-                                                "H",
                                                 top_ylims,
                                                 bottom_ylims,
                                                 xlims,

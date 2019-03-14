@@ -5,7 +5,7 @@ import sys
 
 # Add the parent directory to the path
 sys.path.insert(1,path.dirname(path.dirname(path.dirname(path.dirname(path.abspath(__file__))))))
-from infinite_medium_simulation_plot import plotInfiniteMediumSimulationSurfaceFlux
+from infinite_medium_simulation_plot import plotAllInfiniteMediumSimulationSurfaceFlux
 import infinite_medium_simulation as simulation
 import simulation_setup as setup
 
@@ -43,24 +43,26 @@ if __name__ == "__main__":
 
     entity_ids = [1, 18, 16]
     radii = [1, 2, 5]
-    top_ylims = [ [0.0, 15], [0.0, 4], [0.0, 0.5] ]
-    bottom_ylims = [ [0.95, 1.05], [0.95, 1.05], [0.95, 1.05] ]
-    xlims = [ [0.0,0.01], [0.0,0.01], [0.0,0.01] ]
+    top_ylims = [ [0.0, 14], [0.0, 4], [0.0, 0.5] ]
+    bottom_ylims = [ [0.96, 1.04], [0.96, 1.04], [0.95, 1.04] ]
+    xlims = [0.0,0.01]
     legend_pos = [ 1, 1, 1 ]
+
+    forward_data = [dict]*len(entity_ids)
+    adjoint_data = [dict]*len(entity_ids)
 
     output = None
     if not user_args.output_name is None:
       output = user_args.output_name
     else:
-      output = user_args.forward_rendezvous_file.split("_rendezvous_")[0]
-      output = output.split("forward_0.01_loglog_")[-1]
+      output = user_args.forward_rendezvous_file.split("forward_H_0.01_")[0]
 
     for i in range(0, len(entity_ids)):
       # Load forward data from file
       manager = Manager.ParticleSimulationManagerFactory( user_args.forward_rendezvous_file ).getManager()
       event_handler = manager.getEventHandler()
       estimator = event_handler.getEstimator( 1 )
-      forward_data = estimator.getEntityBinProcessedData( entity_ids[i] )
+      forward_data[i] = estimator.getEntityBinProcessedData( entity_ids[i] )
 
       # delete manager
       manager = []
@@ -69,23 +71,22 @@ if __name__ == "__main__":
       manager = Manager.ParticleSimulationManagerFactory( user_args.adjoint_rendezvous_file ).getManager()
       event_handler = manager.getEventHandler()
       estimator = event_handler.getEstimator( 2 )
-      adjoint_data = estimator.getEntityBinProcessedData( entity_ids[i] )
+      adjoint_data[i] = estimator.getEntityBinProcessedData( entity_ids[i] )
 
       energy_bins = list(estimator.getSourceEnergyDiscretization())
 
       # delete manager
       manager = []
 
-      output_data_name = output + "_" + str(radii[i])
+    output_data_name = output + 'H_0.01_uniform_ionization_only'
 
-      # Plot the results
-      plotInfiniteMediumSimulationSurfaceFlux( forward_data,
-                                               adjoint_data,
-                                               energy_bins,
-                                               output_data_name,
-                                               radii[i],
-                                               "H",
-                                               top_ylims[i],
-                                               bottom_ylims[i],
-                                               xlims[i],
-                                               legend_pos[i] )
+    # Plot the results
+    plotAllInfiniteMediumSimulationSurfaceFlux( forward_data,
+                                                adjoint_data,
+                                                energy_bins,
+                                                output_data_name,
+                                                radii,
+                                                top_ylims,
+                                                bottom_ylims,
+                                                xlims,
+                                                legend_pos )

@@ -262,10 +262,9 @@ def plotAllInfiniteMediumSimulationSurfaceFlux( forward_data,
                                                 energy_bins,
                                                 output_name,
                                                 radius,
-                                                element,
                                                 top_ylims = None,
                                                 bottom_ylims = None,
-                                                xlims = None,
+                                                xlim = None,
                                                 legend_pos = None ):
 
   linestyles = [(0, ()), (0, (5, 5)), (0, (3, 5, 1, 5)), (0, (1, 1)), (0, (3, 5, 1, 5, 1, 5)), (0, (5, 1)), (0, (3, 1, 1, 1)), (0, (3, 1, 1, 1, 1, 1)), (0, (1, 5)), (0, (5, 10)), (0, (3, 10, 1, 10)), (0, (3, 10, 1, 10, 1, 10))]
@@ -276,21 +275,20 @@ def plotAllInfiniteMediumSimulationSurfaceFlux( forward_data,
   num = len(forward_data)
 
   # Plot
-  fig = plt.figure(figsize=(10,6*num))
+  fig = plt.figure(figsize=(10,4*num))
 
   gs = [[] for y in range(num)]
   axes = [[] for y in range(2*num)]
 
-
-  fig = plt.figure(num=1, figsize=(10,12))
+  ratios = [2,1]*num
+  y_labels = ['Surface Flux', 'C/R']*num
 
   for i in range(num):
     # We'll use two separate gridspecs to have different margins, hspace, etc
-    top = 0.95 -(i*2)/100.0
-    bottom = 0.1 -(i*3)/100.0
-    gs[i] = gridspec.GridSpec(6, 1, height_ratios=[2, 1, 2, 1, 2, 1], top=top, bottom=bottom, hspace=0)
-
-  y_labels = ['Surface Flux', 'C/R', 'Surface Flux', 'C/R', 'Surface Flux', 'C/R']
+    top = 0.95 - i/500.0
+    bottom = 0.1 - i/500.0
+    ratios = [2,1]*num
+    gs[i] = gridspec.GridSpec(2*num, 1, height_ratios=ratios, top=top, bottom=bottom, hspace=0)
 
   # Set the first plot
   axes[0] = fig.add_subplot(gs[0][0,:])
@@ -312,15 +310,7 @@ def plotAllInfiniteMediumSimulationSurfaceFlux( forward_data,
     # yticks[0].label1.set_visible(False)
     axes[i].grid(linestyle=':')
 
-  axes[0].set_title('(a)', size=16)
-  axes[2].set_title('(b)', size=16)
-  axes[4].set_title('(c)', size=16)
-
-  # place a text box in upper left in axes coords
-  axes[0].text(0.45, 0.95, '0.5 mfps', transform=axes[0].transAxes, fontsize=14, verticalalignment='top' )
-  axes[2].text(0.45, 0.95, '1.0 mfps', transform=axes[2].transAxes, fontsize=14, verticalalignment='top' )
-  axes[4].text(0.45, 0.95, '2.5 mfps', transform=axes[4].transAxes, fontsize=14, verticalalignment='top' )
-
+  plot_titles = [ '(a)', '(b)', '(c)', '(d)', '(e)', '(f)']
 
   # Set the x label
   x_label = 'Energy (MeV)'
@@ -328,11 +318,6 @@ def plotAllInfiniteMediumSimulationSurfaceFlux( forward_data,
 
   ax=plt.gca()
   ax.yaxis.set_major_formatter(FormatStrFormatter('%.2f'))
-
-  if element == "Pb":
-    atom_name = "Lead"
-  elif element == "H":
-    atom_name = "Hydrogen"
 
   # Get the forward energy bin boundaries
   energy_bins = np.array(energy_bins)
@@ -370,7 +355,9 @@ def plotAllInfiniteMediumSimulationSurfaceFlux( forward_data,
     # the first subplot
     mfps = ('%f' % (radius[i]/2.0)).rstrip('0').rstrip('.')
 
-    plot_title = '$\mathrm{0.01\/MeV\/Electron\/Surface\/Flux\/in\/an\/Infinite\/Medium\/of\/' + atom_name + '\/at\/' + str(mfps) +'\/mfps}$'
+    # place a text box in upper left in axes coords
+    title = plot_titles[i] + "\n" + mfps +' mfps'
+    axes[j].text(0.5, 0.95, title, transform=axes[j].transAxes, fontsize=16, horizontalalignment='center', verticalalignment='top' )
 
     if not top_ylims is None:
       axes[j].set_ylim(top_ylims[i][0],top_ylims[i][1])
@@ -430,6 +417,7 @@ def plotAllInfiniteMediumSimulationSurfaceFlux( forward_data,
 
     N=0
     length = len(y)-N
+    max_k = 0
     for k in range(N, len(y)):
       # Print C/R results
       # print energy_bins[k+1], ": ", (1.0-y[k])*100, u"\u00B1", yerr[k]*100, "%"
@@ -442,6 +430,8 @@ def plotAllInfiniteMediumSimulationSurfaceFlux( forward_data,
         else:
           y[k] = 0
           yerr[k] = 1
+      else:
+        max_k = k
 
       # Calculate number above and below reference
       if y[k] < 1.0:
@@ -496,12 +486,15 @@ def plotAllInfiniteMediumSimulationSurfaceFlux( forward_data,
     print "  ", bcolors.SIGMA3, message, bcolors.ENDC
     f.write( message +"\n")
     f.close()
+
+    max_k += 1
+
     # Plot histogram of results
-    m, bins, _ = axes[j+1].hist(energy_bins[:-1], bins=energy_bins, weights=y, histtype='step', label="ratio", color='b', linestyle=linestyles[0], linewidth=1.8 )
+    m, bins, _ = axes[j+1].hist(energy_bins[:max_k], bins=energy_bins[:max_k+1], weights=y[:max_k], histtype='step', label="ratio", color='b', linestyle=linestyles[0], linewidth=1.8 )
     # Plot error bars
     mid = 0.5*(bins[1:] + bins[:-1])
 
-    axes[j+1].errorbar(mid, m, yerr=yerr, ecolor='b', fmt=None)
+    axes[j+1].errorbar(mid, m, yerr=yerr[:max_k], ecolor='b', fmt=None)
 
     output_plot_names = []
     output_plot_names.append( output_name + ".eps" )
@@ -511,12 +504,13 @@ def plotAllInfiniteMediumSimulationSurfaceFlux( forward_data,
     yticks = axes[j].yaxis.get_major_ticks()
     yticks[0].label1.set_visible(False)
 
-    if not xlims is None:
-      plt.xlim(xlims[i][0],xlims[i][1])
     if not bottom_ylims is None:
       axes[j+1].set_ylim(bottom_ylims[i][0],bottom_ylims[i][1])
 
     axes[j].legend(loc=legend_pos[i])
+
+  if not xlim is None:
+    plt.xlim(xlim[0],xlim[1])
 
   print "Plot outputted to: ",output_name
   # Save the figure

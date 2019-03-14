@@ -5,7 +5,7 @@ import sys
 
 # Add the parent directory to the path
 sys.path.insert(1,path.dirname(path.dirname(path.dirname(path.dirname(path.abspath(__file__))))))
-from infinite_medium_simulation_plot import plotInfiniteMediumSimulationSurfaceFlux
+from infinite_medium_simulation_plot import plotAllInfiniteMediumSimulationSurfaceFlux
 import infinite_medium_simulation as simulation
 import simulation_setup as setup
 
@@ -43,49 +43,52 @@ if __name__ == "__main__":
 
     entity_ids = [1, 27, 25, 23, 21, 19]
     radii = [1, 2, 5, 10, 20, 40]
-    top_ylims = [ [0.0, 40], [0.0, 12], [0.0, 2], [0.0, 0.55], [0.0, 0.15], [0.0, 0.04] ]
+    top_ylims = [ [0.0, 40], [0.0, 12.6], [0.0, 2.3], [0.0, 0.57], [0.0, 0.155], [0.0, 0.039] ]
     bottom_ylims = [ [0.95, 1.04], [0.95, 1.04], [0.94, 1.04], [0.94, 1.05], [0.94, 1.04], [0.94, 1.06] ]
-    xlims = [ [0.0,0.01], [0.0,0.01], [0.0,0.01], [0.0,0.01], [0.0,0.01], [0.0,0.01] ]
-    legend_pos = [ (0.95,0.95), (0.95,0.95), (0.95,0.95), (0.95,0.95), (0.95,0.95), (0.95,0.95) ]
+    xlims = [[0.0,0.01],[0.0,0.01]]
+    legend_pos = [ 1, 1, 1, 1, 1, 1 ]
 
     output = None
     if not user_args.output_name is None:
       output = user_args.output_name
     else:
-      output = user_args.forward_rendezvous_file.split("_rendezvous_")[0]
-      output = output.split("forward_0.01_loglog_")[-1]
+      output = user_args.forward_rendezvous_file.split("forward_Pb_0.01_")[0]
 
-    for i in range(0, len(entity_ids)):
-      # Load forward data from file
-      manager = Manager.ParticleSimulationManagerFactory( user_args.forward_rendezvous_file ).getManager()
-      event_handler = manager.getEventHandler()
-      estimator = event_handler.getEstimator( 1 )
-      forward_data = estimator.getEntityBinProcessedData( entity_ids[i] )
+    for j in range(2):
 
-      # delete manager
-      manager = []
+      forward_data = [None]*3
+      adjoint_data = [None]*3
 
-      # Load adjoint data from file
-      manager = Manager.ParticleSimulationManagerFactory( user_args.adjoint_rendezvous_file ).getManager()
-      event_handler = manager.getEventHandler()
-      estimator = event_handler.getEstimator( 2 )
-      adjoint_data = estimator.getEntityBinProcessedData( entity_ids[i] )
+      for i in range(0, 3):
+        # Load forward data from file
+        manager = Manager.ParticleSimulationManagerFactory( user_args.forward_rendezvous_file ).getManager()
+        event_handler = manager.getEventHandler()
+        estimator = event_handler.getEstimator( 1 )
+        forward_data[i] = estimator.getEntityBinProcessedData( entity_ids[j*3+i] )
 
-      energy_bins = list(estimator.getSourceEnergyDiscretization())
+        # delete manager
+        manager = []
 
-      # delete manager
-      manager = []
+        # Load adjoint data from file
+        manager = Manager.ParticleSimulationManagerFactory( user_args.adjoint_rendezvous_file ).getManager()
+        event_handler = manager.getEventHandler()
+        estimator = event_handler.getEstimator( 2 )
+        adjoint_data[i] = estimator.getEntityBinProcessedData( entity_ids[j*3+i] )
 
-      output_data_name = output + "_" + str(radii[i])
+        energy_bins = list(estimator.getSourceEnergyDiscretization())
+
+        # delete manager
+        manager = []
+
+      output_data_name = output + 'Pb_0.01_uniform_all_' + str(j)
 
       # Plot the results
-      plotInfiniteMediumSimulationSurfaceFlux( forward_data,
-                                               adjoint_data,
-                                               energy_bins,
-                                               output_data_name,
-                                               radii[i],
-                                               "Pb",
-                                               top_ylims[i],
-                                               bottom_ylims[i],
-                                               xlims[i],
-                                               legend_pos[i] )
+      plotAllInfiniteMediumSimulationSurfaceFlux( forward_data,
+                                                  adjoint_data,
+                                                  energy_bins,
+                                                  output_data_name,
+                                                  radii[j*3:j*3+3],
+                                                  top_ylims[j*3:j*3+3],
+                                                  bottom_ylims[j*3:j*3+3],
+                                                  xlims[j],
+                                                  legend_pos[j*3:j*3+3] )
