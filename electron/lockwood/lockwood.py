@@ -296,11 +296,11 @@ def createResultsDirectory():
 
   directory = element + "/" + directory + "/"
 
-  if grid_policy=MonteCarlo.UNIT_BASE_CORRELATED_GRID:
+  if grid_policy == MonteCarlo.UNIT_BASE_CORRELATED_GRID:
     policy="unit_correlated"
-  elif grid_policy=MonteCarlo.UNIT_BASE_GRID:
+  elif grid_policy == MonteCarlo.UNIT_BASE_GRID:
     policy="unit_base"
-  elif grid_policy=MonteCarlo.CORRELATED_GRID:
+  elif grid_policy == MonteCarlo.CORRELATED_GRID:
     policy="correlated"
 
   directory += policy
@@ -327,11 +327,11 @@ def setSimulationName( properties, refined ):
     name += "_refined"
   name += extension
 
-  if grid_policy=MonteCarlo.UNIT_BASE_CORRELATED_GRID:
+  if grid_policy == MonteCarlo.UNIT_BASE_CORRELATED_GRID:
     policy="unit_correlated"
-  elif grid_policy=MonteCarlo.UNIT_BASE_GRID:
+  elif grid_policy == MonteCarlo.UNIT_BASE_GRID:
     policy="unit_base"
-  elif grid_policy=MonteCarlo.CORRELATED_GRID:
+  elif grid_policy == MonteCarlo.CORRELATED_GRID:
     policy="correlated"
 
   output = element + "/" + setup.getResultsDirectory(file_type, interpolation) + "/" + policy + "/" + name

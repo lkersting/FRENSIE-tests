@@ -61,11 +61,6 @@ if [ "$#" -eq 1 ]; then
   # Set the rendezvous
   RENDEZVOUS="$1"
 
-string='My long string'
-if [[ $string == *"My long"* ]]; then
-  echo "It's there!"
-fi
-
   # Restart the simulation
   echo "Restarting Facemc Lockwood test for ${HISTORIES} particles with ${SLURM_NTASKS} MPI processes with ${SLURM_CPUS_PER_TASK} OpenMP threads each!"
   mpiexec -n ${SLURM_NTASKS} python -c "import lockwood; lockwood.runSimulationFromRendezvous(${SLURM_CPUS_PER_TASK}, ${HISTORIES}, ${TIME}, \"${RENDEZVOUS}\", ${RANGE}, ${CALORIMETER_THICKNESS} )"
