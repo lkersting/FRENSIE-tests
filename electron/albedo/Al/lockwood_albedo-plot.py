@@ -38,7 +38,7 @@ if __name__ == "__main__":
       combined_forward_files = None
 
     xlims = [0.03, 1.05]
-    legend_pos = (0.95,0.95)
+    legend_pos = 1
 
     exp_file = dir + "/experimental_results/lockwood_"
     if "0.0" in forward_filename:

@@ -37,9 +37,10 @@ if __name__ == "__main__":
     else:
       combined_forward_files = None
 
-    top_ylims = [0.0, 0.6]
-    bottom_ylims = [0.5, 2.0]
-    legend_pos = (0.95,0.95)
+    top_ylims = [0.0, 0.4]
+    bottom_ylims = [0.9, 1.1]
+    xlims = [2.9e-3, 0.256]
+    legend_pos = 1
 
     exp_files = ['assad', 'bienlein','bishop', 'bongeler', 'bronshtein', 'cosslett', 'drescher', 'el_gomati', 'heinrich', 'kanter', 'kulenkampff', 'lockwood', 'neubert', 'reimer', 'shimizu', 'soum', 'trump', 'wittry' ]
 
@@ -58,5 +59,5 @@ if __name__ == "__main__":
                                   user_args.output_name,
                                   top_ylims,
                                   bottom_ylims,
-                                  None,
+                                  xlims,
                                   legend_pos )

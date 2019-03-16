@@ -46,7 +46,7 @@ if __name__ == "__main__":
 
     # For peak only
     top_ylims = [ [0.0, 1.2e3], [0.0, 190], [0.0, 11.0] ]
-    bottom_ylims = [ [0, 1.2], [0, 1.2], [0, 1.15] ]
+    bottom_ylims = [ [0.65, 1.4], [0.65, 1.4], [0.65, 1.4] ]
     xlims = [0.008,0.01]
     legend_pos = [ 2, 2, 2 ]
 

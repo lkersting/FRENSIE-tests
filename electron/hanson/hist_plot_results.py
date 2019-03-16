@@ -60,6 +60,9 @@ for n in range(N):
             data_y[n].append( float(data[1]) )
             data_error[n].append( float(data[2])*float(data[1]) )
         del data_x[n][0]
+    data_x[n] = np.asarray(data_x[n])
+    data_y[n] = np.asarray(data_y[n])
+    data_error[n] = np.asarray(data_error[n])
 
 # Plot
 if user_args.m:
@@ -73,6 +76,7 @@ else:
 
 # the first subplot
 ax0 = plt.subplot(gs[0])
+ax0.grid(linestyle=':')
 
 x_label = 'Angle (Degree)'
 plt.xlabel(x_label, size=14)
@@ -136,8 +140,8 @@ marker_color = ['g', 'r', 'm', 'k', 'y', 'c', 'g', 'r', 'm', 'k', 'y', 'c']
 
 linestyles = [(0, ()), (0, (5, 5)), (0, (3, 5, 1, 5)), (0, (1, 1)), (0, (3, 5, 1, 5, 1, 5)), (0, (5, 1)), (0, (3, 1, 1, 1)), (0, (3, 1, 1, 1, 1, 1)), (0, (1, 5)), (0, (5, 10)), (0, (3, 10, 1, 10)), (0, (3, 10, 1, 10, 1, 10))]
 
-if user_args.m:
-    names = ['MCNP6.2','FRENSIE-ACE', 'FRENSIE-ENDL' ]
+# if user_args.m:
+#     names = ['MCNP6.2','FRENSIE-ACE', 'FRENSIE-ENDL' ]
 # names = ['MCNP6.2','FRENSIE-ACE', 'FRENSIE-ENDL' ]
 for n in range(N):
     # Insert first bin lower bounds as an angle of 0
@@ -209,16 +213,16 @@ if user_args.m:
     ax1.grid(linestyle=':')
 
     plt.xlim(0.0,6.78)
-    plt.ylim(0.99,1.01)
+    plt.ylim(0.9,1.1)
 
     # remove vertical gap between subplots
     plt.subplots_adjust(hspace=.0)
 
-output = "hanson_results.pdf"
+output = "hanson_results"
 if user_args.o:
     output = user_args.o
 
-name = output[:-3] + 'txt'
+name = output + '.txt'
 # Write title to file
 out_file = open(name, 'w')
 out_file.write( "# " + "Least Squares Fit" +"\n")
@@ -236,5 +240,6 @@ for n in range(N):
 
 print "Plot outputted to: ",output
 print "Fits outputted to: ",name
-fig.savefig(output, bbox_inches='tight', dpi=600)
+fig.savefig(output+".png", bbox_inches='tight', dpi=600)
+fig.savefig(output+".eps", bbox_inches='tight', dpi=600)
 plt.show()

@@ -47,7 +47,6 @@ grid_policies=( "unit_base" )
 ##---------------------------------------------------------------------------##
 
 sbatch_command="sbatch --partition=${partition} --time=${time} --ntasks=${ntasks} --cpus-per-task=${threads}"
-run_date=$(date +'%Y-%m-%d')
 
 if ! type sbatch > /dev/null 2>&1; then
   sbatch_command=bash
@@ -93,7 +92,7 @@ do
           for transport in "${transports[@]}"
           do
             echo "        Setting transport mode to ${bold}${transport}${normal}"
-            mv_slurm_command="\nmv slurm-\${SLURM_JOB_ID}.out ./results/${transport}/${run_date}"
+            mv_slurm_command="\nrun_date=$(date +'%Y-%m-%d')\nmv slurm-\${SLURM_JOB_ID}.out ./results/${transport}/\${run_date}/"
 
             # Set the bivariate Grid Policy
             for grid_policy in "${grid_policies[@]}"

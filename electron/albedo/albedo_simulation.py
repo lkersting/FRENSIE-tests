@@ -421,7 +421,7 @@ def runForwardIsotrpoicSpectrumAlbedoSimulation( sim_name,
       max_cosine = np.cos(np.deg2rad(70))
       min_cosine = np.cos(np.deg2rad(80))
 
-    # Uniform distribution for angles 0-10 degrees in the positive z direction
+    # Uniform distribution for the min and max cosine in the positive z direction
     uniform_positive_mu = Distribution.UniformDistribution( min_cosine, max_cosine, 1.0 )
     mu_dimension_dist = ActiveRegion.IndependentTertiaryDirectionalDimensionDistribution( uniform_positive_mu )
     particle_distribution.setDimensionDistribution( mu_dimension_dist )
