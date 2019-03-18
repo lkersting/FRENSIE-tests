@@ -126,7 +126,7 @@ def plotAlbedoSimulationSpectrum( forward_rendezvous_file,
         adjoint_normalized_mean[i] = adjoint_data["mean"][i]/bin_norm_const
         adjoint_error[i] = adjoint_data["re"][i]*adjoint_normalized_mean[i]
 
-    # Compute the F/R values and uncertainties
+    # Compute the C/R values and uncertainties
     c_over_r = []
     c_over_r_unc = []
 
@@ -374,7 +374,7 @@ def plotAlbedoSimulationForwardSpectrum( forward_rendezvous_files,
       forward_normalized_mean[k] = norm_mean
       forward_error[k] = err
 
-    # Compute the F/T values and uncertainties
+    # Compute the C/R values and uncertainties
     c_over_r = [[]]*(num_spectrum_files -1)
     c_over_r_unc = [[]]*(num_spectrum_files -1)
 

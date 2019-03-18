@@ -76,10 +76,6 @@ fi
 # Set the script name
 script=al_albedo.sh
 
-# Set the source angle to incident normal
-command=s/ANGLE=.*/ANGLE="normal"/
-sed -i "${command}" ${script}
-
 # Set the material mode
 for material in "${materials[@]}"
 do
@@ -87,6 +83,10 @@ do
 
   # Move to the material directory
   cd ${material}
+
+  # Set the source angle to incident normal
+  command=s/ANGLE=.*/ANGLE="normal"/
+  sed -i "${command}" ${script}
 
   for transport in "${transports[@]}"
   do

@@ -140,8 +140,8 @@ marker_color = ['g', 'r', 'm', 'k', 'y', 'c', 'g', 'r', 'm', 'k', 'y', 'c']
 
 linestyles = [(0, ()), (0, (5, 5)), (0, (3, 5, 1, 5)), (0, (1, 1)), (0, (3, 5, 1, 5, 1, 5)), (0, (5, 1)), (0, (3, 1, 1, 1)), (0, (3, 1, 1, 1, 1, 1)), (0, (1, 5)), (0, (5, 10)), (0, (3, 10, 1, 10)), (0, (3, 10, 1, 10, 1, 10))]
 
-# if user_args.m:
-#     names = ['MCNP6.2','FRENSIE-ACE', 'FRENSIE-ENDL' ]
+if user_args.m:
+    names = ['MCNP6.2','FRENSIE-ACE', 'FRENSIE-ENDL' ]
 # names = ['MCNP6.2','FRENSIE-ACE', 'FRENSIE-ENDL' ]
 for n in range(N):
     # Insert first bin lower bounds as an angle of 0
