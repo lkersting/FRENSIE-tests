@@ -43,16 +43,23 @@ if __name__ == "__main__":
 
     entity_ids = [1, 27, 25, 23, 21, 19]
     radii = [1, 2, 5, 10, 20, 40]
-    top_ylims = [ [0.0, 3e3], [0.0, 440], [0.0, 34], [0.0, 6], [0.0, 0.69], [0.0, 0.115] ]
-    bottom_ylims = [ [0.3, 1.4], [0.3, 1.4], [0.3, 1.3], [0.0, 1.9], [0.0, 1.9], [0.0, 1.9] ]
-    xlims = [ [0.0093,0.01], [0.007,0.01] ]
-    legend_pos = [ 2, 2, 2, 2, 2, 2 ]
+
+    if "no_excitation" in user_args.forward_rendezvous_file:
+      top_ylims = [ [0.0, 4e3], [0.0, 750], [0.0, 44], [0.0, 6], [0.0, 0.79], [0.0, 0.13] ]
+      bottom_ylims = [ [0.7, 1.6], [0.7, 1.6], [0.7, 1.6], [0.5, 1.59], [0.5, 1.59], [0.5, 1.59] ]
+      xlims = [ [0.0093,0.01], [0.008,0.01] ]
+      legend_pos = [ 2, 2, 2, 2, 2, 2 ]
+    else:
+      top_ylims = [ [0.0, 3e3], [0.0, 440], [0.0, 34], [0.0, 6], [0.0, 0.69], [0.0, 0.115] ]
+      bottom_ylims = [ [0.3, 1.4], [0.3, 1.4], [0.3, 1.3], [0.0, 1.9], [0.0, 1.9], [0.0, 1.9] ]
+      xlims = [ [0.0093,0.01], [0.007,0.01] ]
+      legend_pos = [ 2, 2, 2, 2, 2, 2 ]
 
     output = None
     if not user_args.output_name is None:
       output = user_args.output_name
     else:
-      output = user_args.forward_rendezvous_file.split("forward_H_0.01_")[0]
+      output = user_args.forward_rendezvous_file.split("forward_H_0.01_")[0] + 'H_0.01_delta_all'
 
     for j in range(2):
 
@@ -80,7 +87,7 @@ if __name__ == "__main__":
         # delete manager
         manager = []
 
-      output_data_name = output + 'H_0.01_delta_all_' + str(j)
+      output_data_name = output + "_" + str(j)
 
       # Plot the results
       plotAllInfiniteMediumSimulationSurfaceFlux( forward_data,

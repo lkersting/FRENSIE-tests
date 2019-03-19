@@ -27,9 +27,10 @@ if __name__ == "__main__":
     # Parse the user's arguments
     user_args = parser.parse_args()
 
-    top_ylims = [0.0, 0.28]
-    bottom_ylims = [0.5, 2.8]
-    legend_pos = 4
+    top_ylims = [0.1, 0.28]
+    bottom_ylims = [0.7, 1.5]
+    xlims = [1, 256]
+    legend_pos = 1
 
     # Plot the spectrum
     plotAlbedoSimulationForwardSpectrum( user_args.forward_rendezvous_files,
@@ -38,5 +39,5 @@ if __name__ == "__main__":
                                          user_args.output_name,
                                          top_ylims,
                                          bottom_ylims,
-                                         None,
+                                         xlims,
                                          legend_pos )

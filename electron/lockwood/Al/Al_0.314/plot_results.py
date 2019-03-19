@@ -38,10 +38,10 @@ poly = 5
 
 # Set the y min and max value for dose
 ymin = 0.0 # Always 0.0
-ymax = 15 # 15.0 (lin-lin), 10.0 (lin-log), 8.0 (log-log)
+ymax = 8 # 15.0 (lin-lin), 10.0 (lin-log), 8.0 (log-log)
 # Set the y min and max value for C/E
 ratio_min = 0.0 # 0.0 (lin-lin), 0.0 (lin-log), 0.0 (log-log)
-ratio_max = 4.5 # 4.5 (lin-lin), 2.5 (lin-log), 2.0 (log-log)
+ratio_max = 2.0 # 4.5 (lin-lin), 2.5 (lin-log), 2.0 (log-log)
 
 # C/E ranges
 ranges=[0.0, 0.6, 1.0]
@@ -105,6 +105,8 @@ if len(np.unique(elastic)) == 1:
     title += ' Coupled Runs'
   elif np.unique(elastic)[0] == 'DE':
     title += ' Decoupled Runs'
+  elif np.unique(elastic)[0] == 'HE':
+    title += ' Hybrid Runs'
 else:
   if names[0] != None:
     for i in range(len(elastic)):
@@ -112,6 +114,8 @@ else:
         names[i] += ' Coupled'
       elif elastic[i] == 'DE':
         names[i] += ' Decoupled'
+      elif elastic[i] == 'HE':
+        names[i] += ' Hybrid'
       else:
         names[i] += ' ' + elastic[i]
   else:
@@ -120,6 +124,8 @@ else:
         names[i] = 'Coupled'
       elif elastic[i] == 'DE':
         names[i] = 'Decoupled'
+      elif elastic[i] == 'HE':
+        names[i] = 'Hybrid'
       else:
         names[i] = elastic[i]
 
@@ -344,7 +350,7 @@ plt.subplots_adjust(hspace=.0)
 
 plt.show()
 
-output = "lockwood_results.pdf"
+output = "lockwood_results.png"
 if user_args.o:
     output = user_args.o
 

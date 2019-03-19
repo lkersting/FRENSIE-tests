@@ -44,7 +44,12 @@ if __name__ == "__main__":
     entity_ids = [1, 27, 25, 23, 21, 19]
     radii = [1, 2, 5, 10, 20, 40]
 
-    if "unit_base" in user_args.forward_rendezvous_file:
+    if "no_excitation" in user_args.forward_rendezvous_file:
+      top_ylims = [ [0.0, 18], [0.0, 4.3], [0.0, 0.63], [0.0, 0.15], [0.0, .033], [0.0, 0.0075] ]
+      bottom_ylims = [ [0.961, 1.033], [0.961, 1.033], [0.961, 1.033], [0.961, 1.035], [0.961, 1.035], [0.93, 1.05] ]
+      xlims = [[0.0,0.01],[0.0,0.01]]
+      legend_pos = [ 1, 1, 1, 1, 1, 1 ]
+    else:
       top_ylims = [ [0.0, 12.2], [0.0, 3.4], [0.0, 0.54], [0.0, 0.12], [0.0, .0295], [0.0, 0.0067] ]
       bottom_ylims = [ [0.95, 1.05], [0.95, 1.05], [0.95, 1.05], [0.92, 1.05], [0.9, 1.1], [0.8, 1.2] ]
       xlims = [[0.0,0.01],[0.0,0.01]]
@@ -54,7 +59,7 @@ if __name__ == "__main__":
     if not user_args.output_name is None:
       output = user_args.output_name
     else:
-      output = user_args.forward_rendezvous_file.split("forward_H_0.01_")[0]
+      output = user_args.forward_rendezvous_file.split("forward_H_0.01_")[0] + 'H_0.01_uniform_all'
 
     for j in range(2):
 
@@ -82,7 +87,7 @@ if __name__ == "__main__":
         # delete manager
         manager = []
 
-      output_data_name = output + 'H_0.01_uniform_all_' + str(j)
+      output_data_name = output + '_' + str(j)
 
       # Plot the results
       plotAllInfiniteMediumSimulationSurfaceFlux( forward_data,

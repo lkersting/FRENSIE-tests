@@ -337,6 +337,13 @@ def plotAlbedoSimulationForwardSpectrum( forward_rendezvous_files,
     ax0 = plt.subplot(gs[0])
     ax0.set_title(title, size=14)
 
+    # Set up the bottom subplot
+    ax1 = plt.subplot(gs[1], sharex = ax0)
+    ax1.set_xscale("log")
+
+    # make x ticks for first suplot invisible
+    plt.setp(ax0.get_xticklabels(), visible=False)
+
     num_spectrum_files = len(forward_rendezvous_files)
 
     # Compute the bin norm constants and convert the mean values to mean per energy
@@ -418,6 +425,7 @@ def plotAlbedoSimulationForwardSpectrum( forward_rendezvous_files,
         ax0.scatter(x, y, marker=markers[1], s=50, facecolors='none', edgecolors='b' )
 
     labels = ['Log-log Unit-base', 'Log-log Refined Unit-base', 'Log-log Correlated']
+    # labels = ['Log-log Unit-base Correlated', 'Log-log Correlated', 'Log-log Unit-base' , 'Log-log Refined Unit-base'  ]
     for k in range(0,num_spectrum_files):
       # Plot forward histogram of results
       label = forward_spectrum_data_name + "_" + str(k)
@@ -468,50 +476,48 @@ def plotAlbedoSimulationForwardSpectrum( forward_rendezvous_files,
           ax0.spines[axis].set_linewidth(edge_thickness)
 
     for k in range(1,num_spectrum_files):
-      # Set up the bottom subplot
-      ax1 = plt.subplot(gs[1], sharex = ax0)
-
-      ax1.set_xscale("log")
 
       label = "Forward_" + str(k) + "/Forward_0"
-      ax1.errorbar( forward_mid, c_over_r[k-1], yerr=c_over_r_unc[k-1], capsize=1.5, fmt='o', ecolor=marker_color[k], color=marker_color[k], linewidth=0.5, markersize=1.9, label=label )
+      ax1.hist(forward_energy_bins[k-1][:-1], bins=forward_energy_bins[k-1], weights=c_over_r[k-1], histtype='step', color=marker_color[k], linestyle=linestyles[k], linewidth=1.8 )
 
-      ax1.set_ylabel( "C/R" )
-      ax1.set_xlabel( "Energy (keV)" )
+      ax1.errorbar( forward_mid, c_over_r[k-1], yerr=c_over_r_unc[k-1], capsize=1.5, fmt='', ecolor=marker_color[k], color=marker_color[k], linewidth=0.5, markersize=1.9, label=label )
 
-      # if not legend_pos is None:
-      #     ax1.legend(frameon=True, loc=legend_pos)
-      # else:
-      #     ax1.legend(frameon=True)
+    ax1.set_ylabel( "C/R" )
+    ax1.set_xlabel( "Energy (keV)" )
 
-      # Turn on the grid
-      ax1.grid(True, linestyle=':', linewidth=1)
+    # if not legend_pos is None:
+    #     ax1.legend(frameon=True, loc=1)
+    # else:
+    #     ax1.legend(frameon=True)
 
-      # Set the x limits
-      if not xlims is None:
-          ax1.set_xlim( xlims[0], xlims[-1] )
-      else:
-          ax1.set_xlim( forward_energy_bins[k][0]*0.9, forward_energy_bins[k][-1] )
+    # Turn on the grid
+    ax1.grid(True, linestyle=':', linewidth=1)
 
-      if not bottom_ylims is None:
-          ax1.set_ylim( bottom_ylims[0], bottom_ylims[1] )
+    # # Set the x limits
+    # if not xlims is None:
+    #     ax1.set_xlim( xlims[0], xlims[-1] )
+    # else:
+    #     ax1.set_xlim( forward_energy_bins[k][0]*0.9, forward_energy_bins[k][-1] )
 
-      # Set the y tic labels
-      yticklabels = ax1.yaxis.get_ticklabels()
-      yticklabels[0].set_visible(False)
-      yticklabels[-1].set_visible(False)
+    if not bottom_ylims is None:
+        ax1.set_ylim( bottom_ylims[0], bottom_ylims[1] )
 
-      # Set the tic properties
-      ax1.yaxis.set_ticks_position("both")
-      ax1.xaxis.set_ticks_position("both")
-      ax1.tick_params(direction="in", width=edge_thickness)
-      ax1.tick_params(which="minor", direction="in", width=edge_thickness)
+    # Set the y tic labels
+    yticklabels = ax0.yaxis.get_ticklabels()
+    yticklabels[0].set_visible(False)
+    # yticklabels[-1].set_visible(False)
 
-      for axis in ['top','bottom','left','right']:
-          ax1.spines[axis].set_linewidth(edge_thickness)
+    # Set the tic properties
+    ax1.yaxis.set_ticks_position("both")
+    ax1.xaxis.set_ticks_position("both")
+    ax1.tick_params(direction="in", width=edge_thickness)
+    ax1.tick_params(which="minor", direction="in", width=edge_thickness)
 
-      # Save the figure
-      for i in range(0,len(output_plot_names)):
-        fig.savefig( output_plot_names[i] )
+    for axis in ['top','bottom','left','right']:
+        ax1.spines[axis].set_linewidth(edge_thickness)
+
+    # Save the figure
+    for i in range(0,len(output_plot_names)):
+      fig.savefig( output_plot_names[i] )
 
     plt.show()
