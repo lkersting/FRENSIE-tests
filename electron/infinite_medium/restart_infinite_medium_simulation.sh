@@ -30,7 +30,7 @@ run_directory="$(dirname $(dirname $(dirname $(dirname "${RENDEZVOUS}"))))/"
 
 sbatch_command="sbatch --partition=${partition} --time=${time} --ntasks=${ntasks} --cpus-per-task=${threads}"
 run_date=$(date +'%Y-%m-%d')
-mv_slurm_command="\nmv slurm-${SLURM_JOB_ID}.out ./results/${run_date}"
+mv_slurm_command="\nrun_date=$(date +'%Y-%m-%d')\nmv slurm-\${SLURM_JOB_ID}.out ./results/${transport}/\${run_date}/"
 
 if ! type sbatch > /dev/null 2>&1; then
   sbatch_command=bash
