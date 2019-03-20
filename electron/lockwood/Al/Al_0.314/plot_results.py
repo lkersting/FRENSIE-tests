@@ -38,7 +38,7 @@ poly = 5
 
 # Set the y min and max value for dose
 ymin = 0.0 # Always 0.0
-ymax = 8 # 15.0 (lin-lin), 10.0 (lin-log), 8.0 (log-log)
+ymax = 7 # 15.0 (lin-lin), 10.0 (lin-log), 7.0 (log-log)
 # Set the y min and max value for C/E
 ratio_min = 0.0 # 0.0 (lin-lin), 0.0 (lin-log), 0.0 (log-log)
 ratio_max = 2.0 # 4.5 (lin-lin), 2.5 (lin-log), 2.0 (log-log)

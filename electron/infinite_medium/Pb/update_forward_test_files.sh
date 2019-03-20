@@ -48,6 +48,7 @@ do
     version=2
   elif [ "${grid_policy}" = "Correlated" ]; then
     version=3
+  fi
 
   # Update Pb data version
   python_command="python ../../update_forward_test_files.py --db_name="${DATABASE_PATH}" -z 82 -g '${grid_policy}Grid' -v ${version} --refine_electron_secondary_grids"

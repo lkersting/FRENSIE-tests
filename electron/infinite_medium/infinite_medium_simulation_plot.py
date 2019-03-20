@@ -409,21 +409,43 @@ def plotAllInfiniteMediumSimulationSurfaceFlux( forward_data,
     f.write( "\n#Energy\tRatio\tUncertainty\n" )
 
     # calculate % of C/R values within 1,2,3 sigma
-    num_in_one_sigma = 0
-    num_in_two_sigma = 0
-    num_in_three_sigma = 0
-    num_below = 0
-    num_above = 0
+    # sigma_bins = [1e-4, 2e-3, 1e-2]
+    sigma_bins = [1e-4, 1e-2]
+    sigma_k = [0]*len(sigma_bins)
 
-    N=0
-    length = len(y)-N
+    num_in_one_sigma = [0]*(len(sigma_bins)-1)
+    num_in_two_sigma = [0]*(len(sigma_bins)-1)
+    num_in_three_sigma = [0]*(len(sigma_bins)-1)
+    num_below = [0]*(len(sigma_bins)-1)
+    num_above = [0]*(len(sigma_bins)-1)
+    num_equal = [0]*(len(sigma_bins)-1)
+
+    for l in range(len(sigma_bins)-1):
+      for k in range(len(energy_bins)):
+        if energy_bins[k] > sigma_bins[l]:
+          sigma_k[l] = k-1
+          break
+
+    sigma_k[-1] = len(y)-1
+    for k in range(len(energy_bins)):
+      if energy_bins[k] > sigma_bins[-1]:
+        sigma_k[-1] = k
+        break
+
+    length = [0]*(len(sigma_bins)-1)
+
     max_k = 0
-    for k in range(N, len(y)):
+    for k in range(0, len(y)):
       # Print C/R results
       # print energy_bins[k+1], ": ", (1.0-y[k])*100, u"\u00B1", yerr[k]*100, "%"
       # print energy_bins[k+1], ": ", y[k], "\t",forward_y[k]
+
+      m = 0
+      for l in range(len(sigma_bins)-1):
+        if k <= sigma_k[l+1] and k > sigma_k[l]:
+          m = l
+
       if not np.isfinite( y[k] ):
-        length -= 1
         # print energy_binsx[k+1], ": ", y[k], "\t",forward_y[k], "\t",adjoint_y[k]
         if forward_y[k] == adjoint_y[k]:
           y[k] = 1.0
@@ -436,9 +458,12 @@ def plotAllInfiniteMediumSimulationSurfaceFlux( forward_data,
 
         # Calculate number above and below reference
         if y[k] < 1.0:
-          num_below += 1
+          num_below[m] += 1
         elif y[k] > 1.0:
-          num_above += 1
+          num_above[m] += 1
+        else:
+          num_equal[m] += 1
+        length[m] += 1
 
         diff = abs( 1.0 - y[k] )
         # message = '%.4e' % energy_bins[k+1] + ": " + '%.6f' % (y[k]) + u"\u00B1" + '%.6f' % (yerr[k]) + "%"
@@ -446,46 +471,58 @@ def plotAllInfiniteMediumSimulationSurfaceFlux( forward_data,
 
         sigma = bcolors.NO_SIGMA
         if diff <= 3*yerr[k]:
-            num_in_three_sigma += 1
+            num_in_three_sigma[m] += 1
             sigma = bcolors.SIGMA3
         if diff <= 2*yerr[k]:
-            num_in_two_sigma += 1
+            num_in_two_sigma[m] += 1
             sigma = bcolors.SIGMA2
         if diff <= yerr[k]:
-            num_in_one_sigma += 1
+            num_in_one_sigma[m] += 1
             sigma = bcolors.SIGMA1
 
         f.write( message +"\n")
-        message = sigma + message + bcolors.ENDC
-        # print message
+        message = sigma + str(m) + ' ' + message + bcolors.ENDC
+        print message
 
-    message = "----------------------------------------------------------------"
-    print message
-    f.write( message +"\n")
-    message = '%.3f' % (float(num_above)/length*100) + "% above reference"
-    print "  ", message
-    f.write( message +"\n")
-    message = '%.3f' % (float(num_below)/length*100) + "% below reference"
-    print "  ", message
-    f.write( message +"\n")
-    message = "----------------------------------------------------------------"
-    print message
-    f.write( message +"\n")
-    message = '%.3f' % (float(num_in_one_sigma)/length*100) + "% C/R within 1 sigma"
-    print "  ", bcolors.SIGMA1, message, bcolors.ENDC
-    f.write( message +"\n")
-    message = "----------------------------------------------------------------"
-    print message
-    f.write( message +"\n")
-    message = '%.3f' % (float(num_in_two_sigma)/length*100) + "% C/R within 2 sigma"
-    print "  ", bcolors.SIGMA2, message, bcolors.ENDC
-    f.write( message +"\n")
-    message = "----------------------------------------------------------------"
-    print message
-    f.write( message +"\n")
-    message = '%.3f' % (float(num_in_three_sigma)/length*100) + "% C/R within 3 sigma"
-    print "  ", bcolors.SIGMA3, message, bcolors.ENDC
-    f.write( message +"\n")
+    min_energy = str(energy_bins[sigma_k[0]])
+    for k in range(len(sigma_bins)-1):
+      max_energy = str(energy_bins[sigma_k[k+1]+1])
+      message = "\n----------------------------------------------------------------"
+      print message
+      max_energy = str(energy_bins[sigma_k[k+1]+1])
+      message = "For energy in range " + min_energy + " to " + max_energy
+      min_energy = max_energy
+      print message
+      message = "----------------------------------------------------------------"
+      print message
+      f.write( message +"\n")
+      message = '%.3f' % (float(num_above[k])/length[k]*100) + "% above reference"
+      print "  ", message
+      f.write( message +"\n")
+      message = '%.3f' % (float(num_below[k])/length[k]*100) + "% below reference"
+      print "  ", message
+      f.write( message +"\n")
+      message = '%.3f' % (float(num_equal[k])/length[k]*100) + "% equal to reference"
+      print "  ", message
+      f.write( message +"\n")
+      message = "----------------------------------------------------------------"
+      print message
+      f.write( message +"\n")
+      message = '%.3f' % (float(num_in_one_sigma[k])/length[k]*100) + "% C/R within 1 sigma"
+      print "  ", bcolors.SIGMA1, message, bcolors.ENDC
+      f.write( message +"\n")
+      message = "----------------------------------------------------------------"
+      print message
+      f.write( message +"\n")
+      message = '%.3f' % (float(num_in_two_sigma[k])/length[k]*100) + "% C/R within 2 sigma"
+      print "  ", bcolors.SIGMA2, message, bcolors.ENDC
+      f.write( message +"\n")
+      message = "----------------------------------------------------------------"
+      print message
+      f.write( message +"\n")
+      message = '%.3f' % (float(num_in_three_sigma[k])/length[k]*100) + "% C/R within 3 sigma"
+      print "  ", bcolors.SIGMA3, message, bcolors.ENDC
+      f.write( message +"\n")
     f.close()
 
     max_k += 1
