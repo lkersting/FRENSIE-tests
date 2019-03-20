@@ -423,6 +423,7 @@ def plotAllInfiniteMediumSimulationSurfaceFlux( forward_data,
       # print energy_bins[k+1], ": ", (1.0-y[k])*100, u"\u00B1", yerr[k]*100, "%"
       # print energy_bins[k+1], ": ", y[k], "\t",forward_y[k]
       if not np.isfinite( y[k] ):
+        length -= 1
         # print energy_binsx[k+1], ": ", y[k], "\t",forward_y[k], "\t",adjoint_y[k]
         if forward_y[k] == adjoint_y[k]:
           y[k] = 1.0
@@ -433,30 +434,30 @@ def plotAllInfiniteMediumSimulationSurfaceFlux( forward_data,
       else:
         max_k = k
 
-      # Calculate number above and below reference
-      if y[k] < 1.0:
-        num_below += 1
-      else:
-        num_above += 1
+        # Calculate number above and below reference
+        if y[k] < 1.0:
+          num_below += 1
+        elif y[k] > 1.0:
+          num_above += 1
 
-      diff = abs( 1.0 - y[k] )
-      # message = '%.4e' % energy_bins[k+1] + ": " + '%.6f' % (y[k]) + u"\u00B1" + '%.6f' % (yerr[k]) + "%"
-      message = '%.4e' % energy_bins[k+1] + "\t" + '%.6f' % (y[k]) +"\t"+ '%.6f' % (yerr[k])
+        diff = abs( 1.0 - y[k] )
+        # message = '%.4e' % energy_bins[k+1] + ": " + '%.6f' % (y[k]) + u"\u00B1" + '%.6f' % (yerr[k]) + "%"
+        message = '%.4e' % energy_bins[k+1] + "\t" + '%.6f' % (y[k]) +"\t"+ '%.6f' % (yerr[k])
 
-      sigma = bcolors.NO_SIGMA
-      if diff <= 3*yerr[k]:
-          num_in_three_sigma += 1
-          sigma = bcolors.SIGMA3
-      if diff <= 2*yerr[k]:
-          num_in_two_sigma += 1
-          sigma = bcolors.SIGMA2
-      if diff <= yerr[k]:
-          num_in_one_sigma += 1
-          sigma = bcolors.SIGMA1
+        sigma = bcolors.NO_SIGMA
+        if diff <= 3*yerr[k]:
+            num_in_three_sigma += 1
+            sigma = bcolors.SIGMA3
+        if diff <= 2*yerr[k]:
+            num_in_two_sigma += 1
+            sigma = bcolors.SIGMA2
+        if diff <= yerr[k]:
+            num_in_one_sigma += 1
+            sigma = bcolors.SIGMA1
 
-      f.write( message +"\n")
-      message = sigma + message + bcolors.ENDC
-      # print message
+        f.write( message +"\n")
+        message = sigma + message + bcolors.ENDC
+        # print message
 
     message = "----------------------------------------------------------------"
     print message

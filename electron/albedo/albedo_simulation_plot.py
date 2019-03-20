@@ -11,6 +11,16 @@ import PyFrensie.MonteCarlo.Event as Event
 import PyFrensie.MonteCarlo.Manager as Manager
 from spectrum_plot_tools import plotSpectralDataWithErrors
 
+class bcolors:
+    HEADER = '\033[95m'
+    SIGMA2 = '\033[94m'
+    SIGMA1 = '\033[92m'
+    SIGMA3 = '\033[93m'
+    NO_SIGMA = '\033[91m'
+    ENDC = '\033[0m'
+    BOLD = '\033[1m'
+    UNDERLINE = '\033[4m'
+
 def plotAlbedoSimulationSpectrum( forward_rendezvous_file,
                                   adjoint_rendezvous_file,
                                   experimental_files,
@@ -130,6 +140,27 @@ def plotAlbedoSimulationSpectrum( forward_rendezvous_file,
     c_over_r = []
     c_over_r_unc = []
 
+    num_in_three_sigma = 0
+    num_in_two_sigma = 0
+    num_in_one_sigma = 0
+    num_above = 0
+    num_below = 0
+    num_equal = 0
+
+    N = 0
+    if not xlims is None:
+      min_energy = xlims[0]
+      print min_energy
+      for i in range(0, num_bins):
+        if forward_data["e_bins"][i] > min_energy:
+          N = i-1
+          break
+
+    length = len(forward_normalized_mean) - N
+
+    print "\n----------------------------------------------------------------"
+    print "Energy\t\tRatio\t\tUncertainty"
+    print "----------------------------------------------------------------\n"
     for i in range(0, len(forward_normalized_mean)):
         c_over_r.append( adjoint_normalized_mean[i]/forward_normalized_mean[i] )
 
@@ -140,6 +171,66 @@ def plotAlbedoSimulationSpectrum( forward_rendezvous_file,
         c_squared = adjoint_normalized_mean[i]*adjoint_normalized_mean[i]
 
         c_over_r_unc.append( math.sqrt( sigma_c*sigma_c + (c_squared/r_squared)*sigma_r*sigma_r )/forward_normalized_mean[i] )
+
+
+        # Print C/R results
+
+        if not np.isfinite( c_over_r[i] ):
+          if forward_normalized_mean[i] == adjoint_normalized_mean[i]:
+            c_over_r[i] = 1.0
+            c_over_r_unc[i] = 0.0
+          else:
+            c_over_r[i] = 0
+            c_over_r_unc[i] = 1
+
+        if i >= N:
+          # Calculate number above and below reference
+          if c_over_r[i] < 1.0:
+            num_below += 1
+          elif c_over_r[i] > 1.0:
+            num_above += 1
+          else:
+            num_equal += 1
+
+          diff = abs( 1.0 - c_over_r[i] )
+
+          message = '%.4e' % forward_data["e_bins"][i] + "\t" + '%.6f' % (c_over_r[i]) +"\t"+ '%.6f' % (c_over_r_unc[i])
+
+          sigma = bcolors.NO_SIGMA
+          if diff <= 3*c_over_r_unc[i]:
+              num_in_three_sigma += 1
+              sigma = bcolors.SIGMA3
+          if diff <= 2*c_over_r_unc[i]:
+              num_in_two_sigma += 1
+              sigma = bcolors.SIGMA2
+          if diff <= c_over_r_unc[i]:
+              num_in_one_sigma += 1
+              sigma = bcolors.SIGMA1
+
+          message = sigma + message + bcolors.ENDC
+          print message
+
+    print "The first", N, "data points were ignored."
+    message = "----------------------------------------------------------------"
+    print message
+    message = '%.3f' % (float(num_above)/length*100) + "% above reference"
+    print "  ", message
+    message = '%.3f' % (float(num_below)/length*100) + "% below reference"
+    print "  ", message
+    message = '%.3f' % (float(num_equal)/length*100) + "% equal to reference"
+    print "  ", message
+    message = "----------------------------------------------------------------"
+    print message
+    message = '%.3f' % (float(num_in_one_sigma)/length*100) + "% C/R within 1 sigma"
+    print "  ", bcolors.SIGMA1, message, bcolors.ENDC
+    message = "----------------------------------------------------------------"
+    print message
+    message = '%.3f' % (float(num_in_two_sigma)/length*100) + "% C/R within 2 sigma"
+    print "  ", bcolors.SIGMA2, message, bcolors.ENDC
+    message = "----------------------------------------------------------------"
+    print message
+    message = '%.3f' % (float(num_in_three_sigma)/length*100) + "% C/R within 3 sigma"
+    print "  ", bcolors.SIGMA3, message, bcolors.ENDC
 
     edge_thickness = 1.1
 
