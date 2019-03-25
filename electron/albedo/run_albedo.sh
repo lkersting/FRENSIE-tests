@@ -76,6 +76,10 @@ fi
 # Set the script name
 script=al_albedo.sh
 
+# Set the number of particles
+command=s/HISTORIES=.*/HISTORIES=${num_particles}/
+sed -i "${command}" ${script}
+
 # Set the material mode
 for material in "${materials[@]}"
 do
