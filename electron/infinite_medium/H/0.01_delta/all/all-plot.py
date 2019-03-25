@@ -59,7 +59,7 @@ if __name__ == "__main__":
     if not user_args.output_name is None:
       output = user_args.output_name
     else:
-      output = user_args.forward_rendezvous_file.split("forward_H_0.01_")[0] + 'H_0.01_delta_all'
+      output = user_args.forward_rendezvous_file.split("forward_H_")[0] + 'H_0.01_delta_all'
 
     for j in range(2):
 

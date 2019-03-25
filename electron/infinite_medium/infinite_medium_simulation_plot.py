@@ -3,9 +3,13 @@ import sys
 import numpy as np
 import math
 import matplotlib.pyplot as plt
+from matplotlib import rc
 from matplotlib import gridspec
 from matplotlib.ticker import FormatStrFormatter
 from matplotlib.lines import Line2D
+
+rc('text', usetex=True)
+rc('font', **{'family': 'serif', 'serif': ['Computer Modern']})
 
 class bcolors:
     HEADER = '\033[95m'
@@ -74,10 +78,10 @@ def plotInfiniteMediumSimulationSurfaceFlux( forward_data,
   mfps = ('%f' % (radius/2.0)).rstrip('0').rstrip('.')
 
   plot_title = '$\mathrm{0.01\/MeV\/Electron\/Surface\/Flux\/in\/an\/Infinite\/Medium\/of\/' + atom_name + '\/at\/' + str(mfps) +'\/mfps}$'
-  x_label = 'Energy (MeV)'
-  plt.xlabel(x_label, size=14)
-  plt.ylabel('Surface Flux (#/cm$^2$)', size=14)
-  plt.title( plot_title, size=16)
+  x_label = r'\textbf{Energy (MeV)}'
+  plt.xlabel(x_label)
+  plt.ylabel(r'\textbf{Surface Flux} $(#/cm^2)$')
+  # plt.title( plot_title, size=18)
   ax=plt.gca()
 
   if not top_ylims is None:
@@ -95,10 +99,10 @@ def plotInfiniteMediumSimulationSurfaceFlux( forward_data,
   # Plot Adjoint Data
 
   # Plot histogram of results
-  label = "adjoint"
+  label = "Adjoint"
   if not NORM == 1.0:
     label += "*" + str(NORM)
-  m, bins, plt1 = plt.hist(energy_bins[:-1], bins=energy_bins, weights=adjoint_y, histtype='step', label=label, color='b', linestyle=linestyles[0], linewidth=1.8 )
+  m, bins, plt1 = plt.hist(energy_bins[:-1], bins=energy_bins, weights=adjoint_y, histtype='step', label=r"\textbf{" + label + '}', color='b', linestyle=linestyles[0], linewidth=1.8 )
 
   # Plot error bars
   mid = 0.5*(bins[1:] + bins[:-1])
@@ -108,12 +112,13 @@ def plotInfiniteMediumSimulationSurfaceFlux( forward_data,
 
   handle1 = Line2D([], [], c='b', linestyle='--', dashes=linestyles[0][1], linewidth=1.8)
   plots.append( handle1 )
-  labels.append("Adjoint")
+  labels.append(label)
 
   # Plot Forward Data
 
   # Plot histogram of results
-  m, bins, plt1 = plt.hist(energy_bins[:-1], bins=energy_bins, weights=forward_y, histtype='step', label="forward", color='g', linestyle=linestyles[1], linewidth=1.8 )
+  label = r"\textbf{Forward}"
+  m, bins, plt1 = plt.hist(energy_bins[:-1], bins=energy_bins, weights=forward_y, histtype='step', label=label, color='g', linestyle=linestyles[1], linewidth=1.8 )
 
   # Plot error bars
   mid = 0.5*(bins[1:] + bins[:-1])
@@ -123,18 +128,18 @@ def plotInfiniteMediumSimulationSurfaceFlux( forward_data,
 
   handle1 = Line2D([], [], c='g', linestyle='--', dashes=linestyles[1][1], linewidth=1.8)
   plots.append( handle1 )
-  labels.append("Forward")
+  labels.append(label)
 
 
-  plt.legend(loc=legend_pos)
+  plt.legend(loc=legend_pos, fontsize=14)
   ax.yaxis.set_major_formatter(FormatStrFormatter('%.2f'))
 
   markers = ["v","o","^","<",">","+","x","1","2","3","4","8","p","P","*","h","H","X","D","d"]
 
   # The C/R subplot (with shared x-axis)
   ax1 = plt.subplot(gs[1], sharex = ax0)
-  plt.xlabel(x_label, size=14)
-  plt.ylabel('Adjoint/Forward', size=14)
+  plt.xlabel(x_label)
+  plt.ylabel(r'\textbf{Adjoint/Forward}')
 
   yerr = np.sqrt( ((1.0/forward_y)**2)*(adjoint_error)**2 + ((energy_bins[:-1]/forward_y**2)**2)*(forward_error)**2 )
   y = adjoint_y/forward_y
@@ -223,7 +228,7 @@ def plotInfiniteMediumSimulationSurfaceFlux( forward_data,
   f.write( message +"\n")
   f.close()
   # Plot histogram of results
-  m, bins, _ = ax1.hist(energy_bins[:-1], bins=energy_bins, weights=y, histtype='step', label="ratio", color='b', linestyle=linestyles[0], linewidth=1.8 )
+  m, bins, _ = ax1.hist(energy_bins[:-1], bins=energy_bins, weights=y, histtype='step', label=r"\textbf{ratio}", color='b', linestyle=linestyles[0], linewidth=1.8 )
   # Plot error bars
   mid = 0.5*(bins[1:] + bins[:-1])
   ax1.errorbar(mid, m, yerr=yerr, ecolor='b', fmt=None)
@@ -281,7 +286,7 @@ def plotAllInfiniteMediumSimulationSurfaceFlux( forward_data,
   axes = [[] for y in range(2*num)]
 
   ratios = [2,1]*num
-  y_labels = ['Surface Flux', 'C/R']*num
+  y_labels = [r'\textbf{Surface Flux}', r'\textbf{C/R}']*num
 
   for i in range(num):
     # We'll use two separate gridspecs to have different margins, hspace, etc
@@ -292,9 +297,9 @@ def plotAllInfiniteMediumSimulationSurfaceFlux( forward_data,
 
   # Set the first plot
   axes[0] = fig.add_subplot(gs[0][0,:])
-  axes[0].set_ylabel(y_labels[0], size=14)
+  axes[0].set_ylabel(y_labels[0], size=16)
   axes[0].grid(linestyle=':')
-  # axes[0].set_title('Results for a 0.01 MeV Point Source in a H Sphere', size=16)
+  # axes[0].set_title('Results for a 0.01 MeV Point Source in a H Sphere', size=18)
 
   for i in range(1,len(axes)):
     j = i/2
@@ -303,7 +308,7 @@ def plotAllInfiniteMediumSimulationSurfaceFlux( forward_data,
     # Hide shared x-tick labels
     plt.setp(axes[i-1].get_xticklabels(), visible=False)
     # Set the y labels
-    axes[i].set_ylabel(y_labels[i], size=14)
+    axes[i].set_ylabel(y_labels[i], size=16)
 
     # remove first tick label for the first subplot
     yticks = axes[i].yaxis.get_major_ticks()
@@ -313,8 +318,8 @@ def plotAllInfiniteMediumSimulationSurfaceFlux( forward_data,
   plot_titles = [ '(a)', '(b)', '(c)', '(d)', '(e)', '(f)']
 
   # Set the x label
-  x_label = 'Energy (MeV)'
-  axes[5].set_xlabel(x_label, size=14)
+  x_label = r'\textbf{Energy (MeV)}'
+  axes[5].set_xlabel(x_label, size=16)
 
   ax=plt.gca()
   ax.yaxis.set_major_formatter(FormatStrFormatter('%.2f'))
@@ -356,8 +361,8 @@ def plotAllInfiniteMediumSimulationSurfaceFlux( forward_data,
     mfps = ('%f' % (radius[i]/2.0)).rstrip('0').rstrip('.')
 
     # place a text box in upper left in axes coords
-    title = plot_titles[i] + "\n" + mfps +' mfps'
-    axes[j].text(0.5, 0.95, title, transform=axes[j].transAxes, fontsize=16, horizontalalignment='center', verticalalignment='top' )
+    axes[j].text(0.5, 0.95,  r'\textbf{'+ plot_titles[i] + '}', transform=axes[j].transAxes, horizontalalignment='center', verticalalignment='top', fontsize='18' )
+    axes[j].text(0.5, 0.80, r'\textbf{'+ mfps +' mfps}', transform=axes[j].transAxes, horizontalalignment='center', verticalalignment='top', fontsize='18' )
 
     if not top_ylims is None:
       axes[j].set_ylim(top_ylims[i][0],top_ylims[i][1])
@@ -365,7 +370,7 @@ def plotAllInfiniteMediumSimulationSurfaceFlux( forward_data,
     # Plot Adjoint Data
 
     # Plot histogram of results
-    label = "adjoint"
+    label = r"\textbf{Adjoint}"
     if not NORM == 1.0:
       label += "*" + str(NORM)
     m, bins, plt1 = axes[j].hist(energy_bins[:-1], bins=energy_bins, weights=adjoint_y, histtype='step', label=label, color='b', linestyle=linestyles[0], linewidth=1.8 )
@@ -378,12 +383,13 @@ def plotAllInfiniteMediumSimulationSurfaceFlux( forward_data,
 
     handle1 = Line2D([], [], c='b', linestyle='--', dashes=linestyles[0][1], linewidth=1.8)
     plots.append( handle1 )
-    labels.append("Adjoint")
+    labels.append(label)
 
     # Plot Forward Data
 
     # Plot histogram of results
-    m, bins, plt1 = axes[j].hist(energy_bins[:-1], bins=energy_bins, weights=forward_y, histtype='step', label="forward", color='g', linestyle=linestyles[1], linewidth=1.8 )
+    label = r"\textbf{Forward}"
+    m, bins, plt1 = axes[j].hist(energy_bins[:-1], bins=energy_bins, weights=forward_y, histtype='step', label=label, color='g', linestyle=linestyles[1], linewidth=1.8 )
 
     # Plot error bars
     mid = 0.5*(bins[1:] + bins[:-1])
@@ -393,7 +399,7 @@ def plotAllInfiniteMediumSimulationSurfaceFlux( forward_data,
 
     handle1 = Line2D([], [], c='g', linestyle='--', dashes=linestyles[1][1], linewidth=1.8)
     plots.append( handle1 )
-    labels.append("Forward")
+    labels.append(label)
 
     # The C/R subplot (with shared x-axis)
 
@@ -409,7 +415,7 @@ def plotAllInfiniteMediumSimulationSurfaceFlux( forward_data,
     f.write( "\n#Energy\tRatio\tUncertainty\n" )
 
     # calculate % of C/R values within 1,2,3 sigma
-    # sigma_bins = [1e-4, 2e-3, 1e-2]
+    sigma_bins = [1e-4, 2e-3, 1e-2]
     sigma_bins = [1e-4, 1e-2]
     sigma_k = [0]*len(sigma_bins)
 
@@ -528,7 +534,7 @@ def plotAllInfiniteMediumSimulationSurfaceFlux( forward_data,
     max_k += 1
 
     # Plot histogram of results
-    m, bins, _ = axes[j+1].hist(energy_bins[:max_k], bins=energy_bins[:max_k+1], weights=y[:max_k], histtype='step', label="ratio", color='b', linestyle=linestyles[0], linewidth=1.8 )
+    m, bins, _ = axes[j+1].hist(energy_bins[:max_k], bins=energy_bins[:max_k+1], weights=y[:max_k], histtype='step', label=r"\textbf{ratio}", color='b', linestyle=linestyles[0], linewidth=1.8 )
     # Plot error bars
     mid = 0.5*(bins[1:] + bins[:-1])
 
@@ -537,6 +543,7 @@ def plotAllInfiniteMediumSimulationSurfaceFlux( forward_data,
     output_plot_names = []
     output_plot_names.append( output_name + ".eps" )
     output_plot_names.append( output_name + ".png" )
+    output_plot_names.append( output_name + ".pdf" )
 
     # remove first tick label for the first subplot
     yticks = axes[j].yaxis.get_major_ticks()
@@ -545,7 +552,7 @@ def plotAllInfiniteMediumSimulationSurfaceFlux( forward_data,
     if not bottom_ylims is None:
       axes[j+1].set_ylim(bottom_ylims[i][0],bottom_ylims[i][1])
 
-    axes[j].legend(loc=legend_pos[i])
+    axes[j].legend(loc=legend_pos[i], fontsize=14)
 
   if not xlim is None:
     plt.xlim(xlim[0],xlim[1])

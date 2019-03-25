@@ -59,7 +59,7 @@ if __name__ == "__main__":
     if not user_args.output_name is None:
       output = user_args.output_name
     else:
-      output = user_args.forward_rendezvous_file.split("forward_Pb_0.01_")[0]
+      output = user_args.forward_rendezvous_file.split("forward_Pb_0.01_")[0] + 'Pb_0.01_uniform_all'
 
     for j in range(2):
 
@@ -87,7 +87,7 @@ if __name__ == "__main__":
         # delete manager
         manager = []
 
-      output_data_name = output + 'Pb_0.01_uniform_all_' + str(j)
+      output_data_name = output + '_' + str(j)
 
       # Plot the results
       plotAllInfiniteMediumSimulationSurfaceFlux( forward_data,

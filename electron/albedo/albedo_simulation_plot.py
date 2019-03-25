@@ -3,6 +3,7 @@ import math
 import numpy as np
 import matplotlib.pyplot as plt
 from matplotlib import gridspec
+from matplotlib import rc
 import os
 import PyFrensie.Utility as Utility
 import PyFrensie.Geometry.DagMC as DagMC
@@ -10,6 +11,9 @@ import PyFrensie.MonteCarlo.Collision as Collision
 import PyFrensie.MonteCarlo.Event as Event
 import PyFrensie.MonteCarlo.Manager as Manager
 from spectrum_plot_tools import plotSpectralDataWithErrors
+
+rc('text', usetex=True)
+rc('font', **{'family': 'serif', 'serif': ['Computer Modern']})
 
 class bcolors:
     HEADER = '\033[95m'
@@ -112,6 +116,7 @@ def plotAlbedoSimulationSpectrum( forward_rendezvous_file,
 
     output_plot_names.append( output_plot_name + ".eps" )
     output_plot_names.append( output_plot_name + ".png" )
+    output_plot_names.append( output_plot_name + ".pdf" )
 
     data_type = "Current"
     forward_data_name = "Forward"
@@ -150,13 +155,65 @@ def plotAlbedoSimulationSpectrum( forward_rendezvous_file,
     N = 0
     if not xlims is None:
       min_energy = xlims[0]
-      print min_energy
       for i in range(0, num_bins):
         if forward_data["e_bins"][i] > min_energy:
           N = i-1
           break
 
     length = len(forward_normalized_mean) - N
+
+    # sigma_r = []
+    # sigma_c = []
+    # for i in range(0, len(forward_normalized_mean)):
+    #     sigma_r.append( forward_normalized_mean[i]*forward_data["re"][i] )
+    #     sigma_c.append( adjoint_normalized_mean[i]*adjoint_data["re"][i] )
+
+    # energy_bins = forward_data["e_bins"][:41]
+    # energy_bins.append(forward_data["e_bins"][44])
+    # energy_bins.append(forward_data["e_bins"][47])
+    # energy_bins.append(forward_data["e_bins"][50])
+    # energy_bins.append(forward_data["e_bins"][53])
+    # energy_bins.append(forward_data["e_bins"][56])
+    # energy_bins.append(forward_data["e_bins"][59])
+    # energy_bins = energy_bins + forward_data["e_bins"][62:]
+    # energy_bins = np.asarray(energy_bins)
+
+    # f_mean = forward_normalized_mean[:41]
+    # f_mean.append(sum(forward_normalized_mean[44:47]))
+    # f_mean.append(sum(forward_normalized_mean[47:50]))
+    # f_mean.append(sum(forward_normalized_mean[50:53]))
+    # f_mean.append(sum(forward_normalized_mean[53:56]))
+    # f_mean.append(sum(forward_normalized_mean[56:59]))
+    # f_mean.append(sum(forward_normalized_mean[59:62]))
+    # f_mean = f_mean + forward_normalized_mean[62:]
+
+    # a_mean = adjoint_normalized_mean[:41]
+    # a_mean.append(sum(adjoint_normalized_mean[44:47]))
+    # a_mean.append(sum(adjoint_normalized_mean[47:50]))
+    # a_mean.append(sum(adjoint_normalized_mean[50:53]))
+    # a_mean.append(sum(adjoint_normalized_mean[53:56]))
+    # a_mean.append(sum(adjoint_normalized_mean[56:59]))
+    # a_mean.append(sum(adjoint_normalized_mean[59:62]))
+    # a_mean = a_mean + adjoint_normalized_mean[62:]
+
+    # f_sigma = sigma_r[:41]
+    # f_sigma.append(sum(sigma_r[44:47]))
+    # f_sigma.append(sum(sigma_r[47:50]))
+    # f_sigma.append(sum(sigma_r[50:53]))
+    # f_sigma.append(sum(sigma_r[53:56]))
+    # f_sigma.append(sum(sigma_r[56:59]))
+    # f_sigma.append(sum(sigma_r[59:62]))
+    # f_sigma = f_sigma + sigma_r[62:]
+
+    # a_sigma = sigma_c[:41]
+    # a_sigma.append(sum(sigma_c[44:47]))
+    # a_sigma.append(sum(sigma_c[47:50]))
+    # a_sigma.append(sum(sigma_c[50:53]))
+    # a_sigma.append(sum(sigma_c[53:56]))
+    # a_sigma.append(sum(sigma_c[56:59]))
+    # a_sigma.append(sum(sigma_c[59:62]))
+    # a_sigma = a_sigma + sigma_c[62:]
+
 
     print "\n----------------------------------------------------------------"
     print "Energy\t\tRatio\t\tUncertainty"
@@ -172,10 +229,22 @@ def plotAlbedoSimulationSpectrum( forward_rendezvous_file,
 
         c_over_r_unc.append( math.sqrt( sigma_c*sigma_c + (c_squared/r_squared)*sigma_r*sigma_r )/forward_normalized_mean[i] )
 
+    # for i in range(0, len(f_mean)):
+    #     c_over_r.append( a_mean[i]/f_mean[i] )
+
+    #     sigma_r = f_sigma[i]
+    #     sigma_c = a_sigma[i]
+
+    #     r_squared = f_mean[i]*f_mean[i]
+    #     c_squared = a_mean[i]*a_mean[i]
+
+    #     c_over_r_unc.append( math.sqrt( sigma_c*sigma_c + (c_squared/r_squared)*sigma_r*sigma_r )/f_mean[i] )
+
 
         # Print C/R results
 
         if not np.isfinite( c_over_r[i] ):
+          # if f_mean[i] == a_mean[i]:
           if forward_normalized_mean[i] == adjoint_normalized_mean[i]:
             c_over_r[i] = 1.0
             c_over_r_unc[i] = 0.0
@@ -194,6 +263,7 @@ def plotAlbedoSimulationSpectrum( forward_rendezvous_file,
 
           diff = abs( 1.0 - c_over_r[i] )
 
+          # message = str(i) + ' ' + '%.4e' % energy_bins[i] + "\t" + '%.6f' % (c_over_r[i]) +"\t"+ '%.6f' % (c_over_r_unc[i])
           message = '%.4e' % forward_data["e_bins"][i] + "\t" + '%.6f' % (c_over_r[i]) +"\t"+ '%.6f' % (c_over_r_unc[i])
 
           sigma = bcolors.NO_SIGMA
@@ -208,7 +278,7 @@ def plotAlbedoSimulationSpectrum( forward_rendezvous_file,
               sigma = bcolors.SIGMA1
 
           message = sigma + message + bcolors.ENDC
-          print message
+          # print message
 
     print "The first", N, "data points were ignored."
     message = "----------------------------------------------------------------"
@@ -241,7 +311,7 @@ def plotAlbedoSimulationSpectrum( forward_rendezvous_file,
     # Initialize the plot
     fig, ax = plt.subplots(2, 1, sharex=True)
     plt.subplots_adjust( top=0.95, bottom=0.1, hspace=0.0 )
-    # ax[0].set_title(title, size=14)
+    # ax[0].set_title(title, size=18)
 
     # Set up the top subplot
 
@@ -264,7 +334,7 @@ def plotAlbedoSimulationSpectrum( forward_rendezvous_file,
               y[j] = float(data[1][j])
 
         if f == 1:
-          ax[0].scatter(x, y, label="Experimental", marker=markers[1], s=50, facecolors='none', edgecolors='k' )
+          ax[0].scatter(x, y, label=r"\textbf{Experimental}", marker=markers[1], s=50, facecolors='none', edgecolors='k' )
         else:
           ax[0].scatter(x, y, marker=markers[1], s=50, facecolors='none', edgecolors='k' )
 
@@ -272,7 +342,7 @@ def plotAlbedoSimulationSpectrum( forward_rendezvous_file,
       for i in range(len(combined_forward_files)):
         filename = combined_forward_files[i]
         with open(filename) as input:
-            name = input.readline().strip()
+            name = r'\textbf{' + input.readline().strip() + '}'
             input.readline()
             data = zip(*(line.strip().split('\t') for line in input))
             x = [None] * len(data[0][:])
@@ -288,7 +358,7 @@ def plotAlbedoSimulationSpectrum( forward_rendezvous_file,
     label = adjoint_data_name
     if not ADJOINT_NORM == 1.0:
       label += "*" + str(ADJOINT_NORM)
-    m_bin, bins, plt3 = ax[0].hist(adjoint_data["e_bins"][:-1], bins=adjoint_data["e_bins"], weights=adjoint_normalized_mean, histtype='step', label=label, color='b', linestyle=linestyles[0], linewidth=1.8 )
+    m_bin, bins, plt3 = ax[0].hist(adjoint_data["e_bins"][:-1], bins=adjoint_data["e_bins"], weights=adjoint_normalized_mean, histtype='step', label=r'\textbf{' + label + '}', color='b', linestyle=linestyles[0], linewidth=1.8 )
 
     # Plot error bars
     adjoint_mid = 0.5*(bins[1:] + bins[:-1])
@@ -298,20 +368,21 @@ def plotAlbedoSimulationSpectrum( forward_rendezvous_file,
     label = forward_data_name
     if not FORWARD_NORM == 1.0:
       label += "*" + str(FORWARD_NORM)
-    m_bin, bins, plt1 = ax[0].hist(forward_data["e_bins"][:-1], bins=forward_data["e_bins"], weights=forward_normalized_mean, histtype='step', label=label, color='g', linestyle=linestyles[1], linewidth=1.8 )
+    m_bin, bins, plt1 = ax[0].hist(forward_data["e_bins"][:-1], bins=forward_data["e_bins"], weights=forward_normalized_mean, histtype='step', label=r'\textbf{' + label + '}', color='g', linestyle=linestyles[1], linewidth=1.8 )
 
     # Plot error bars
+    # forward_mid = 0.5*(energy_bins[1:] + energy_bins[:-1])
     forward_mid = 0.5*(bins[1:] + bins[:-1])
     # plt2 = ax[0].errorbar(forward_mid, m_bin, yerr=forward_error, ecolor='b', fmt=None)
 
     ax[0].set_xscale("log")
 
-    y_label = "Reflection Coefficient"
+    y_label = r"\textbf{Reflection Coefficient}"
 
     ax[0].set_ylabel( y_label )
 
     if not legend_pos is None:
-        ax[0].legend(loc=legend_pos)
+        ax[0].legend(loc=legend_pos, fontsize=14)
     else:
         ax[0].legend(frameon=True)
 
@@ -345,8 +416,8 @@ def plotAlbedoSimulationSpectrum( forward_rendezvous_file,
     ax[1].set_xscale("log")
 
     ax[1].errorbar( forward_mid, c_over_r, yerr=c_over_r_unc, capsize=1.5, fmt='o', ecolor="b", color="b", linewidth=0.5, markersize=1.9 )
-    ax[1].set_ylabel( forward_data_name + "/" + adjoint_data_name )
-    ax[1].set_xlabel( "Energy (MeV)" )
+    ax[1].set_ylabel( r'\textbf{' + forward_data_name + "/" + adjoint_data_name + '}' )
+    ax[1].set_xlabel( r"\textbf{Energy (MeV)}" )
 
     # Turn on the grid
     ax[1].grid(True, linestyle=':', linewidth=1)
@@ -403,6 +474,7 @@ def plotAlbedoSimulationForwardSpectrum( forward_rendezvous_files,
 
     output_plot_names.append( output_plot_name + ".eps" )
     output_plot_names.append( output_plot_name + ".png" )
+    output_plot_names.append( output_plot_name + ".pdf" )
 
     data_type = "Current"
     forward_spectrum_data_name = "Forward"
@@ -424,9 +496,10 @@ def plotAlbedoSimulationForwardSpectrum( forward_rendezvous_files,
     if float(source_angle) == 60.0:
       title+=' 60 Degrees Incident Source'
       include_experimental=False
+    title = r'\textbf{' + title + '}'
 
     ax0 = plt.subplot(gs[0])
-    ax0.set_title(title, size=14)
+    # ax0.set_title(title, size=18)
 
     # Set up the bottom subplot
     ax1 = plt.subplot(gs[1], sharex = ax0)
@@ -511,7 +584,7 @@ def plotAlbedoSimulationForwardSpectrum( forward_rendezvous_files,
             y[j] = float(data[1][j])
 
       if i == 1:
-        ax0.scatter(x, y, label="Experimental", marker=markers[1], s=50, facecolors='none', edgecolors='b' )
+        ax0.scatter(x, y, label="r\textbf{Experimental}", marker=markers[1], s=50, facecolors='none', edgecolors='b' )
       else:
         ax0.scatter(x, y, marker=markers[1], s=50, facecolors='none', edgecolors='b' )
 
@@ -523,7 +596,7 @@ def plotAlbedoSimulationForwardSpectrum( forward_rendezvous_files,
       if not FORWARD_NORM == 1.0:
         label += "*" + str(FORWARD_NORM)
 
-      m_bin, bins, plt1 = ax0.hist(forward_energy_bins[k][:-1], bins=forward_energy_bins[k], weights=forward_normalized_mean[k], histtype='step', label=labels[k], color=marker_color[k], linestyle=linestyles[k], linewidth=1.8 )
+      m_bin, bins, plt1 = ax0.hist(forward_energy_bins[k][:-1], bins=forward_energy_bins[k], weights=forward_normalized_mean[k], histtype='step', label=r'\textbf{' + labels[k] + '}', color=marker_color[k], linestyle=linestyles[k], linewidth=1.8 )
 
       # Plot error bars
       forward_mid = 0.5*(bins[1:] + bins[:-1])
@@ -531,7 +604,7 @@ def plotAlbedoSimulationForwardSpectrum( forward_rendezvous_files,
 
       ax0.set_xscale("log")
 
-      y_label = "Reflection Coefficient"
+      y_label = r"\textbf{Reflection Coefficient}"
 
       ax0.set_ylabel( y_label )
 
@@ -568,13 +641,13 @@ def plotAlbedoSimulationForwardSpectrum( forward_rendezvous_files,
 
     for k in range(1,num_spectrum_files):
 
-      label = "Forward_" + str(k) + "/Forward_0"
+      label = r"\textbf{Forward_" + str(k) + "/Forward_0}"
       ax1.hist(forward_energy_bins[k-1][:-1], bins=forward_energy_bins[k-1], weights=c_over_r[k-1], histtype='step', color=marker_color[k], linestyle=linestyles[k], linewidth=1.8 )
 
       ax1.errorbar( forward_mid, c_over_r[k-1], yerr=c_over_r_unc[k-1], capsize=1.5, fmt='', ecolor=marker_color[k], color=marker_color[k], linewidth=0.5, markersize=1.9, label=label )
 
-    ax1.set_ylabel( "C/R" )
-    ax1.set_xlabel( "Energy (keV)" )
+    ax1.set_ylabel( r"\textbf{C/R}" )
+    ax1.set_xlabel( r"\textbf{Energy (keV)}" )
 
     # if not legend_pos is None:
     #     ax1.legend(frameon=True, loc=1)
