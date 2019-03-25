@@ -58,7 +58,7 @@ interps=( LOGLOGLOG )
 ## ------------------------------- COMMANDS ---------------------------------##
 ##---------------------------------------------------------------------------##
 
-sbatch_command="sbatch --partition=${partition} --time=${time} --ntasks=${ntasks} --cpus-per-task=${threads}"
+sbatch_command="sbatch"
 
 if ! type sbatch > /dev/null 2>&1; then
   sbatch_command=bash
@@ -85,7 +85,7 @@ do
   cd ${material}
 
   # Set the source angle to incident normal
-  command=s/ANGLE=.*/ANGLE="normal"/
+  command=s/ANGLE=.*/ANGLE='\\'\'normal'\\'\'/
   sed -i "${command}" ${script}
 
   for transport in "${transports[@]}"
@@ -169,7 +169,7 @@ do
                                   sed -i "${command}" ${script}
                                   echo "                  Setting the isotropic source mode to ${bold}${isotropic}${normal}"
 
-                                  sbatch ${script}
+                                  ${sbatch_command} ${script}
                                 done
                             else
                               # loop through test energies and run mpi script
@@ -180,7 +180,7 @@ do
                                   sed -i "${command}" ${script}
 
                                 echo -e "                  Running Albedo at ${bold}${energy}${normal} MeV!\n"
-                                sbatch ${script}
+                                ${sbatch_command} ${script}
                               done
                             fi
                           done
@@ -206,7 +206,7 @@ do
                               sed -i "${command}" ${script}
                               echo "                Setting the isotropic source mode to ${bold}${isotropic}${normal}"
 
-                              sbatch ${script}
+                              ${sbatch_command} ${script}
                             done
 
                         else
@@ -218,7 +218,7 @@ do
                               sed -i "${command}" ${script}
 
                             echo -e "                Running Albedo at ${bold}${energy}${normal} MeV!\n"
-                            sbatch ${script}
+                            ${sbatch_command} ${script}
                           done
                         fi
                       done
@@ -248,7 +248,7 @@ do
                   sed -i "${command}" ${script}
                   echo "        Setting the isotropic source mode to ${bold}${isotropic}${normal}"
 
-                  sbatch ${script}
+                  ${sbatch_command} ${script}
                 done
             else
               # loop through test energies and run mpi script
@@ -259,7 +259,7 @@ do
                   sed -i "${command}" ${script}
 
                 echo -e "        Running Albedo at ${bold}${energy}${normal} MeV!\n"
-                sbatch ${script}
+                ${sbatch_command} ${script}
               done
             fi
           done
@@ -297,11 +297,11 @@ do
                 sed -i "${command}" ${script}
                 echo "      Setting elastic coupled sampling method to ${bold}${method}${normal}"
 
-                sbatch ${script}
+                ${sbatch_command} ${script}
               fi
             done
           else
-            sbatch ${script}
+            ${sbatch_command} ${script}
           fi
         done
       done

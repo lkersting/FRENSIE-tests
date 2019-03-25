@@ -63,8 +63,8 @@ else
   # Set the bivariate interpolation ( LOGLOGLOG, LINLINLIN, LINLINLOG )
   INTERP=LOGLOGLOG
 
-  # Set the test source angle in degrees ( 0, 15, 30, 45, 60, 75 )
-  ANGLE=0.0
+  # Set the test source angle in degrees ( 0, 15, 30, 45, 60, 75, \'normal\' )
+  ANGLE=\'normal\'
 
   # Set the data file type (ACE Native)
   FILE_TYPE=Native
