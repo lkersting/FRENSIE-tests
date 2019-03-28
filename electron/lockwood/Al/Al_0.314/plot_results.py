@@ -350,7 +350,7 @@ plt.subplots_adjust(hspace=.0)
 
 plt.show()
 
-output = "lockwood_results.png"
+output = "lockwood_results.pdf"
 if user_args.o:
     output = user_args.o
 

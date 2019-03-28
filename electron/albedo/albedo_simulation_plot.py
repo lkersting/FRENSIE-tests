@@ -76,11 +76,11 @@ def plotAlbedoSimulationSpectrum( forward_rendezvous_file,
 
     start_index = (len(angles) -1 + mu_start)*num_bins
 
-    adjoint_respone=(adjoint_data["e_bins"][-1]-adjoint_data["e_bins"][0])*0.5/(angles[mu_start]-angles[mu_start-1])*ADJOINT_NORM
+    adjoint_response=(adjoint_data["e_bins"][-1]-adjoint_data["e_bins"][0])*0.5/(angles[mu_start]-angles[mu_start-1])*ADJOINT_NORM
     for i in range(0, num_bins):
         j = start_index + i
         # print j, full_entity_bin_data["mean"][j], full_entity_bin_data["re"][j]
-        adjoint_data["mean"][i] = full_entity_bin_data["mean"][j]*adjoint_respone
+        adjoint_data["mean"][i] = full_entity_bin_data["mean"][j]*adjoint_response
         adjoint_data["re"][i] = full_entity_bin_data["re"][j]
 
     manager = None
@@ -102,12 +102,12 @@ def plotAlbedoSimulationSpectrum( forward_rendezvous_file,
           raise ValueError( "The forward and adjoint energy bins must match!")
 
     FORWARD_NORM=1.0
-    forward_respone=(forward_data["e_bins"][-1]-forward_data["e_bins"][0])*FORWARD_NORM
+    forward_response=(forward_data["e_bins"][-1]-forward_data["e_bins"][0])*FORWARD_NORM
     start_index = (len(estimator.getCosineDiscretization())-2)*num_bins
     for i in range(0, num_bins):
         j = start_index + i
         # print j, full_entity_bin_data["mean"][j], full_entity_bin_data["re"][j]
-        forward_data["mean"][i] = full_entity_bin_data["mean"][j]*forward_respone
+        forward_data["mean"][i] = full_entity_bin_data["mean"][j]*forward_response
         forward_data["re"][i] = full_entity_bin_data["re"][j]
 
     if output_plot_name is None:
@@ -309,9 +309,12 @@ def plotAlbedoSimulationSpectrum( forward_rendezvous_file,
       title+=' 60 Degrees Incident Source'
 
     # Initialize the plot
-    fig, ax = plt.subplots(2, 1, sharex=True)
+    fig = plt.figure(num=1, figsize=(10,7))
+    gs = gridspec.GridSpec(2, 1, height_ratios=[2, 1])
     plt.subplots_adjust( top=0.95, bottom=0.1, hspace=0.0 )
-    # ax[0].set_title(title, size=18)
+
+    ax0 = plt.subplot(gs[0])
+    # ax0.set_title( r'\textbf{' + title + '}', size=18)
 
     # Set up the top subplot
 
@@ -334,9 +337,9 @@ def plotAlbedoSimulationSpectrum( forward_rendezvous_file,
               y[j] = float(data[1][j])
 
         if f == 1:
-          ax[0].scatter(x, y, label=r"\textbf{Experimental}", marker=markers[1], s=50, facecolors='none', edgecolors='k' )
+          ax0.scatter(x, y, label=r"\textbf{Experimental}", marker=markers[1], s=50, facecolors='none', edgecolors='k' )
         else:
-          ax[0].scatter(x, y, marker=markers[1], s=50, facecolors='none', edgecolors='k' )
+          ax0.scatter(x, y, marker=markers[1], s=50, facecolors='none', edgecolors='k' )
 
     if not combined_forward_files == None:
       for i in range(len(combined_forward_files)):
@@ -352,98 +355,99 @@ def plotAlbedoSimulationSpectrum( forward_rendezvous_file,
               x[j] = float(data[0][j])
               y[j] = float(data[1][j])
 
-        ax[0].scatter(x, y, label=name, marker=markers[i+2], s=50, facecolors='none', edgecolors='g' )
+        ax0.scatter(x, y, label=name, marker=markers[i+2], s=50, facecolors='none', edgecolors='g' )
 
     # Plot adjoint histogram of results
     label = adjoint_data_name
     if not ADJOINT_NORM == 1.0:
       label += "*" + str(ADJOINT_NORM)
-    m_bin, bins, plt3 = ax[0].hist(adjoint_data["e_bins"][:-1], bins=adjoint_data["e_bins"], weights=adjoint_normalized_mean, histtype='step', label=r'\textbf{' + label + '}', color='b', linestyle=linestyles[0], linewidth=1.8 )
+    m_bin, bins, plt3 = ax0.hist(adjoint_data["e_bins"][:-1], bins=adjoint_data["e_bins"], weights=adjoint_normalized_mean, histtype='step', label=r'\textbf{' + label + '}', color='b', linestyle=linestyles[0], linewidth=1.8 )
 
     # Plot error bars
     adjoint_mid = 0.5*(bins[1:] + bins[:-1])
-    # plt4 = ax[0].errorbar(adjoint_mid, m_bin, yerr=adjoint_error, ecolor='g', fmt=None)
+    # plt4 = ax0.errorbar(adjoint_mid, m_bin, yerr=adjoint_error, ecolor='g', fmt=None)
 
     # Plot forward histogram of results
     label = forward_data_name
     if not FORWARD_NORM == 1.0:
       label += "*" + str(FORWARD_NORM)
-    m_bin, bins, plt1 = ax[0].hist(forward_data["e_bins"][:-1], bins=forward_data["e_bins"], weights=forward_normalized_mean, histtype='step', label=r'\textbf{' + label + '}', color='g', linestyle=linestyles[1], linewidth=1.8 )
+    m_bin, bins, plt1 = ax0.hist(forward_data["e_bins"][:-1], bins=forward_data["e_bins"], weights=forward_normalized_mean, histtype='step', label=r'\textbf{' + label + '}', color='g', linestyle=linestyles[1], linewidth=1.8 )
 
     # Plot error bars
     # forward_mid = 0.5*(energy_bins[1:] + energy_bins[:-1])
     forward_mid = 0.5*(bins[1:] + bins[:-1])
-    # plt2 = ax[0].errorbar(forward_mid, m_bin, yerr=forward_error, ecolor='b', fmt=None)
+    # plt2 = ax0.errorbar(forward_mid, m_bin, yerr=forward_error, ecolor='b', fmt=None)
 
-    ax[0].set_xscale("log")
+    ax0.set_xscale("log")
 
     y_label = r"\textbf{Reflection Coefficient}"
 
-    ax[0].set_ylabel( y_label )
+    ax0.set_ylabel( y_label )
 
     if not legend_pos is None:
-        ax[0].legend(loc=legend_pos, fontsize=14)
+        ax0.legend(loc=legend_pos, fontsize=14)
     else:
-        ax[0].legend(frameon=True)
+        ax0.legend(frameon=True)
 
     # Turn on the grid
-    ax[0].grid(True, linestyle=':', linewidth=1)
+    ax0.grid(True, linestyle=':', linewidth=1)
 
     # Set the x limits
     if not xlims is None:
-        ax[0].set_xlim( xlims[0], xlims[-1] )
+        ax0.set_xlim( xlims[0], xlims[-1] )
     else:
-        ax[0].set_xlim( forward_data["e_bins"][0], forward_data["e_bins"][-1] )
+        ax0.set_xlim( forward_data["e_bins"][0], forward_data["e_bins"][-1] )
 
     if not top_ylims is None:
-        ax[0].set_ylim( top_ylims[0], top_ylims[1] )
+        ax0.set_ylim( top_ylims[0], top_ylims[1] )
 
     # Set the y tic labels
-    yticklabels = ax[0].yaxis.get_ticklabels()
+    yticklabels = ax0.yaxis.get_ticklabels()
     # yticklabels[0].set_visible(False)
     yticklabels[-1].set_visible(False)
 
     # Set the tic properties
-    ax[0].yaxis.set_ticks_position("both")
-    ax[0].xaxis.set_ticks_position("both")
-    ax[0].tick_params(direction="in", width=edge_thickness)
-    ax[0].tick_params(which="minor", direction="in", width=edge_thickness)
+    ax0.yaxis.set_ticks_position("both")
+    ax0.xaxis.set_ticks_position("both")
+    ax0.tick_params(direction="in", width=edge_thickness)
+    ax0.tick_params(which="minor", direction="in", width=edge_thickness)
 
     for axis in ['top','bottom','left','right']:
-        ax[0].spines[axis].set_linewidth(edge_thickness)
+        ax0.spines[axis].set_linewidth(edge_thickness)
 
     # Set up the bottom subplot
-    ax[1].set_xscale("log")
+    ax1 = plt.subplot(gs[1], sharex = ax0)
+    ax1.set_xscale("log")
 
-    ax[1].errorbar( forward_mid, c_over_r, yerr=c_over_r_unc, capsize=1.5, fmt='o', ecolor="b", color="b", linewidth=0.5, markersize=1.9 )
-    ax[1].set_ylabel( r'\textbf{' + forward_data_name + "/" + adjoint_data_name + '}' )
-    ax[1].set_xlabel( r"\textbf{Energy (MeV)}" )
+    ax1.errorbar( forward_mid, c_over_r, yerr=c_over_r_unc, capsize=1.5, fmt='o', ecolor="b", color="b", linewidth=0.5, markersize=1.9 )
+    ax1.set_ylabel( r'\textbf{' + forward_data_name + "/" + adjoint_data_name + '}' )
+    ax1.set_xlabel( r"\textbf{Energy (MeV)}" )
 
     # Turn on the grid
-    ax[1].grid(True, linestyle=':', linewidth=1)
+    ax1.grid(True, linestyle=':', linewidth=1)
 
     # Set the x limits
     if not xlims is None:
-        ax[1].set_xlim( xlims[0], xlims[-1] )
+        ax1.set_xlim( xlims[0], xlims[-1] )
     else:
-        ax[1].set_xlim( forward_data["e_bins"][0], forward_data["e_bins"][-1] )
+        ax1.set_xlim( forward_data["e_bins"][0], forward_data["e_bins"][-1] )
 
     if not bottom_ylims is None:
-        ax[1].set_ylim( bottom_ylims[0], bottom_ylims[1] )
+        ax1.set_ylim( bottom_ylims[0], bottom_ylims[1] )
 
     # Set the y tic labels
-    yticklabels = ax[1].yaxis.get_ticklabels()
+    yticklabels = ax1.yaxis.get_ticklabels()
     yticklabels[0].set_visible(False)
     yticklabels[-1].set_visible(False)
 
     # Set the tic properties
-    ax[1].yaxis.set_ticks_position("both")
-    ax[1].xaxis.set_ticks_position("both")
-    ax[1].tick_params(direction="in", width=edge_thickness)
-    ax[1].tick_params(which="minor", direction="in", width=edge_thickness)
+    ax1.yaxis.set_ticks_position("both")
+    ax1.xaxis.set_ticks_position("both")
+    ax1.tick_params(direction="in", width=edge_thickness)
+    ax1.tick_params(which="minor", direction="in", width=edge_thickness)
 
     for axis in ['top','bottom','left','right']:
-        ax[1].spines[axis].set_linewidth(edge_thickness)
+        ax1.spines[axis].set_linewidth(edge_thickness)
 
     # Save the figure
     for i in range(0,len(output_plot_names)):
@@ -493,9 +497,9 @@ def plotAlbedoSimulationForwardSpectrum( forward_rendezvous_files,
     plt.subplots_adjust( top=0.95, bottom=0.1, hspace=0.0 )
 
     title='Electron Albedos for an infinite slab of Al'
-    if float(source_angle) == 60.0:
-      title+=' 60 Degrees Incident Source'
-      include_experimental=False
+    # if float(source_angle) == 60.0:
+    #   title+=' 60 Degrees Incident Source'
+    include_experimental=False
     title = r'\textbf{' + title + '}'
 
     ax0 = plt.subplot(gs[0])
@@ -584,19 +588,17 @@ def plotAlbedoSimulationForwardSpectrum( forward_rendezvous_files,
             y[j] = float(data[1][j])
 
       if i == 1:
-        ax0.scatter(x, y, label="r\textbf{Experimental}", marker=markers[1], s=50, facecolors='none', edgecolors='b' )
+        ax0.scatter(x, y, label=r"\textbf{Experimental}", marker=markers[1], s=50, facecolors='none', edgecolors='b' )
       else:
         ax0.scatter(x, y, marker=markers[1], s=50, facecolors='none', edgecolors='b' )
 
-    labels = ['Log-log Unit-base', 'Log-log Refined Unit-base', 'Log-log Correlated']
-    # labels = ['Log-log Unit-base Correlated', 'Log-log Correlated', 'Log-log Unit-base' , 'Log-log Refined Unit-base'  ]
     for k in range(0,num_spectrum_files):
       # Plot forward histogram of results
-      label = forward_spectrum_data_name + "_" + str(k)
+      label = forward_spectrum_data_name + "\_" + str(k)
       if not FORWARD_NORM == 1.0:
         label += "*" + str(FORWARD_NORM)
 
-      m_bin, bins, plt1 = ax0.hist(forward_energy_bins[k][:-1], bins=forward_energy_bins[k], weights=forward_normalized_mean[k], histtype='step', label=r'\textbf{' + labels[k] + '}', color=marker_color[k], linestyle=linestyles[k], linewidth=1.8 )
+      m_bin, bins, plt1 = ax0.hist(forward_energy_bins[k][:-1], bins=forward_energy_bins[k], weights=forward_normalized_mean[k], histtype='step', label=r'\textbf{' + label + '}', color=marker_color[k], linestyle=linestyles[k], linewidth=1.8 )
 
       # Plot error bars
       forward_mid = 0.5*(bins[1:] + bins[:-1])

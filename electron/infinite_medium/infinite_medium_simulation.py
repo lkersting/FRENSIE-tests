@@ -614,6 +614,7 @@ def restartInfiniteMediumSimulation( rendezvous_file_name,
                                                             threads )
 
     manager = factory.getManager()
+    manager.setSimulationName(rendezvous_file_name.split('_rendezvous')[0])
 
     manager.initialize()
 

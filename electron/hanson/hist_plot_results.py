@@ -7,9 +7,13 @@ import matplotlib.pyplot as plt
 from matplotlib import gridspec
 from matplotlib.ticker import FormatStrFormatter
 from matplotlib.lines import Line2D
+from matplotlib import rc
 import argparse as ap
 import inspect, os
 from lmfit import Model
+
+rc('text', usetex=True)
+rc('font', **{'family': 'serif', 'serif': ['Computer Modern']})
 
 def gaussian(x, amp, wid):
   return amp * exp(-x*x /(wid*wid) )
@@ -70,7 +74,7 @@ if user_args.m:
   # set height ratios for sublots
   gs = gridspec.GridSpec(2, 1, height_ratios=[2, 1])
 else:
-  fig = plt.figure(num=1, figsize=(9,7))
+  fig = plt.figure(num=1, figsize=(10,7))
   # set height ratios for sublots
   gs = gridspec.GridSpec(1, 1)
 
@@ -78,14 +82,14 @@ else:
 ax0 = plt.subplot(gs[0])
 ax0.grid(linestyle=':')
 
-x_label = 'Angle (Degree)'
+x_label = r'\textbf{Angle (Degree)}'
 plt.xlabel(x_label, size=14)
-plt.ylabel('#/Square Degrees', size=14)
-plt.title('$\mathrm{15.7\/MeV\/Electron\/Angular\/Distribution\/from\/a\/9.658\/\mu m\/Gold\/Foil}$', size=16)
+plt.ylabel(r'\textbf{\#/Square Degrees}', size=14)
+plt.title(r'\textbf{15.7 MeV Electron Angular Distribution from a 9.658 \boldmath $\mu$m Gold Foil}', size=16)
 ax=plt.gca()
 
 plt.xlim(0.0,7.0)
-plt.ylim(0.0,0.045)
+plt.ylim(0.0,0.0449)
 if user_args.m:
     plt.ylim(0.0,0.045)
 
@@ -126,7 +130,7 @@ if user_args.e:
     plt3, = plt.plot(x, y, color='b' )
 
     plots.append( (plt1,plt3) )
-    labels.append("Hanson (Exp.)" )
+    labels.append(r'\textbf{Hanson (Exp.)}' )
     # plots.append((plt2) )
     # labels.append("Least Square Fit (Hanson)" )
 
@@ -169,7 +173,7 @@ for n in range(N):
 
     handle1 = Line2D([], [], c=marker_color[n], linestyle='--', dashes=linestyles[n][1], linewidth=1.8)
     plots.append( handle1 )
-    labels.append(names[n])
+    labels.append(r'\textbf{' + names[n] + '}')
 
 plt.legend(plots, labels, loc=1)
 ax.yaxis.set_major_formatter(FormatStrFormatter('%.3f'))
@@ -181,8 +185,8 @@ if user_args.m:
 
     # The C/E subplot (with shared x-axis)
     ax1 = plt.subplot(gs[1], sharex = ax0)
-    plt.xlabel(x_label, size=14)
-    plt.ylabel('C/R', size=14)
+    plt.xlabel(r'\textbf{' + x_label + '}', size=14)
+    plt.ylabel(r'\textbf{C/R}', size=14)
 
     for n in range(1,N):
         print "\n", names[n]
@@ -242,4 +246,5 @@ print "Plot outputted to: ",output
 print "Fits outputted to: ",name
 fig.savefig(output+".png", bbox_inches='tight', dpi=600)
 fig.savefig(output+".eps", bbox_inches='tight', dpi=600)
+fig.savefig(output+".pdf", bbox_inches='tight', dpi=600)
 plt.show()

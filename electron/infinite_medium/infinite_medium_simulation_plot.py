@@ -77,11 +77,11 @@ def plotInfiniteMediumSimulationSurfaceFlux( forward_data,
 
   mfps = ('%f' % (radius/2.0)).rstrip('0').rstrip('.')
 
-  plot_title = '$\mathrm{0.01\/MeV\/Electron\/Surface\/Flux\/in\/an\/Infinite\/Medium\/of\/' + atom_name + '\/at\/' + str(mfps) +'\/mfps}$'
+  plot_title = r'\textbf{Surface Flux in an Infinite Medium of ' + element + ' at ' + str(mfps) +' mfps}'
   x_label = r'\textbf{Energy (MeV)}'
   plt.xlabel(x_label)
-  plt.ylabel(r'\textbf{Surface Flux} $(#/cm^2)$')
-  # plt.title( plot_title, size=18)
+  plt.ylabel(r'\textbf{Surface Flux}')
+  plt.title( plot_title, size=18)
   ax=plt.gca()
 
   if not top_ylims is None:
@@ -99,6 +99,7 @@ def plotInfiniteMediumSimulationSurfaceFlux( forward_data,
   # Plot Adjoint Data
 
   # Plot histogram of results
+  # label = "Adjoint~\,- No Atomic Excitation"
   label = "Adjoint"
   if not NORM == 1.0:
     label += "*" + str(NORM)
@@ -117,8 +118,9 @@ def plotInfiniteMediumSimulationSurfaceFlux( forward_data,
   # Plot Forward Data
 
   # Plot histogram of results
-  label = r"\textbf{Forward}"
-  m, bins, plt1 = plt.hist(energy_bins[:-1], bins=energy_bins, weights=forward_y, histtype='step', label=label, color='g', linestyle=linestyles[1], linewidth=1.8 )
+  # label = "Forward - No Atomic Excitation"
+  label = "Forward"
+  m, bins, plt1 = plt.hist(energy_bins[:-1], bins=energy_bins, weights=forward_y, histtype='step', label=r"\textbf{" + label + '}', color='g', linestyle=linestyles[1], linewidth=1.8 )
 
   # Plot error bars
   mid = 0.5*(bins[1:] + bins[:-1])
@@ -132,7 +134,7 @@ def plotInfiniteMediumSimulationSurfaceFlux( forward_data,
 
 
   plt.legend(loc=legend_pos, fontsize=14)
-  ax.yaxis.set_major_formatter(FormatStrFormatter('%.2f'))
+  # ax.yaxis.set_major_formatter(FormatStrFormatter('%.2f'))
 
   markers = ["v","o","^","<",">","+","x","1","2","3","4","8","p","P","*","h","H","X","D","d"]
 
@@ -160,6 +162,7 @@ def plotInfiniteMediumSimulationSurfaceFlux( forward_data,
   num_above = 0
 
   N=0
+  max_k = 0
   length = len(y)-N
   for i in range(N, len(y)):
     # Print C/R results
@@ -173,6 +176,8 @@ def plotInfiniteMediumSimulationSurfaceFlux( forward_data,
       else:
         y[i] = 0
         yerr[i] = 1
+    else:
+      max_k = i
 
     # Calculate number above and below reference
     if y[i] < 1.0:
@@ -227,11 +232,14 @@ def plotInfiniteMediumSimulationSurfaceFlux( forward_data,
   print "  ", bcolors.SIGMA3, message, bcolors.ENDC
   f.write( message +"\n")
   f.close()
+
+  max_k += 1
+
   # Plot histogram of results
-  m, bins, _ = ax1.hist(energy_bins[:-1], bins=energy_bins, weights=y, histtype='step', label=r"\textbf{ratio}", color='b', linestyle=linestyles[0], linewidth=1.8 )
+  m, bins, _ = ax1.hist(energy_bins[:max_k], bins=energy_bins[:max_k+1], weights=y[:max_k], histtype='step', label=r"\textbf{ratio}", color='b', linestyle=linestyles[0], linewidth=1.8 )
   # Plot error bars
   mid = 0.5*(bins[1:] + bins[:-1])
-  ax1.errorbar(mid, m, yerr=yerr, ecolor='b', fmt=None)
+  ax1.errorbar(mid, m, yerr=yerr[:max_k], ecolor='b', fmt=None)
 
   # make x ticks for first suplot invisible
   plt.setp(ax0.get_xticklabels(), visible=False)
@@ -245,6 +253,7 @@ def plotInfiniteMediumSimulationSurfaceFlux( forward_data,
   output_plot_names = []
   output_plot_names.append( output_name + ".eps" )
   output_plot_names.append( output_name + ".png" )
+  output_plot_names.append( output_name + ".pdf" )
 
   if not xlims is None:
     plt.xlim(xlims[0],xlims[1])
