@@ -7,7 +7,7 @@ import PyFrensie.Utility as Utility
 import PyFrensie.MonteCarlo as MonteCarlo
 
 if __name__ == "__main__":
-    
+
     # Parse the command line options
     parser = OptionParser()
     parser.add_option("--threads", type="int", dest="threads", default=1,
@@ -35,5 +35,3 @@ if __name__ == "__main__":
                              Utility.doubleArrayFromString( "{1e-3, 998i, 10.0}" ),
                              options.threads,
                              options.log_file )
-    
-    

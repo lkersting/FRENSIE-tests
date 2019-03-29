@@ -37,4 +37,3 @@ if __name__ == "__main__":
                               Utility.doubleArrayFromString( "{1e-3, 9980i, 0.1}" ),
                               options.threads,
                               options.log_file )
-

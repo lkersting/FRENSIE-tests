@@ -269,7 +269,7 @@ def runForwardSpectrumAlbedoSimulation( sim_name,
     current_estimator = event_handler.getEstimator( 1 )
 
     # Set the energy bins (for each cosine bin)
-    bin_string = "{ " + str(min_energy) + ", 99l, " + str(max_energy) +" }"
+    bin_string = "{ " + str(min_energy) + ", 79l, " + str(max_energy) +" }"
     energy_bins = list(Utility.doubleArrayFromString( bin_string ))
     current_estimator.setSourceEnergyDiscretization( energy_bins )
 
@@ -446,7 +446,7 @@ def runForwardIsotrpoicSpectrumAlbedoSimulation( sim_name,
     current_estimator = event_handler.getEstimator( 1 )
 
     # Set the energy bins (for each cosine bin)
-    bin_string = "{ " + str(min_energy) + ", 99l, " + str(max_energy) +" }"
+    bin_string = "{ " + str(min_energy) + ", 79l, " + str(max_energy) +" }"
     energy_bins = list(Utility.doubleArrayFromString( bin_string ))
     current_estimator.setSourceEnergyDiscretization( energy_bins )
 
@@ -604,7 +604,7 @@ def runAdjointAlbedoSimulation( sim_name,
     current_estimator = event_handler.getEstimator( 2 )
 
     # Set the energy bins (for each cosine bin)
-    bin_string = "{ " + str(cutoff_energy) + ", 99l, " + str(max_energy) +" }"
+    bin_string = "{ " + str(cutoff_energy) + ", 79l, " + str(max_energy) +" }"
     energy_bins = list(Utility.doubleArrayFromString( bin_string ))
     current_estimator.setEnergyDiscretization( energy_bins )
 
