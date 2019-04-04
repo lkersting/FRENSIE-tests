@@ -118,7 +118,6 @@ def plotAlbedoSimulationSpectrum( forward_rendezvous_file,
     output_plot_names.append( output_plot_name + ".png" )
     output_plot_names.append( output_plot_name + ".pdf" )
 
-    data_type = "Current"
     forward_data_name = "Forward"
     adjoint_data_name = "Adjoint"
 
@@ -457,6 +456,7 @@ def plotAlbedoSimulationSpectrum( forward_rendezvous_file,
 
 
 def plotAlbedoSimulationForwardSpectrum( forward_rendezvous_files,
+                                         simulation_plot_names,
                                          source_angle,
                                          include_experimental = False,
                                          output_plot_name = None,
@@ -479,9 +479,6 @@ def plotAlbedoSimulationForwardSpectrum( forward_rendezvous_files,
     output_plot_names.append( output_plot_name + ".eps" )
     output_plot_names.append( output_plot_name + ".png" )
     output_plot_names.append( output_plot_name + ".pdf" )
-
-    data_type = "Current"
-    forward_spectrum_data_name = "Forward"
 
     linestyles = [(0, ()), (0, (5, 5)), (0, (3, 5, 1, 5)), (0, (1, 1)), (0, (3, 5, 1, 5, 1, 5)), (0, (5, 1)), (0, (3, 1, 1, 1)), (0, (3, 1, 1, 1, 1, 1)), (0, (1, 5)), (0, (5, 10)), (0, (3, 10, 1, 10)), (0, (3, 10, 1, 10, 1, 10))]
 
@@ -594,8 +591,12 @@ def plotAlbedoSimulationForwardSpectrum( forward_rendezvous_files,
         ax0.scatter(x, y, marker=markers[1], s=50, facecolors='none', edgecolors='b' )
 
     for k in range(0,num_spectrum_files):
+      if not simulation_plot_names is None:
+        label = simulation_plot_names[k]
+      else:
+        label = "FORWARD_" + str(k)
+
       # Plot forward histogram of results
-      label = forward_spectrum_data_name + "\_" + str(k)
       if not FORWARD_NORM == 1.0:
         label += "*" + str(FORWARD_NORM)
 
@@ -644,7 +645,11 @@ def plotAlbedoSimulationForwardSpectrum( forward_rendezvous_files,
 
     for k in range(1,num_spectrum_files):
 
-      label = r"\textbf{Forward_" + str(k) + "/Forward_0}"
+      if not simulation_plot_names is None:
+        label = simulation_plot_names[k] + '/' + simulation_plot_names[0]
+      else:
+        label = r"\textbf{Forward_" + str(k) + "/Forward_0}"
+
       ax1.hist(forward_energy_bins[k-1][:-1], bins=forward_energy_bins[k-1], weights=c_over_r[k-1], histtype='step', color=marker_color[k], linestyle=linestyles[k], linewidth=1.8 )
 
       ax1.errorbar( forward_mid, c_over_r[k-1], yerr=c_over_r_unc[k-1], capsize=1.5, fmt='', ecolor=marker_color[k], color=marker_color[k], linewidth=0.5, markersize=1.9, label=label )
@@ -685,6 +690,125 @@ def plotAlbedoSimulationForwardSpectrum( forward_rendezvous_files,
 
     # Save the figure
     for i in range(0,len(output_plot_names)):
+      fig.savefig( output_plot_names[i] )
+
+    plt.show()
+
+
+
+def plotAlbedoSimulationForwardCombined( combined_forward_files,
+                                         source_angle,
+                                         include_experimental = False,
+                                         output_plot_name = None,
+                                         ylims = None,
+                                         xlims = None,
+                                         legend_pos = None ):
+
+    if output_plot_name is None:
+      output_plot_name = "combined_albedo"
+    output_plot_names = []
+
+    output_plot_names.append( output_plot_name + ".png" )
+    output_plot_names.append( output_plot_name + ".pdf" )
+
+    linestyles = [(0, ()), (0, (5, 5)), (0, (3, 5, 1, 5)), (0, (1, 1)), (0, (3, 5, 1, 5, 1, 5)), (0, (5, 1)), (0, (3, 1, 1, 1)), (0, (3, 1, 1, 1, 1, 1)), (0, (1, 5)), (0, (5, 10)), (0, (3, 10, 1, 10)), (0, (3, 10, 1, 10, 1, 10))]
+
+    markers = ["o","*","v","^","<",">","+","x","1","2","3","4","p","s","h","D","d","H","8","o","*"]
+    exp_names = ['assad', 'bienlein','bishop', 'bongeler', 'bronshtein', 'cosslett', 'drescher', 'el_gomati', 'heinrich', 'kanter', 'kulenkampff', 'lockwood', 'neubert', 'reimer', 'shimizu', 'soum', 'trump', 'wittry' ]
+    marker_color = ['g', 'r', 'c', 'm', 'y', 'k', 'g', 'r', 'c', 'm', 'y', 'k' ]
+
+    edge_thickness = 1.1
+
+    # Initialize the plot
+    fig, ax0 = plt.subplots(num=1, figsize=(10,7))
+
+    title='Electron Albedos for an infinite slab of Al'
+    title = r'\textbf{' + title + '}'
+
+    # plt.title(title, size=18)
+
+    num_spectrum_files = len(combined_forward_files)
+
+    # Compute the bin norm constants and convert the mean values to mean per energy
+    forward_energy_bins = [[]]*num_spectrum_files
+    forward_normalized_mean = [[]]*num_spectrum_files
+    forward_error = [[]]*num_spectrum_files
+
+    for k in range(0,num_spectrum_files):
+      for i in range(len(combined_forward_files)):
+        filename = combined_forward_files[i]
+        with open(filename) as input:
+            name = r'\textbf{' + input.readline().strip() + '}'
+            input.readline()
+            data = zip(*(line.strip().split('\t') for line in input))
+            x = [None] * len(data[0][:])
+            x = [0 for k in range(len(data[0][:]))]
+            y = [0 for k in range(len(data[1][:]))]
+            for j in range(len(x)):
+              x[j] = float(data[0][j])*1000.0
+              y[j] = float(data[1][j])
+
+        ax0.scatter(x, y, label=name, marker=markers[i+2], s=50, facecolors='none', edgecolors='g' )
+
+    # Plot experimental data
+    directory = os.path.dirname(os.path.abspath(__file__))
+
+    for i in range(len(exp_names)):
+      filename = directory + "/Al/experimental_results/" + exp_names[i] +".tsv"
+      with open(filename) as input:
+          name = input.readline().strip()
+          input.readline()
+          data = zip(*(line.strip().split('\t') for line in input))
+          x = [None] * len(data[0][:])
+          x = [0 for k in range(len(data[0][:]))]
+          y = [0 for k in range(len(data[1][:]))]
+          for j in range(len(x)):
+            x[j] = float(data[0][j])
+            y[j] = float(data[1][j])
+
+      if i == 1:
+        ax0.scatter(x, y, label=r"\textbf{Experimental}", marker=markers[1], s=50, facecolors='none', edgecolors='b' )
+      else:
+        ax0.scatter(x, y, marker=markers[1], s=50, facecolors='none', edgecolors='b' )
+
+    ax0.set_xscale("log")
+    ax0.set_xlabel( r"\textbf{Energy (keV)}" )
+    ax0.set_ylabel( r"\textbf{Reflection Coefficient}" )
+
+    if not legend_pos is None:
+        ax0.legend(frameon=True, loc=legend_pos)
+    else:
+        ax0.legend(frameon=True)
+
+    # Turn on the grid
+    ax0.grid(True, linestyle=':', linewidth=1)
+
+    # Set the x limits
+    if not xlims is None:
+        ax0.set_xlim( xlims[0], xlims[-1] )
+    else:
+        ax0.set_xlim( forward_energy_bins[k][0], forward_energy_bins[k][-1] )
+
+    if not ylims is None:
+        ax0.set_ylim( ylims[0], ylims[1] )
+
+    # Set the y tic labels
+    yticklabels = ax0.yaxis.get_ticklabels()
+    # yticklabels[0].set_visible(False)
+    yticklabels[-1].set_visible(False)
+
+    # Set the tic properties
+    ax0.yaxis.set_ticks_position("both")
+    ax0.xaxis.set_ticks_position("both")
+    ax0.tick_params(direction="in", width=edge_thickness)
+    ax0.tick_params(which="minor", direction="in", width=edge_thickness)
+
+    for axis in ['top','bottom','left','right']:
+        ax0.spines[axis].set_linewidth(edge_thickness)
+
+    # Save the figure
+    for i in range(0,len(output_plot_names)):
+      print output_plot_names[i]
       fig.savefig( output_plot_names[i] )
 
     plt.show()

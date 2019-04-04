@@ -8,8 +8,19 @@ Measure flux and current on the surface of the sphere and the track flux in the 
 # Trelis geometry commands
 To construct the geometry run 'construct_geometry.sh' and enter the desired energy.
 
-# Running the simulation if FRENSIE
+## Run the simulation
 
-# Running the simulation if MCNP6.2
+# Running the simulation for FRENSIE
 
-# Plotting results
+Set the desired physics option at the top of run_example.sh.
+run `run_example.sh` on the UW-Cluster.
+Use scp to copy the rendezvous and albedo files from the results directory on
+the UW-Cluster to a local computer.
+
+# Running the simulation for MCNP6.2
+
+Set the path to mcnp6.2 in the run_mcnp.sh script.
+run `run_mcnp.sh N` where N is the desired number of cores.
+
+## Plotting results
+Run `plot_data.py -m mcnp/processed/data/file -a ace/processed/data/file -e endl/processed/data/file -i moments/processed/data/file -o output_name`

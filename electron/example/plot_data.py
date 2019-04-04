@@ -13,11 +13,11 @@ def main(argv):
     try:
         opts, args = getopt.getopt(argv,"hi:o:m:a:e:",["mfile=","afile=","efile=","ifile=","ofile="])
     except getopt.GetoptError:
-        print 'data_combine_plot.py -m <mcnpinputfile> -a <aceinputfile> -e <endlinputfile> -i <momentsinputfile> -o <outputname>'
+        print 'plot_data.py -m <mcnpinputfile> -a <aceinputfile> -e <endlinputfile> -i <momentsinputfile> -o <outputname>'
         sys.exit(1)
     for opt, arg in opts:
         if opt == '-h':
-            print 'data_combine_plot.py -m <mcnpinputfile> -a <aceinputfile> -e <endlinputfile> -i <momentsinputfile> -o <outputname>'
+            print 'plot_data.py -m <mcnpinputfile> -a <aceinputfile> -e <endlinputfile> -i <momentsinputfile> -o <outputname>'
             sys.exit(1)
         elif opt in ("-m", "--mfile"):
             mcnpinputfile = arg

@@ -40,8 +40,8 @@ Set the path to mcnp6.2 in the run_mcnp.sh script.
 run `run_mcnp.sh N` where N is the desired number of cores.
 
 # Plotting results
-run `hist_plot_results_all_in_one.py -e -o hanson_results.pdf path-to-frensie-spectrum1.txt path-to-frensie-spectrum2.txt`
-run `hist_plot_results_all_in_one.py -m -o hanson_results.pdf path-to-mcnp6.2-spectrum.txt path-to-frensie-spectrum1.txt path-to-frensie-spectrum2.txt`
+run `hist_plot_results.py -e -o hanson_results.pdf path-to-frensie-spectrum1.txt path-to-frensie-spectrum2.txt ...`
+run `hist_plot_results.py -m -o hanson_results.pdf path-to-mcnp6.2-spectrum.txt path-to-frensie-spectrum1.txt path-to-frensie-spectrum2.txt ...`
 The `-e` flag will plots the designated frensie results against experimental results.
 The `-m` flag will plots the designated frensie results against mcnp results.
 The `-o` flag can be use to designate the name of the output file.

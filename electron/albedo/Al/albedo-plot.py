@@ -5,7 +5,7 @@ import sys
 
 # Add the parent directory to the path
 sys.path.insert(1,path.dirname(path.dirname(path.abspath(__file__))))
-from albedo_simulation_plot import plotAlbedoSimulationForwardSpectrum
+from albedo_simulation_plot import plotAlbedoSimulationForwardSpectrum, plotAlbedoSimulationForwardCombined
 
 dir=path.dirname(path.abspath(__file__))
 
@@ -21,8 +21,8 @@ if __name__ == "__main__":
                       help="the problem source angle", required=False, default=0.0)
     parser.add_argument("-o", "--output_name", dest="output_name",
                       help="the plot output name", required=False)
-    parser.add_argument("forward_rendezvous_files", nargs='*',
-                        help="the combined forward discrete file to load")
+    parser.add_argument("forward_files", nargs='*',
+                        help="combined forward files or forward rendezvous spectrum files")
 
     # Parse the user's arguments
     user_args = parser.parse_args()
@@ -33,11 +33,22 @@ if __name__ == "__main__":
     legend_pos = 1
 
     # Plot the spectrum
-    plotAlbedoSimulationForwardSpectrum( user_args.forward_rendezvous_files,
-                                         user_args.source_angle,
-                                         True,
-                                         user_args.output_name,
-                                         top_ylims,
-                                         bottom_ylims,
-                                         xlims,
-                                         legend_pos )
+    if '.xml' in user_args.forward_files[0]:
+      plotAlbedoSimulationForwardSpectrum( user_args.forward_files,
+                                           None,
+                                           user_args.source_angle,
+                                           True,
+                                           user_args.output_name,
+                                           top_ylims,
+                                           bottom_ylims,
+                                           xlims,
+                                           legend_pos )
+
+    else:
+      plotAlbedoSimulationForwardCombined( user_args.forward_files,
+                                           user_args.source_angle,
+                                           True,
+                                           user_args.output_name,
+                                           top_ylims,
+                                           xlims,
+                                           legend_pos )
