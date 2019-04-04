@@ -28,7 +28,7 @@ if __name__ == "__main__":
     user_args = parser.parse_args()
 
     top_ylims = [0.1, 0.28]
-    bottom_ylims = [0.7, 1.5]
+    bottom_ylims = [0.9, 1.1]
     xlims = [1, 256]
     legend_pos = 1
 

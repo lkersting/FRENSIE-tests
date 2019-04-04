@@ -537,14 +537,15 @@ def plotAlbedoSimulationForwardSpectrum( forward_rendezvous_files,
           if not forward_energy_bins[k][i] == forward_energy_bins[0][i]:
             raise ValueError( "The forward spectrum energy bins must match!")
 
-      FORWARD_NORM=(forward_energy_bins[k][-1]-forward_energy_bins[k][0])
+      FORWARD_NORM=1
+      energy_norm=(forward_energy_bins[k][-1]-forward_energy_bins[k][0])
       start_index = (len(estimator.getCosineDiscretization())-2)*num_bins
       norm_mean = []
       err = []
       for i in range(0, num_bins):
           j = start_index + i
           bin_norm_const = forward_energy_bins[k][i+1] - forward_energy_bins[k][i]
-          norm_mean.append( full_entity_bin_data["mean"][j]*FORWARD_NORM/bin_norm_const )
+          norm_mean.append( full_entity_bin_data["mean"][j]*energy_norm*FORWARD_NORM/bin_norm_const )
           err.append( full_entity_bin_data["re"][j]*norm_mean[i] )
       forward_normalized_mean[k] = norm_mean
       forward_error[k] = err

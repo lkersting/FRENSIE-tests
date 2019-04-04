@@ -45,8 +45,8 @@ if __name__ == "__main__":
     radius = 40
 
     if "no_excitation" in user_args.forward_rendezvous_file:
-      top_ylims = [0.0, 0.13]
-      bottom_ylims = [0.5, 1.59]
+      top_ylims = [0.0, 0.11]
+      bottom_ylims = [0.85, 1.15]
       xlims = [0.008,0.01]
       legend_pos = 2
     else:
