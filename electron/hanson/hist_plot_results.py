@@ -91,7 +91,7 @@ ax=plt.gca()
 plt.xlim(0.0,7.0)
 plt.ylim(0.0,0.0449)
 if user_args.m:
-    plt.ylim(0.0,0.045)
+    plt.ylim(0.0,0.0449)
 
 plots = []
 labels = []
@@ -138,14 +138,14 @@ if user_args.e:
 markers = ["--v","-.o",":^","--<","-.>",":+","--x","-.1",":2","--3","-.4",":8","--p","-.P",":*","--h","-.H",":X","--D","-.d"]
 linestyle = ["--","-.",":","--","-.",":","--","-.",":","--3","-.",":","--","-.",":","--","-.",":","--","-."]
 markerssizes = [6,5,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6]
-marker_color = ['g', 'r', 'm', 'k', 'y', 'c', 'g', 'r', 'm', 'k', 'y', 'c']
+marker_color = ['g', 'r', 'm', 'k', 'y', 'c', 'g', 'r', 'm', 'k', 'y', 'c', 'g', 'r', 'm', 'k', 'y', 'c', 'g', 'r', 'm', 'k', 'y', 'c']
 
 # linestyles: 'solid', 'dashed', 'dashdotted', 'densely dotted', 'dashdotdotted', 'densely dashed', 'densely dashdotted', 'densely dashdotdotted', 'dotted', 'loosely dashed', 'loosely dashdotted', 'loosely dashdotdotted')
 
-linestyles = [(0, ()), (0, (5, 5)), (0, (3, 5, 1, 5)), (0, (1, 1)), (0, (3, 5, 1, 5, 1, 5)), (0, (5, 1)), (0, (3, 1, 1, 1)), (0, (3, 1, 1, 1, 1, 1)), (0, (1, 5)), (0, (5, 10)), (0, (3, 10, 1, 10)), (0, (3, 10, 1, 10, 1, 10))]
+linestyles = [(0, ()), (0, (5, 5)), (0, (3, 5, 1, 5)), (0, (1, 1)), (0, (3, 5, 1, 5, 1, 5)), (0, (5, 1)), (0, (3, 1, 1, 1)), (0, (3, 1, 1, 1, 1, 1)), (0, (1, 5)), (0, (5, 10)), (0, (3, 10, 1, 10)), (0, (3, 10, 1, 10, 1, 10)), (0, ()), (0, (5, 5)), (0, (3, 5, 1, 5)), (0, (1, 1)), (0, (3, 5, 1, 5, 1, 5)), (0, (5, 1)), (0, (3, 1, 1, 1)), (0, (3, 1, 1, 1, 1, 1)), (0, (1, 5)), (0, (5, 10)), (0, (3, 10, 1, 10)), (0, (3, 10, 1, 10, 1, 10))]
 
 if user_args.m:
-    names = ['MCNP6.2','FRENSIE-ACE', 'FRENSIE-ENDL' ]
+    names = ['Full Peak','Discrete Peak', 'FRENSIE-ENDL' ]
 # names = ['MCNP6.2','FRENSIE-ACE', 'FRENSIE-ENDL' ]
 for n in range(N):
     # Insert first bin lower bounds as an angle of 0
@@ -175,7 +175,10 @@ for n in range(N):
     plots.append( handle1 )
     labels.append(r'\textbf{' + names[n] + '}')
 
-plt.legend(plots, labels, loc=1)
+lg = plt.legend(plots, labels, loc=1, title=r'\textbf{Log-Log Correlated M2D}')
+title = lg.get_title()
+title.set_fontsize(16)
+
 ax.yaxis.set_major_formatter(FormatStrFormatter('%.3f'))
 if user_args.m:
     ax.yaxis.set_major_formatter(FormatStrFormatter('%.3f'))
@@ -217,7 +220,7 @@ if user_args.m:
     ax1.grid(linestyle=':')
 
     plt.xlim(0.0,6.78)
-    plt.ylim(0.9,1.1)
+    plt.ylim(0.96,1.04)
 
     # remove vertical gap between subplots
     plt.subplots_adjust(hspace=.0)
