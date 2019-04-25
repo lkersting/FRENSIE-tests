@@ -1,0 +1,2081 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
+<!DOCTYPE boost_serialization>
+<boost_serialization signature="serialization::archive" version="16">
+<manager class_id="0" tracking_level="0" version="0">
+	<d_simulation_name>results/loglog/2019-03-26/albedo_Al_cosine_spectrum_normal_refined_loglog_unit_base_2d</d_simulation_name>
+	<d_archive_type>xml</d_archive_type>
+	<d_model class_id="1" tracking_level="0" version="1">
+		<px class_id="2" tracking_level="1" version="0" object_id="_0">
+			<raw_path>/home/lkersting/software/mcnp6.2/MCNP_DATA</raw_path>
+			<d_scattering_center_definitions class_id="3" tracking_level="0" version="1">
+				<px class_id="4" tracking_level="1" version="0" object_id="_1">
+					<d_scattering_center_definitions class_id="5" tracking_level="0" version="0">
+						<count>1</count>
+						<item_version>0</item_version>
+						<item class_id="6" tracking_level="0" version="0">
+							<first>albedo</first>
+							<second class_id="7" tracking_level="0" version="1">
+								<px class_id="8" tracking_level="1" version="0" object_id="_2">
+									<d_name>albedo</d_name>
+									<d_zaid class_id="9" tracking_level="0" version="0">
+										<raw_zaid>13000</raw_zaid>
+									</d_zaid>
+									<d_atomic_weight_ratio class_id="10" tracking_level="0" version="1">
+										<initialized>0</initialized>
+									</d_atomic_weight_ratio>
+									<d_temperature class_id="11" tracking_level="0" version="1">
+										<initialized>0</initialized>
+									</d_temperature>
+									<d_photoatomic_data_properties class_id="12" tracking_level="0" version="1">
+										<px class_id="-1"></px>
+									</d_photoatomic_data_properties>
+									<d_adjoint_photoatomic_data_properties class_id="13" tracking_level="0" version="1">
+										<px class_id="-1"></px>
+									</d_adjoint_photoatomic_data_properties>
+									<d_electroatomic_data_properties class_id="14" tracking_level="0" version="1">
+										<px class_id="15" class_name="NativeEPRElectroatomicDataProperties" tracking_level="1" version="0" object_id="_3">
+											<ElectroatomicDataProperties class_id="16" tracking_level="0" version="0"></ElectroatomicDataProperties>
+											<d_atomic_weight class_id="17" tracking_level="0" version="0">
+												<value>2.69815000000000005e+01</value>
+											</d_atomic_weight>
+											<raw_path>native/epr/epr_native_13_v1.xml</raw_path>
+											<d_file_version>1</d_file_version>
+											<d_atom>13</d_atom>
+										</px>
+									</d_electroatomic_data_properties>
+									<d_adjoint_electroatomic_data_properties class_id="18" tracking_level="0" version="1">
+										<px class_id="-1"></px>
+									</d_adjoint_electroatomic_data_properties>
+									<d_nuclear_data_properties class_id="19" tracking_level="0" version="1">
+										<px class_id="-1"></px>
+									</d_nuclear_data_properties>
+									<d_thermal_nuclear_data_properties class_id="20" tracking_level="0" version="1">
+										<px class_id="-1"></px>
+									</d_thermal_nuclear_data_properties>
+									<d_adjoint_nuclear_data_properties class_id="21" tracking_level="0" version="1">
+										<px class_id="-1"></px>
+									</d_adjoint_nuclear_data_properties>
+									<d_adjoint_thermal_nuclear_data_properties class_id="22" tracking_level="0" version="1">
+										<px class_id="-1"></px>
+									</d_adjoint_thermal_nuclear_data_properties>
+									<d_photonuclear_data_properties class_id="23" tracking_level="0" version="1">
+										<px class_id="-1"></px>
+									</d_photonuclear_data_properties>
+									<d_adjoint_photonuclear_data_properties class_id="24" tracking_level="0" version="1">
+										<px class_id="-1"></px>
+									</d_adjoint_photonuclear_data_properties>
+								</px>
+							</second>
+						</item>
+					</d_scattering_center_definitions>
+				</px>
+			</d_scattering_center_definitions>
+			<d_material_definitions class_id="25" tracking_level="0" version="1">
+				<px class_id="26" tracking_level="1" version="0" object_id="_4">
+					<d_material_id_definition_map class_id="27" tracking_level="0" version="0">
+						<count>1</count>
+						<item_version>0</item_version>
+						<item class_id="28" tracking_level="0" version="0">
+							<first>1</first>
+							<second class_id="29" tracking_level="0" version="0">
+								<count>1</count>
+								<item_version>0</item_version>
+								<item class_id="30" tracking_level="0" version="0">
+									<first>albedo</first>
+									<second>1.00000000000000000e+00</second>
+								</item>
+							</second>
+						</item>
+					</d_material_id_definition_map>
+					<d_material_id_name_map class_id="31" tracking_level="0" version="0">
+						<mi_core class_id="32" tracking_level="0" version="2">
+							<count>1</count>
+							<value_version class_id="33" tracking_level="0" version="0"></value_version>
+							<item class_id="34" tracking_level="0" version="0">
+								<left>1</left>
+								<right>albedo</right>
+							</item>
+							<position class_id="35" tracking_level="0" version="0"></position>
+							<position></position>
+						</mi_core>
+					</d_material_id_name_map>
+				</px>
+			</d_material_definitions>
+			<d_properties class_id="36" tracking_level="0" version="1">
+				<px class_id="37" tracking_level="1" version="0" object_id="_5">
+					<SimulationGeneralProperties class_id="38" tracking_level="1" version="0" object_id="_6">
+						<d_particle_mode>2</d_particle_mode>
+						<d_number_of_histories>200000000</d_number_of_histories>
+						<d_min_number_of_rendezvous>10</d_min_number_of_rendezvous>
+						<d_max_rendezvous_batch_size>1000000000</d_max_rendezvous_batch_size>
+						<d_min_number_of_batches_per_rendezvous>1</d_min_number_of_batches_per_rendezvous>
+						<d_max_batch_size>1000000000</d_max_batch_size>
+						<d_number_of_batches_per_processor>1</d_number_of_batches_per_processor>
+						<__inf_wall_time__>0</__inf_wall_time__>
+						<d_wall_time>8.10000000000000000e+04</d_wall_time>
+						<d_surface_flux_estimator_angle_cosine_cutoff>1.00000000000000002e-03</d_surface_flux_estimator_angle_cosine_cutoff>
+						<d_implicit_capture_mode_on>0</d_implicit_capture_mode_on>
+					</SimulationGeneralProperties>
+					<SimulationNeutronProperties class_id="39" tracking_level="1" version="0" object_id="_7">
+						<d_min_neutron_energy>9.99999999999999939e-12</d_min_neutron_energy>
+						<d_max_neutron_energy>2.00000000000000000e+01</d_max_neutron_energy>
+						<d_num_neutron_hash_grid_bins>1000</d_num_neutron_hash_grid_bins>
+						<d_free_gas_threshold>4.00000000000000000e+02</d_free_gas_threshold>
+						<d_unresolved_resonance_probability_table_mode_on>1</d_unresolved_resonance_probability_table_mode_on>
+						<d_threshold_weight>0.00000000000000000e+00</d_threshold_weight>
+						<d_survival_weight>0.00000000000000000e+00</d_survival_weight>
+					</SimulationNeutronProperties>
+					<SimulationPhotonProperties class_id="40" tracking_level="1" version="0" object_id="_8">
+						<d_min_photon_energy>1.00000000000000002e-03</d_min_photon_energy>
+						<d_max_photon_energy>2.00000000000000000e+01</d_max_photon_energy>
+						<d_kahn_sampling_cutoff_energy>3.00000000000000000e+00</d_kahn_sampling_cutoff_energy>
+						<d_num_photon_hash_grid_bins>1000</d_num_photon_hash_grid_bins>
+						<d_incoherent_model_type>6</d_incoherent_model_type>
+						<d_atomic_relaxation_mode_on>1</d_atomic_relaxation_mode_on>
+						<d_detailed_pair_production_mode_on>0</d_detailed_pair_production_mode_on>
+						<d_photonuclear_interaction_mode_on>0</d_photonuclear_interaction_mode_on>
+						<d_threshold_weight>0.00000000000000000e+00</d_threshold_weight>
+						<d_survival_weight>0.00000000000000000e+00</d_survival_weight>
+					</SimulationPhotonProperties>
+					<SimulationAdjointPhotonProperties class_id="41" tracking_level="1" version="0" object_id="_9">
+						<d_min_adjoint_photon_energy>1.00000000000000002e-03</d_min_adjoint_photon_energy>
+						<d_max_adjoint_photon_energy>2.00000000000000000e+01</d_max_adjoint_photon_energy>
+						<d_num_adjoint_photon_hash_grid_bins>500</d_num_adjoint_photon_hash_grid_bins>
+						<d_incoherent_adjoint_model_type>3</d_incoherent_adjoint_model_type>
+						<d_adjoint_kn_sampling_type>0</d_adjoint_kn_sampling_type>
+						<d_critical_line_energies object_id="_10">
+							<count>0</count>
+							<item_version>0</item_version>
+						</d_critical_line_energies>
+						<d_threshold_weight>0.00000000000000000e+00</d_threshold_weight>
+						<d_survival_weight>0.00000000000000000e+00</d_survival_weight>
+					</SimulationAdjointPhotonProperties>
+					<SimulationElectronProperties class_id="43" tracking_level="1" version="0" object_id="_11">
+						<d_min_electron_energy>1.00000000000000005e-04</d_min_electron_energy>
+						<d_max_electron_energy>2.00000000000000000e+01</d_max_electron_energy>
+						<d_evaluation_tol>9.99999999999999955e-07</d_evaluation_tol>
+						<d_electron_interpolation_type>8</d_electron_interpolation_type>
+						<d_electron_grid_type>3</d_electron_grid_type>
+						<d_num_electron_hash_grid_bins>1000</d_num_electron_hash_grid_bins>
+						<d_atomic_relaxation_mode_on>0</d_atomic_relaxation_mode_on>
+						<d_elastic_mode_on>1</d_elastic_mode_on>
+						<d_elastic_interpolation_type>8</d_elastic_interpolation_type>
+						<d_elastic_distribution_mode>0</d_elastic_distribution_mode>
+						<d_coupled_elastic_sampling_method>1</d_coupled_elastic_sampling_method>
+						<d_elastic_cutoff_angle_cosine>1.00000000000000000e+00</d_elastic_cutoff_angle_cosine>
+						<d_electroionization_mode_on>1</d_electroionization_mode_on>
+						<d_electroionization_interpolation_type>8</d_electroionization_interpolation_type>
+						<d_electroionization_sampling_mode>0</d_electroionization_sampling_mode>
+						<d_bremsstrahlung_mode_on>1</d_bremsstrahlung_mode_on>
+						<d_bremsstrahlung_interpolation_type>8</d_bremsstrahlung_interpolation_type>
+						<d_bremsstrahlung_angular_distribution_function>1</d_bremsstrahlung_angular_distribution_function>
+						<d_atomic_excitation_mode_on>1</d_atomic_excitation_mode_on>
+						<d_threshold_weight>0.00000000000000000e+00</d_threshold_weight>
+						<d_survival_weight>0.00000000000000000e+00</d_survival_weight>
+					</SimulationElectronProperties>
+					<SimulationAdjointElectronProperties class_id="44" tracking_level="1" version="0" object_id="_12">
+						<d_min_adjoint_electron_energy>1.00000000000000005e-04</d_min_adjoint_electron_energy>
+						<d_max_adjoint_electron_energy>2.00000000000000000e+01</d_max_adjoint_electron_energy>
+						<d_adjoint_elastic_mode_on>1</d_adjoint_elastic_mode_on>
+						<d_adjoint_electroionization_mode_on>1</d_adjoint_electroionization_mode_on>
+						<d_adjoint_bremsstrahlung_mode_on>1</d_adjoint_bremsstrahlung_mode_on>
+						<d_adjoint_atomic_excitation_mode_on>1</d_adjoint_atomic_excitation_mode_on>
+						<d_adjoint_evaluation_tol>9.99999999999999955e-08</d_adjoint_evaluation_tol>
+						<d_adjoint_bremsstrahlung_angular_distribution_function>3</d_adjoint_bremsstrahlung_angular_distribution_function>
+						<d_adjoint_electroionization_sampling_mode>0</d_adjoint_electroionization_sampling_mode>
+						<d_adjoint_elastic_cutoff_angle_cosine>1.00000000000000000e+00</d_adjoint_elastic_cutoff_angle_cosine>
+						<d_adjoint_elastic_distribution_mode>0</d_adjoint_elastic_distribution_mode>
+						<d_coupled_elastic_sampling_method>2</d_coupled_elastic_sampling_method>
+						<d_num_adjoint_electron_hash_grid_bins>500</d_num_adjoint_electron_hash_grid_bins>
+						<d_critical_line_energies object_id="_13">
+							<count>0</count>
+							<item_version>0</item_version>
+						</d_critical_line_energies>
+						<d_threshold_weight>0.00000000000000000e+00</d_threshold_weight>
+						<d_survival_weight>0.00000000000000000e+00</d_survival_weight>
+					</SimulationAdjointElectronProperties>
+				</px>
+			</d_properties>
+			<d_unfilled_model class_id="45" tracking_level="0" version="1">
+				<px class_id="46" class_name="DagMCModel" tracking_level="1" version="0" object_id="_14">
+					<AdvancedModel class_id="47" tracking_level="0" version="0">
+						<Model class_id="48" tracking_level="0" version="0"></Model>
+					</AdvancedModel>
+					<d_model_properties class_id="49" tracking_level="0" version="0">
+						<tx class_id="50" tracking_level="1" version="0" object_id="_15">
+							<d_file_name>geom.h5m</d_file_name>
+							<raw_file_path>/home/lkersting/frensie0.4_release/tests/electron/albedo/Al</raw_file_path>
+							<d_fast_id_lookup>1</d_fast_id_lookup>
+							<d_termination_cell_property>termination.cell</d_termination_cell_property>
+							<d_reflecting_surface_property>reflecting.surface</d_reflecting_surface_property>
+							<d_material_property>material</d_material_property>
+							<d_density_property>density</d_density_property>
+							<d_estimator_property>estimator</d_estimator_property>
+							<d_surface_current_name>surface.current</d_surface_current_name>
+							<d_surface_flux_name>surface.flux</d_surface_flux_name>
+							<d_cell_pulse_height_name>cell.pulse.height</d_cell_pulse_height_name>
+							<d_cell_track_length_flux_name>cell.tl.flux</d_cell_track_length_flux_name>
+							<d_cell_collision_flux_name>cell.c.flux</d_cell_collision_flux_name>
+							<d_photon_name>p</d_photon_name>
+							<d_neutron_name>n</d_neutron_name>
+							<d_electron_name>e</d_electron_name>
+							<d_adjoint_photon_name>p*</d_adjoint_photon_name>
+							<d_adjoint_neutron_name>n*</d_adjoint_neutron_name>
+							<d_adjoint_electron_name>e*</d_adjoint_electron_name>
+						</tx>
+					</d_model_properties>
+				</px>
+			</d_unfilled_model>
+		</px>
+	</d_model>
+	<d_source class_id="51" tracking_level="0" version="1">
+		<px class_id="52" class_name="StandardParticleSource" tracking_level="1" version="0" object_id="_16">
+			<ParticleSource class_id="53" tracking_level="0" version="0"></ParticleSource>
+			<d_components class_id="54" tracking_level="0" version="0">
+				<count>1</count>
+				<item_version>1</item_version>
+				<item class_id="55" tracking_level="0" version="1">
+					<px class_id="56" class_name="StandardElectronSourceComponent" tracking_level="1" version="0" object_id="_17">
+						<ParticleSourceComponent class_id="57" tracking_level="0" version="0">
+							<d_id class_id="58" tracking_level="0" version="0">
+								<d_id>0</d_id>
+							</d_id>
+							<d_selection_weight>1.00000000000000000e+00</d_selection_weight>
+							<d_rejection_cells>
+								<count>0</count>
+								<item_version>0</item_version>
+							</d_rejection_cells>
+							<d_model>
+								<px class_id_reference="46" object_id_reference="_14"></px>
+							</d_model>
+							<start_cell_cache>
+								<count>1</count>
+								<item_version>0</item_version>
+								<item>5</item>
+							</start_cell_cache>
+							<number_of_trials>302000000</number_of_trials>
+							<number_of_samples>302000000</number_of_samples>
+						</ParticleSourceComponent>
+						<d_particle_distribution class_id="60" tracking_level="0" version="1">
+							<px class_id="61" class_name="StandardParticleDistribution" tracking_level="1" version="0" object_id="_18">
+								<ParticleDistribution class_id="62" tracking_level="0" version="0">
+									<d_name>uniform energy beam dist</d_name>
+								</ParticleDistribution>
+								<d_spatial_coord_conversion_policy class_id="63" tracking_level="0" version="1">
+									<px class_id="64" class_name="BasicCartesianCoordinateConversionPolicy" tracking_level="1" version="0" object_id="_19">
+										<CartesianSpatialCoordinateConversionPolicy class_id="65" tracking_level="0" version="0">
+											<SpatialCoordinateConversionPolicy class_id="66" tracking_level="0" version="0"></SpatialCoordinateConversionPolicy>
+										</CartesianSpatialCoordinateConversionPolicy>
+										<CartesianDirectionalCoordinateConversionPolicy class_id="67" tracking_level="0" version="0">
+											<DirectionalCoordinateConversionPolicy class_id="68" tracking_level="0" version="0"></DirectionalCoordinateConversionPolicy>
+										</CartesianDirectionalCoordinateConversionPolicy>
+									</px>
+								</d_spatial_coord_conversion_policy>
+								<d_directional_coord_conversion_policy class_id="69" tracking_level="0" version="1">
+									<px class_id="70" class_name="BasicSphericalCoordinateConversionPolicy" tracking_level="1" version="0" object_id="_20">
+										<SphericalSpatialCoordinateConversionPolicy class_id="71" tracking_level="0" version="0">
+											<SpatialCoordinateConversionPolicy></SpatialCoordinateConversionPolicy>
+										</SphericalSpatialCoordinateConversionPolicy>
+										<SphericalDirectionalCoordinateConversionPolicy class_id="72" tracking_level="0" version="0">
+											<DirectionalCoordinateConversionPolicy></DirectionalCoordinateConversionPolicy>
+										</SphericalDirectionalCoordinateConversionPolicy>
+									</px>
+								</d_directional_coord_conversion_policy>
+								<d_independent_dimensions class_id="73" tracking_level="0" version="0">
+									<count>9</count>
+									<item_version>0</item_version>
+									<item>0</item>
+									<item>1</item>
+									<item>2</item>
+									<item>3</item>
+									<item>4</item>
+									<item>5</item>
+									<item>6</item>
+									<item>7</item>
+									<item>8</item>
+								</d_independent_dimensions>
+								<d_dimension_distributions class_id="74" tracking_level="0" version="0">
+									<count>9</count>
+									<item_version>0</item_version>
+									<item class_id="75" tracking_level="0" version="0">
+										<first>0</first>
+										<second class_id="76" tracking_level="0" version="1">
+											<px class_id="77" class_name="IndependentPrimarySpatialDimensionDistribution" tracking_level="1" version="0" object_id="_21">
+												<PhaseSpaceDimensionDistribution class_id="78" tracking_level="0" version="0">
+													<d_parent_distribution class_id="79" tracking_level="0" version="0">
+														<weak_ptr class_id="80" tracking_level="0" version="1">
+															<px class_id="-1"></px>
+														</weak_ptr>
+													</d_parent_distribution>
+													<d_dependent_dimension_distributions>
+														<count>0</count>
+														<item_version>0</item_version>
+													</d_dependent_dimension_distributions>
+												</PhaseSpaceDimensionDistribution>
+												<d_dimension_distribution class_id="81" tracking_level="0" version="1">
+													<px class_id="82" class_name="UnitAwareDeltaDistribution&lt;void,void&gt;" tracking_level="1" version="0" object_id="_22">
+														<BaseType class_id="83" tracking_level="0" version="0">
+															<BaseType class_id="84" tracking_level="0" version="0"></BaseType>
+														</BaseType>
+														<d_location>0.00000000000000000e+00</d_location>
+														<d_multiplier>1.00000000000000000e+00</d_multiplier>
+													</px>
+												</d_dimension_distribution>
+											</px>
+										</second>
+									</item>
+									<item>
+										<first>1</first>
+										<second>
+											<px class_id="85" class_name="IndependentSecondarySpatialDimensionDistribution" tracking_level="1" version="0" object_id="_23">
+												<PhaseSpaceDimensionDistribution>
+													<d_parent_distribution>
+														<weak_ptr>
+															<px class_id="-1"></px>
+														</weak_ptr>
+													</d_parent_distribution>
+													<d_dependent_dimension_distributions>
+														<count>0</count>
+														<item_version>0</item_version>
+													</d_dependent_dimension_distributions>
+												</PhaseSpaceDimensionDistribution>
+												<d_dimension_distribution>
+													<px class_id_reference="82" object_id="_24">
+														<BaseType>
+															<BaseType></BaseType>
+														</BaseType>
+														<d_location>0.00000000000000000e+00</d_location>
+														<d_multiplier>1.00000000000000000e+00</d_multiplier>
+													</px>
+												</d_dimension_distribution>
+											</px>
+										</second>
+									</item>
+									<item>
+										<first>2</first>
+										<second>
+											<px class_id="86" class_name="IndependentTertiarySpatialDimensionDistribution" tracking_level="1" version="0" object_id="_25">
+												<PhaseSpaceDimensionDistribution>
+													<d_parent_distribution>
+														<weak_ptr>
+															<px class_id="-1"></px>
+														</weak_ptr>
+													</d_parent_distribution>
+													<d_dependent_dimension_distributions>
+														<count>0</count>
+														<item_version>0</item_version>
+													</d_dependent_dimension_distributions>
+												</PhaseSpaceDimensionDistribution>
+												<d_dimension_distribution>
+													<px class_id_reference="82" object_id="_26">
+														<BaseType>
+															<BaseType></BaseType>
+														</BaseType>
+														<d_location>-1.00000000000000006e-01</d_location>
+														<d_multiplier>1.00000000000000000e+00</d_multiplier>
+													</px>
+												</d_dimension_distribution>
+											</px>
+										</second>
+									</item>
+									<item>
+										<first>3</first>
+										<second>
+											<px class_id="87" class_name="IndependentPrimaryDirectionalDimensionDistribution" tracking_level="1" version="0" object_id="_27">
+												<PhaseSpaceDimensionDistribution>
+													<d_parent_distribution>
+														<weak_ptr>
+															<px class_id="-1"></px>
+														</weak_ptr>
+													</d_parent_distribution>
+													<d_dependent_dimension_distributions>
+														<count>0</count>
+														<item_version>0</item_version>
+													</d_dependent_dimension_distributions>
+												</PhaseSpaceDimensionDistribution>
+												<d_dimension_distribution>
+													<px class_id_reference="82" object_id="_28">
+														<BaseType>
+															<BaseType></BaseType>
+														</BaseType>
+														<d_location>1.00000000000000000e+00</d_location>
+														<d_multiplier>1.00000000000000000e+00</d_multiplier>
+													</px>
+												</d_dimension_distribution>
+											</px>
+										</second>
+									</item>
+									<item>
+										<first>4</first>
+										<second>
+											<px class_id="88" class_name="IndependentSecondaryDirectionalDimensionDistribution" tracking_level="1" version="0" object_id="_29">
+												<PhaseSpaceDimensionDistribution>
+													<d_parent_distribution>
+														<weak_ptr>
+															<px class_id="-1"></px>
+														</weak_ptr>
+													</d_parent_distribution>
+													<d_dependent_dimension_distributions>
+														<count>0</count>
+														<item_version>0</item_version>
+													</d_dependent_dimension_distributions>
+												</PhaseSpaceDimensionDistribution>
+												<d_dimension_distribution>
+													<px class_id="89" class_name="UnitAwareUniformDistribution&lt;void,void&gt;" tracking_level="1" version="0" object_id="_30">
+														<BaseType>
+															<BaseType></BaseType>
+														</BaseType>
+														<d_min_independent_value>0.00000000000000000e+00</d_min_independent_value>
+														<d_max_independent_value>6.28318530717958623e+00</d_max_independent_value>
+														<d_dependent_value>1.00000000000000000e+00</d_dependent_value>
+														<d_pdf_value>1.59154943091895346e-01</d_pdf_value>
+													</px>
+												</d_dimension_distribution>
+											</px>
+										</second>
+									</item>
+									<item>
+										<first>5</first>
+										<second>
+											<px class_id="90" class_name="IndependentTertiaryDirectionalDimensionDistribution" tracking_level="1" version="0" object_id="_31">
+												<PhaseSpaceDimensionDistribution>
+													<d_parent_distribution>
+														<weak_ptr>
+															<px class_id="-1"></px>
+														</weak_ptr>
+													</d_parent_distribution>
+													<d_dependent_dimension_distributions>
+														<count>0</count>
+														<item_version>0</item_version>
+													</d_dependent_dimension_distributions>
+												</PhaseSpaceDimensionDistribution>
+												<d_dimension_distribution>
+													<px class_id_reference="89" object_id="_32">
+														<BaseType>
+															<BaseType></BaseType>
+														</BaseType>
+														<d_min_independent_value>9.84807753012208020e-01</d_min_independent_value>
+														<d_max_independent_value>1.00000000000000000e+00</d_max_independent_value>
+														<d_dependent_value>1.00000000000000000e+00</d_dependent_value>
+														<d_pdf_value>6.58230478219297765e+01</d_pdf_value>
+													</px>
+												</d_dimension_distribution>
+											</px>
+										</second>
+									</item>
+									<item>
+										<first>6</first>
+										<second>
+											<px class_id="91" class_name="IndependentEnergyDimensionDistribution" tracking_level="1" version="0" object_id="_33">
+												<PhaseSpaceDimensionDistribution>
+													<d_parent_distribution>
+														<weak_ptr>
+															<px class_id="-1"></px>
+														</weak_ptr>
+													</d_parent_distribution>
+													<d_dependent_dimension_distributions>
+														<count>0</count>
+														<item_version>0</item_version>
+													</d_dependent_dimension_distributions>
+												</PhaseSpaceDimensionDistribution>
+												<d_dimension_distribution>
+													<px class_id_reference="89" object_id="_34">
+														<BaseType>
+															<BaseType></BaseType>
+														</BaseType>
+														<d_min_independent_value>1.00000000000000005e-04</d_min_independent_value>
+														<d_max_independent_value>2.56000000000000005e-01</d_max_independent_value>
+														<d_dependent_value>1.00000000000000000e+00</d_dependent_value>
+														<d_pdf_value>3.90777647518561899e+00</d_pdf_value>
+													</px>
+												</d_dimension_distribution>
+											</px>
+										</second>
+									</item>
+									<item>
+										<first>7</first>
+										<second>
+											<px class_id="92" class_name="IndependentTimeDimensionDistribution" tracking_level="1" version="0" object_id="_35">
+												<PhaseSpaceDimensionDistribution>
+													<d_parent_distribution>
+														<weak_ptr>
+															<px class_id="-1"></px>
+														</weak_ptr>
+													</d_parent_distribution>
+													<d_dependent_dimension_distributions>
+														<count>0</count>
+														<item_version>0</item_version>
+													</d_dependent_dimension_distributions>
+												</PhaseSpaceDimensionDistribution>
+												<d_dimension_distribution>
+													<px class_id_reference="82" object_id="_36">
+														<BaseType>
+															<BaseType></BaseType>
+														</BaseType>
+														<d_location>0.00000000000000000e+00</d_location>
+														<d_multiplier>1.00000000000000000e+00</d_multiplier>
+													</px>
+												</d_dimension_distribution>
+											</px>
+										</second>
+									</item>
+									<item>
+										<first>8</first>
+										<second>
+											<px class_id="93" class_name="IndependentWeightDimensionDistribution" tracking_level="1" version="0" object_id="_37">
+												<PhaseSpaceDimensionDistribution>
+													<d_parent_distribution>
+														<weak_ptr>
+															<px class_id="-1"></px>
+														</weak_ptr>
+													</d_parent_distribution>
+													<d_dependent_dimension_distributions>
+														<count>0</count>
+														<item_version>0</item_version>
+													</d_dependent_dimension_distributions>
+												</PhaseSpaceDimensionDistribution>
+												<d_dimension_distribution>
+													<px class_id_reference="82" object_id="_38">
+														<BaseType>
+															<BaseType></BaseType>
+														</BaseType>
+														<d_location>1.00000000000000000e+00</d_location>
+														<d_multiplier>1.00000000000000000e+00</d_multiplier>
+													</px>
+												</d_dimension_distribution>
+											</px>
+										</second>
+									</item>
+								</d_dimension_distributions>
+								<d_ready>1</d_ready>
+							</px>
+						</d_particle_distribution>
+						<dimension_trial_counters class_id="94" tracking_level="0" version="0">
+							<count>9</count>
+							<item_version>0</item_version>
+							<item class_id="95" tracking_level="0" version="0">
+								<first>0</first>
+								<second>302000000</second>
+							</item>
+							<item>
+								<first>1</first>
+								<second>302000000</second>
+							</item>
+							<item>
+								<first>2</first>
+								<second>302000000</second>
+							</item>
+							<item>
+								<first>3</first>
+								<second>302000000</second>
+							</item>
+							<item>
+								<first>4</first>
+								<second>302000000</second>
+							</item>
+							<item>
+								<first>5</first>
+								<second>302000000</second>
+							</item>
+							<item>
+								<first>6</first>
+								<second>302000000</second>
+							</item>
+							<item>
+								<first>7</first>
+								<second>302000000</second>
+							</item>
+							<item>
+								<first>8</first>
+								<second>302000000</second>
+							</item>
+						</dimension_trial_counters>
+						<dimension_sample_counters>
+							<count>9</count>
+							<item_version>0</item_version>
+							<item>
+								<first>0</first>
+								<second>302000000</second>
+							</item>
+							<item>
+								<first>1</first>
+								<second>302000000</second>
+							</item>
+							<item>
+								<first>2</first>
+								<second>302000000</second>
+							</item>
+							<item>
+								<first>3</first>
+								<second>302000000</second>
+							</item>
+							<item>
+								<first>4</first>
+								<second>302000000</second>
+							</item>
+							<item>
+								<first>5</first>
+								<second>302000000</second>
+							</item>
+							<item>
+								<first>6</first>
+								<second>302000000</second>
+							</item>
+							<item>
+								<first>7</first>
+								<second>302000000</second>
+							</item>
+							<item>
+								<first>8</first>
+								<second>302000000</second>
+							</item>
+						</dimension_sample_counters>
+					</px>
+				</item>
+			</d_components>
+			<d_component_sampling_dist class_id="96" tracking_level="0" version="0">
+				<tx class_id="97" tracking_level="1" version="0" object_id="_39">
+					<BaseType>
+						<BaseType></BaseType>
+					</BaseType>
+					<d_distribution class_id="98" tracking_level="0" version="0">
+						<count>1</count>
+						<item_version>0</item_version>
+						<item class_id="99" tracking_level="0" version="0">
+							<first>0.00000000000000000e+00</first>
+							<second>1.00000000000000000e+00</second>
+						</item>
+					</d_distribution>
+					<d_norm_constant>1.00000000000000000e+00</d_norm_constant>
+					<d_continuous>0</d_continuous>
+				</tx>
+			</d_component_sampling_dist>
+		</px>
+	</d_source>
+	<d_event_handler class_id="100" tracking_level="0" version="1">
+		<px class_id="101" tracking_level="1" version="0" object_id="_40">
+			<ParticleCollidingInCellEventHandler class_id="102" tracking_level="0" version="0">
+				<d_particle_colliding_in_cell_event_dispatcher class_id="103" tracking_level="1" version="0" object_id="_41">
+					<BaseType class_id="104" tracking_level="0" version="0">
+						<d_dispatcher_map class_id="105" tracking_level="0" version="0">
+							<count>0</count>
+							<bucket_count>2</bucket_count>
+							<item_version>0</item_version>
+						</d_dispatcher_map>
+					</BaseType>
+				</d_particle_colliding_in_cell_event_dispatcher>
+			</ParticleCollidingInCellEventHandler>
+			<ParticleCrossingSurfaceEventHandler class_id="106" tracking_level="0" version="0">
+				<d_particle_crossing_surface_event_dispatcher class_id="107" tracking_level="1" version="0" object_id="_42">
+					<BaseType class_id="108" tracking_level="0" version="0">
+						<d_dispatcher_map class_id="109" tracking_level="0" version="0">
+							<count>2</count>
+							<bucket_count>5</bucket_count>
+							<item_version>0</item_version>
+							<item class_id="110" tracking_level="0" version="0">
+								<first>2</first>
+								<second class_id="111" tracking_level="0" version="0">
+									<tx class_id="112" tracking_level="1" version="0" object_id="_43">
+										<BaseType class_id="113" tracking_level="0" version="0">
+											<d_entity_id>2</d_entity_id>
+											<d_observer_sets class_id="114" tracking_level="0" version="0">
+												<count>2</count>
+												<item_version>0</item_version>
+												<item class_id="115" tracking_level="0" version="0">
+													<first>2</first>
+													<second class_id="116" tracking_level="0" version="0">
+														<count>1</count>
+														<item_version>1</item_version>
+														<item class_id="117" tracking_level="0" version="1">
+															<px class_id="118" class_name="WeightMultipliedSurfaceCurrentEstimator" tracking_level="1" version="0" object_id="_44">
+																<StandardSurfaceEstimator class_id="119" tracking_level="0" version="0">
+																	<StandardEntityEstimator class_id="120" tracking_level="0" version="0">
+																		<EntityEstimator class_id="121" tracking_level="0" version="0">
+																			<Estimator class_id="122" tracking_level="0" version="0">
+																				<ParticleHistoryObserver class_id="123" tracking_level="0" version="0"></ParticleHistoryObserver>
+																				<d_id class_id="124" tracking_level="0" version="0">
+																					<d_id>1</d_id>
+																				</d_id>
+																				<d_multiplier>1.00000000000000000e+00</d_multiplier>
+																				<d_particle_types class_id="125" tracking_level="0" version="0">
+																					<count>1</count>
+																					<item_version>0</item_version>
+																					<item>2</item>
+																				</d_particle_types>
+																				<d_response_functions class_id="126" tracking_level="0" version="0">
+																					<count>1</count>
+																					<item_version>1</item_version>
+																					<item class_id="127" tracking_level="0" version="1">
+																						<px class_id="128" class_name="DefaultParticleResponse" tracking_level="1" version="0" object_id="_45">
+																							<ParticleResponse class_id="129" tracking_level="0" version="0">
+																								<d_name>f(particle) = 1</d_name>
+																							</ParticleResponse>
+																						</px>
+																					</item>
+																				</d_response_functions>
+																				<d_phase_space_discretization class_id="130" tracking_level="0" version="0">
+																					<d_impl class_id="131" tracking_level="0" version="0">
+																						<tx class_id="132" class_name="DetailedObserverPhaseSpaceDiscretizationImpl" tracking_level="1" version="0" object_id="_46">
+																							<ObserverPhaseSpaceDiscretizationImpl class_id="133" tracking_level="0" version="0"></ObserverPhaseSpaceDiscretizationImpl>
+																							<d_dimension_discretization_map class_id="134" tracking_level="0" version="0">
+																								<count>2</count>
+																								<item_version>0</item_version>
+																								<item class_id="135" tracking_level="0" version="0">
+																									<first>0</first>
+																									<second class_id="136" tracking_level="0" version="1">
+																										<px class_id="137" class_name="ObserverCosineDimensionDiscretization" tracking_level="1" version="0" object_id="_47">
+																											<BaseType class_id="138" tracking_level="1" version="0" object_id="_48">
+																												<BaseType class_id="139" tracking_level="0" version="0">
+																													<BaseType class_id="140" tracking_level="0" version="0">
+																														<ObserverPhaseSpaceDimensionDiscretization class_id="141" tracking_level="0" version="0"></ObserverPhaseSpaceDimensionDiscretization>
+																													</BaseType>
+																													<d_dimension_bin_boundaries class_id="142" tracking_level="0" version="1">
+																														<px class_id="42" object_id="_49">
+																															<count>2</count>
+																															<item_version>0</item_version>
+																															<item>0.00000000000000000e+00</item>
+																															<item>1.00000000000000000e+00</item>
+																														</px>
+																													</d_dimension_bin_boundaries>
+																												</BaseType>
+																											</BaseType>
+																										</px>
+																									</second>
+																								</item>
+																								<item>
+																									<first>1</first>
+																									<second>
+																										<px class_id="143" class_name="ObserverSourceEnergyDimensionDiscretization" tracking_level="1" version="0" object_id="_50">
+																											<BaseType class_id="144" tracking_level="1" version="0" object_id="_51">
+																												<BaseType class_id="145" tracking_level="1" version="0" object_id="_52">
+																													<BaseType class_id="146" tracking_level="0" version="0">
+																														<BaseType class_id="147" tracking_level="0" version="0">
+																															<ObserverPhaseSpaceDimensionDiscretization></ObserverPhaseSpaceDimensionDiscretization>
+																														</BaseType>
+																														<d_dimension_bin_boundaries>
+																															<px class_id_reference="42" object_id="_53">
+																																<count>101</count>
+																																<item_version>0</item_version>
+																																<item>1.00000000000000005e-04</item>
+																																<item>1.08163915362079579e-04</item>
+																																<item>1.16994325864551026e-04</item>
+																																<item>1.26545643606568419e-04</item>
+																																<item>1.36876722845007180e-04</item>
+																																<item>1.48051222648461661e-04</item>
+																																<item>1.60137999158005900e-04</item>
+																																<item>1.73211529871793055e-04</item>
+																																<item>1.87352372567889250e-04</item>
+																																<item>2.02647661693179524e-04</item>
+																																<item>2.19191645277043857e-04</item>
+																																<item>2.37086265678210781e-04</item>
+																																<item>2.56441787743294796e-04</item>
+																																<item>2.77377478247660858e-04</item>
+																																<item>3.00022340805270284e-04</item>
+																																<item>3.24515910775942178e-04</item>
+																																<item>3.51009115068171137e-04</item>
+																																<item>3.79665202135520783e-04</item>
+																																<item>4.10660747897132654e-04</item>
+																																<item>4.44186743780736768e-04</item>
+																																<item>4.80449773592572956e-04</item>
+																																<item>5.19673286465973023e-04</item>
+																																<item>5.62098973732391943e-04</item>
+																																<item>6.07988258199021144e-04</item>
+																																<item>6.57623905009770550e-04</item>
+																																<item>7.11311764015569404e-04</item>
+																																<item>7.69382654390315035e-04</item>
+																																<item>8.32194403105260836e-04</item>
+																																<item>9.00134049822736782e-04</item>
+																																<item>9.73620231795523333e-04</item>
+																																<item>1.05310576346739080e-03</item>
+																																<item>1.13908042667004955e-03</item>
+																																<item>1.23207398860940504e-03</item>
+																																<item>1.33265946623767361e-03</item>
+																																<item>1.44145665712605738e-03</item>
+																																<item>1.55913595859488892e-03</item>
+																																<item>1.68642249863432212e-03</item>
+																																<item>1.82410060406989235e-03</item>
+																																<item>1.97301863350533716e-03</item>
+																																<item>2.13409420482276986e-03</item>
+																																<item>2.30831984945154391e-03</item>
+																																<item>2.49676912824684828e-03</item>
+																																<item>2.70060324666345029e-03</item>
+																																<item>2.92107820998662240e-03</item>
+																																<item>3.15955256271007639e-03</item>
+																																<item>3.41749575975013693e-03</item>
+																																<item>3.69649722107879327e-03</item>
+																																<item>3.99827612556928527e-03</item>
+																																<item>4.32469200440299250e-03</item>
+																																<item>4.67775619931307118e-03</item>
+																																<item>5.05964425626941137e-03</item>
+																																<item>5.47270933097356201e-03</item>
+																																<item>5.91949668876686971e-03</item>
+																																<item>6.40275938829888789e-03</item>
+																																<item>6.92547524559720701e-03</item>
+																																<item>7.49086518306952848e-03</item>
+																																<item>8.10241307650279644e-03</item>
+																																<item>8.76388722235454595e-03</item>
+																																<item>9.47936355761566825e-03</item>
+																																<item>1.02532507753232086e-02</item>
+																																<item>1.10903174904823532e-02</item>
+																																<item>1.19957216237912279e-02</item>
+																																<item>1.29750421842282099e-02</item>
+																																<item>1.40343136463426960e-02</item>
+																																<item>1.51800631340788840e-02</item>
+																																<item>1.64193506402553133e-02</item>
+																																<item>1.77598125295287956e-02</item>
+																																<item>1.92097085929035134e-02</item>
+																																<item>2.07779729437302628e-02</item>
+																																<item>2.24742690688121763e-02</item>
+																																<item>2.43090493738359857e-02</item>
+																																<item>2.62936195900420680e-02</item>
+																																<item>2.84402084390002509e-02</item>
+																																<item>3.07620429847591872e-02</item>
+																																<item>3.32734301376814354e-02</item>
+																																<item>3.59898448121823908e-02</item>
+																																<item>3.89280252815926778e-02</item>
+																																<item>4.21060763177108013e-02</item>
+																																<item>4.55435807505813056e-02</item>
+																																<item>4.92617201359190834e-02</item>
+																																<item>5.32834052737199276e-02</item>
+																																<item>5.76334173823002185e-02</item>
+																																<item>6.23385607976652059e-02</item>
+																																<item>6.74278281391249845e-02</item>
+																																<item>7.29325789588915613e-02</item>
+																																<item>7.88867329764772612e-02</item>
+																																<item>8.53269790885864271e-02</item>
+																																<item>9.22930014423978679e-02</item>
+																																<item>9.98277239652780174e-02</item>
+																																<item>1.07977574857693645e-01</item>
+																																<item>1.16792772679101653e-01</item>
+																																<item>1.26327635789649395e-01</item>
+																																<item>1.36640917054432404e-01</item>
+																																<item>1.47796165872725344e-01</item>
+																																<item>1.59862119762973237e-01</item>
+																																<item>1.72913127916448500e-01</item>
+																																<item>1.87029609329471574e-01</item>
+																																<item>2.02298548337157352e-01</item>
+																																<item>2.18814030602118292e-01</item>
+																																<item>2.36677822860829917e-01</item>
+																																<item>2.56000000000000005e-01</item>
+																															</px>
+																														</d_dimension_bin_boundaries>
+																													</BaseType>
+																												</BaseType>
+																												<d_grid_searcher class_id="148" tracking_level="0" version="0">
+																													<tx class_id="149" class_name="StandardHashBasedGridSearcher&lt;std::vector&lt;double&gt;&gt;Raw" tracking_level="1" version="0" object_id="_54">
+																														<BaseType class_id="150" tracking_level="0" version="0"></BaseType>
+																														<d_hash_grid_size>12</d_hash_grid_size>
+																														<d_hash_grid_min>1.00000000000000005e-04</d_hash_grid_min>
+																														<d_hash_grid_max>2.56000000000000005e-01</d_hash_grid_max>
+																														<d_hash_grid_length>2.55900000000000016e-01</d_hash_grid_length>
+																														<d_grid>
+																															<px class_id_reference="42" object_id_reference="_53"></px>
+																														</d_grid>
+																													</tx>
+																												</d_grid_searcher>
+																											</BaseType>
+																										</px>
+																									</second>
+																								</item>
+																							</d_dimension_discretization_map>
+																							<d_dimension_use_range_map class_id="151" tracking_level="0" version="0">
+																								<count>2</count>
+																								<item_version>0</item_version>
+																								<item class_id="152" tracking_level="0" version="0">
+																									<first>0</first>
+																									<second>0</second>
+																								</item>
+																								<item>
+																									<first>1</first>
+																									<second>0</second>
+																								</item>
+																							</d_dimension_use_range_map>
+																							<d_dimension_index_step_size_map class_id="153" tracking_level="0" version="0">
+																								<count>2</count>
+																								<item_version>0</item_version>
+																								<item class_id="154" tracking_level="0" version="0">
+																									<first>0</first>
+																									<second>100</second>
+																								</item>
+																								<item>
+																									<first>1</first>
+																									<second>1</second>
+																								</item>
+																							</d_dimension_index_step_size_map>
+																							<d_dimension_ordering class_id="155" tracking_level="0" version="0">
+																								<count>2</count>
+																								<item_version>0</item_version>
+																								<item>1</item>
+																								<item>0</item>
+																							</d_dimension_ordering>
+																						</tx>
+																					</d_impl>
+																				</d_phase_space_discretization>
+																			</Estimator>
+																			<d_total_norm_constant>1.00000000000000000e+00</d_total_norm_constant>
+																			<d_supplied_norm_constants>0</d_supplied_norm_constants>
+																			<d_estimator_total_bin_data class_id="156" tracking_level="0" version="0">
+																				<BaseType class_id="157" tracking_level="0" version="0">
+																					<BaseType class_id="158" tracking_level="0" version="0"></BaseType>
+																					<moment_1 object_id="_55">
+																						<count>100</count>
+																						<item_version>0</item_version>
+																						<item>5.00000000000000000e+02</item>
+																						<item>8.90000000000000000e+02</item>
+																						<item>1.24000000000000000e+03</item>
+																						<item>1.68100000000000000e+03</item>
+																						<item>2.07100000000000000e+03</item>
+																						<item>2.49300000000000000e+03</item>
+																						<item>2.84200000000000000e+03</item>
+																						<item>3.29500000000000000e+03</item>
+																						<item>3.65200000000000000e+03</item>
+																						<item>4.14000000000000000e+03</item>
+																						<item>4.65400000000000000e+03</item>
+																						<item>5.14900000000000000e+03</item>
+																						<item>5.65400000000000000e+03</item>
+																						<item>6.24800000000000000e+03</item>
+																						<item>6.71300000000000000e+03</item>
+																						<item>7.14100000000000000e+03</item>
+																						<item>7.95900000000000000e+03</item>
+																						<item>8.47900000000000000e+03</item>
+																						<item>9.15100000000000000e+03</item>
+																						<item>9.99000000000000000e+03</item>
+																						<item>1.06250000000000000e+04</item>
+																						<item>1.13710000000000000e+04</item>
+																						<item>1.23620000000000000e+04</item>
+																						<item>1.32310000000000000e+04</item>
+																						<item>1.42920000000000000e+04</item>
+																						<item>1.50800000000000000e+04</item>
+																						<item>1.60820000000000000e+04</item>
+																						<item>1.72010000000000000e+04</item>
+																						<item>1.82630000000000000e+04</item>
+																						<item>1.94230000000000000e+04</item>
+																						<item>2.08660000000000000e+04</item>
+																						<item>2.26050000000000000e+04</item>
+																						<item>2.43620000000000000e+04</item>
+																						<item>2.61560000000000000e+04</item>
+																						<item>2.81070000000000000e+04</item>
+																						<item>3.02920000000000000e+04</item>
+																						<item>3.28900000000000000e+04</item>
+																						<item>3.54140000000000000e+04</item>
+																						<item>3.86150000000000000e+04</item>
+																						<item>4.17700000000000000e+04</item>
+																						<item>4.56330000000000000e+04</item>
+																						<item>4.86960000000000000e+04</item>
+																						<item>5.22910000000000000e+04</item>
+																						<item>5.71810000000000000e+04</item>
+																						<item>6.06480000000000000e+04</item>
+																						<item>6.58380000000000000e+04</item>
+																						<item>7.09810000000000000e+04</item>
+																						<item>7.55000000000000000e+04</item>
+																						<item>8.20790000000000000e+04</item>
+																						<item>8.79200000000000000e+04</item>
+																						<item>9.57270000000000000e+04</item>
+																						<item>1.03235000000000000e+05</item>
+																						<item>1.11155000000000000e+05</item>
+																						<item>1.19624000000000000e+05</item>
+																						<item>1.28883000000000000e+05</item>
+																						<item>1.38879000000000000e+05</item>
+																						<item>1.48096000000000000e+05</item>
+																						<item>1.59735000000000000e+05</item>
+																						<item>1.72797000000000000e+05</item>
+																						<item>1.85589000000000000e+05</item>
+																						<item>1.99983000000000000e+05</item>
+																						<item>2.16178000000000000e+05</item>
+																						<item>2.32169000000000000e+05</item>
+																						<item>2.48139000000000000e+05</item>
+																						<item>2.66471000000000000e+05</item>
+																						<item>2.86172000000000000e+05</item>
+																						<item>3.06052000000000000e+05</item>
+																						<item>3.29132000000000000e+05</item>
+																						<item>3.54737000000000000e+05</item>
+																						<item>3.81607000000000000e+05</item>
+																						<item>4.10314000000000000e+05</item>
+																						<item>4.40037000000000000e+05</item>
+																						<item>4.71203000000000000e+05</item>
+																						<item>5.04906000000000000e+05</item>
+																						<item>5.42663000000000000e+05</item>
+																						<item>5.83673000000000000e+05</item>
+																						<item>6.28975000000000000e+05</item>
+																						<item>6.78633000000000000e+05</item>
+																						<item>7.32842000000000000e+05</item>
+																						<item>7.88450000000000000e+05</item>
+																						<item>8.50734000000000000e+05</item>
+																						<item>9.12410000000000000e+05</item>
+																						<item>9.79992000000000000e+05</item>
+																						<item>1.05559600000000000e+06</item>
+																						<item>1.13835200000000000e+06</item>
+																						<item>1.22695400000000000e+06</item>
+																						<item>1.32366500000000000e+06</item>
+																						<item>1.43363900000000000e+06</item>
+																						<item>1.54396600000000000e+06</item>
+																						<item>1.66580900000000000e+06</item>
+																						<item>1.79345400000000000e+06</item>
+																						<item>1.93040900000000000e+06</item>
+																						<item>2.08969600000000000e+06</item>
+																						<item>2.25943500000000000e+06</item>
+																						<item>2.44206200000000000e+06</item>
+																						<item>2.64427500000000000e+06</item>
+																						<item>2.85457700000000000e+06</item>
+																						<item>3.07702800000000000e+06</item>
+																						<item>3.31400600000000000e+06</item>
+																						<item>3.55999100000000000e+06</item>
+																					</moment_1>
+																				</BaseType>
+																				<moment_2 object_id="_56">
+																					<count>100</count>
+																					<item_version>0</item_version>
+																					<item>5.00000000000000000e+02</item>
+																					<item>8.90000000000000000e+02</item>
+																					<item>1.24000000000000000e+03</item>
+																					<item>1.68100000000000000e+03</item>
+																					<item>2.07100000000000000e+03</item>
+																					<item>2.49300000000000000e+03</item>
+																					<item>2.84200000000000000e+03</item>
+																					<item>3.29500000000000000e+03</item>
+																					<item>3.65200000000000000e+03</item>
+																					<item>4.14000000000000000e+03</item>
+																					<item>4.65400000000000000e+03</item>
+																					<item>5.14900000000000000e+03</item>
+																					<item>5.65600000000000000e+03</item>
+																					<item>6.25400000000000000e+03</item>
+																					<item>6.72500000000000000e+03</item>
+																					<item>7.17500000000000000e+03</item>
+																					<item>7.98900000000000000e+03</item>
+																					<item>8.52900000000000000e+03</item>
+																					<item>9.23100000000000000e+03</item>
+																					<item>1.00920000000000000e+04</item>
+																					<item>1.07650000000000000e+04</item>
+																					<item>1.15570000000000000e+04</item>
+																					<item>1.25860000000000000e+04</item>
+																					<item>1.35030000000000000e+04</item>
+																					<item>1.46580000000000000e+04</item>
+																					<item>1.54760000000000000e+04</item>
+																					<item>1.65260000000000000e+04</item>
+																					<item>1.77850000000000000e+04</item>
+																					<item>1.89050000000000000e+04</item>
+																					<item>2.01250000000000000e+04</item>
+																					<item>2.17360000000000000e+04</item>
+																					<item>2.35570000000000000e+04</item>
+																					<item>2.54580000000000000e+04</item>
+																					<item>2.72220000000000000e+04</item>
+																					<item>2.93850000000000000e+04</item>
+																					<item>3.17320000000000000e+04</item>
+																					<item>3.44980000000000000e+04</item>
+																					<item>3.71240000000000000e+04</item>
+																					<item>4.06110000000000000e+04</item>
+																					<item>4.39140000000000000e+04</item>
+																					<item>4.81810000000000000e+04</item>
+																					<item>5.13640000000000000e+04</item>
+																					<item>5.50930000000000000e+04</item>
+																					<item>6.02870000000000000e+04</item>
+																					<item>6.37860000000000000e+04</item>
+																					<item>6.93660000000000000e+04</item>
+																					<item>7.47030000000000000e+04</item>
+																					<item>7.93640000000000000e+04</item>
+																					<item>8.61690000000000000e+04</item>
+																					<item>9.24340000000000000e+04</item>
+																					<item>1.00557000000000000e+05</item>
+																					<item>1.08665000000000000e+05</item>
+																					<item>1.16709000000000000e+05</item>
+																					<item>1.25796000000000000e+05</item>
+																					<item>1.35313000000000000e+05</item>
+																					<item>1.45695000000000000e+05</item>
+																					<item>1.55206000000000000e+05</item>
+																					<item>1.67435000000000000e+05</item>
+																					<item>1.80849000000000000e+05</item>
+																					<item>1.94421000000000000e+05</item>
+																					<item>2.08921000000000000e+05</item>
+																					<item>2.26108000000000000e+05</item>
+																					<item>2.42891000000000000e+05</item>
+																					<item>2.59681000000000000e+05</item>
+																					<item>2.78861000000000000e+05</item>
+																					<item>2.99536000000000000e+05</item>
+																					<item>3.19852000000000000e+05</item>
+																					<item>3.44124000000000000e+05</item>
+																					<item>3.70625000000000000e+05</item>
+																					<item>3.98477000000000000e+05</item>
+																					<item>4.28468000000000000e+05</item>
+																					<item>4.59509000000000000e+05</item>
+																					<item>4.91705000000000000e+05</item>
+																					<item>5.26436000000000000e+05</item>
+																					<item>5.65191000000000000e+05</item>
+																					<item>6.07709000000000000e+05</item>
+																					<item>6.54761000000000000e+05</item>
+																					<item>7.06241000000000000e+05</item>
+																					<item>7.62104000000000000e+05</item>
+																					<item>8.19736000000000000e+05</item>
+																					<item>8.84170000000000000e+05</item>
+																					<item>9.47412000000000000e+05</item>
+																					<item>1.01754400000000000e+06</item>
+																					<item>1.09555800000000000e+06</item>
+																					<item>1.18081200000000000e+06</item>
+																					<item>1.27272400000000000e+06</item>
+																					<item>1.37177700000000000e+06</item>
+																					<item>1.48551700000000000e+06</item>
+																					<item>1.59896200000000000e+06</item>
+																					<item>1.72415100000000000e+06</item>
+																					<item>1.85603400000000000e+06</item>
+																					<item>1.99757900000000000e+06</item>
+																					<item>2.16263800000000000e+06</item>
+																					<item>2.33743900000000000e+06</item>
+																					<item>2.52647600000000000e+06</item>
+																					<item>2.73497700000000000e+06</item>
+																					<item>2.95334700000000000e+06</item>
+																					<item>3.18324400000000000e+06</item>
+																					<item>3.42973200000000000e+06</item>
+																					<item>3.68484300000000000e+06</item>
+																				</moment_2>
+																			</d_estimator_total_bin_data>
+																			<d_entity_estimator_moments_map class_id="159" tracking_level="0" version="0">
+																				<count>2</count>
+																				<bucket_count>5</bucket_count>
+																				<item_version>0</item_version>
+																				<item class_id="160" tracking_level="0" version="0">
+																					<first>2</first>
+																					<second>
+																						<BaseType>
+																							<BaseType></BaseType>
+																							<moment_1 object_id="_57">
+																								<count>100</count>
+																								<item_version>0</item_version>
+																								<item>5.00000000000000000e+02</item>
+																								<item>8.90000000000000000e+02</item>
+																								<item>1.24000000000000000e+03</item>
+																								<item>1.68100000000000000e+03</item>
+																								<item>2.07100000000000000e+03</item>
+																								<item>2.49300000000000000e+03</item>
+																								<item>2.84200000000000000e+03</item>
+																								<item>3.29500000000000000e+03</item>
+																								<item>3.65200000000000000e+03</item>
+																								<item>4.14000000000000000e+03</item>
+																								<item>4.65400000000000000e+03</item>
+																								<item>5.14900000000000000e+03</item>
+																								<item>5.65400000000000000e+03</item>
+																								<item>6.24800000000000000e+03</item>
+																								<item>6.71300000000000000e+03</item>
+																								<item>7.14100000000000000e+03</item>
+																								<item>7.95900000000000000e+03</item>
+																								<item>8.47900000000000000e+03</item>
+																								<item>9.15100000000000000e+03</item>
+																								<item>9.99000000000000000e+03</item>
+																								<item>1.06250000000000000e+04</item>
+																								<item>1.13710000000000000e+04</item>
+																								<item>1.23620000000000000e+04</item>
+																								<item>1.32310000000000000e+04</item>
+																								<item>1.42920000000000000e+04</item>
+																								<item>1.50800000000000000e+04</item>
+																								<item>1.60820000000000000e+04</item>
+																								<item>1.72010000000000000e+04</item>
+																								<item>1.82630000000000000e+04</item>
+																								<item>1.94230000000000000e+04</item>
+																								<item>2.08660000000000000e+04</item>
+																								<item>2.26050000000000000e+04</item>
+																								<item>2.43620000000000000e+04</item>
+																								<item>2.61560000000000000e+04</item>
+																								<item>2.81070000000000000e+04</item>
+																								<item>3.02920000000000000e+04</item>
+																								<item>3.28900000000000000e+04</item>
+																								<item>3.54140000000000000e+04</item>
+																								<item>3.86150000000000000e+04</item>
+																								<item>4.17700000000000000e+04</item>
+																								<item>4.56330000000000000e+04</item>
+																								<item>4.86960000000000000e+04</item>
+																								<item>5.22910000000000000e+04</item>
+																								<item>5.71810000000000000e+04</item>
+																								<item>6.06480000000000000e+04</item>
+																								<item>6.58380000000000000e+04</item>
+																								<item>7.09810000000000000e+04</item>
+																								<item>7.55000000000000000e+04</item>
+																								<item>8.20790000000000000e+04</item>
+																								<item>8.79200000000000000e+04</item>
+																								<item>9.57270000000000000e+04</item>
+																								<item>1.03235000000000000e+05</item>
+																								<item>1.11155000000000000e+05</item>
+																								<item>1.19624000000000000e+05</item>
+																								<item>1.28883000000000000e+05</item>
+																								<item>1.38879000000000000e+05</item>
+																								<item>1.48096000000000000e+05</item>
+																								<item>1.59735000000000000e+05</item>
+																								<item>1.72797000000000000e+05</item>
+																								<item>1.85589000000000000e+05</item>
+																								<item>1.99983000000000000e+05</item>
+																								<item>2.16178000000000000e+05</item>
+																								<item>2.32169000000000000e+05</item>
+																								<item>2.48139000000000000e+05</item>
+																								<item>2.66471000000000000e+05</item>
+																								<item>2.86172000000000000e+05</item>
+																								<item>3.06052000000000000e+05</item>
+																								<item>3.29132000000000000e+05</item>
+																								<item>3.54737000000000000e+05</item>
+																								<item>3.81607000000000000e+05</item>
+																								<item>4.10314000000000000e+05</item>
+																								<item>4.40037000000000000e+05</item>
+																								<item>4.71203000000000000e+05</item>
+																								<item>5.04906000000000000e+05</item>
+																								<item>5.42663000000000000e+05</item>
+																								<item>5.83673000000000000e+05</item>
+																								<item>6.28975000000000000e+05</item>
+																								<item>6.78633000000000000e+05</item>
+																								<item>7.32842000000000000e+05</item>
+																								<item>7.88450000000000000e+05</item>
+																								<item>8.50734000000000000e+05</item>
+																								<item>9.12410000000000000e+05</item>
+																								<item>9.79992000000000000e+05</item>
+																								<item>1.05559600000000000e+06</item>
+																								<item>1.13835200000000000e+06</item>
+																								<item>1.22695400000000000e+06</item>
+																								<item>1.32366500000000000e+06</item>
+																								<item>1.43363900000000000e+06</item>
+																								<item>1.54396600000000000e+06</item>
+																								<item>1.66580900000000000e+06</item>
+																								<item>1.79345400000000000e+06</item>
+																								<item>1.93040900000000000e+06</item>
+																								<item>2.08969600000000000e+06</item>
+																								<item>2.25943500000000000e+06</item>
+																								<item>2.44206200000000000e+06</item>
+																								<item>2.64427500000000000e+06</item>
+																								<item>2.85457700000000000e+06</item>
+																								<item>3.07702800000000000e+06</item>
+																								<item>3.31400600000000000e+06</item>
+																								<item>3.55999100000000000e+06</item>
+																							</moment_1>
+																						</BaseType>
+																						<moment_2 object_id="_58">
+																							<count>100</count>
+																							<item_version>0</item_version>
+																							<item>5.00000000000000000e+02</item>
+																							<item>8.90000000000000000e+02</item>
+																							<item>1.24000000000000000e+03</item>
+																							<item>1.68100000000000000e+03</item>
+																							<item>2.07100000000000000e+03</item>
+																							<item>2.49300000000000000e+03</item>
+																							<item>2.84200000000000000e+03</item>
+																							<item>3.29500000000000000e+03</item>
+																							<item>3.65200000000000000e+03</item>
+																							<item>4.14000000000000000e+03</item>
+																							<item>4.65400000000000000e+03</item>
+																							<item>5.14900000000000000e+03</item>
+																							<item>5.65600000000000000e+03</item>
+																							<item>6.25400000000000000e+03</item>
+																							<item>6.72500000000000000e+03</item>
+																							<item>7.17500000000000000e+03</item>
+																							<item>7.98900000000000000e+03</item>
+																							<item>8.52900000000000000e+03</item>
+																							<item>9.23100000000000000e+03</item>
+																							<item>1.00920000000000000e+04</item>
+																							<item>1.07650000000000000e+04</item>
+																							<item>1.15570000000000000e+04</item>
+																							<item>1.25860000000000000e+04</item>
+																							<item>1.35030000000000000e+04</item>
+																							<item>1.46580000000000000e+04</item>
+																							<item>1.54760000000000000e+04</item>
+																							<item>1.65260000000000000e+04</item>
+																							<item>1.77850000000000000e+04</item>
+																							<item>1.89050000000000000e+04</item>
+																							<item>2.01250000000000000e+04</item>
+																							<item>2.17360000000000000e+04</item>
+																							<item>2.35570000000000000e+04</item>
+																							<item>2.54580000000000000e+04</item>
+																							<item>2.72220000000000000e+04</item>
+																							<item>2.93850000000000000e+04</item>
+																							<item>3.17320000000000000e+04</item>
+																							<item>3.44980000000000000e+04</item>
+																							<item>3.71240000000000000e+04</item>
+																							<item>4.06110000000000000e+04</item>
+																							<item>4.39140000000000000e+04</item>
+																							<item>4.81810000000000000e+04</item>
+																							<item>5.13640000000000000e+04</item>
+																							<item>5.50930000000000000e+04</item>
+																							<item>6.02870000000000000e+04</item>
+																							<item>6.37860000000000000e+04</item>
+																							<item>6.93660000000000000e+04</item>
+																							<item>7.47030000000000000e+04</item>
+																							<item>7.93640000000000000e+04</item>
+																							<item>8.61690000000000000e+04</item>
+																							<item>9.24340000000000000e+04</item>
+																							<item>1.00557000000000000e+05</item>
+																							<item>1.08665000000000000e+05</item>
+																							<item>1.16709000000000000e+05</item>
+																							<item>1.25796000000000000e+05</item>
+																							<item>1.35313000000000000e+05</item>
+																							<item>1.45695000000000000e+05</item>
+																							<item>1.55206000000000000e+05</item>
+																							<item>1.67435000000000000e+05</item>
+																							<item>1.80849000000000000e+05</item>
+																							<item>1.94421000000000000e+05</item>
+																							<item>2.08921000000000000e+05</item>
+																							<item>2.26108000000000000e+05</item>
+																							<item>2.42891000000000000e+05</item>
+																							<item>2.59681000000000000e+05</item>
+																							<item>2.78861000000000000e+05</item>
+																							<item>2.99536000000000000e+05</item>
+																							<item>3.19852000000000000e+05</item>
+																							<item>3.44124000000000000e+05</item>
+																							<item>3.70625000000000000e+05</item>
+																							<item>3.98477000000000000e+05</item>
+																							<item>4.28468000000000000e+05</item>
+																							<item>4.59509000000000000e+05</item>
+																							<item>4.91705000000000000e+05</item>
+																							<item>5.26436000000000000e+05</item>
+																							<item>5.65191000000000000e+05</item>
+																							<item>6.07709000000000000e+05</item>
+																							<item>6.54761000000000000e+05</item>
+																							<item>7.06241000000000000e+05</item>
+																							<item>7.62104000000000000e+05</item>
+																							<item>8.19736000000000000e+05</item>
+																							<item>8.84170000000000000e+05</item>
+																							<item>9.47412000000000000e+05</item>
+																							<item>1.01754400000000000e+06</item>
+																							<item>1.09555800000000000e+06</item>
+																							<item>1.18081200000000000e+06</item>
+																							<item>1.27272400000000000e+06</item>
+																							<item>1.37177700000000000e+06</item>
+																							<item>1.48551700000000000e+06</item>
+																							<item>1.59896200000000000e+06</item>
+																							<item>1.72415100000000000e+06</item>
+																							<item>1.85603400000000000e+06</item>
+																							<item>1.99757900000000000e+06</item>
+																							<item>2.16263800000000000e+06</item>
+																							<item>2.33743900000000000e+06</item>
+																							<item>2.52647600000000000e+06</item>
+																							<item>2.73497700000000000e+06</item>
+																							<item>2.95334700000000000e+06</item>
+																							<item>3.18324400000000000e+06</item>
+																							<item>3.42973200000000000e+06</item>
+																							<item>3.68484300000000000e+06</item>
+																						</moment_2>
+																					</second>
+																				</item>
+																				<item>
+																					<first>1</first>
+																					<second>
+																						<BaseType>
+																							<BaseType></BaseType>
+																							<moment_1 object_id="_59">
+																								<count>100</count>
+																								<item_version>0</item_version>
+																								<item>0.00000000000000000e+00</item>
+																								<item>0.00000000000000000e+00</item>
+																								<item>0.00000000000000000e+00</item>
+																								<item>0.00000000000000000e+00</item>
+																								<item>0.00000000000000000e+00</item>
+																								<item>0.00000000000000000e+00</item>
+																								<item>0.00000000000000000e+00</item>
+																								<item>0.00000000000000000e+00</item>
+																								<item>0.00000000000000000e+00</item>
+																								<item>0.00000000000000000e+00</item>
+																								<item>0.00000000000000000e+00</item>
+																								<item>0.00000000000000000e+00</item>
+																								<item>0.00000000000000000e+00</item>
+																								<item>0.00000000000000000e+00</item>
+																								<item>0.00000000000000000e+00</item>
+																								<item>0.00000000000000000e+00</item>
+																								<item>0.00000000000000000e+00</item>
+																								<item>0.00000000000000000e+00</item>
+																								<item>0.00000000000000000e+00</item>
+																								<item>0.00000000000000000e+00</item>
+																								<item>0.00000000000000000e+00</item>
+																								<item>0.00000000000000000e+00</item>
+																								<item>0.00000000000000000e+00</item>
+																								<item>0.00000000000000000e+00</item>
+																								<item>0.00000000000000000e+00</item>
+																								<item>0.00000000000000000e+00</item>
+																								<item>0.00000000000000000e+00</item>
+																								<item>0.00000000000000000e+00</item>
+																								<item>0.00000000000000000e+00</item>
+																								<item>0.00000000000000000e+00</item>
+																								<item>0.00000000000000000e+00</item>
+																								<item>0.00000000000000000e+00</item>
+																								<item>0.00000000000000000e+00</item>
+																								<item>0.00000000000000000e+00</item>
+																								<item>0.00000000000000000e+00</item>
+																								<item>0.00000000000000000e+00</item>
+																								<item>0.00000000000000000e+00</item>
+																								<item>0.00000000000000000e+00</item>
+																								<item>0.00000000000000000e+00</item>
+																								<item>0.00000000000000000e+00</item>
+																								<item>0.00000000000000000e+00</item>
+																								<item>0.00000000000000000e+00</item>
+																								<item>0.00000000000000000e+00</item>
+																								<item>0.00000000000000000e+00</item>
+																								<item>0.00000000000000000e+00</item>
+																								<item>0.00000000000000000e+00</item>
+																								<item>0.00000000000000000e+00</item>
+																								<item>0.00000000000000000e+00</item>
+																								<item>0.00000000000000000e+00</item>
+																								<item>0.00000000000000000e+00</item>
+																								<item>0.00000000000000000e+00</item>
+																								<item>0.00000000000000000e+00</item>
+																								<item>0.00000000000000000e+00</item>
+																								<item>0.00000000000000000e+00</item>
+																								<item>0.00000000000000000e+00</item>
+																								<item>0.00000000000000000e+00</item>
+																								<item>0.00000000000000000e+00</item>
+																								<item>0.00000000000000000e+00</item>
+																								<item>0.00000000000000000e+00</item>
+																								<item>0.00000000000000000e+00</item>
+																								<item>0.00000000000000000e+00</item>
+																								<item>0.00000000000000000e+00</item>
+																								<item>0.00000000000000000e+00</item>
+																								<item>0.00000000000000000e+00</item>
+																								<item>0.00000000000000000e+00</item>
+																								<item>0.00000000000000000e+00</item>
+																								<item>0.00000000000000000e+00</item>
+																								<item>0.00000000000000000e+00</item>
+																								<item>0.00000000000000000e+00</item>
+																								<item>0.00000000000000000e+00</item>
+																								<item>0.00000000000000000e+00</item>
+																								<item>0.00000000000000000e+00</item>
+																								<item>0.00000000000000000e+00</item>
+																								<item>0.00000000000000000e+00</item>
+																								<item>0.00000000000000000e+00</item>
+																								<item>0.00000000000000000e+00</item>
+																								<item>0.00000000000000000e+00</item>
+																								<item>0.00000000000000000e+00</item>
+																								<item>0.00000000000000000e+00</item>
+																								<item>0.00000000000000000e+00</item>
+																								<item>0.00000000000000000e+00</item>
+																								<item>0.00000000000000000e+00</item>
+																								<item>0.00000000000000000e+00</item>
+																								<item>0.00000000000000000e+00</item>
+																								<item>0.00000000000000000e+00</item>
+																								<item>0.00000000000000000e+00</item>
+																								<item>0.00000000000000000e+00</item>
+																								<item>0.00000000000000000e+00</item>
+																								<item>0.00000000000000000e+00</item>
+																								<item>0.00000000000000000e+00</item>
+																								<item>0.00000000000000000e+00</item>
+																								<item>0.00000000000000000e+00</item>
+																								<item>0.00000000000000000e+00</item>
+																								<item>0.00000000000000000e+00</item>
+																								<item>0.00000000000000000e+00</item>
+																								<item>0.00000000000000000e+00</item>
+																								<item>0.00000000000000000e+00</item>
+																								<item>0.00000000000000000e+00</item>
+																								<item>0.00000000000000000e+00</item>
+																								<item>0.00000000000000000e+00</item>
+																							</moment_1>
+																						</BaseType>
+																						<moment_2 object_id="_60">
+																							<count>100</count>
+																							<item_version>0</item_version>
+																							<item>0.00000000000000000e+00</item>
+																							<item>0.00000000000000000e+00</item>
+																							<item>0.00000000000000000e+00</item>
+																							<item>0.00000000000000000e+00</item>
+																							<item>0.00000000000000000e+00</item>
+																							<item>0.00000000000000000e+00</item>
+																							<item>0.00000000000000000e+00</item>
+																							<item>0.00000000000000000e+00</item>
+																							<item>0.00000000000000000e+00</item>
+																							<item>0.00000000000000000e+00</item>
+																							<item>0.00000000000000000e+00</item>
+																							<item>0.00000000000000000e+00</item>
+																							<item>0.00000000000000000e+00</item>
+																							<item>0.00000000000000000e+00</item>
+																							<item>0.00000000000000000e+00</item>
+																							<item>0.00000000000000000e+00</item>
+																							<item>0.00000000000000000e+00</item>
+																							<item>0.00000000000000000e+00</item>
+																							<item>0.00000000000000000e+00</item>
+																							<item>0.00000000000000000e+00</item>
+																							<item>0.00000000000000000e+00</item>
+																							<item>0.00000000000000000e+00</item>
+																							<item>0.00000000000000000e+00</item>
+																							<item>0.00000000000000000e+00</item>
+																							<item>0.00000000000000000e+00</item>
+																							<item>0.00000000000000000e+00</item>
+																							<item>0.00000000000000000e+00</item>
+																							<item>0.00000000000000000e+00</item>
+																							<item>0.00000000000000000e+00</item>
+																							<item>0.00000000000000000e+00</item>
+																							<item>0.00000000000000000e+00</item>
+																							<item>0.00000000000000000e+00</item>
+																							<item>0.00000000000000000e+00</item>
+																							<item>0.00000000000000000e+00</item>
+																							<item>0.00000000000000000e+00</item>
+																							<item>0.00000000000000000e+00</item>
+																							<item>0.00000000000000000e+00</item>
+																							<item>0.00000000000000000e+00</item>
+																							<item>0.00000000000000000e+00</item>
+																							<item>0.00000000000000000e+00</item>
+																							<item>0.00000000000000000e+00</item>
+																							<item>0.00000000000000000e+00</item>
+																							<item>0.00000000000000000e+00</item>
+																							<item>0.00000000000000000e+00</item>
+																							<item>0.00000000000000000e+00</item>
+																							<item>0.00000000000000000e+00</item>
+																							<item>0.00000000000000000e+00</item>
+																							<item>0.00000000000000000e+00</item>
+																							<item>0.00000000000000000e+00</item>
+																							<item>0.00000000000000000e+00</item>
+																							<item>0.00000000000000000e+00</item>
+																							<item>0.00000000000000000e+00</item>
+																							<item>0.00000000000000000e+00</item>
+																							<item>0.00000000000000000e+00</item>
+																							<item>0.00000000000000000e+00</item>
+																							<item>0.00000000000000000e+00</item>
+																							<item>0.00000000000000000e+00</item>
+																							<item>0.00000000000000000e+00</item>
+																							<item>0.00000000000000000e+00</item>
+																							<item>0.00000000000000000e+00</item>
+																							<item>0.00000000000000000e+00</item>
+																							<item>0.00000000000000000e+00</item>
+																							<item>0.00000000000000000e+00</item>
+																							<item>0.00000000000000000e+00</item>
+																							<item>0.00000000000000000e+00</item>
+																							<item>0.00000000000000000e+00</item>
+																							<item>0.00000000000000000e+00</item>
+																							<item>0.00000000000000000e+00</item>
+																							<item>0.00000000000000000e+00</item>
+																							<item>0.00000000000000000e+00</item>
+																							<item>0.00000000000000000e+00</item>
+																							<item>0.00000000000000000e+00</item>
+																							<item>0.00000000000000000e+00</item>
+																							<item>0.00000000000000000e+00</item>
+																							<item>0.00000000000000000e+00</item>
+																							<item>0.00000000000000000e+00</item>
+																							<item>0.00000000000000000e+00</item>
+																							<item>0.00000000000000000e+00</item>
+																							<item>0.00000000000000000e+00</item>
+																							<item>0.00000000000000000e+00</item>
+																							<item>0.00000000000000000e+00</item>
+																							<item>0.00000000000000000e+00</item>
+																							<item>0.00000000000000000e+00</item>
+																							<item>0.00000000000000000e+00</item>
+																							<item>0.00000000000000000e+00</item>
+																							<item>0.00000000000000000e+00</item>
+																							<item>0.00000000000000000e+00</item>
+																							<item>0.00000000000000000e+00</item>
+																							<item>0.00000000000000000e+00</item>
+																							<item>0.00000000000000000e+00</item>
+																							<item>0.00000000000000000e+00</item>
+																							<item>0.00000000000000000e+00</item>
+																							<item>0.00000000000000000e+00</item>
+																							<item>0.00000000000000000e+00</item>
+																							<item>0.00000000000000000e+00</item>
+																							<item>0.00000000000000000e+00</item>
+																							<item>0.00000000000000000e+00</item>
+																							<item>0.00000000000000000e+00</item>
+																							<item>0.00000000000000000e+00</item>
+																							<item>0.00000000000000000e+00</item>
+																						</moment_2>
+																					</second>
+																				</item>
+																			</d_entity_estimator_moments_map>
+																			<d_entity_norm_constants_map class_id="161" tracking_level="0" version="0">
+																				<count>2</count>
+																				<bucket_count>5</bucket_count>
+																				<item_version>0</item_version>
+																				<item class_id="162" tracking_level="0" version="0">
+																					<first>2</first>
+																					<second>1.00000000000000000e+00</second>
+																				</item>
+																				<item>
+																					<first>1</first>
+																					<second>1.00000000000000000e+00</second>
+																				</item>
+																			</d_entity_norm_constants_map>
+																		</EntityEstimator>
+																		<d_total_estimator_moments class_id="163" tracking_level="0" version="0">
+																			<BaseType class_id="164" tracking_level="0" version="0">
+																				<BaseType>
+																					<BaseType>
+																						<BaseType></BaseType>
+																						<moment_1 object_id="_61">
+																							<count>1</count>
+																							<item_version>0</item_version>
+																							<item>4.92518220000000000e+07</item>
+																						</moment_1>
+																					</BaseType>
+																					<moment_2 object_id="_62">
+																						<count>1</count>
+																						<item_version>0</item_version>
+																						<item>5.10886460000000000e+07</item>
+																					</moment_2>
+																				</BaseType>
+																				<moment_3 object_id="_63">
+																					<count>1</count>
+																					<item_version>0</item_version>
+																					<item>5.49195300000000000e+07</item>
+																				</moment_3>
+																			</BaseType>
+																			<moment_4 object_id="_64">
+																				<count>1</count>
+																				<item_version>0</item_version>
+																				<item>6.30737900000000000e+07</item>
+																			</moment_4>
+																		</d_total_estimator_moments>
+																		<d_entity_total_estimator_moments_map class_id="165" tracking_level="0" version="0">
+																			<count>2</count>
+																			<bucket_count>5</bucket_count>
+																			<item_version>0</item_version>
+																			<item class_id="166" tracking_level="0" version="0">
+																				<first>2</first>
+																				<second>
+																					<BaseType>
+																						<BaseType>
+																							<BaseType>
+																								<BaseType></BaseType>
+																								<moment_1 object_id="_65">
+																									<count>1</count>
+																									<item_version>0</item_version>
+																									<item>4.92518220000000000e+07</item>
+																								</moment_1>
+																							</BaseType>
+																							<moment_2 object_id="_66">
+																								<count>1</count>
+																								<item_version>0</item_version>
+																								<item>5.10886460000000000e+07</item>
+																							</moment_2>
+																						</BaseType>
+																						<moment_3 object_id="_67">
+																							<count>1</count>
+																							<item_version>0</item_version>
+																							<item>5.49195300000000000e+07</item>
+																						</moment_3>
+																					</BaseType>
+																					<moment_4 object_id="_68">
+																						<count>1</count>
+																						<item_version>0</item_version>
+																						<item>6.30737900000000000e+07</item>
+																					</moment_4>
+																				</second>
+																			</item>
+																			<item>
+																				<first>1</first>
+																				<second>
+																					<BaseType>
+																						<BaseType>
+																							<BaseType>
+																								<BaseType></BaseType>
+																								<moment_1 object_id="_69">
+																									<count>1</count>
+																									<item_version>0</item_version>
+																									<item>0.00000000000000000e+00</item>
+																								</moment_1>
+																							</BaseType>
+																							<moment_2 object_id="_70">
+																								<count>1</count>
+																								<item_version>0</item_version>
+																								<item>0.00000000000000000e+00</item>
+																							</moment_2>
+																						</BaseType>
+																						<moment_3 object_id="_71">
+																							<count>1</count>
+																							<item_version>0</item_version>
+																							<item>0.00000000000000000e+00</item>
+																						</moment_3>
+																					</BaseType>
+																					<moment_4 object_id="_72">
+																						<count>1</count>
+																						<item_version>0</item_version>
+																						<item>0.00000000000000000e+00</item>
+																					</moment_4>
+																				</second>
+																			</item>
+																		</d_entity_total_estimator_moments_map>
+																	</StandardEntityEstimator>
+																	<ParticleCrossingSurfaceEventObserver class_id="167" tracking_level="0" version="0"></ParticleCrossingSurfaceEventObserver>
+																</StandardSurfaceEstimator>
+															</px>
+														</item>
+													</second>
+												</item>
+												<item>
+													<first>6</first>
+													<second>
+														<count>1</count>
+														<item_version>1</item_version>
+														<item>
+															<px class_id_reference="118" object_id="_73">
+																<StandardSurfaceEstimator>
+																	<StandardEntityEstimator>
+																		<EntityEstimator>
+																			<Estimator>
+																				<ParticleHistoryObserver></ParticleHistoryObserver>
+																				<d_id>
+																					<d_id>2</d_id>
+																				</d_id>
+																				<d_multiplier>1.00000000000000000e+00</d_multiplier>
+																				<d_particle_types>
+																					<count>1</count>
+																					<item_version>0</item_version>
+																					<item>6</item>
+																				</d_particle_types>
+																				<d_response_functions>
+																					<count>1</count>
+																					<item_version>1</item_version>
+																					<item>
+																						<px class_id_reference="128" object_id="_74">
+																							<ParticleResponse>
+																								<d_name>f(particle) = 1</d_name>
+																							</ParticleResponse>
+																						</px>
+																					</item>
+																				</d_response_functions>
+																				<d_phase_space_discretization>
+																					<d_impl>
+																						<tx class_id="168" class_name="EmptyObserverPhaseSpaceDiscretizationImpl" tracking_level="1" version="0" object_id="_75">
+																							<ObserverPhaseSpaceDiscretizationImpl></ObserverPhaseSpaceDiscretizationImpl>
+																						</tx>
+																					</d_impl>
+																				</d_phase_space_discretization>
+																			</Estimator>
+																			<d_total_norm_constant>1.00000000000000000e+00</d_total_norm_constant>
+																			<d_supplied_norm_constants>0</d_supplied_norm_constants>
+																			<d_estimator_total_bin_data>
+																				<BaseType>
+																					<BaseType></BaseType>
+																					<moment_1 object_id="_76">
+																						<count>1</count>
+																						<item_version>0</item_version>
+																						<item>0.00000000000000000e+00</item>
+																					</moment_1>
+																				</BaseType>
+																				<moment_2 object_id="_77">
+																					<count>1</count>
+																					<item_version>0</item_version>
+																					<item>0.00000000000000000e+00</item>
+																				</moment_2>
+																			</d_estimator_total_bin_data>
+																			<d_entity_estimator_moments_map>
+																				<count>2</count>
+																				<bucket_count>5</bucket_count>
+																				<item_version>0</item_version>
+																				<item>
+																					<first>2</first>
+																					<second>
+																						<BaseType>
+																							<BaseType></BaseType>
+																							<moment_1 object_id="_78">
+																								<count>1</count>
+																								<item_version>0</item_version>
+																								<item>0.00000000000000000e+00</item>
+																							</moment_1>
+																						</BaseType>
+																						<moment_2 object_id="_79">
+																							<count>1</count>
+																							<item_version>0</item_version>
+																							<item>0.00000000000000000e+00</item>
+																						</moment_2>
+																					</second>
+																				</item>
+																				<item>
+																					<first>1</first>
+																					<second>
+																						<BaseType>
+																							<BaseType></BaseType>
+																							<moment_1 object_id="_80">
+																								<count>1</count>
+																								<item_version>0</item_version>
+																								<item>0.00000000000000000e+00</item>
+																							</moment_1>
+																						</BaseType>
+																						<moment_2 object_id="_81">
+																							<count>1</count>
+																							<item_version>0</item_version>
+																							<item>0.00000000000000000e+00</item>
+																						</moment_2>
+																					</second>
+																				</item>
+																			</d_entity_estimator_moments_map>
+																			<d_entity_norm_constants_map>
+																				<count>2</count>
+																				<bucket_count>5</bucket_count>
+																				<item_version>0</item_version>
+																				<item>
+																					<first>2</first>
+																					<second>1.00000000000000000e+00</second>
+																				</item>
+																				<item>
+																					<first>1</first>
+																					<second>1.00000000000000000e+00</second>
+																				</item>
+																			</d_entity_norm_constants_map>
+																		</EntityEstimator>
+																		<d_total_estimator_moments>
+																			<BaseType>
+																				<BaseType>
+																					<BaseType>
+																						<BaseType></BaseType>
+																						<moment_1 object_id="_82">
+																							<count>1</count>
+																							<item_version>0</item_version>
+																							<item>0.00000000000000000e+00</item>
+																						</moment_1>
+																					</BaseType>
+																					<moment_2 object_id="_83">
+																						<count>1</count>
+																						<item_version>0</item_version>
+																						<item>0.00000000000000000e+00</item>
+																					</moment_2>
+																				</BaseType>
+																				<moment_3 object_id="_84">
+																					<count>1</count>
+																					<item_version>0</item_version>
+																					<item>0.00000000000000000e+00</item>
+																				</moment_3>
+																			</BaseType>
+																			<moment_4 object_id="_85">
+																				<count>1</count>
+																				<item_version>0</item_version>
+																				<item>0.00000000000000000e+00</item>
+																			</moment_4>
+																		</d_total_estimator_moments>
+																		<d_entity_total_estimator_moments_map>
+																			<count>2</count>
+																			<bucket_count>5</bucket_count>
+																			<item_version>0</item_version>
+																			<item>
+																				<first>2</first>
+																				<second>
+																					<BaseType>
+																						<BaseType>
+																							<BaseType>
+																								<BaseType></BaseType>
+																								<moment_1 object_id="_86">
+																									<count>1</count>
+																									<item_version>0</item_version>
+																									<item>0.00000000000000000e+00</item>
+																								</moment_1>
+																							</BaseType>
+																							<moment_2 object_id="_87">
+																								<count>1</count>
+																								<item_version>0</item_version>
+																								<item>0.00000000000000000e+00</item>
+																							</moment_2>
+																						</BaseType>
+																						<moment_3 object_id="_88">
+																							<count>1</count>
+																							<item_version>0</item_version>
+																							<item>0.00000000000000000e+00</item>
+																						</moment_3>
+																					</BaseType>
+																					<moment_4 object_id="_89">
+																						<count>1</count>
+																						<item_version>0</item_version>
+																						<item>0.00000000000000000e+00</item>
+																					</moment_4>
+																				</second>
+																			</item>
+																			<item>
+																				<first>1</first>
+																				<second>
+																					<BaseType>
+																						<BaseType>
+																							<BaseType>
+																								<BaseType></BaseType>
+																								<moment_1 object_id="_90">
+																									<count>1</count>
+																									<item_version>0</item_version>
+																									<item>0.00000000000000000e+00</item>
+																								</moment_1>
+																							</BaseType>
+																							<moment_2 object_id="_91">
+																								<count>1</count>
+																								<item_version>0</item_version>
+																								<item>0.00000000000000000e+00</item>
+																							</moment_2>
+																						</BaseType>
+																						<moment_3 object_id="_92">
+																							<count>1</count>
+																							<item_version>0</item_version>
+																							<item>0.00000000000000000e+00</item>
+																						</moment_3>
+																					</BaseType>
+																					<moment_4 object_id="_93">
+																						<count>1</count>
+																						<item_version>0</item_version>
+																						<item>0.00000000000000000e+00</item>
+																					</moment_4>
+																				</second>
+																			</item>
+																		</d_entity_total_estimator_moments_map>
+																	</StandardEntityEstimator>
+																	<ParticleCrossingSurfaceEventObserver></ParticleCrossingSurfaceEventObserver>
+																</StandardSurfaceEstimator>
+															</px>
+														</item>
+													</second>
+												</item>
+											</d_observer_sets>
+										</BaseType>
+									</tx>
+								</second>
+							</item>
+							<item>
+								<first>1</first>
+								<second>
+									<tx class_id_reference="112" object_id="_94">
+										<BaseType>
+											<d_entity_id>1</d_entity_id>
+											<d_observer_sets>
+												<count>2</count>
+												<item_version>0</item_version>
+												<item>
+													<first>2</first>
+													<second>
+														<count>1</count>
+														<item_version>1</item_version>
+														<item>
+															<px class_id_reference="118" object_id_reference="_44"></px>
+														</item>
+													</second>
+												</item>
+												<item>
+													<first>6</first>
+													<second>
+														<count>1</count>
+														<item_version>1</item_version>
+														<item>
+															<px class_id_reference="118" object_id_reference="_73"></px>
+														</item>
+													</second>
+												</item>
+											</d_observer_sets>
+										</BaseType>
+									</tx>
+								</second>
+							</item>
+						</d_dispatcher_map>
+					</BaseType>
+				</d_particle_crossing_surface_event_dispatcher>
+			</ParticleCrossingSurfaceEventHandler>
+			<ParticleEnteringCellEventHandler class_id="169" tracking_level="0" version="0">
+				<d_particle_entering_cell_event_dispatcher class_id="170" tracking_level="1" version="0" object_id="_95">
+					<BaseType class_id="171" tracking_level="0" version="0">
+						<d_dispatcher_map class_id="172" tracking_level="0" version="0">
+							<count>0</count>
+							<bucket_count>2</bucket_count>
+							<item_version>0</item_version>
+						</d_dispatcher_map>
+					</BaseType>
+				</d_particle_entering_cell_event_dispatcher>
+			</ParticleEnteringCellEventHandler>
+			<ParticleLeavingCellEventHandler class_id="173" tracking_level="0" version="0">
+				<d_particle_leaving_cell_event_dispatcher class_id="174" tracking_level="1" version="0" object_id="_96">
+					<BaseType class_id="175" tracking_level="0" version="0">
+						<d_dispatcher_map class_id="176" tracking_level="0" version="0">
+							<count>0</count>
+							<bucket_count>2</bucket_count>
+							<item_version>0</item_version>
+						</d_dispatcher_map>
+					</BaseType>
+				</d_particle_leaving_cell_event_dispatcher>
+			</ParticleLeavingCellEventHandler>
+			<ParticleSubtrackEndingInCellEventHandler class_id="177" tracking_level="0" version="0">
+				<d_particle_subtrack_ending_in_cell_event_dispatcher class_id="178" tracking_level="1" version="0" object_id="_97">
+					<BaseType class_id="179" tracking_level="0" version="0">
+						<d_dispatcher_map class_id="180" tracking_level="0" version="0">
+							<count>0</count>
+							<bucket_count>2</bucket_count>
+							<item_version>0</item_version>
+						</d_dispatcher_map>
+					</BaseType>
+				</d_particle_subtrack_ending_in_cell_event_dispatcher>
+			</ParticleSubtrackEndingInCellEventHandler>
+			<ParticleSubtrackEndingGlobalEventHandler class_id="181" tracking_level="0" version="0">
+				<d_particle_subtrack_ending_global_event_dispatcher class_id="182" tracking_level="0" version="0">
+					<BaseType class_id="183" tracking_level="0" version="0">
+						<d_observer_sets class_id="184" tracking_level="0" version="0">
+							<count>0</count>
+							<item_version>0</item_version>
+						</d_observer_sets>
+					</BaseType>
+				</d_particle_subtrack_ending_global_event_dispatcher>
+			</ParticleSubtrackEndingGlobalEventHandler>
+			<ParticleGoneGlobalEventHandler class_id="185" tracking_level="0" version="0">
+				<d_particle_gone_global_event_dispatcher class_id="186" tracking_level="0" version="0">
+					<BaseType class_id="187" tracking_level="0" version="0">
+						<d_observer_sets class_id="188" tracking_level="0" version="0">
+							<count>0</count>
+							<item_version>0</item_version>
+						</d_observer_sets>
+					</BaseType>
+				</d_particle_gone_global_event_dispatcher>
+			</ParticleGoneGlobalEventHandler>
+			<d_simulation_completion_criterion class_id="189" tracking_level="0" version="1">
+				<px class_id="190" class_name="ORCombinedParticleHistorySimulationCompletionCriterion" tracking_level="1" version="0" object_id="_98">
+					<BaseType class_id="191" tracking_level="0" version="0">
+						<ParticleHistorySimulationCompletionCriterion class_id="192" tracking_level="0" version="0">
+							<ParticleHistoryObserver></ParticleHistoryObserver>
+						</ParticleHistorySimulationCompletionCriterion>
+						<d_lhs>
+							<px class_id="193" class_name="HistoryCountParticleHistorySimulationCompletionCriterion" tracking_level="1" version="0" object_id="_99">
+								<ParticleHistorySimulationCompletionCriterion>
+									<ParticleHistoryObserver></ParticleHistoryObserver>
+								</ParticleHistorySimulationCompletionCriterion>
+								<num_completed_histories>80000000</num_completed_histories>
+								<d_history_wall>200000000</d_history_wall>
+							</px>
+						</d_lhs>
+						<d_rhs>
+							<px class_id="194" class_name="WallTimeParticleHistorySimulationCompletionCriterion" tracking_level="1" version="0" object_id="_100">
+								<ParticleHistorySimulationCompletionCriterion>
+									<ParticleHistoryObserver></ParticleHistoryObserver>
+								</ParticleHistorySimulationCompletionCriterion>
+								<d_wall_time>8.10000000000000000e+04</d_wall_time>
+							</px>
+						</d_rhs>
+					</BaseType>
+				</px>
+			</d_simulation_completion_criterion>
+			<number_of_committed_histories>302000000</number_of_committed_histories>
+			<elapsed_time>3.38405280979871750e+05</elapsed_time>
+			<d_estimators class_id="195" tracking_level="0" version="0">
+				<count>2</count>
+				<bucket_count>5</bucket_count>
+				<item_version>0</item_version>
+				<item class_id="196" tracking_level="0" version="0">
+					<first>2</first>
+					<second class_id="197" tracking_level="0" version="1">
+						<px class_id_reference="118" object_id_reference="_73"></px>
+					</second>
+				</item>
+				<item>
+					<first>1</first>
+					<second>
+						<px class_id_reference="118" object_id_reference="_44"></px>
+					</second>
+				</item>
+			</d_estimators>
+			<d_particle_trackers class_id="198" tracking_level="0" version="0">
+				<count>0</count>
+				<bucket_count>2</bucket_count>
+				<item_version>0</item_version>
+			</d_particle_trackers>
+			<d_particle_history_observers class_id="199" tracking_level="0" version="0">
+				<count>3</count>
+				<item_version>1</item_version>
+				<item class_id="200" tracking_level="0" version="1">
+					<px class_id_reference="190" object_id_reference="_98"></px>
+				</item>
+				<item>
+					<px class_id_reference="118" object_id_reference="_44"></px>
+				</item>
+				<item>
+					<px class_id_reference="118" object_id_reference="_73"></px>
+				</item>
+			</d_particle_history_observers>
+		</px>
+	</d_event_handler>
+	<d_weight_windows class_id="201" tracking_level="0" version="1">
+		<px class_id="202" class_name="DefaultWeightWindow" tracking_level="1" version="0" object_id="_101">
+			<WeightWindow class_id="203" tracking_level="0" version="0"></WeightWindow>
+		</px>
+	</d_weight_windows>
+	<d_collision_forcer class_id="204" tracking_level="0" version="1">
+		<px class_id="205" class_name="DefaultCollisionForcer" tracking_level="1" version="0" object_id="_102">
+			<CollisionForcer class_id="206" tracking_level="0" version="0"></CollisionForcer>
+		</px>
+	</d_collision_forcer>
+	<d_properties>
+		<px class_id_reference="37" object_id_reference="_5"></px>
+	</d_properties>
+	<d_next_history>302000000</d_next_history>
+	<d_rendezvous_number>52</d_rendezvous_number>
+</manager>
+</boost_serialization>
+
